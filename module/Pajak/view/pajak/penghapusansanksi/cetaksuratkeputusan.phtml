@@ -1,0 +1,301 @@
+<html>
+    <head>
+        <style type="text/css">            
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_lima {
+                font-size: 5pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                font-size: 10pt;
+            }
+
+            .font_duabelas {
+                font-size: 12pt;
+            }
+            table {
+                font-family:sans-serif;
+            }
+            @page{
+                margin: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $txt_romawi = ['01' => 'I','02' => 'II', '03' => 'III', '04' => 'IV', '05' => 'V', '06' => 'VI', '07' => 'VII', '08' => 'VIII', '09' => 'IX', '10' => 'X', '11' => 'XI', '12' => 'XII'];
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglketetapan = date('d', strtotime($data['t_tglhapussanksi'])) . " " . $abulan[date('m', strtotime($data['t_tglhapussanksi']))] . " " . date('Y', strtotime($data['t_tglhapussanksi']));
+        ?>
+        <div style="">
+            <table cellspacing="3" cellpadding="3" width="100%" style="">
+                <tr>
+                    <th colspan="3" style="text-align:center;">
+                        SURAT KEPUTUSAN BUPATI BIAK NUMFOR<BR>
+                        NOMOR : <?=$data['t_nomorsk']?>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3" style="text-align:center;">
+                        T&nbsp;&nbsp;E&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;G<br>
+                        =============<br>
+                        PENGHAPUSAN SANKSI / DENDA
+                    </th>
+                </tr>
+                <tr>
+                    <td width="20%" style="vertical-align:top;">Membaca</td>
+                    <td width="5%" style="vertical-align:top;">:</td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <td width="35%">Nomor Surat Permohonan</td>
+                                <td width="2%">:</td>
+                                <td><?=$data['t_nohapussanksi']?></td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal</td>
+                                <td>:</td>
+                                <td><?=date('d-m-Y', strtotime($data['t_tglhapussanksi']))?></td>
+                            </tr>
+                            <tr>
+                                <td>Nama Wajib Pajak</td>
+                                <td>:</td>
+                                <td><?=$data['t_namawp']?></td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;">Alamat</td>
+                                <td style="vertical-align:top;">:</td>
+                                <td><?=$data['t_alamat_lengkapwp']?></td>
+                            </tr>
+                            <tr>
+                                <td>N P W P D</td>
+                                <td>:</td>
+                                <td><?=$data['t_npwpdwp']?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;">Menimbang</td>
+                    <td style="vertical-align:top;">:</td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <td style="vertical-align:top;text-align: justify;">1.</td>
+                                <td style="vertical-align:top;text-align: justify;">Bahwa dalam rangka pelaksanaan Perda No. 5 Tahun 2011 tentang Pajak Reklame ;</td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;text-align: justify;">2.</td>
+                                <td style="vertical-align:top;text-align: justify;">Perlu diatur ketentuan lebih lanjut tentang Tatacara Pengajuan Penyelesaian Keberatan.</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;">Mengingat</td>
+                    <td style="vertical-align:top;">:</td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <td style="vertical-align:top;">1.</td>
+                                <td style="vertical-align:top;text-align: justify;">Peraturan Pemerintah No. 58 Tahun 2005 tentang Pengelolaan Keuangan Daerah ;</td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;text-align: justify;">2.</td>
+                                <td style="vertical-align:top;text-align: justify;">Peraturan Daerah Kabupaten Biak Numfor No. 4 Tahun 2009 tentang Pembentukan Organisasi Dinas Daerah.</td>
+                            </tr>
+                        </table></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align:center;">MEMUTUSKAN</td>
+                </tr>
+                <tr>
+                    <td width="20%" style="vertical-align:top;">PERTAMA</td>
+                    <td width="5%" style="vertical-align:top;">:</td>
+                    <td>
+                        <table width="100%">
+                            <tr><td colspan="4">Surat Ketetapan (SKPD/SKPDKB/SKPDKBT)</td></tr>
+                            <tr>
+                                <td width="45%">Nomor Kohir / Tahun</td>
+                                <td width="2%">:</td>
+                                <td colspan="2"><?=$data['t_nopenetapan'].' / '.$data['t_periodepajak']?></td>
+                            </tr>
+                            <tr>
+                                <td>Kode Bayar / Id Billing</td>
+                                <td>:</td>
+                                <td colspan="2"><?=$data['t_kodebayar']?></td>
+                            </tr>
+                            <tr>
+                                <td>Nama / Merk Usaha</td>
+                                <td>:</td>
+                                <td colspan="2"><?=$data['t_namaobjek']?></td>
+                            </tr>
+                            <tr>
+                                <td>A l a m a t</td>
+                                <td>:</td>
+                                <td colspan="2"><?=$data['t_alamatlengkapobjek']?></td>
+                            </tr>
+                            <tr>
+                                <td>N P W P D</td>
+                                <td>:</td>
+                                <td colspan="2"><?=$data['t_npwpdwp']?></td>
+                            </tr>
+                            <tr>
+                                <td>Nama Pemilik/Pengelola</td>
+                                <td>:</td>
+                                <td colspan="2"><?=$data['t_namawp']?></td>
+                            </tr>
+                            <tr>
+                                <td>Semula ditetapkan Pokok sejumlah</td>
+                                <td>:</td>
+                                <td>Rp.</td>
+                                <td align="right" style="padding-right:50px;"><?=number_format($data['t_jmlhketetapanseharusnya'], 0, ',', '.')?>,-</td>
+                            </tr>
+                            <tr>
+                                <td>Semula ditetapkan Denda sejumlah</td>
+                                <td>:</td>
+                                <td>Rp.</td>
+                                <td align="right" style="padding-right:50px;"><?=number_format($data['t_jmlhdendaseharusnya'], 0, ',', '.')?>,-</td>
+                            </tr>
+                            <tr>
+                                <td>Besarnya ketetapan menjadi</td>
+                                <td>:</td>
+                                <td>Rp.</td>
+                                <td align="right" style="padding-right:50px;"><?=number_format($data['t_jmlhketetapanseharusnya']+$data['t_jmlhdendaditetapkan'], 0, ',', '.')?>,-</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;">KEDUA</td>
+                    <td style="vertical-align:top;">:</td>
+                    <td style="vertical-align:top;text-align: justify;">Apabila dikemudian hari terdapat kekeliruan dalam Surat Keputusan ini akan diadakan pembetulan seperlunya.</td>
+                </tr>
+            </table>
+            <table style="width: 100%;margin-top: 20px;">
+                <tr>
+                    <td style="width: 50%; text-align: center">
+                    </td>
+                    <td style="text-align: center">
+                        <table>
+                            <tr>
+                                <td>Ditetapkan di</td>
+                                <td>:</td>
+                                <td align="left"><?= strtoupper($ar_pemda->s_namaibukotakabkota) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Pada Tanggal</td>
+                                <td>:</td>
+                                <td align="left"><?= $t_tglketetapan ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; padding-bottom: 10px">
+
+                    </td>
+                    <td style="text-align: center; padding-bottom: 10px">
+                        a.n BUPATI KABUPATEN <?= $ar_pemda->s_namakabkota ?><BR>
+                        <?= strtoupper($ar_ttd->s_jabatanpej); ?><BR>
+                        <BR><BR><BR><BR>
+                        <u><?= strtoupper($ar_ttd->s_namapej); ?></u>
+                        <br>
+                        NIP . <?= $ar_ttd->s_nippej; ?>
+                        <br>
+                        .
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>

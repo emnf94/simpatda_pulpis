@@ -1,0 +1,17 @@
+<?php
+$abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+$t_tgldaftar = date('d', strtotime($data['t_tgldaftar'])) . " " . $abulan[date('m', strtotime($data['t_tgldaftar']))] . " " . date('Y', strtotime($data['t_tgldaftar']));
+?>
+<br><br><br><br><br><br><br><br>
+<br>
+<p style="font-size: 45px">
+    <b>NPWPD : <?= $data['t_npwpd'] ?></b>
+    <br><br>
+    <b><?= strtoupper($data['t_nama']) ?></b>
+    <br>
+    <?= ucwords(strtolower($data['t_alamat_lengkap'])) ?>
+    <br>
+</p>
+<p style="text-align: right; font-size: 40px">
+    Terdaftar Tanggal : <?= $t_tgldaftar ?>
+</p>

@@ -1,0 +1,96 @@
+<style type="text/css">
+    .progress-bar-success,
+    .bootstrap-switch-success,
+    .checkbox-success div[id^="uniform-"] span.checked,
+    .radio-success div[id^="uniform-"] span.checked,
+    .badge-success,
+    .label-success,
+    .btn-success,
+    .hover-green:hover,
+    .hover-success:hover,
+    .bg-green {
+        color: #1c1c18;
+        border-color: #b7a129;
+        background: #7bdb4f;
+    }
+</style>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading center-div" style="font-size:14pt;">
+                MENU PENDATAAN OBJEK RETRIBUSI
+            </div>
+            <div class="panel-body">
+                <div class="row mrg20B">
+                    <?php
+                    $i = 0;
+                    $icon_nya = array("icon-user-md", "icon-trash", "icon-credit-card", "icon-inbox", "icon-automobile", "icon-shopping-cart", "icon-bicycle", "icon-fire-extinguisher", "icon-globe", "icon-thumb-tack", "icon-tint", "icon-home", "icon-mortar-board", "icon-wifi", "icon-university",  "icon-print", "icon-soundcloud", "icon-bus", "icon-truck", "icon-archive", "icon-paw", "icon-anchor", "icon-child", "icon-ge", "icon-tags", "icon-building", "icon-beer", "icon-warning", "icon-rocket", "icon-pied-piper-alt", "icon-pied-piper-alt", "icon-pied-piper-alt");
+                    $bg_nya = array("btn-primary", "btn-success", "btn-primary", "btn-primary", "btn-primary", "btn-success", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-success", "btn-success", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-warning", "btn-purple", "btn-purple", "btn-purple", "btn-purple", "btn-purple", "btn-purple", "btn-purple");
+                    $jmlh_pendataan_retribusinya = array(
+                        $jmlpendataan_ret_kesehatan,
+                        $jmlpendataan_ret_kebersihan,
+                        $jmlpendataan_ret_capil,
+                        $jmlpendataan_ret_pemakaman,
+                        $jmlpendataan_ret_parkir,
+                        $jmlpendataan_ret_pasar,
+                        $jmlpendataan_ret_kendaraan,
+                        $jmlpendataan_ret_pemadam,
+                        $jmlpendataan_ret_peta,
+                        $jmlpendataan_ret_kakus,
+                        $jmlpendataan_ret_limbahcair,
+                        $jmlpendataan_ret_teraulang,
+                        $jmlpendataan_ret_pendidikan,
+                        $jmlpendataan_ret_menara,
+                        $jmlpendataan_ret_kekayaan,
+                        $jmlpendataan_ret_pasargrosir,
+                        $jmlpendataan_ret_pelelangan,
+                        $jmlpendataan_ret_terminal,
+                        $jmlpendataan_ret_khususparkir,
+                        $jmlpendataan_ret_villa,
+                        $jmlpendataan_ret_rmhhewan,
+                        $jmlpendataan_ret_kepelabuhan,
+                        $jmlpendataan_ret_rekreasi,
+                        $jmlpendataan_ret_nyebrangair,
+                        $jmlpendataan_ret_usaha,
+                        $jmlpendataan_ret_imb,
+                        $jmlpendataan_ret_alkohol,
+                        $jmlpendataan_ret_gangguan,
+                        $jmlpendataan_ret_trayek,
+                        $jmlpendataan_ret_perikanan
+
+                    );
+                    $nomorurut = 1;
+                    foreach ($dataobjek as $row) {
+                        // var_dump($dataobjek);die;
+                        if ($row['s_jenispungutan'] == 'Retribusi') {
+                            $iconss = $icon_nya[$i];
+                            $bgs = $bg_nya[$i];
+                            $jmlh_pendataan_retribusi = $jmlh_pendataan_retribusinya[$i];
+                    ?>
+                            <div class="col-md-3" style=" margin-bottom: 15px;">
+                                <a href="<?= $this->url('pendataan') ?>/<?= $row['s_idjenis'] ?>" title="<?= $row['s_namajenis'] ?>" class="tile-box tile-box-shortcut <?= $bgs ?>">
+                                    <span class="bs-badge badge-absolute"><?= $jmlh_pendataan_retribusi ?></span>
+                                    <div class="tile-header">
+                                        <?= $nomorurut++ . '. ' . $row['s_namajenissingkat'] ?>
+                                    </div>
+                                    <div class="tile-content-wrapper">
+                                        <i class="glyph-icon <?= $iconss ?>"></i>
+                                    </div>
+                                </a>
+                            </div>
+                    <?php
+                            $i++;
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="row mrg20B">
+                    &nbsp;&nbsp; <b style="color:blue;font-size:12pt;">KETERANGAN :</b><br>
+                    &nbsp;&nbsp; <span class="btn btn-xs btn-primary"></span> - Menu Retribusi Jasa Umum<br>
+                    &nbsp;&nbsp; <span class="btn btn-xs btn-warning"></span> - Menu Retribusi Jasa Usaha<br>
+                    &nbsp;&nbsp; <span class="btn btn-xs btn-purple"></span> - Menu Retribusi Perizinan Tertentu
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

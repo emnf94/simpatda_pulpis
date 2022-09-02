@@ -1,0 +1,434 @@
+<?php
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '1024M');
+
+if (($jniscetak == 1) || ($jniscetak == 3)) {
+    include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+    $mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 10, 5, 1, 1, 1, '');
+} else {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakdataskpdlb".$tglketetapan0."sd".$tglketetapan1.".xls");
+}
+
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        
+    </head>
+    <body>';
+
+
+$html .= '
+        
+        <table width="100%" style="border-spacing: 0; font-size:9pt; table-layout: fixed;">
+            <tr>
+                <td colspan="14">
+                    <center>
+                    <span style="text-align: center; font-size: 10pt; font-weight: BOLD;">PEMERINTAH ' . strtoupper($ar_pemda->s_namakabkota) . ', ' . strtoupper($ar_pemda->s_namaprov) . '</span><br>
+                    <span style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">' . strtoupper($ar_pemda->s_namainstansi) . ' (' . strtoupper($ar_pemda->s_namasingkatinstansi) . ')</span><br>
+                    <span style="text-align: center; font-size: 8pt; line-height: 5px">' . strtoupper($ar_pemda->s_alamatinstansi) . ' Telp/Fax ' . $ar_pemda->s_notelinstansi . ', ' . $ar_pemda->s_namaibukotakabkota . ' ' . $ar_pemda->s_kodepos . ' </span>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="14"><br><center><h4 style="text-align: center">DATA KETETAPAN SKPDLB</h4></center></td>
+            </tr> 
+            <tr>
+                <td colspan="14"><br>Tanggal : ' . $tglketetapan0 . ' s/d ' . $tglketetapan1 . ' <br></td>
+                
+            </tr>    
+            <tr style="text-align: center">
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-left: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>NO</b></center></td>
+                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>SPTPD</b></center></td>
+                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>SKPDLB</b></center></td>
+                
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>NPWPD</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>NAMA, ALAMAT WAJIB PAJAK</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>NAMA, ALAMAT OBJEK PAJAK</b></center></td>
+                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>KETETAPAN (Rp.)</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>MASA PAJAK</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>TGL PENGEMBALIAN</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH PENGEMBALIAN</b></center></td>
+                <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center><b>BELUM DIKEMBALIKAN</b></center></td>
+            </tr>
+            <tr style="text-align: center">
+                
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>TANGGAL</b></center></td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>NO SPTPD</b></center></td>
+                
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>TANGGAL</b></center></td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>NO SKPDLB</b></center></td>
+                
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>SPTPD</b></center></td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:middle;"><center><b>SKPDLB</b></center></td>
+                
+            </tr>
+            ';
+
+$counter = 1;
+$clast_rek = '';
+
+$totalsubsptpd = 0;
+$totalsubskpdlb = 0;
+
+$totalsubjmlsetoran = 0;
+$totalsubtunggakan = 0;
+
+$totalsubsptpdkec = 0;
+$totalsubskpdlbkec = 0;
+
+$totalsubjmlsetorankec = 0;
+$totalsubtunggakankec = 0;
+
+
+$totalsubsptpdkel = 0;
+$totalsubskpdlbkel = 0;
+
+$totalsubjmlsetorankel = 0;
+$totalsubtunggakankel = 0;
+
+
+$totalsubsptpdkeseluruhan = 0;
+$totalsubskpdlbkeseluruhan = 0;
+
+$totalsubjmlsetorankeseluruhan = 0;
+$totalsubtunggakankeseluruhan = 0;
+
+foreach ($data as $k => $v) {
+    if($v['t_bidangusaha'] == 2){
+        $namawp = $v['t_nama_badan'];
+        $alamatwp = '';
+        if(!empty($v['t_jalan_badan'])){
+            $alamatwp .= $v['t_jalan_badan'];
+        }
+        if(!empty($v['t_rt_badan'])){
+            $alamatwp .= ' RT '.$v['t_rt_badan'];
+        }
+        if(!empty($v['t_rw_badan'])){
+            $alamatwp .= ' RW '.$v['t_rw_badan'];
+        }
+        if(!empty($v['s_namakelbadan'])){
+            $alamatwp .= ' Kel. '.$v['s_namakelbadan'];
+        }
+        if(!empty($v['s_namakecbadan'])){
+            $alamatwp .= ' Kec. '.$v['s_namakecbadan'];
+        }
+        if(!empty($v['t_kabupaten_badan'])){
+            $alamatwp .= ' Kab. '.$v['t_kabupaten_badan'];
+        }
+    }else{
+        $namawp = $v['t_nama'];
+        $alamatwp = '';
+        if(!empty($v['t_alamat'])){
+            $alamatwp .= $v['t_alamat'];
+        }
+        if(!empty($v['t_rt'])){
+            $alamatwp .= ' RT '.$v['t_rt'];
+        }
+        if(!empty($v['t_rw'])){
+            $alamatwp .= ' RW '.$v['t_rw'];
+        }
+        if(!empty($v['s_namakel'])){
+            $alamatwp .= ' Kel. '.$v['s_namakel'];
+        }
+        if(!empty($v['s_namakec'])){
+            $alamatwp .= ' Kec. '.$v['s_namakec'];
+        }
+        if(!empty($v['t_kabupaten'])){
+            $alamatwp .= ' Kab. '.$v['t_kabupaten'];
+        }
+    }
+    
+    $alamatop = '';
+        if(!empty($v['t_alamatobjek'])){
+            $alamatop .= $v['t_alamatobjek'];
+        }
+        if(!empty($v['t_rtobjek'])){
+            $alamatop .= ' RT '.$v['t_rtobjek'];
+        }
+        if(!empty($v['t_rwobjek'])){
+            $alamatop .= ' RW '.$v['t_rwobjek'];
+        }
+        if(!empty($v['s_namakelobjek'])){
+            $alamatop .= ' Kel. '.$v['s_namakelobjek'];
+        }
+        if(!empty($v['s_namakecobjek'])){
+            $alamatop .= ' Kec. '.$v['s_namakecobjek'];
+        }
+        if(!empty($v['t_kabupatenobjek'])){
+            $alamatop .= ' Kab. '.$v['t_kabupatenobjek'];
+        }
+    
+    if ($urutkanwp == 1) {
+        if ($clast_rek <> $v['t_tglskpdlb']) {
+
+            if ($clast_rek <> '') {
+
+                 $html .= '<tr>
+                                <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>JUMLAH '.strtoupper($clast_rek_name).'</b></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpd, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlb, 2, ',', '.') . '</td> 
+                                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetoran, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakan, 2, ',', '.') . '</td>
+                  </tr>'; 
+                 
+                 $totalsubsptpd = 0;
+                 $totalsubskpdlb = 0;
+                 
+                 $totalsubjmlsetoran = 0;
+                 $totalsubtunggakan = 0;
+            }
+
+
+            $html .= '<tr>
+                                    <td colspan="14" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>Tanggal Ketetapan SKPDLB : ' . date('d-m-Y', strtotime($v['t_tglskpdlb'])) . '</b></td>
+
+                                </tr>';
+
+            $clast_rek = $v['t_tglskpdlb'];
+            $clast_rek_name = date('d-m-Y', strtotime($v['t_tglskpdlb']));
+            //$counter = 1;
+        }
+    }
+
+    if ($urutkanwp == 2) {
+        if ($clast_rek_kel <> $v['t_kelurahanobjek']) {
+            if ($clast_rek_kel <> '') {
+                $html .= '<tr>
+                                <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>JUMLAH KELURAHAN '.strtoupper($clast_rek_name_kel).'</b></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpdkel, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlbkel, 2, ',', '.') . '</td> 
+                                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetorankel, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakankel, 2, ',', '.') . '</td>
+                        </tr>'; 
+
+                       $totalsubsptpdkel = 0;
+                       $totalsubskpdlbkel = 0;
+
+                       $totalsubjmlsetorankel = 0;
+                       $totalsubtunggakankel = 0;
+            }
+            if ($clast_rek <> $v['t_kecamatanobjek']) {
+                if ($clast_rek <> '') {
+                    $html .= '<tr>
+                                <td colspan="8" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH KECAMATAN '.strtoupper($clast_rek_name).'</b></center></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpdkec, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlbkec, 2, ',', '.') . '</td> 
+                                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetorankec, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakankec, 2, ',', '.') . '</td>
+                        </tr>'; 
+
+                       $totalsubsptpdkec = 0;
+                       $totalsubskpdlbkec = 0;
+
+                       $totalsubjmlsetorankec = 0;
+                       $totalsubtunggakankec = 0;
+                }
+                $html .= '<tr>
+                        <td colspan="14" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Kecamatan : <b> ' . $v['s_namakecobjek'] . '</td>
+
+                        </tr>';
+                $clast_rek = $v['t_kecamatanobjek'];
+                $clast_rek_name = $v['s_namakecobjek'];
+                //$counter = 1;
+            }
+
+
+
+            $html .= '<tr>
+                <td style="border-bottom: 1px solid #000;border-left: 1px solid #000;">&nbsp;</td>
+                <td colspan="13" style="border-bottom: 1px solid #000;border-right: 1px solid #000;">Kelurahan : <b> ' . $v['s_namakelobjek'] . '</td>
+
+                </tr>';
+            $clast_rek_kel = $v['t_kelurahanobjek'];
+            $clast_rek_name_kel = $v['s_namakelobjek'];
+            //$counter = 1;
+        }
+    }
+    
+    if(!empty($v['t_jmlhpengembalianskpdlb'])){
+        $tunggakan = '-';
+        $nilaitunggakan = 0;
+    }else{
+        $tunggakan = $v['t_totalskpdlb'];
+        $nilaitunggakan = $v['t_totalskpdlb'];
+    }
+    
+    if(!empty($v['t_tglpengembalianskpdlb'])){
+        $tglpengembalian = date('d-m-Y', strtotime($v['t_tglpengembalianskpdlb']));
+    }else{
+        $tglpengembalian = '-';
+    }
+
+    $html .= '
+                <tr>
+                    <td style="border-bottom: 1px solid #000;border-left: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $counter . '</td>
+                   
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . date('d-m-Y', strtotime($v['t_tglpendataan'])) . '</center></td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . $v['t_nourut'] . '</center></td>
+                    
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . date('d-m-Y', strtotime($v['t_tglskpdlb'])) . '</center></td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . $v['t_noskpdlb'] . '</center></td>
+                            
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . $v['t_npwpd'] . '</center></td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:left;">'.$namawp.'<br>'.$alamatwp.'</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_namaobjek'].'<br>'.$alamatop . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000;" align="right">' .number_format($v['t_jmlhpajak'], 2, ',', '.')  . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000;" align="right">' .number_format($v['t_totalskpdlb'], 2, ',', '.')  . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . date('d-m-Y', strtotime($v['t_masaawal'])) . ' s/d '.date('d-m-Y', strtotime($v['t_masaakhir'])).'</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;"><center>' . $tglpengembalian . '</center></td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;" align="right">' . number_format($v['t_jmlhpengembalianskpdlb'], 2, ',', '.') . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;" align="right">' . number_format($tunggakan, 2, ',', '.') . '</td>
+                </tr>';
+
+    $counter++;
+    
+    $totalsubsptpd += $v['t_jmlhpajak'];
+    $totalsubskpdlb += $v['t_totalskpdlb'];
+
+    $totalsubjmlsetoran += $v['t_jmlhpengembalianskpdlb'];
+    $totalsubtunggakan += $nilaitunggakan;
+    
+    $totalsubsptpdkec += $v['t_jmlhpajak'];
+    $totalsubskpdlbkec += $v['t_totalskpdlb'];
+
+    $totalsubjmlsetorankec += $v['t_jmlhpengembalianskpdlb'];
+    $totalsubtunggakankec += $nilaitunggakan;
+    
+    $totalsubsptpdkel += $v['t_jmlhpajak'];
+    $totalsubskpdlbkel += $v['t_totalskpdlb'];
+
+    $totalsubjmlsetorankel += $v['t_jmlhpengembalianskpdlb'];
+    $totalsubtunggakankel += $nilaitunggakan;
+    
+    
+    $totalsubsptpdkeseluruhan += $v['t_jmlhpajak'];
+    $totalsubskpdlbkeseluruhan += $v['t_totalskpdlb'];
+
+    $totalsubjmlsetorankeseluruhan += $v['t_jmlhpengembalianskpdlb'];
+    $totalsubtunggakankeseluruhan += $nilaitunggakan;
+    
+}
+        if ($urutkanwp == 1) {
+            if ($clast_rek <> '') {
+
+                 $html .= '<tr>
+                                <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>JUMLAH '.strtoupper($clast_rek_name).'</b></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpd, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlb, 2, ',', '.') . '</td> 
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" colspan="2">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetoran, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakan, 2, ',', '.') . '</td>
+                  </tr>'; 
+                 
+                 $totalsubsptpd = 0;
+                 $totalsubskpdlb = 0;
+                 
+                 $totalsubjmlsetoran = 0;
+                 $totalsubtunggakan = 0;
+            }
+        }    
+        
+        
+        if ($urutkanwp == 2) {
+            if ($clast_rek_kel <> '') {
+                $html .= '<tr>
+                                <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>JUMLAH KELURAHAN '.strtoupper($clast_rek_name_kel).'</b></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpdkel, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlbkel, 2, ',', '.') . '</td> 
+                                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetorankel, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakankel, 2, ',', '.') . '</td>
+                        </tr>'; 
+
+                       $totalsubsptpdkel = 0;
+                       $totalsubskpdlbkel = 0;
+
+                       $totalsubjmlsetorankel = 0;
+                       $totalsubtunggakankel = 0;
+            }
+            
+            if ($clast_rek <> '') {
+                    $html .= '<tr>
+                                <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH KECAMATAN '.strtoupper($clast_rek_name).'</b></center></td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpdkec, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlbkec, 2, ',', '.') . '</td> 
+                                <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetorankec, 2, ',', '.') . '</td>   
+                                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakankec, 2, ',', '.') . '</td>
+                        </tr>'; 
+
+                       $totalsubsptpdkec = 0;
+                       $totalsubskpdlbkec = 0;
+
+                       $totalsubjmlsetorankec = 0;
+                       $totalsubtunggakankec = 0;
+                }
+        }
+
+
+        $html .= '<tr>
+                        <td colspan="8" align="right" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH TOTAL</b></center></td>
+                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubsptpdkeseluruhan, 2, ',', '.') . '</td>   
+                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubskpdlbkeseluruhan, 2, ',', '.') . '</td> 
+                        <td colspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;">&nbsp;</td>
+                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubjmlsetorankeseluruhan, 2, ',', '.') . '</td>   
+                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubtunggakankeseluruhan, 2, ',', '.') . '</td>
+                </tr>'; 
+
+$html .= '    
+                <tr>
+                    <td colspan="14">
+                        &nbsp;
+                    </td>
+                </tr>    
+                <tr>
+                    <td colspan="7">';
+                        if(!empty($data_get['ttd0'])){
+                            $namapejabat = $this->MenuHelper()->getnamapejabat($data_get['ttd0']);
+                            $html .= '
+                                <center>
+                                    <br><b>'.$namapejabat['s_jabatanpej'].'
+                                    
+                                    <br><br><br><br>
+                                    <u>&nbsp;&nbsp;&nbsp;'.$namapejabat['s_namapej'].'&nbsp;&nbsp;&nbsp;</u></b>
+                                        <br>'.$namapejabat['s_nippej'].'
+                                    </center>';
+                        }
+                $html .= ' 
+                    </td>
+                    <td colspan="7">';
+                        if(!empty($data_get['ttd1'])){
+                            $namapejabat1 = $this->MenuHelper()->getnamapejabat($data_get['ttd1']);
+                            $html .= '
+                                <center>'.$ar_pemda->s_ttdkabkot.', '.$data_get['tglcetak'].'
+                                    <br><b>'.$namapejabat1['s_jabatanpej'].'
+                                    
+                                    <br><br><br><br>
+                                    <u>&nbsp;&nbsp;&nbsp;'.$namapejabat1['s_namapej'].'&nbsp;&nbsp;&nbsp;</u></b>
+                                        <br>'.$namapejabat1['s_nippej'].'
+                                    </center>';
+                        }
+                $html .= '    
+                    </td>
+                </tr>   
+        </table>
+
+    </body>
+</html>';
+//echo $html;
+?>
+<?php
+
+if (($jniscetak == 1) || ($jniscetak == 3)) {
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakdataskpdlb".$tglketetapan0."sd".$tglketetapan1.".pdf", "I");
+} else {
+    echo $html;
+}
+?>    

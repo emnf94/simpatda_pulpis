@@ -1,0 +1,98 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_setoran');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h4>
+                        Rekam Setoran Ke Bank
+                    </h4>
+                </div>
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Setoran</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formHidden($form->get("t_idsbh")) ?>
+                                    <?= $this->formText($form->get("t_tglsbh")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">No. Setoran</label>
+                            <div class="col-md-3">
+                                <?= $this->formText($form->get("t_nosbh")) ?>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="carisetoran()"><span class="glyph-icon icon-search"></span> Cari</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rinciansetoran"></div>
+                    <!-- <div class="bg-default" id="tombolsimpan"> -->
+                    <?= $this->formInput($form->get('Rekambanksubmit')) ?>
+                    <!-- </div> -->
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        carisetoran();
+        $('#t_nosbh').on('blur keyup keydown keypress', function() {
+            ceknosbh();
+        });
+        $('#t_tglsbh').on('change', function() {
+            carisetoran();
+        });
+    });
+
+
+    function carisetoran() {
+        $.post('<?= $this->url() ?>/carisetoran', {
+            t_tglsbh: $("#t_tglsbh").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#rinciansetoran').html(aa.rinciansetoran);
+            if (aa.existingdata != null) {
+                $('#t_nosbh').val(aa.existingdata.t_nosbh);
+                $('#t_idsbh').val(aa.existingdata.t_idsbh);
+                $('#t_nosbh').attr('readonly', true);
+            } else {
+                $('#t_idsbh').val('');
+                $('#t_nosbh').removeAttr('readonly');
+            }
+        });
+    }
+
+    function ceknosbh() {
+        $.post('<?= $this->url() ?>/ceknosbh', {
+            t_nosbh: $('#t_nosbh').val(),
+            t_tglsbh: $('#t_tglsbh').val()
+        }, function(data) {
+            var json = JSON.parse(data);
+            if (parseInt(json.count) > 0) {
+                $('#t_nosbh').next().html('<div class="text-danger" id="nosbh_error">No. Setoran <b>' + $("#t_nosbh").val() + '</b> sudah digunakan!</div>');
+                $('#Rekambanksubmit').attr('disabled', 'disabled');
+            } else {
+                $('#nosbh_error').remove();
+                $('#Rekambanksubmit').removeAttr('disabled');
+            }
+        });
+    }
+</script>

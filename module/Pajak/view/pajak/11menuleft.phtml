@@ -1,0 +1,273 @@
+<div id="page-sidebar">
+    <div class="scroll-sidebar">
+        <ul id="sidebar-menu">
+            <?php if (strpos($datauser['s_menu'], '(1)') !== false) { ?>
+                <li class="header"><span style="color: #337AB7">Menu Utama</span></li>
+                <li><a href="<?= $this->url('main') ?>" title="Menu Utama Aplikasi"><i style="color: #337AB7" class="glyph-icon icon-dashboard"></i><span style="color: #337AB7">Dashboard</span></a></li>
+            <?php } ?>
+
+            <?php if (strpos($datauser['s_menu'], '(2)') !== false) { ?>
+                <li>
+                    <a title="Hak Wajib Pajak" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-edit"></i>
+                        <span style="color: #337AB7">Pendaftaran</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <li><a href="<?= $this->url('pendaftaran') ?>" title="Daftar Pendaftaran"><span style="color: #337AB7">Pendaftaran WP/WR & Objek</span></a></li>
+                            <li><a href="<?= $this->url('penggabunganop') ?>" title="Daftar Penggabungan Objek"><span style="color: #337AB7">Penggabungan Objek</span></a></li>
+                            <li><a href="<?= $this->url('penutupanwp') ?>" title="Daftar WP/WR Tidak Aktif"><span style="color: #337AB7">Penutupan WP/WR</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(3)') !== false) { ?>
+                <li>
+                    <a title="Pendataan" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-pencil"></i>
+                        <span style="color: #337AB7">Pendataan</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <li><a title="Wajib Pajak" href="<?= $this->url('pendataan') ?>/menupajak"><span style="color: #337AB7">01 || Wajib Pajak</span></a></li>
+                            <li><a title="Wajib Retribusi" href="<?= $this->url('pendataan') ?>/menuretribusi"><span style="color: #337AB7">02 || Wajib Retribusi</span></a></li>
+                        </ul>
+                        <!-- <ul>
+                            <li class="header"><span style="color: #337AB7">&nbsp;&nbsp;&nbsp;&nbsp;Pajak</span></li> -->
+                        <?php
+                        // foreach ($dataobjek as $row) {
+                        //     if ($row['s_jenispungutan'] == 'Pajak') {
+                        ?>
+                        <!-- <li><a title="<= $row['s_namajenis'] ?>" href="<= $this->url('pendataan') ?>/<= $row['s_idjenis'] ?>"><span style="color: #337AB7"><= str_pad($row['s_idjenis'], 2, '0', STR_PAD_LEFT) . ' | ' . $row['s_namajenissingkat'] ?></span></a></li> -->
+                        <?php
+                        // }
+                        // }
+                        ?>
+                        <!-- <li class="header"><span style="color: #337AB7">&nbsp;&nbsp;&nbsp;&nbsp;Retribusi</span></li> -->
+                        <?php
+                        //    foreach ($dataobjek as $row) {
+                        //    if ($row['s_jenispungutan'] == 'Retribusi') {
+                        ?>
+                        <!-- <li><a title="<= $row['s_namajenis'] ?>" href="<= $this->url('pendataan') ?>/<= $row['s_idjenis'] ?>"><span style="color: #337AB7"><= $row['s_namajenissingkat'] ?></span></a></li> -->
+                        <?php
+                        //    }
+                        //    }
+                        ?>
+                        <!-- </ul> -->
+                    </div>
+                </li>
+            <?php } ?>
+            <?php
+            if (strpos($datauser['s_menu'], '(4)') !== false) {
+            ?>
+                <li>
+                    <a title="Penetapan" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-check"></i>
+                        <span style="color: #337AB7">Penetapan</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <?php if (strpos($datauser['s_menu'], '(5)') !== false) { ?>
+                                <li><a href="<?= $this->url('skpdjabatan') ?>" title="Daftar Penetapan SKPD (Jabatan)"><span style="color: #337AB7">SKPD (Jabatan)</span></a></li>
+                            <?php } ?>
+                            <?php if (strpos($datauser['s_menu'], '(6)') !== false) { ?>
+                                <li class="header"><span style="color: #337AB7">&nbsp;&nbsp;&nbsp;&nbsp;Self Assesment</span></li>
+                                <li><a href="<?= $this->url('skpdkb') ?>" title="Daftar Penetapan SKPDKB"><span style="color: #337AB7">SKPDKB</span></a></li>
+                                <li><a href="<?= $this->url('skpdkbt') ?>" title="Daftar Penetapan SKPDKBT"><span style="color: #337AB7">SKPDKBT</span></a></li>
+                                <li><a href="<?= $this->url('skpdlb') ?>" title="Daftar Penetapan SKPDLB"><span style="color: #337AB7">SKPDLB</span></a></li>
+                                <li><a href="<?= $this->url('skpdn') ?>" title="Daftar Penetapan SKPDN"><span style="color: #337AB7">SKPDN</span></a></li>
+                            <?php } ?>
+                            <?php
+                            // var_dump($datauser);exit(); 
+                            ?>
+                            <?php if (strpos($datauser['s_menu'], '(7)') !== false) { ?>
+                                <li class="header"><span style="color: #337AB7">&nbsp;&nbsp;&nbsp;&nbsp;Official Assesment</span></li>
+                                <li><a href="<?= $this->url('penetapan') ?>" title="Daftar SKPD"><span style="color: #337AB7">SKPD</span></a></li>
+                                <li><a href="<?= $this->url('penetapan') . '/skrd' ?>" title="Daftar SKRD"><span style="color: #337AB7">SKRD</span></a></li>
+                                <!--   <li><a href="<?= $this->url('skpdt') ?>" title="Daftar Penetapan SKPDT"><span style="color: #337AB7">SKPDT</span></a></li> -->
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+            <?php
+            if (strpos($datauser['s_menu'], '(8)') !== false) {
+            ?>
+                <li>
+                    <a title="Pembayaran" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-dollar"></i>
+                        <span style="color: #337AB7">Pembayaran</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <?php if (strpos($datauser['s_menu'], '(8)') !== false) { ?>
+                                <li><a href="<?= $this->url('pembayaran') ?>" title="Pembayaran Pokok & Denda"><span style="color: #337AB7">Pokok & Denda</span></a></li>
+                            <?php } ?>
+                            <?php if (strpos($datauser['s_menu'], '(8)') !== false) { ?>
+                                <li><a href="<?= $this->url('pembayarandenda') ?>" title="Pembayaran Denda"><span style="color: #337AB7">Denda</span></a></li>
+                            <?php } ?>
+                            <?php if (strpos($datauser['s_menu'], '(8)') !== false) { ?>
+                                <!--  <li><a href="<?= $this->url('pembayaranangsuran') ?>" title="Pembayaran Angsuran"><span style="color: #337AB7">Angsuran</span></a></li> -->
+                            <?php } ?>
+                            <?php if (strpos($datauser['s_menu'], '(8)') !== false) { ?>
+                                <li><a href="<?= $this->url('setoranlain') ?>" title="Rekam Setoran Lain-lain"><span style="color: #337AB7">Entry Penerimaan</span></a></li>
+                            <?php } ?>
+                            <?php if (strpos($datauser['s_menu'], '(8)') !== false) { ?>
+                                <li><a href="<?= $this->url('rekambank') ?>" title="Rekam Penyetoran Ke Bank"><span style="color: #337AB7">Penyetoran ke Bank</span></a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </li>
+
+
+
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(9)') !== false) { ?>
+                <li>
+                    <a title="Hak Wajib Pajak" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-minus-circle"></i>
+                        <span style="color: #337AB7">Penagihan</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <li><a href="<?= $this->url('teguranlaporan') ?>" title="Daftar Penagihan"><span style="color: #337AB7">Penagihan SPTPD</span></a></li>
+                            <li><a href="<?= $this->url('penagihan') ?>" title="Daftar Penagihan"><span style="color: #337AB7">Penagihan Pembayaran</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+
+            <?php if (strpos($datauser['s_menu'], '(10)') !== false) { ?>
+                <li><a href="<?= $this->url('pemeriksaan') ?>" title="Pemeriksaan"><i style="color: #337AB7" class="glyph-icon icon-puzzle-piece"></i> <span style="color: #337AB7">Pemeriksaan</span></a></li>
+            <?php } ?>
+
+            <? if ((int)$datauser['s_akses'] == 2 || (int)$datauser['s_akses'] == 3 || (int)$datauser['s_akses'] == 4 || (int)$datauser['s_akses'] == 7) { ?>
+                <li>
+                    <a title="Hak Wajib Pajak" href="javascript:void(0)">
+                        <i style="color: #337AB7" class="glyph-icon icon-warning"></i>
+                        <span style="color: #337AB7">Keberatan Pajak</span>
+                    </a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <!--  <li><a href="<?= $this->url('angsuran') ?>" title="Angsuran"><span style="color: #337AB7">Angsuran</span></a></li> -->
+                            <li><a href="<?= $this->url('keberatan') ?>" title="Daftar Keberatan"><span style="color: #337AB7">Keberatan</span></a></li>
+                            <!--    <li><a href="<?= $this->url('penghapusansanksi') ?>" title="Penghapusan Denda/Sanksi"><span style="color: #337AB7">Penghapusan Denda/Sanksi</span></a></li> -->
+
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+
+
+
+            <?php if (strpos($datauser['s_menu'], '(11)') !== false) { ?>
+                <?php if ((int)$datauser['s_akses'] == 3) {
+                } else { ?>
+                    <li><a href="<?= $this->url('pembukuan') ?>" title="Pembukuan dan Pelaporan"><i style="color: #337AB7" class="glyph-icon icon-file-archive-o"></i> <span style="color: #337AB7">Pembukuan dan Pelaporan</span></a></li>
+            <?php }
+            } ?>
+
+            <?php if (strpos($datauser['s_menu'], '(12)') !== false) { ?>
+                <li><a href="<?= $this->url('monitoring') ?>" title="Histori Transaksi Pajak Daerah"><i style="color: #337AB7" class="glyph-icon icon-sitemap"></i> <span style="color: #337AB7">Histori Transaksi</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(31)') !== false) { ?>
+                <li><a href="<?= $this->url('perizinan') ?>" title="Menu DPMPTSP"><i style="color: #337AB7" class="glyph-icon icon-search"></i><span style="color: #337AB7">DPMPTSP/SATPOL PP</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(32)') !== false) { ?>
+                <li><a href="<?= $this->url('pratama') ?>" title="Menu KPP PRATAMA"><i style="color: #337AB7" class="glyph-icon icon-search"></i><span style="color: #337AB7">KPP PRATAMA</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(33)') !== false) { ?>
+                <li><a href="<?= $this->url('laporanbendahara') ?>" title="Laporan Bendahara"><i style="color: #337AB7" class="glyph-icon icon-pencil"></i><span style="color: #337AB7">Lap. Bend. Dinas</span></a></li>
+                <li class="header"><span style="color: #337AB7">Buku Panduan Bendahara</span></li>
+                <li><a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "" . $this->basePath() . "/public/panduan/panduanbendahara.pdf"; ?>" target="_blank" title="Buku Panduan"><i style="color: #337AB7" class="glyph-icon icon-paperclip"></i><span style="color: #337AB7">Buku Panduan</span></a></li>
+                <!--<li><a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "" . $this->basePath() . "/public/apk/simpad.apk"; ?>" target="_blank" title="APK SIMPATDA"><i  style="color: #337AB7" class="glyph-icon icon-android"></i><span style="color: #337AB7">Install Simpad (Android)</span></a></li>-->
+                <li><a href="<?= $this->url('laporanbendahara') . '/ubahpassback' ?>" title="Menu Merubah Password"><i style="color: #337AB7" class="glyph-icon icon-key"></i><span style="color: #337AB7">Ubah Password</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(13)') !== false) { ?>
+                <li class="header"><span style="color: #337AB7">Setting</span></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(15)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_pemda') ?>" title="Pengaturan Profil Pemda"><i style="color: #337AB7" class="glyph-icon icon-institution"></i> <span style="color: #337AB7">Pemda</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(15)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_pejabat') ?>" title="Setting Pejabat"><i style="color: #337AB7" class="glyph-icon icon-user"></i> <span style="color: #337AB7">Pejabat</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(15)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_kecamatan') ?>" title="Setting Kecamatan"><i style="color: #337AB7" class="glyph-icon icon-map-marker"></i> <span style="color: #337AB7">Kecamatan</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(15)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_kelurahan') ?>" title="Setting Kelurahan"><i style="color: #337AB7" class="glyph-icon icon-map-marker"></i> <span style="color: #337AB7">Kelurahan</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(14)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_rekening') ?>" title="Setting Rekening"><i style="color: #337AB7" class="glyph-icon icon-bullseye"></i> <span style="color: #337AB7">Rekening</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(14)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_target') ?>" title="Setting Target Realisasi"><i style="color: #337AB7" class="glyph-icon icon-bullseye"></i> <span style="color: #337AB7">Target Realisasi</span></a></li>
+                <li><a href="<?= $this->url('setting_targetopd') ?>" title="Setting Target Realisasi"><i style="color: #337AB7" class="glyph-icon icon-bullseye"></i> <span style="color: #337AB7">Target OPD</span></a></li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(27)') !== false) { ?>
+                <li><a href="<?= $this->url('setting_tipeusaha') ?>" title="Setting Tipe Usaha"><i style="color: #337AB7" class="glyph-icon icon-paperclip"></i> <span style="color: #337AB7">Setting Tipe Usaha</span></a></li>
+                <!--  <li><a href="<?= $this->url('setting_reklame') ?>" title="Setting Reklame"><i  style="color: #337AB7" class="glyph-icon icon-dollar"></i> <span style="color: #337AB7">Setting Tarif Reklame</span></a></li> -->
+                <!--  <li><a href="<?= $this->url('setting_minerba') ?>" title="Setting Minerba"><i  style="color: #337AB7" class="glyph-icon icon-dollar"></i> <span style="color: #337AB7">Setting Tarif Minerba</span></a></li> -->
+            <?php } ?>
+            <?php //if (strpos($datauser['s_menu'], '(27)') !== false) { 
+            ?>
+            <!--                <li>
+                    <a href="javascript:;" title="Setting Reklame"><i  style="color: #337AB7" class="glyph-icon icon-dollar"></i> <span style="color: #337AB7">Tarif Reklame</span></a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+
+                            <li><a href="<?= $this->url('setting_reklame_sticker') ?>" title="NSR Sticker"><span style="color: #337AB7">NSR Reklame Sticker</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_selebaran') ?>" title="NSR Selebaran"><span style="color: #337AB7">NSR Reklame Selebaran</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_berjalan') ?>" title="NSR Reklame Berjalan"><span style="color: #337AB7">NSR Reklame Berjalan</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_biayapemasangan') ?>" title="Biaya Pemasangan Reklame"><span style="color: #337AB7">Biaya Pemasangan Reklame</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_kelompokjalan') ?>" title="Kelompok Jalan"><span style="color: #337AB7">Kelompok Jalan</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_skorukuran') ?>" title="Skor Ukuran"><span style="color: #337AB7">Skor Ukuran</span></a></li>
+
+
+                            <li><a href="<?= $this->url('setting_reklame_sudutpandang') ?>" title="Skor Sudut Pandang"><span style="color: #337AB7">Skor Sudut Pandang</span></a></li>
+
+                        </ul>
+                    </div>
+                </li>-->
+            <?php //} 
+            ?>
+            <?php if (strpos($datauser['s_menu'], '(28)') !== false) { ?>
+                <li><a href="javascript:void(0);" title="Setting Air Bawah Tanah"><i style="color: #337AB7" class="glyph-icon icon-dollar"></i> <span style="color: #337AB7">Koefisien ABT</span></a>
+                    <div class="sidebar-submenu" style="display: none;">
+                        <ul>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexjenissumber']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Jenis Sumber</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexlokasicekungan']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Lokasi (Cekungan)</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexjaringanpdam']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Lokasi (Jaringan PDAM)</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexkualitasair']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Kualitas</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'index']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Tujuan Pengambilan</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexareapengaruh']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Luas Pengaruh</span></a></li>
+                            <li><a href="<?= $this->url('setting_air', ['action' => 'indexkerusakan']) ?>" title="Tarif Air"><span style="color: #337AB7">Faktor Tingkat Kerusakan</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+            <?php if (strpos($datauser['s_menu'], '(15)') !== false) { ?>
+                <?php if ($datauser['s_akses'] == 2) { ?>
+                    <li><a href="<?= $this->url('setting_user') ?>" title="Setting Pengguna"><i style="color: #337AB7" class="glyph-icon icon-users"></i> <span style="color: #337AB7">Pengguna</span></a></li>
+                    <li><a href="<?= $this->url('setting_user') . '/ubahpassback' ?>" title="Menu Merubah Password"><i style="color: #337AB7" class="glyph-icon icon-key"></i><span style="color: #337AB7">Ubah Password</span></a></li>
+                    <!--<li><a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "" . $this->basePath() . "/public/apk/simpad.apk"; ?>" target="_blank" title="APK SIMPATDA"><i  style="color: #337AB7" class="glyph-icon icon-android"></i><span style="color: #337AB7">Install Simpad (Android)</span></a></li>-->
+                <?php } else { ?>
+                    <li><a href="<?= $this->url('setting_user') . '/ubahpassback' ?>" title="Menu Merubah Password"><i style="color: #337AB7" class="glyph-icon icon-key"></i><span style="color: #337AB7">Ubah Password</span></a></li>
+            <?php }
+            } ?>
+
+            <!--<li><a href="<? $this->url('acl_manager') ?>" title="Icons"><i  style="color: #337AB7" class="glyph-icon icon-gears"></i> ACL</a></li>-->
+        </ul>
+    </div>
+</div>

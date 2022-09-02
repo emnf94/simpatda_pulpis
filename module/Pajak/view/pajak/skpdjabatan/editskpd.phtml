@@ -1,0 +1,182 @@
+
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 24px;"><b>FORM EDIT SKPD JABATAN</b></span>';
+$link = '<div class="pull-right">         
+                            <a href="'.$this->url('skpdjabatan').'" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a>  
+                        </div>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+  <div class="box-body"> <!--id="hidden_div" style="display: none;" -->
+    <form method="post" action="<?= $this->url('skpdjabatan');?>/editskpd" id="demo-form" class="form-horizontal pad15L pad15R pad15T" data-parsley-validate="data-parsley-validate" enctype="multipart/form-data">    
+        
+                  
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NPWPD</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" readonly="readonly" value="<?= $data['t_npwpd'];?>" type="text">                        
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NAMA OBJEK PAJAK</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" readonly="readonly" value="<?= $data['t_namaobjek'];?>" type="text">                        
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nomor Ketetapan</label>
+                            <div class="col-sm-2">
+                                <input name="t_jenisobjekpajak" id="t_jenisobjekpajak" value="<?= $data['t_jenispajak'];?>" type="hidden">
+                                <input name="t_idtransaksi" id="t_idtransaksi" value="<?= $data['t_idtransaksi'];?>" type="hidden">                            
+                                <input name="t_idobjek" id="t_idobjek" value="<?= $data['t_idwpobjek'];?>" type="hidden">                            
+                                <input name="t_jenispajak" id="t_jenispajak" type="hidden" value="<?= $data['t_jenispajak'];?>">                            
+                                <input name="t_nourut" id="t_nourut" class="form-control" readonly="readonly" style="text-align:right" value="<?= $data['t_noskpdjab'];?>" type="text">                        </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_periodepajak" id="t_periodepajak" class="form-control" value="<?= $data['t_periodepajak'];?>" type="text" readonly="true">                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_tglpendataan" id="t_tglpendataan" class="form-control" required="required" value="<?= date('d-m-Y',strtotime($data['t_tglpendataan']));?>" type="text">                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_masaawal" id="t_masaawal" class="form-control" required="required" value="<?= date('d-m-Y',strtotime($data['t_masaawal']));?>" type="text" readonly="true">                            
+                                </div>
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_masaakhir" id="t_masaakhir" class="form-control" required="required" value="<?= date('d-m-Y',strtotime($data['t_masaakhir']));?>" type="text" readonly="true">                            
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <input name="t_idkorek" id="t_idkorek" value="<?= $data['t_idkorek'];?>" type="hidden">                            
+                                <input name="t_korek" id="t_korek" class="form-control" required="required" readonly="readonly" value="<?= $data['koderek'];?>" type="text">                        </div>
+                            <!--<div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()" title="cari"><span class="fa fa-search"></span></button></div>-->
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-4">
+                                <input name="t_namakorek" id="t_namakorek" class="form-control" required="required" readonly="readonly" value="<?= $data['s_namakorek'];?>" type="text">                        </div>
+                        </div>
+                        <?php
+    if($data['t_jenispajak'] == 5){
+   
+   ?>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kwh</label>
+                            <div class="col-sm-2">
+                                <input name="t_kwhlistrik" id="t_kwhlistrik" class="form-control" required="required" style="text-align:right" onchange="hitungpajaklistrik();" onblur="hitungpajaklistrik();" onkeyup="hitungpajaklistrik();" value="<?= $data['t_kwhlistrik'];?>" type="text">
+                            </div>
+                            <label class="col-sm-1 control-label" id="tarifperkwh"></label>
+
+                        </div>
+                       <?php $readonlyppj = 'readonly="true"'; }else{ $readonlyppj = '';} ?> 
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Dasar Pengenaan (Rp.)</label>
+                            <div class="col-sm-2">
+                                <input name="t_dasarpengenaan" id="t_dasarpengenaan" class="form-control" required="required" style="text-align:right" onchange="hitungpajak();this.value = formatCurrency(this.value);" onblur="hitungpajak();this.value = formatCurrency(this.value);" onkeyup="hitungpajak();this.value = formatCurrency(this.value);" value="<?= number_format($data['t_dasarpengenaan'], 0, ',', '.');?>" onkeypress="return numbersonly(this, event);" type="text" <?= $readonlyppj; ?>>                        
+                            </div>
+                            <label class="col-sm-1 control-label">Tarif (%)</label>
+                            <div class="col-sm-1">
+                                <input name="t_tarifpajak" id="t_tarifpajak" class="form-control" required="required" value="<?= $data['t_tarifpajak'];?>" readonly="readonly" style="text-align:right" type="text">                        
+                            </div>
+                        </div>
+                        <div id="kenaikan" style="display: block;">
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tarif Kenaikan (%)</label>
+                                <div class="col-sm-1">
+                                    <input name="t_tarifkenaikan" id="t_tarifkenaikan" class="form-control" readonly="" value="<?= $data['t_tarifkenaikan'];?>" type="text">
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Jumlah Kenaikan</label>
+                                <div class="col-sm-4">
+                                    <input name="t_jmlhkenaikan" id="t_jmlhkenaikan" class="form-control" readonly="" value="<?= number_format($data['t_jmlhkenaikan'], 0, ',', '.');?>" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Pajak (Rp.)</label>
+                            <div class="col-sm-4">
+                                <input name="t_jmlhpajak" id="t_jmlhpajak" class="form-control" required="required" readonly="readonly" style="text-align:right; background:#000099; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" value="<?= number_format($data['t_jmlhpajak'], 0, ',', '.');?>" type="text">                        </div>
+                        </div>
+
+                    </div>
+                    <div class='modal-footer'>
+                        <div class='col-sm-12'> 
+                            <input type="submit" id="pendaftaranbutton" value="SIMPAN" onclick="this.disabled = true;forms[0].submit();" class="btn nextBtn btn-info pull-right">
+                            </div>              
+                    
+                </form>
+</div>
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+<script type="text/javascript">
+    
+   fr_tanggal("#t_tglpendataan");
+    
+    function hitungpajaklistrik() {
+            $.post('<?= $this->url('pendataan') ?>/hitungpajakppj', {t_kwhlistrik: $("#t_kwhlistrik").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+                var aa = JSON.parse(data);
+                $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+                $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+                $('#t_tarifpajak').val(aa.t_tarifpajak);
+                $("#t_dasarpengenaan").val(aa.t_dasarpengenaan);
+                
+                document.getElementById("t_dasarpengenaan").readOnly = true; 
+                document.getElementById("t_dasarpengenaan").removeAttribute("onchange");
+                document.getElementById("t_dasarpengenaan").removeAttribute("onblur");
+                document.getElementById("t_dasarpengenaan").removeAttribute("onkeyup");
+            });
+        }
+    
+    function hitungpajak() {
+            $.post('<?= $this->url('pendataan') ?>/hitungpajak', {t_dasarpengenaan: $("#t_dasarpengenaan").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+                var aa = JSON.parse(data);
+                $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+                $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+                $('#t_tarifpajak').val(aa.t_tarifpajak);
+            });
+        }
+
+</script>    
+
+
+

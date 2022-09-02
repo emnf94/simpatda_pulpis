@@ -1,0 +1,182 @@
+<div class="tab-pane" id="tab3">
+    <div class="example-box-wrapper">
+        <div class="row" style="overflow: auto">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black">
+                <thead>
+                    <tr>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">No.</th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Tgl. Daftar</th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">NPWPD/RD</th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Nama Objek</th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Alamat</th>        
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Jenis</th>        
+                        <th style="background-color: #00BCA4; color: white; text-align: center">#</th>  
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" id="t_tgldaftar_cari_2" class="form-control input-sm" onchange="calldatagrid2()"></td>
+                        <td><input type="text" id="t_npwpd_cari_2" class="form-control input-sm" onkeyup="calldatagrid2()"></td>
+                        <td><input type="text" id="t_nama_cari_2" class="form-control input-sm" onkeyup="calldatagrid2()"></td>
+                        <td><input type="text" id="t_alamat_lengkap_cari_2" class="form-control input-sm" onkeyup="calldatagrid2()"></td>
+                        <td><input type="text" id="t_jenis_cari_2" class="form-control input-sm" onkeyup="calldatagrid2()"></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="body_grid2">
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-3 text-left">
+                    <span>
+                        <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid2(1)">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="col-sm-6" style="text-align: center">
+                    <center>
+                        <div id="paginatore2"></div>
+                        <input type="hidden" id="page2" value="1">
+                    </center>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <span>
+                        <p>
+                            <b style="font-size: 13px; color: orangered"><span id="awaldata2"></span> s/d <span id="akhirdata2"></span> Dari <span id="total_data2"></span> Data</b>
+                        </p>  
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalAktifasiOP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-exclamation-triangle'></span> PERHATIAN!!!</b></h4>
+            </div>
+            <form action="<?= $this->url() ?>/simpanaktifasiop" method="post">
+                <div class='modal-body'>
+                    <div class="example-box-wrapper">
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NPWPD/NPWRD</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="hidden" id="t_idwp2" name="t_idwp2" >
+                                <input class="form-control" type="hidden" id="t_idwpobjek2" name="t_idwpobjek2" >
+                                <input class="form-control" type="text" id="t_npwpdwp2" name="t_npwpdwp2" readonly="true" style="color:blue;font-weight:bold;">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama Objek</label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="t_namaobjek2" name="t_namaobjek2" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat Objek</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" id="t_alamatobjek2" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Jenis</label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="t_jenisobjek2" name="t_jenisobjek2" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <label class="col-sm-12">Apakah anda yakin ingin Aktifkan kembali Objek ini?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <div class='col-sm-12' style="text-align:center;"> 
+                        <button type="submit" class='btn btn-primary btn-sm'><i class='glyph-icon icon-check'></i> Ya</button>
+                        </form>
+                        <a class='btn btn-danger btn-sm' onclick='tutupDataAktifasiop()'><i class='glyph-icon icon-close'></i> Tidak</a>
+                    </div>              
+                </div> 
+        </div>
+    </div>
+</div>
+<style>
+    .tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tableDaftar tr:hover {
+        background: #edf968; 
+    }
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#t_tgldaftar_cari_2').daterangepicker({
+            format: 'DD-MM-YYYY'
+        }, function () {
+            calldatagrid2();
+        });
+    });
+
+    $(function () {
+        calldatagrid2();
+    });
+
+    function calldatagrid2(direction) {
+        datagridtidakaktifOP($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function datagridtidakaktifOP(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridTutupop/' + page + '/' + row + '/' + direction, {
+            t_tgldaftar: $('#t_tgldaftar_cari_2').val(),
+            t_npwpd: $('#t_npwpd_cari_2').val(),
+            t_nama: $('#t_nama_cari_2').val(),
+            t_alamat_lengkap: $('#t_alamat_lengkap_cari_2').val(),
+            t_jenis: $('#t_jenis_cari_2').val()
+        }, function (data) {
+            var aa = JSON.parse(data);
+            $("#body_grid2").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data2").html(": " + aa.count);
+            $("#total_halaman2").html(": " + aa.total_halaman);
+            $("#paginatore2").html(aa.paginatore);
+            $("#awaldata2").html(aa.awaldata);
+            $("#akhirdata2").html(aa.akhirdata);
+        });
+    }
+
+    function bukaDataAktifasiop(a) {
+        $.post('<?= $this->url() ?>/dataObjek', {t_idwpobjek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_idwp2").val(aa.idwp);
+            $("#t_idwpobjek2").val(aa.idobjek);
+            $("#t_npwpdwp2").val(aa.npwpdwp);
+            $("#t_namawp2").val(aa.namawp);
+            $("#t_namaobjek2").val(aa.namaobjek);
+            $("#t_alamatobjek2").val(aa.alamatobjek);
+            $("#t_jenisobjek2").val(aa.jenisobjek);
+        });
+        $('#modalAktifasiOP').modal('show');
+    }
+
+    function tutupDataAktifasiop() {
+        $('#modalAktifasiOP').modal('hide');
+    }
+
+    // function simpandatapenutupanwp() {
+    // $.post('<?= $this->url() ?>/simpanpenutupanwp?t_idwp=' + $("#t_idwp").val() + 
+    // "&t_tglpenutupanwp=" + $("#t_tglpenutupanwp").val() + 
+    // "&t_noberitawp=" + $("#t_noberitawp").val() + 
+    // "&t_isiberitawp=" + $("#t_isiberitawp").val() + 
+    // "&t_statuswp=" + $("#t_statuswp").val());
+    // }
+</script>

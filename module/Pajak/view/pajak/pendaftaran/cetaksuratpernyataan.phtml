@@ -1,0 +1,134 @@
+<?php
+if ($formatcetak == 'word') {
+    header("Content-type: application/vnd-ms-word");
+    header("Content-Disposition: attachment; filename=cetaksuratpernyataan.doc");
+}
+
+$txt_bulan = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
+if($data['t_jenisobjek'] == 1 || $data['t_jenisobjek'] == 2 || $data['t_jenisobjek'] == 3 || $data['t_jenisobjek'] == 5 || $data['t_jenisobjek'] == 6 || $data['t_jenisobjek'] == 7 || $data['t_jenisobjek'] == 9){
+	$jns_pemungutan = "SELF ASSESMENT";
+}else{
+	$jns_pemungutan = "OFFICIAL ASSESMENT";
+}
+
+?>
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+			body {
+				font-family: sans-serif;
+			}
+        </style>
+    </head>
+    <body>
+        <h3 style="text-align:center;">SURAT PERNYATAAN<BR>
+        KESANGGUPAN MEMBAYAR <?= strtoupper($data['s_namajenis'])?></h3>
+
+        <p style="font-size:12px;margin:20px 30px 10px 30px;">
+        Yang bertanda tangan dibawah ini : 
+        </p>
+		<table cellpadding="2" cellspacing="2" style="font-size:12px;margin:0px 30px 0px 30px;">
+			<tr>
+				<td>Nama</td>
+				<td>:</td>
+				<td><?=strtoupper($data['t_namawp'])?></td>
+			</tr>
+			<tr>
+				<td>No. KTP</td>
+				<td>:</td>
+				<td><?=($data['t_nikwp'] != 0) ? $data['t_nikwp'] : '-'?></td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;">Alamat</td>
+				<td style="vertical-align:top;">:</td>
+				<td style="vertical-align:top;"><?=strtoupper($data['t_alamat_lengkapwp'])?></td>
+			</tr>
+			<tr>
+				<td>NPWPD</td>
+				<td>:</td>
+				<td><?=$data['t_npwpdwp']?></td>
+			</tr>
+			<tr>
+				<td>Nama Usaha</td>
+				<td>:</td>
+				<td><?=strtoupper($data['t_namaobjek'])?></td>
+			</tr>
+			<tr>
+				<td>Sistem Pemungutan Pajak</td>
+				<td>:</td>
+				<td><?=$jns_pemungutan?></td>
+			</tr>
+		</table>
+        
+        <p style="font-size:12px;margin:20px 30px 10px 30px;text-align:justify;line-height:20px;">
+        Dengan ini menyatakan, bahwa sehubungan dengan permohonan Izin <strong><?=$data['t_namaobjek']?></strong> saya yang terletak di 
+        <?=$data['t_alamatobjek']?> Desa/Kelurahan <?=strtoupper($data['s_namakel'])?> Kecamatan <?=strtoupper($data['s_namakec'])?> Kabupaten <?=strtoupper($data['t_kabupatenobjek'])?>.<br>
+        Saya sanggup membayar <?=strtoupper($data['s_namajenis'])?> sebesar .... dari pendapatan. 
+        Pembayaran akan dimulai pada bulan <strong><?=$txt_bulan[date('m', strtotime("+1 month" .$data['t_tgldaftarobjek']))]?></strong> tahun <strong><?=date('Y', strtotime($data['t_tgldaftarobjek']))?></strong>
+		. Saya akan membayar tepat waktu sebelum 
+        tanggal <?= $data['t_akhirlapor']?> masa pajak bulan berjalan dan apabila lewat dari tanggal tersebut saya siap dikenakan 
+        sanksi 2%/bulan. Jika dalam melaksanakan usaha tersebut tidak membayar <?=strtoupper($data['s_namajenis'])?>, 
+        saya sanggup untuk menghentikan dan atau menutup kegiatan usaha saya tersebut.
+        <br><br>
+        Demikian surat pernyataan ini dibuat dengan sungguh – sungguh tanpa ada paksaan dari pihak manapun.
+        </p>
+
+        <table style="font-size:12px;margin:20px 30px 10px 30px;width:100%;">
+            <tr>
+                <td width="60%"></td>
+                <td width="40%" align="center"><?=$ar_pemda->s_namaibukotakabkota .', '. date('d', strtotime($data['t_tgldaftarobjek'])).' '.$txt_bulan[date('m', strtotime($data['t_tgldaftarobjek']))].' '.date('Y', strtotime($data['t_tgldaftarobjek']))?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align:center;">Yang Membuat Pernyataan
+                <br><br><br><br><br><br>
+                (<?=strtoupper($data['t_namawp'])?>)
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+

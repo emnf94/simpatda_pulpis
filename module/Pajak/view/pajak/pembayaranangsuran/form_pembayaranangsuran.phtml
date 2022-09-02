@@ -1,0 +1,184 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pembayaranangsuran');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <b style="font-family: monospace;">PEMBAYARAN ANGSURAN</b>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pemilik (WP)</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NPWPD</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_npwpdwp'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama WP</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_namawp'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat WP</label>
+                            <div class="col-md-10">
+                                : <?= $data['t_alamat_lengkapwp'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NIOP</label>
+                            <div class="col-sm-4">
+                                : <?= $data['t_nop'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama OP</label>
+                            <div class="col-sm-4">
+                                : <?= $data['t_namaobjek'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat OP</label>
+                            <div class="col-sm-10">
+                                : <?= $data['t_alamatlengkapobjek'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Angsuran</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Tgl. Penetapan</label>
+                            <div class="col-sm-4">
+                                : <?= date('d-m-Y', strtotime($data['t_tglketetapanangsuran'])) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">No. Angsuran</label>
+                            <div class="col-sm-4">
+                                : <?= $data['t_noangsuran']; ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Jumlah Angsuran</label>
+                            <div class="col-sm-4">
+                                : <?= $data['t_jumlahkaliangsuran'] ?> kali
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Angsuran Ke</label>
+                            <div class="col-sm-4">
+                                : <b style="color:blue;font-size:12pt;"><?= $data['t_angsuranke'] ?></b>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Jenis Ketetapan</label>
+                            <div class="col-sm-4">
+                                : <b style="color:blue;font-size:12pt;"><?= $data['s_namasingkatsurat'] ?></b>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Jenis Pajak</label>
+                            <div class="col-sm-4">
+                                : <?= $data['s_namajenis'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pembayaran Angsuran</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Bayar Angsuran</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formHidden($form->get("t_idangsuran")) ?>
+                                    <?= $this->formText($form->get("t_tglbayarangsuran")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Jatuh Tempo</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_tgljatuhtempo" id="t_tgljatuhtempo" value="<?= date('d-m-Y', strtotime($data['t_tgljatuhtempo'])) ?>" readonly="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Via Pembayaran</label>
+                            <div class="col-md-4">
+                                <?= $this->formSelect($form->get("t_viapembayaranangsuran")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Angsuran Pokok</label>
+                            <div class="col-md-4">
+                                <?= $this->formText($form->get("t_nominalangsuran")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Bunga Angsuran</label>
+                            <div class="col-md-4">
+                                <?= $this->formText($form->get("t_bungaangsuran")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jumlah Pembayaran</label>
+                            <div class="col-md-4">
+                                <?= $this->formText($form->get("t_jmlhpembayaranangsuran")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Pembayaransubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+<?php
+$abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+$t_tgldaftar = date('d', strtotime($data['t_tgldaftar'])) . " " . $abulan[date('m', strtotime($data['t_tgldaftar']))] . " " . date('Y', strtotime($data['t_tgldaftar']));
+
+if (!empty($data['t_rt'])) {
+    $rt = "RT " . $data['t_rt'];
+} else {
+    $rt = "";
+}
+
+if (!empty($data['t_rw'])) {
+    $rw = "/ RW " . $data['t_rw'];
+} else {
+    $rw = "";
+}
+
+if(!empty($ar_hotel)){
+    $checklis_hotel = "<b>X</b>";
+}else{
+    $checklis_hotel = "&nbsp;";
+}
+
+if(!empty($ar_restoran)){
+    $checklis_restoran = "<b>X</b>";
+}else{
+    $checklis_restoran = "&nbsp;";
+}
+
+if(!empty($ar_hiburan)){
+    $checklis_hiburan = "<b>X</b>";
+}else{
+    $checklis_hiburan = "&nbsp;";
+}
+
+if(!empty($ar_reklame)){
+    $checklis_reklame = "<b>X</b>";
+}else{
+    $checklis_reklame = "&nbsp;";
+}
+
+if(!empty($ar_ppj)){
+    $checklis_ppj = "<b>X</b>";
+}else{
+    $checklis_ppj = "&nbsp;";
+}
+
+if(!empty($ar_minerba)){
+    $checklis_minerba = "<b>X</b>";
+}else{
+    $checklis_minerba = "&nbsp;";
+}
+
+if(!empty($ar_parkir)){
+    $checklis_parkir = "<b>X</b>";
+}else{
+    $checklis_parkir = "&nbsp;";
+}
+
+if(!empty($ar_air)){
+    $checklis_air = "<b>X</b>";
+}else{
+    $checklis_air = "&nbsp;";
+}
+
+if(!empty($ar_walet)){
+    $checklis_walet = "<b>X</b>";
+}else{
+    $checklis_walet = "&nbsp;";
+}
+?>
+
+<style>
+    body {
+/*        background: url(<?= $this->basePath() ?>/public/upload/bg-npwpd-dpn1.jpg) center center;
+        top:0px;
+        left:0px;
+        min-width:100%;
+        min-height:100%;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover; */
+        margin:auto;
+    }
+    .halaman_1 {
+        background-image: url(<?= $this->basePath() ?>/public/upload/bg-npwpd-dpn1.jpg);
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        /*background-position: 0px 0px;*/
+        /*background-repeat: repeat;*/
+        /*border: 1px solid black;*/
+        /*height: 500px;*/
+        /*width: 100%;*/
+        /*margin:0px;*/
+    }
+    .halaman_2 {
+        background-image: url(<?= $this->basePath() ?>/public/upload/bg-npwpd-blkg1.jpg);
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        /*background-position: 0px 0px;*/
+        /*background-repeat: repeat;*/
+        /*border: 1px solid black;*/
+        /*height: 500px;*/
+        /*width: 100%;*/
+        /*margin:0px;*/
+    }
+    @page{margin:0px;padding:0px;}
+</style>
+<body>
+<!--<img src="/var/www/html/simpatda_pdg_new/public/upload/bg-npwpd-dpn1.jpg" class="login-img wow fadeIn" alt="">-->
+    <div class="halaman_1" style="background: url('/var/www/html/simpatda_pdg_new/public/upload/bg-npwpd-dpn1.jpg');">
+        <table style="width: 100%;font-family:arial;padding-top: 420px;padding-bottom: 80px;padding-left: 35px;padding-right: 35px;">
+            <tr>
+                <td width="20%"><b style="font-size: 45pt;">NPWPD</b></td>
+                <td width="5%"><b style="font-size: 35pt;">:</b></td>
+                <td><b style="font-size: 45pt;"><?= $data['t_npwpd'] ?></b></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;"><b style="font-size: 35pt;">Nama</b></td>
+                <td style="vertical-align: top;"><b style="font-size: 35pt;">:</b></td>
+                <td><b style="font-size: 35pt;"><?= $data['t_nama'] ?></b></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;"><b style="font-size: 35pt;">Alamat</b></td>
+                <td style="vertical-align: top;"><b style="font-size: 35pt;">:</b></td>
+                <td><b style="font-size: 35pt;"><?= ucwords(strtolower($data['t_alamat'] . ' <br> ' . $rt . ' ' . $rw . ' ' . $data['s_namakel'] . ' <br> ' . $data['s_namakec'] . ' - ' . $data['t_kabupaten'])) ?></b></td>
+            </tr>
+        </table>
+    </div>
+    <div class="halaman_2" style="background: url('/var/www/html/simpatda_pdg_new/public/upload/bg-npwpd-blkg1.jpg');">
+        <table style="width: 100%;font-family:arial;padding-top: 450px;padding-bottom: 80px;padding-left: 35px;padding-right: 35px;font-size:25pt;">
+            <tr>
+                <td width="24%" align="right"></td>
+                <td width="5%" align="right"></td>
+                <td width="32%" align="right"></td>
+                <td width="25%" align="right"></td>
+                <td width="17%" align="left" style="font-size: 18pt;"><?=$t_tgldaftar?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?=$checklis_hotel?></td> <!-- HOTEL -->
+                <td></td>
+                <td><?=$checklis_parkir?></td> <!-- PARKIR -->
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><?=$checklis_restoran?></td> <!-- RESTORAN -->
+                <td></td>
+                <td><?=$checklis_air?></td> <!-- AIR -->
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding-top: 15px;"><?=$checklis_hiburan?></td> <!-- HIBURAN -->
+                <td></td>
+                <td rowspan="2"><?=$checklis_walet?></td> <!-- WALET -->
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding-top: 10px;"><?=$checklis_reklame?></td> <!-- REKLAME -->
+                <td></td>
+                <td></td> 
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding-top: 10px;"><?=$checklis_ppj?></td> <!-- PPJ -->
+                <td></td>
+                <td><?=$checklis_minerba?></td> <!-- MINERBA -->
+            </tr>
+        </table>
+    </div>
+</body>

@@ -1,0 +1,51 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambahjenissumber');
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Edit Faktor Jenis Sumber Air
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Jenis Sumber (Kedalaman)</label>
+                                <div class="col-md-7">
+                                    <?= $this->formHidden($frm->get('s_idsumberair')) ?>  
+                                    <?= $this->formRow($frm->get('s_jenissumber')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nilai Faktor</label>
+                                <div class="col-md-1">
+                                    <?= $this->formRow($frm->get('s_nilai')) ?>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_air', ['action'=>'indexjenissumber']) ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

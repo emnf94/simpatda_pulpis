@@ -1,0 +1,122 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Setting Rekening
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12 form-horizontal">
+                                <label class="col-sm-2 control-label">Objek Pajak</label>
+                                <div class="col-sm-5"> 
+                                    <?= $this->formHidden($frm->get('s_idkorek')) ?> 
+                                    <?= $this->formRow($frm->get('s_jenisobjek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-horizontal">
+                                <label class="col-sm-2 control-label">Kode Rekening</label>
+                                <div class="col-sm-1"> 
+                                    <?= $this->formRow($frm->get('s_tipekorek')) ?>
+                                </div>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_kelompokkorek')) ?>
+                                </div>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_jeniskorek')) ?>
+                                </div>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_objekkorek')) ?>
+                                </div>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_rinciankorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Sub 1</label>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_sub1korek')) ?>
+                                </div>
+                                <label class="col-sm-1 control-label">Sub 2</label>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_sub2korek')) ?>
+                                </div>
+                                <label class="col-sm-1 control-label">Sub 3</label>
+                                <div class="col-sm-1">
+                                    <?= $this->formRow($frm->get('s_sub3korek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Rekening</label>
+                                <div class="col-sm-6">
+                                    <?= $this->formRow($frm->get('s_namakorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Presentase</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_persentarifkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tarif Dasar</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_tarifdasarkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Volume Dasar</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_voldasarkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tarif Tambahan</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_tariftambahkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tanggal Awal Berlaku</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_tglawalkorek')) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">Tanggal Akhir Berlaku</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('s_tglakhirkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_rekening') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /* Input masks */
+    $(function() { "use strict";
+        $(".input-mask").inputmask();
+    });
+
+</script>

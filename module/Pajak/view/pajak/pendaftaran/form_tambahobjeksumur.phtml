@@ -1,0 +1,443 @@
+<?php
+$judul = '<span style="font-size: 24px;"><b>FORM SUMUR AIR TANAH [TAMBAH]</b></span>';
+$link = '<a href="' . $this->url('pendaftaran') . '/form_tambahobjek?t_idwp='.$data['t_idwp'].'" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a>  ';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<?php
+if ($this->flashMessenger()->hasMessages()) {
+    echo '<div class="alert alert-success">';
+    $messages = $this->flashMessenger()->getMessages();
+    foreach ($messages as $message) {
+        echo $message;
+    }
+    echo '</div>';
+}
+?>
+
+
+<div class="row" style="padding-bottom: 15px">
+    <div class="col-md-12">
+        <center><span style="text-align:right; background:#605ca8; color: #fff; padding: 10px 10px; font-size: 16px; font-weight:bolder"><?= $data['t_npwpd'] ?></span></center>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="box box-primary" style="border: 1px solid #0073b7;">
+        <div class="box-header" style="background-color: #337ab7;">
+            <center><h3 class="box-title" style="color: white;">DATA WAJIB PAJAK</h3></center>
+        </div>
+        <div class="box-body">
+
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Tanggal Pendaftaran</label>
+                <div class="col-md-2">
+                    : <?= $data['t_tgldaftar'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">NIK</label>
+                <div class="col-md-4">
+                    : <?= $data['t_nik'] ?>
+                </div>
+            </div>
+            <?php
+            if ($data['t_bidangusaha'] == '2') {
+                ?>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 ">Nama Badan</label>
+                    <div class="col-md-4">
+                        : <?= $data['t_nama_badan'] ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 ">Alamat Badan</label>
+                    <div class="col-md-10">
+                        <?php
+                        $kelurahan = $this->MenuHelper()->GetDataKelurahan($data['t_kelurahan_badan']);
+                        $kecamatan = $this->MenuHelper()->GetDataKecamatan($data['t_kecamatan_badan']);
+                        ?>
+                        : <?= $data['t_jalan_badan'] ?>, Rt. <?= $data['t_rt_badan'] ?>, Rw. <?= $data['t_rw_badan'] ?>, Kel./Desa <?= $kelurahan->s_namakel; ?>, Kec. <?= $kecamatan->s_namakec ?>, Kab. <?= $data['t_kabupaten_badan'] ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Nama Pemilik</label>
+                <div class="col-md-4">
+                    : <?= $data['t_nama'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Alamat Pemilik</label>
+                <div class="col-md-10">
+                    : <?= $data['t_alamat'] ?>, Rt. <?= $data['t_rt'] ?>, Rw. <?= $data['t_rw'] ?>, Kel./Desa <?= $data['s_namakel'] ?>, Kec. <?= $data['s_namakec'] ?>, Kab. <?= $data['t_kabupaten'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">No. Telp.</label>
+                <div class="col-md-3">
+                    : <?= $data['t_notelp'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Kode Pos</label>
+                <div class="col-md-3">
+                    : <?= $data['t_kodepos'] ?>
+                </div>
+            </div>
+            
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Nama Objek</label>
+                <div class="col-md-4">
+                    : <?= $data['t_namaobjek'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Jenis Pajak</label>
+                <div class="col-md-4">
+                    : <?= $data['s_namajenis'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Nama Rekening</label>
+                <div class="col-md-4">
+                    : <?= $data['s_namakorek'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Alamat Objek</label>
+                <div class="col-md-4">
+                    : <?= $data['t_alamatobjek'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Kecamatan Objek</label>
+                <div class="col-md-4">
+                    : <?= $data['s_namakec'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Kelurahan Objek</label>
+                <div class="col-md-4">
+                    : <?= $data['s_namakel'] ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="col-sm-2 ">Tanggal Daftar Objek</label>
+                <div class="col-md-4">
+                    : <?= date('d-m-Y', strtotime($data['t_tgldaftarobjek'])) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+<div class="col-md-12">
+    <div class="box box-primary" style="border: 1px solid #0073b7;">
+        <div class="box-header" style="background-color: #337ab7;">
+            <center><h3 class="box-title" style="color: white;">DATA SUMUR</h3></center>
+            <div class="pull-right">
+                <button class="btn btn-sm btn-warning" type="button" onclick="tambahobjekpajak()">
+                    <span class="fa fa-plus-circle">
+                        Tambah Sumur
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+
+            
+            <div class="col-md-12">
+                <table id="datapendaftaranopwp"  cellpadding="0" cellspacing="0" border="0" class="display" width="100%">
+                    <thead>
+                        <tr class="bg-blue" style="font-size:10pt; font: bold;">
+                            <th width="20"><center>No</center></th>
+                            <th width="20"><center>SUMUR KE</center></th>
+                            <th width="20"><center>NAMA SUMUR</center></th>
+                            <th width="30"><center>Tgl. Daftar Sumur</center></th>
+                            <th><center>Perintah</center></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th width="20"></th>
+                            <th width="20"></th>
+                            <th width="20"></th>
+                            <th width="20"></th>
+                            <th width="20"></th>
+                        </tr>
+                    </tfoot>
+                </table> 
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php
+    $idtabel = '#datapendaftaranopwp';
+    $url = $this->url().'/dataGridobjeksumur/'.$t_idwp.'';
+    $jmlkolom = 4;
+     
+    $seleksi_kolom = "'0','4'"; // '8,9'; //iki data sort di disabel
+    $pencarian_bawah = 8;
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom);?>
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+<form method="post" action="<?= $this->url(); ?>/form_tambahobjeksumur/<?= $data['t_idobjek'] ?>" id="demo-form" class="form-horizontal pad15L pad15R pad15T" data-parsley-validate="data-parsley-validate" enctype="multipart/form-data">
+<div class="modal fade" id="modalObjekPajak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b style="color: #fff;">Tambah Sumur</b></h4></center>
+            </div>
+            <div class='modal-body'>
+                <div class="col-md-12 form-horizontal">
+                    <label class="col-md-2">
+                        Sumur Ke<span style="color: red">*</span>
+                    </label>
+                    <div class="col-md-5">
+                        <input name="t_idobjek" id="t_idobjek" class="form-control" required="required" value="<?= $data['t_idobjek']; ?>" type="hidden"> 
+                        <input name="id_sumurke" id="id_sumurke" class="form-control" required="required" value="" type="hidden"> 
+                        <input name="sumur_ke" id="sumur_ke" class="form-control" required="required" value="" type="text">                    
+                    </div>
+                </div>
+                <div class="col-md-12 form-horizontal">
+                    <label class="col-md-2">
+                        Nama Sumur<span style="color: red">*</span>
+                    </label>
+                    <div class="col-md-5"><input name="nama_sumur" id="nama_sumur" class="form-control" required="required" value="" type="text">                    
+                    </div>
+                </div>
+                <div class="col-md-12 form-horizontal">
+                    <label class="col-md-2">
+                        Tgl Daftar Sumur<span style="color: red">*</span>
+                    </label>
+                    <div class="col-md-5"><input name="t_tgldaftarsumur" id="t_tgldaftarsumur" class="form-control" required="required" value="" type="text">                    
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <input name="submit" id="submit" class="btn btn-primary btn-sm" value="Simpan" type="submit">
+                    <button class='btn btn-danger btn-sm' type="button" onclick='tutupObjekPajak()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+</form>
+<script>
+    fr_tanggal("#t_tgldaftarsumur");
+    
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {t_kecamatan: $('#t_kecamatanobjek').val()}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahanobjek").html(aa.res);
+        });
+    }
+    
+    function comboRekeningsub() {
+        $.post('<?= $this->url() ?>/comboRekeningsub', {t_jenisobjek: $('#t_jenisobjek').val()}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_korekobjek").html(aa.res);
+            
+            if($('#t_jenisobjek').val() == 8){
+                document.getElementById('hidden_div').style.display = "block";
+            }else{
+                document.getElementById('hidden_div').style.display = "none";
+            }
+            
+        });
+    }
+
+    function tambahobjekpajak(a) {
+        $('#modalObjekPajak').modal('show');
+        $("#sumur_ke").val("");
+        
+    }
+    
+    function refreshpeta(){
+        var a = $("#t_latitudeobjek").val();
+        var b = $("#t_longitudeobjek").val();
+        load(a,b);
+    }    
+
+    function tutupObjekPajak() {
+        $('#modalObjekPajak').modal('hide');
+    }
+
+    function editobjekpajak(a) {
+        $.post('<?= $this->url() ?>/editobjekpajaksumur', {id_sumurke: a}, function (data) {
+            $('#modalObjekPajak').modal('show');
+            var aa = JSON.parse(data);
+            $("#t_idobjek").val(aa.t_idobjek);
+            $("#id_sumurke").val(aa.id_sumurke);
+            $("#sumur_ke").val(aa.sumur_ke);
+            $("#nama_sumur").val(aa.nama_sumur);
+            $("#t_tgldaftarsumur").val(aa.t_tgldaftarsumur);
+            
+        });
+    }
+
+    function noobjek() {
+        $.post('<?= $this->url() ?>/noobjek', {t_jenisobjek: $('#t_jenisobjek').val()}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_noobjek").val(aa.t_noobjek);
+        });
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#t_gambarobjek').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function hapusobjekpajak(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapusobjekpajak/' + a);
+        }
+        // reload page
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
+    }
+
+</script>
+<!--
+<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyDyq1l-IUYHhDWoWwF4HqTTVw-ixal-JzQ" type="text/javascript"></script> 
+-->
+<script type="text/javascript">
+    function load(a,b) {
+    //$(document).ready(function () {    
+        if (GBrowserIsCompatible()) {
+            var map = new GMap2(document.getElementById("map"));
+            map.addControl(new GSmallMapControl());
+            map.addControl(new GMapTypeControl());
+            
+            var center = new GLatLng(a, b);
+            
+            //var center = new GLatLng(-2.8927113, 103.8487738);
+            map.setCenter(center, 15);
+            geocoder = new GClientGeocoder();
+            var marker = new GMarker(center, {draggable: true});
+            map.addOverlay(marker);
+            //document.getElementById("t_latitudeobjek").innerHTML = center.lat().toFixed(5);
+            //document.getElementById("t_longitudeobjek").innerHTML = center.lng().toFixed(5);
+            $("#t_latitudeobjek").val(center.lat().toFixed(5));
+            $("#t_longitudeobjek").val(center.lng().toFixed(5));
+            
+
+            GEvent.addListener(marker, "dragend", function () {
+                var point = marker.getPoint();
+                map.panTo(point);
+                //document.getElementById("t_latitudeobjek").innerHTML = point.lat().toFixed(5);
+                //document.getElementById("t_longitudeobjek").innerHTML = point.lng().toFixed(5);
+                $("#t_latitudeobjek").val(point.lat().toFixed(5));
+                $("#t_longitudeobjek").val(point.lng().toFixed(5));
+            });
+
+
+            GEvent.addListener(map, "moveend", function () {
+                map.clearOverlays();
+                var center = map.getCenter();
+                var marker = new GMarker(center, {draggable: true});
+                map.addOverlay(marker);
+                //document.getElementById("t_latitudeobjek").innerHTML = center.lat().toFixed(5);
+                //document.getElementById("t_longitudeobjek").innerHTML = center.lng().toFixed(5);
+                $("#t_latitudeobjek").val(center.lat().toFixed(5));
+                $("#t_longitudeobjek").val(center.lng().toFixed(5));
+
+                GEvent.addListener(marker, "dragend", function () {
+                    var point = marker.getPoint();
+                    map.panTo(point);
+                    //document.getElementById("t_latitudeobjek").innerHTML = point.lat().toFixed(5);
+                    //document.getElementById("t_longitudeobjek").innerHTML = point.lng().toFixed(5);
+                    $("#t_latitudeobjek").val(point.lat().toFixed(5));
+                    $("#t_longitudeobjek").val(point.lng().toFixed(5));
+                });
+
+            });
+
+        }
+    }
+    //});
+    
+    //GUnload();
+
+    function showAddress(address) {
+        var map = new GMap2(document.getElementById("map"));
+        map.addControl(new GSmallMapControl());
+        map.addControl(new GMapTypeControl());
+        if (geocoder) {
+            geocoder.getLatLng(
+                    address,
+                    function (point) {
+                        if (!point) {
+                            alert(address + " not found");
+                        } else {
+                            //document.getElementById("t_latitudeobjek").innerHTML = point.lat().toFixed(5);
+                            //document.getElementById("t_longitudeobjek").innerHTML = point.lng().toFixed(5);
+                            $("#t_latitudeobjek").val(point.lat().toFixed(5));
+                            $("#t_longitudeobjek").val(point.lng().toFixed(5));
+                            map.clearOverlays()
+                            map.setCenter(point, 14);
+                            var marker = new GMarker(point, {draggable: true});
+                            map.addOverlay(marker);
+
+                            GEvent.addListener(marker, "dragend", function () {
+                                var pt = marker.getPoint();
+                                map.panTo(pt);
+                                //document.getElementById("t_latitudeobjek").innerHTML = pt.lat().toFixed(5);
+                                //document.getElementById("t_longitudeobjek").innerHTML = pt.lng().toFixed(5);
+                                $("#t_latitudeobjek").val(pt.lat().toFixed(5));
+                                $("#t_longitudeobjek").val(pt.lng().toFixed(5));
+                            });
+
+
+                            GEvent.addListener(map, "moveend", function () {
+                                map.clearOverlays();
+                                var center = map.getCenter();
+                                var marker = new GMarker(center, {draggable: true});
+                                map.addOverlay(marker);
+                                //document.getElementById("t_latitudeobjek").innerHTML = center.lat().toFixed(5);
+                                //document.getElementById("t_longitudeobjek").innerHTML = center.lng().toFixed(5);
+                                $("#t_latitudeobjek").val(center.lat().toFixed(5));
+                                $("#t_longitudeobjek").val(center.lng().toFixed(5));
+
+                                GEvent.addListener(marker, "dragend", function () {
+                                    var pt = marker.getPoint();
+                                    map.panTo(pt);
+                                    //document.getElementById("t_latitudeobjek").innerHTML = pt.lat().toFixed(5);
+                                    //document.getElementById("t_longitudeobjek").innerHTML = pt.lng().toFixed(5);
+                                    $("#t_latitudeobjek").val(pt.lat().toFixed(5));
+                                    $("#t_longitudeobjek").val(pt.lng().toFixed(5));
+                                    
+                                });
+
+                            });
+                        }
+                    }
+            );
+        }
+    }
+</script>

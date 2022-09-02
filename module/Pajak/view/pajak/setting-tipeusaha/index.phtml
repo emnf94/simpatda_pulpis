@@ -1,0 +1,136 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Setting Tipe Usaha
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <a href="<?= $this->url() ?>/tambah" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Tambah</a>
+                    <button class="btn btn-warning btn-sm" onclick="cetakdaftartipeusaha();">
+                        <span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;Cetak Daftar Tipe Usaha
+                    </button>
+                    <div class="row" style="overflow: auto">
+                        <table class="table table-striped table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                            <thead class="cf" style="background-color: blue">
+                                <tr class="bg-blue">
+                                    <th style="background-color: #00BCA4; color: white; text-align: center; width: 7%">
+                                        No.
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center; width: 13%">
+                                        Kode Usaha
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center;">
+                                        Nama Usaha
+                                    </th>
+                                    <th style="width: 18%; background-color: #00BCA4; color: white; text-align: center">
+                                        #
+                                    </th>
+                                </tr>
+                                <tr class="bg-default">
+                                    <td></td>
+                                    <td><input type="text" id="t_kdusaha_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                                    <td><input type="text" id="t_namausaha_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="body_grid">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-3 text-left">
+                                                <span class="hiddene">
+                                                    <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid(1)">
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-6" style="text-align: center">
+                                                <center>
+                                                    <div id="paginatore"></div>
+                                                    <input type="hidden" id="page" value="1">
+                                                </center>
+                                            </div>
+                                            <div class="col-sm-3 text-right">
+                                                <span class="hiddene">
+                                                    <p>
+                                                        <b style="font-size: 13px; color: orangered"><span id="awaldata"></span> s/d <span id="akhirdata"></span> Dari <span id="total_data"></span> Data</b>
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        calldatagrid();
+    });
+
+    function calldatagrid(direction) {
+        datagrid($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function datagrid(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGrid/' + page + '/' + row + '/' + direction, {
+            kdusaha: $('#t_kdusaha_cari_0').val(),
+            namausaha: $('#t_namausaha_cari_0').val()
+        }, function(data) {
+            var aa = JSON.parse(data)
+            $("#body_grid").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+            $("#paginatore").html(aa.paginatore);
+            $("#awaldata").html(aa.awaldata);
+            $("#akhirdata").html(aa.akhirdata);
+        });
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function() {
+            calldatagrid();
+        }, 500);
+    }
+
+    function cetakdaftartipeusaha() {
+        window.open('<?= $this->url() ?>/cetakdaftartipeusaha');
+    }
+</script>
+
+<style type="text/css">
+    .combooperatorc select {
+        border: 0 !important;
+        /*Removes border*/
+        -webkit-appearance: none;
+        /*Removes default chrome and safari style*/
+        -moz-appearance: none;
+        /* Removes Default Firefox style*/
+        appearance: none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px;
+        /* Removes default arrow from firefox*/
+        color: #FFF;
+    }
+</style>

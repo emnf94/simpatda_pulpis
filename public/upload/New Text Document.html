@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DATA Pengaduan</title>
+    <style>
+
+        table{
+
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 1285;
+            font-size: 9pt;
+            table-layout: fixed;
+            padding : 0px;
+        }
+        th{
+        border-collapse: collapse;
+        text-align:center;
+        }
+        tr,td{
+
+            border-collapse: collapse;
+        }
+
+        @page{
+            page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        margin: 10mm auto;
+        background: white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        h4 {
+            text-align:center
+            padding-bottom:0px;
+        }
+
+    </style>
+
+</head>
+<body>
+<table border="0" width="100%" >
+    <tr>
+        <th colspan="5" style="border-bottom: 2px solid #000;">
+            <img th:src="@{classpath:static/images/mpu.png}" style="width:60px;"/>
+        </th>
+        <th colspan="14" style="border-bottom: 2px solid #000;">
+        <p>BADAN PENGELOLAAN PENDAPATAN KEUANGAN DAN ASET DAERAH KABUPATEN MPU<br>
+            JL.pahlawan no.28 rempoa ciputat
+            Tangerang Selatan
+            Banten (15412)</p>
+        </th>
+        <th colspan="5" style="border-bottom: 2px solid #000;"></th>
+    </tr>
+    <tr>
+        <td colspan="24">
+            <center>
+                <h4><u>SURAT KETERANGAN</u>
+                </h4>
+            </center>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="24">
+            <p th:text="'Yang bertanda tangan dibawah ini menerangkan bahwa pada tanggal '
+               +${pengaduanList.tanggalDaftar}+' jam '+${pengaduanList.jamDaftar}
+               +' telah melaporkan pengaduan kepada Badan Pengelolaan Pendapatan dan Aset Daerah'"></p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" >NIK </p></td>
+        <td>:</td>
+        <td colspan="17" th:text="${pengaduanList.nikPengadu}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6" >Nama </p></td>
+        <td>:</td>
+        <td colspan="17" th:text="${pengaduanList.namaPengadu}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6" >Alamat</td>
+        <td>:</td>
+        <td colspan="17" th:text="${pengaduanList.alamatPengadu}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6" >No.Tlp </p></td>
+        <td>:</td>
+        <td colspan="17"  th:text="${pengaduanList.noTeleponPengadu}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6">E-mail </p></td>
+        <td>:</td>
+        <td colspan="17" th:text="${pengaduanList.emailPengadu}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="24">
+            <p th:text="'Dengan detail pengaduan sebagai berikut :'">
+                '</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" >Jenis Pengaduan </p></td>
+        <td>:</td>
+        <td colspan="17"  th:text="${pengaduanList.namaJenisPengaduan}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6" >Jenis Pajak </p></td>
+        <td>:</td>
+        <td colspan="17"  th:text="${pengaduanList.jenisPajak}"></td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="6"> Isi Pengaduan </p></td>
+        <td>:</td>
+        <td colspan="17"  th:text="${pengaduanList.isiAduan}"></td>
+    </tr>
+
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+        <td colspan="24" >&nbsp</td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+</body>
+</html>

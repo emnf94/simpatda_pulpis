@@ -1,0 +1,1934 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-family:monospace;font-size:12pt;font-weight: bold;">
+                    PEMBUKUAN DAN PELAPORAN
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseZero">
+                                        Laporan Realisasi PAD
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseZero" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <!-- <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pilihan Data
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+
+                                                <select id="jenispad" class="form-control">
+                                                    <option value="1">Pendataan Dan Pelayanan</option>
+                                                    <option value="2">Setoran Lain</option>
+                                                    <option value="3">Semua</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Anggaran Realisasi
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+
+                                                <select id="anggaran_realisasi" class="form-control">
+                                                    <?php foreach ($data_anggaran as $col => $row) : ?>
+                                                        <option value="<?= $row['s_idtarget'] ?>"><?= $row['s_keterangantarget'] ?> (<?= $row['s_tahuntarget'] ?>)</option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Pembayaran
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglpembayaran_real0" id="tglpembayaran_real0" value="<?= date('01-01-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1 control-label">
+                                            S/D
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglpembayaran_real1" id="tglpembayaran_real1" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakrealisasi" id="tglcetakrealisasi" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_pad0" id="idpejabat_pad0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_pad1" id="idpejabat_pad1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Format Cetakan
+                                        </label>
+                                        <div class="col-md-2">
+                                            <select name="formatcetak" id="formatcetak" class="form-control">
+                                                <option value="pdf">PDF</option>
+                                                <option value="excel">EXCEL</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-md btn-success pull-left" title="" onclick="cetakrealisasiPDF()"><i class="glyph-icon icon-print"></i> CETAK</a>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+
+                                        <!-- <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakrealisasiXLS()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div> -->
+                                        <script type="text/javascript">
+                                            function cetakrealisasiPDF() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasi?tglcetak=' + $("#tglcetakrealisasi").val() +
+                                                    '&s_idtarget=' + $('#anggaran_realisasi').val() +
+                                                    '&tglawal=' + $('#tglpembayaran_real0').val() +
+                                                    '&tglakhir=' + $('#tglpembayaran_real1').val() +
+                                                    '&mengetahui=' + $('#idpejabat_pad0').val() +
+                                                    '&diperiksa=' + $('#idpejabat_pad1').val() +
+                                                    '&cetakan=1' +
+                                                    '&jenispad=' + $('#jenispad').val() +
+                                                    '&formatcetak=' + $("#formatcetak").val());
+                                            }
+
+                                            function cetakrealisasiXLS() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasi?tglcetak=' + $("#tglcetakrealisasi").val() +
+                                                    '&s_idtarget=' + $('#anggaran_realisasi').val() +
+                                                    '&tglawal=' + $('#tglpembayaran_real0').val() +
+                                                    '&tglakhir=' + $('#tglpembayaran_real1').val() +
+                                                    '&mengetahui=' + $('#idpejabat_pad0').val() +
+                                                    '&diperiksa=' + $('#idpejabat_pad1').val() +
+                                                    '&cetakan=2' +
+                                                    '&formatcetak=' + $("#formatcetak").val());
+                                            }
+                                            //                                            function cetakrealisasiexcel() {
+                                            //                                                window.open('<?= $this->url() ?>/cetakrealisasiexcel?tglcetak=' + $("#tglcetakrealisasi").val() + '&s_idtarget=' + $('#anggaran_realisasi').val() + '&tglawal=' + $('#tglpembayaran_real0').val() + '&tglakhir=' + $('#tglpembayaran_real1').val() + '&mengetahui=' + $('#idpejabat_pad0').val() + '&diperiksa=' + $('#idpejabat_pad1').val());
+                                            //                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        Laporan Realisasi PAD / Lokasi Objek
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="perioderealisasiobjek" id="perioderealisasiobjek" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Kecamatan
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select name="t_kecamatanrealisasiobjek" id="t_kecamatanrealisasiobjek" onchange="comboKelurahanCamatRealisasiObjek()" class="form-control">
+                                                <option value="">Semua Kecamatan</option>
+                                                <?php foreach ($ar_kecamatan as $row) { ?>
+                                                    <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Kelurahan/Desa
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select name="t_kelurahanrealisasiobjek" id="t_kelurahanrealisasiobjek" class="form-control">
+                                                <option value="">Semua Kelurahan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakrealisasiobjek" id="tglcetakrealisasiobjek" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_realobjek0" id="idpejabat_realobjek0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_realobjek1" id="idpejabat_realobjek1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakrealisasiobjek()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakrealisasiobjekexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $('#perioderealisasiobjek').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetakrealisasiobjek() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasiobjek?tglcetak=' + $("#tglcetakrealisasiobjek").val() +
+                                                    "&perioderealisasiobjek=" + $("#perioderealisasiobjek").val() +
+                                                    "&t_kecamatanrealisasiobjek=" + $("#t_kecamatanrealisasiobjek").val() +
+                                                    "&t_kelurahanrealisasiobjek=" + $("#t_kelurahanrealisasiobjek").val() +
+                                                    "&diperiksa=" + $("#idpejabat_realobjek0").val() +
+                                                    "&mengetahui=" + $("#idpejabat_realobjek1").val() +
+                                                    "&formatcetak=pdf");
+                                            }
+
+                                            function cetakrealisasiobjekexcel() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasiobjek?tglcetak=' + $("#tglcetakrealisasiobjek").val() +
+                                                    "&perioderealisasiobjek=" + $("#perioderealisasiobjek").val() +
+                                                    "&t_kecamatanrealisasiobjek=" + $("#t_kecamatanrealisasiobjek").val() +
+                                                    "&t_kelurahanrealisasiobjek=" + $("#t_kelurahanrealisasiobjek").val() +
+                                                    "&diperiksa=" + $("#idpejabat_realobjek0").val() +
+                                                    "&mengetahui=" + $("#idpejabat_realobjek1").val() +
+                                                    "&formatcetak=excel");
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapsePerjenis">
+                                        Laporan Realisasi Per Jenis Pajak
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapsePerjenis" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="perioderealperjenis" id="perioderealperjenis" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Anggaran Realisasi
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+
+                                                <select id="anggaran_realperjenis" class="form-control">
+                                                    <?php foreach ($data_anggaran as $col => $row) : ?>
+                                                        <option value="<?= $row['s_idtarget'] ?>"><?= $row['s_keterangantarget'] ?> (<?= $row['s_tahuntarget'] ?>)</option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Jenis Pungutan
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <select id="jenispungut_realperjenis" class="form-control">
+                                                    <!-- <option value="">-- ALL --</option> -->
+                                                    <option value="Pajak">01 || PAJAK</option>
+                                                    <!-- <option value="Retribusi">02 || RETRIBUSI</option> -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakrealperjenis" id="tglcetakrealperjenis" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_realperjenis0" id="idpejabat_realperjenis0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_realperjenis1" id="idpejabat_realperjenis1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakrealisasiperjenis()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakrealisasiperjenisexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $('#perioderealperjenis').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetakrealisasiperjenis() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasiperjenis?tglcetak=' + $("#tglcetakrealperjenis").val() +
+                                                    "&periode=" + $("#perioderealperjenis").val() +
+                                                    "&targetanggaran=" + $("#anggaran_realperjenis").val() +
+                                                    "&jenispungutan=" + $("#jenispungut_realperjenis").val() +
+                                                    "&diperiksa=" + $("#idpejabat_realperjenis0").val() +
+                                                    "&mengetahui=" + $("#idpejabat_realperjenis1").val() +
+                                                    "&formatcetak=pdf");
+                                            }
+
+                                            function cetakrealisasiperjenisexcel() {
+                                                window.open('<?= $this->url() ?>/cetakrealisasiperjenis?tglcetak=' + $("#tglcetakrealperjenis").val() +
+                                                    "&periode=" + $("#perioderealperjenis").val() +
+                                                    "&targetanggaran=" + $("#anggaran_realperjenis").val() +
+                                                    "&jenispungutan=" + $("#jenispungut_realperjenis").val() +
+                                                    "&diperiksa=" + $("#idpejabat_realperjenis0").val() +
+                                                    "&mengetahui=" + $("#idpejabat_realperjenis1").val() +
+                                                    "&formatcetak=excel");
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseRegister">
+                                        Register Transaksi Pajak
+                                        <!-- /Retribusi -->
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseRegister" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                            <!-- /Retribusi -->
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='jenisobjregister' id='jenisobjregister'>
+                                                <option value="">Pilih Semua </option>
+                                                <?php foreach ($dataobjek as $row) { ?>
+                                                    <option value='<?= $row['s_idjenis'] ?>'><?= $row['s_namajenis'] ?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Pendataan
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglpendataanregister0" id="tglpendataanregister0" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1 control-label">
+                                            S/D
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglpendataanregister1" id="tglpendataanregister1" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakregister" id="tglcetakregister" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Status Pembayaran
+                                        </label>
+                                        <div class="col-md-3">
+                                            <select name="t_statusbayar" id="t_statusbayar" class="form-control">
+                                                <option value="">Pilih Semua</option>
+                                                <option value="1">01 || Belum Bayar</option>
+                                                <option value="2">02 || Sudah Bayar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_register0" id="idpejabat_register0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_register1" id="idpejabat_register1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakregister()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakregisterexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script>
+                                            function cetakregister() {
+                                                window.open('<?= $this->url() ?>/cetakregisterpajak?tglcetak=' + $("#tglcetakregister").val() + "&s_idjenis=" + $("#jenisobjregister").val() + "&tglinput0=" + $('#tglpendataanregister0').val() + "&tglinput1=" + $('#tglpendataanregister1').val() + "&t_statusbayar=" + $("#t_statusbayar").val() + "&diperiksa=" + $("#idpejabat_register0").val() + "&mengetahui=" + $("#idpejabat_register1").val() + "&formatcetak=pdf");
+                                            }
+
+                                            function cetakregisterexcel() {
+                                                window.open('<?= $this->url() ?>/cetakregisterpajak?tglcetak=' + $("#tglcetakregister").val() + "&s_idjenis=" + $("#jenisobjregister").val() + "&tglinput0=" + $('#tglpendataanregister0').val() + "&tglinput1=" + $('#tglpendataanregister1').val() + "&t_statusbayar=" + $("#t_statusbayar").val() + "&diperiksa=" + $("#idpejabat_register0").val() + "&mengetahui=" + $("#idpejabat_register1").val() + "&formatcetak=excel");
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                        Rekapitulasi Ketetapan dan Setoran / Tahun
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodeketset" id="periodeketset" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='jenisobjketset' id='jenisobjketset' onchange="selectRekeningKetSet(this)">
+                                                <option value="">Pilih Semua</option>
+                                                <?php foreach ($dataobjek as $row) { ?>
+                                                    <option value='<?= $row['s_idjenis'] ?>'><?= $row['s_namajenis'] ?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Rekening
+                                        </label>
+                                        <div class='col-md-4' id="divkorekketset">
+                                            <select class='form-control' name='korekketset' id='korekketset'>
+                                                <option value="">Semua Rekening</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakketset" id="tglcetakketset" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_ketset0" id="idpejabat_ketset0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_ketset1" id="idpejabat_ketset1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakketset()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakketsetexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script>
+                                            $('#periodeketset').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetakketset() {
+
+                                                window.open('<?= $this->url() ?>/cetakketset?tglcetak=' + $("#tglcetakketset").val() + "&periodeketset=" + $("#periodeketset").val() + "&jenisobj=" + $("#jenisobjketset").val() + "&korekid=" + $('#korekketset').val() + "&diperiksa=" + $("#idpejabat_ketset0").val() + "&mengetahui=" + $("#idpejabat_ketset1").val() + "&formatcetak=pdf");
+                                            }
+
+                                            function cetakketsetexcel() {
+                                                window.open('<?= $this->url() ?>/cetakketset?tglcetak=' + $("#tglcetakketset").val() + "&periodeketset=" + $("#periodeketset").val() + "&jenisobj=" + $("#jenisobjketset").val() + "&korekid=" + $('#korekketset').val() + "&diperiksa=" + $("#idpejabat_ketset0").val() + "&mengetahui=" + $("#idpejabat_ketset1").val() + "&formatcetak=excel");
+                                            }
+
+                                            function selectRekeningKetSet(obj) {
+                                                var selectedJenis = $(obj).val();
+                                                $.post('<?= $this->url() ?>/selectRekeningJenis', {
+                                                    jenis: selectedJenis
+                                                }, function(data) {
+                                                    var res = JSON.parse(data);
+                                                    $('#divkorekketset').html(res.rekening);
+                                                });
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                        Data Transaksi Objek / Masa Pajak
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Masa Pajak Awal
+                                        </label>
+                                        <div class='col-md-9'>
+                                            <select multiple class='multi-select' name='' id='masaawaltrans'>
+                                                <option value="01">Januari</option>
+                                                <option value="02">Februari</option>
+                                                <option value="03">Maret</option>
+                                                <option value="04">April</option>
+                                                <option value="05">Mei</option>
+                                                <option value="06">Juni</option>
+                                                <option value="07">Juli</option>
+                                                <option value="08">Agustus</option>
+                                                <option value="09">September</option>
+                                                <option value="10">Oktober</option>
+                                                <option value="11">November</option>
+                                                <option value="12">Desember</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodetrans" id="periodetrans"  value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='jenisobjtrans' id='jenisobjtrans'>
+                                                <option value="">Silahkan Pilih</option>
+                        <?php
+                        foreach ($dataobjek as $row) {
+                            echo "<option value='" . $row['s_idjenis'] . "'>" . $row['s_namajenis'] . "</option>";
+                        }
+                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetaktrans" id="tglcetaktrans"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'> 
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetaktransmasa()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetaktransmasaexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function cetaktransmasa() {
+                                                window.open('<?= $this->url() ?>/cetaktransmasa?tglcetak=' + $("#tglcetaktrans").val() + "&masaawaltrans=" + $("#masaawaltrans").val() + "&periodetrans=" + $("#periodetrans").val() + "&jenisobjtrans=" + $("#jenisobjtrans").val());
+                                            }
+                                            function cetaktransmasaexcel() {
+                                                window.open('<?= $this->url() ?>/cetaktransmasaexcel?tglcetak=' + $("#tglcetaktrans").val() + "&masaawaltrans=" + $("#masaawaltrans").val() + "&periodetrans=" + $("#periodetrans").val() + "&jenisobjtrans=" + $("#jenisobjtrans").val());
+                                            }
+                                        </script>
+                                    </div>              
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                        Daftar Transaksi Objek Pajak / Masa Pajak
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodetrans" id="periodetrans" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Masa Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='' id='masaawaltrans'>
+                                                <option value="">Silahkan Pilih</option>
+                                                <option value="01">01 || Januari</option>
+                                                <option value="02">02 || Februari</option>
+                                                <option value="03">03 || Maret</option>
+                                                <option value="04">04 || April</option>
+                                                <option value="05">05 || Mei</option>
+                                                <option value="06">06 || Juni</option>
+                                                <option value="07">07 || Juli</option>
+                                                <option value="08">08 || Agustus</option>
+                                                <option value="09">09 || September</option>
+                                                <option value="10">10 || Oktober</option>
+                                                <option value="11">11 || November</option>
+                                                <option value="12">12 || Desember</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='jenisobjtrans' id='jenisobjtrans' onchange="selectRekeningObjTrans(this)">
+                                                <option value="">Semua Pajak</option>
+                                                <?php
+                                                foreach ($dataobjek as $row) {
+                                                    echo "<option value='" . $row['s_idjenis'] . "'>" . str_pad($row['s_idjenis'], 2, "0", STR_PAD_LEFT) . " || " . $row['s_namajenis'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Rekening
+                                        </label>
+                                        <div class='col-md-4' id="divkorekobjtrans">
+                                            <select class='form-control' name='korekobjtrans' id='korekobjtrans'>
+                                                <option value="">Semua Rekening</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetaktrans" id="tglcetaktrans" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_trans0" id="idpejabat_trans0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Diperiksa Oleh
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_trans1" id="idpejabat_trans1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetaktransmasa()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetaktransmasaexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $('#periodetrans').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetaktransmasa() {
+                                                if ($("#masaawaltrans").val() == "") {
+                                                    alert('Silahkan Pilih Masa Pajak');
+                                                } else {
+                                                    window.open('<?= $this->url() ?>/cetaktransmasa?tglcetak=' + $("#tglcetaktrans").val() + "&masaawaltrans=" + $("#masaawaltrans").val() + "&periodetrans=" + $("#periodetrans").val() + "&jenisobjtrans=" + $("#jenisobjtrans").val() + '&mengetahui=' + $('#idpejabat_trans0').val() + '&diperiksa=' + $('#idpejabat_trans1').val() + '&korekobjtrans=' + $('#korekobjtrans').val() + '&formatcetak=' + "pdf");
+                                                }
+                                            }
+
+                                            function cetaktransmasaexcel() {
+                                                if ($("#masaawaltrans").val() == "") {
+                                                    alert('Silahkan Pilih Masa Pajak');
+                                                } else {
+                                                    window.open('<?= $this->url() ?>/cetaktransmasa?tglcetak=' + $("#tglcetaktrans").val() + "&masaawaltrans=" + $("#masaawaltrans").val() + "&periodetrans=" + $("#periodetrans").val() + "&jenisobjtrans=" + $("#jenisobjtrans").val() + '&mengetahui=' + $('#idpejabat_trans0').val() + '&diperiksa=' + $('#idpejabat_trans1').val() + '&korekobjtrans=' + $('#korekobjtrans').val() + '&formatcetak=' + "excel");
+                                                }
+                                            }
+
+                                            function selectRekeningObjTrans(obj) {
+                                                var selectedJenis = $(obj).val();
+                                                $.post('<?= $this->url() ?>/selectRekeningJenisTrans', {
+                                                    jenis: selectedJenis
+                                                }, function(data) {
+                                                    var res = JSON.parse(data);
+                                                    $('#divkorekobjtrans').html(res.rekening);
+                                                });
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseDimuka">
+                                        Daftar Pendapatan Diterima Dimuka
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseDimuka" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodedimuka" id="periodedimuka"  value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select class='form-control' name='jenisobjdimuka' id='jenisobjdimuka' onchange="selectRekeningObjDimuka(this)">
+                                                <option value="">Silahkan Pilih</option>
+                        <?php
+                        foreach ($dataobjek as $row) {
+                            echo "<option value='" . $row['s_idjenis'] . "'>" . str_pad($row['s_idjenis'], 2, "0", STR_PAD_LEFT) . " || " . $row['s_namajenis'] . "</option>";
+                        }
+                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Rekening
+                                        </label>
+                                        <div class='col-md-4' id="divkorekobjdimuka">
+                                            <select class='form-control' name='korekobjdimuka' id='korekobjdimuka'>
+                                                <option value="">Semua Rekening</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakdimuka" id="tglcetakdimuka"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_dimuka0" id="idpejabat_dimuka0" class="form-control">
+                        <?php foreach ($ar_pejabat as $row) : ?>
+                                                                <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                        <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Diperiksa Oleh
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_dimuka1" id="idpejabat_dimuka1" class="form-control">
+                        <?php foreach ($ar_pejabat as $row) : ?>
+                                                                <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                        <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'> 
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpenddimuka()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpenddimukaexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function cetakpenddimuka() {
+                                                window.open('<?= $this->url() ?>/cetakpenddimuka?tglcetak=' + $("#tglcetakdimuka").val() + "&periodedimuka=" + $("#periodedimuka").val() + "&jenisobjdimuka=" + $("#jenisobjdimuka").val() + '&mengetahui=' + $('#idpejabat_dimuka0').val() + '&diperiksa=' + $('#idpejabat_dimuka1').val() + '&korekobjdimuka=' + $('#korekobjdimuka').val());
+                                            }
+                                            function cetakpenddimukaexcel() {
+                                                window.open('<?= $this->url() ?>/cetakpenddimukaexcel?tglcetak=' + $("#tglcetakdimuka").val() + "&periodedimuka=" + $("#periodedimuka").val() + "&jenisobjdimuka=" + $("#jenisobjdimuka").val() + '&mengetahui=' + $('#idpejabat_dimuka0').val() + '&diperiksa=' + $('#idpejabat_dimuka1').val() + '&korekobjdimuka=' + $('#korekobjdimuka').val());
+                                            }
+                                            function selectRekeningObjDimuka(obj) {
+                                                var selectedJenis = $(obj).val();
+                                                $.post('<?= $this->url() ?>/selectRekeningJenisDimuka', {jenis: selectedJenis}, function (data) {
+                                                    var res = JSON.parse(data);
+                                                    $('#divkorekobjdimuka').html(res.rekening);
+                                                });
+                                            }
+                                            
+                                        </script>
+                                    </div>              
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                                        Buku Wajib Pajak / Belum Bayar
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode Pajak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodepajakbukuwp" id="periodepajakbukuwp" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            NPWPD
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="npwpdbukuwp" id="npwpdbukuwp" readonly>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="javascript:void(0)" onclick="cariwp()" class="btn btn-sm btn-primary"><span class="glyph-icon icon-search"></span> Cari</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Objek Pajak
+                                        </label>
+                                        <div class='col-md-5'>
+                                            <select name="jenisobjbukuwp" id="jenisobjbukuwp" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakbukuwp" id="tglcetakbukuwp" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="idpejabat_bukuwp" id="idpejabat_bukuwp" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-9">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakbukuwp()" style="margin-right:10px"><i class="glyph-icon icon-print"></i> BUKU WP</a>
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakbelumbayar()"><i class="glyph-icon icon-print"></i> BELUM BAYAR</a>
+                                        </div>
+                                        <!-- <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakbukuwpexcel()"><i class="glyph-icon icon-file-excel-o"></i> Excel</a>
+                                        </div> -->
+                                        <script>
+                                            $('#periodepajakbukuwp').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetakbukuwp() {
+                                                window.open('<?= $this->url() ?>/cetakbukuwp?tglcetak=' + $("#tglcetakbukuwp").val() + "&periodepajakbukuwp=" + $("#periodepajakbukuwp").val() + "&jenisobjbukuwp=" + $("#jenisobjbukuwp").val());
+                                            }
+
+                                            function cetakbelumbayar() {
+                                                window.open('<?= $this->url() ?>/cetakbelumbayar?tglcetak=' + $("#tglcetakbukuwp").val() + "&periodepajakbukuwp=" + $("#periodepajakbukuwp").val() + "&jenisobjbukuwp=" + $("#jenisobjbukuwp").val() + "&mengetahui=" + $("#idpejabat_bukuwp").val());
+                                            }
+
+                                            function cetakbukuwpexcel() {
+                                                window.open('<?= $this->url() ?>/cetakbukuwpexcel?tglcetak=' + $("#tglcetakbukuwp").val() + "&periodepajakbukuwp=" + $("#periodepajakbukuwp").val() + "&jenisobjbukuwp=" + $("#jenisobjbukuwp").val());
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                                        Daftar Piutang
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Piutang Tahun
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="periodepiutang" id="periodepiutang" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class='col-md-3 control-label'>
+                                            Jenis Pajak
+                                        </label>
+                                        <div class='col-md-4'>
+                                            <select name='jenisobjpiutang' id='jenisobjpiutang' class="form-control">
+                                                <option value="">Semua Pajak</option>
+                                                <?php
+                                                foreach ($dataobjek as $row) {
+                                                    echo "<option value='" . $row['s_idjenis'] . "'>" . $row['s_namajenis'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Kecamatan
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select name="t_kecamatanpiutang" id="t_kecamatanpiutang" onchange="comboKelurahanCamatPiutang()" class="form-control">
+                                                <option value="">Semua Kecamatan</option>
+                                                <?php foreach ($ar_kecamatan as $row) { ?>
+                                                    <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Kelurahan/Desa
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select name="t_kelurahanpiutang" id="t_kelurahanpiutang" class="form-control">
+                                                <option value="">Pilih Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetakpiutang" id="tglcetakpiutang" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpiutang()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpiutangexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $('#periodepiutang').bsdatepicker({
+                                                autoclose: true,
+                                                format: " yyyy",
+                                                viewMode: "years",
+                                                minViewMode: "years",
+                                                maxDate: new Date(),
+                                            });
+
+                                            function cetakpiutang() {
+                                                window.open('<?= $this->url() ?>/cetakpiutang?tglcetakpiutang=' + $("#tglcetakpiutang").val() + "&t_kecamatanpiutang=" + $("#t_kecamatanpiutang").val() + "&t_kelurahanpiutang=" + $("#t_kelurahanpiutang").val() + "&jenisobjpiutang=" + $("#jenisobjpiutang").val() + "&periodepiutang=" + $("#periodepiutang").val());
+                                            }
+
+                                            function cetakpiutangexcel() {
+                                                window.open('<?= $this->url() ?>/cetakpiutangexcel?tglcetakpiutang=' + $("#tglcetakpiutang").val() + "&t_kecamatanpiutang=" + $("#t_kecamatanpiutang").val() + "&t_kelurahanpiutang=" + $("#t_kelurahanpiutang").val() + "&jenisobjpiutang=" + $("#jenisobjpiutang").val() + "&periodepiutang=" + $("#periodepiutang").val());
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                                        Buku Kas Umum
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse8" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tahun
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="tahun" id="tahun_bku" value="<?= date('Y') ?>" data-date-format="yyyy" data-date-viewmode="years" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Bulan
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <select id="bulan_bku" class="form-control">
+                                                    <?php
+                                                    $bulan_text = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                                    for ($i = 1; $i <= 12; $i++) :
+                                                    ?>
+                                                        <option value="<?= $i ?>"><?= $bulan_text[$i - 1] ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pej_bku0" id="pej_bku0" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Diperiksa Oleh
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pej_bku1" id="pej_bku1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakbku()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakbkuexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function cetakbku() {
+                                                window.open('<?= $this->url() ?>/cetakbku?bulan=' + $("#bulan_bku").val() + "&tahun=" + $("#tahun_bku").val() + '&mengetahui=' + $('#pej_bku0').val() + '&diperiksa=' + $('#pej_bku1').val());
+                                            }
+
+                                            function cetakbkuexcel() {
+                                                window.open('<?= $this->url() ?>/cetakbkuexcel?bulan=' + $("#bulan_bku").val() + "&tahun=" + $("#tahun_bku").val() + '&mengetahui=' + $('#pej_bku0').val() + '&diperiksa=' + $('#pej_bku1').val());
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+                                        Buku Besar Pembantu(BBP)
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse9" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Penyetoran
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tgl1" id="tgl1" value="<?= date('d-m-Y') ?>" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            S/D
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tgl2" id="tgl2" value="<?= date('d-m-Y') ?>" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Via Setor
+                                        </label>
+                                        <div class="col-md-4">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <select id="viasetor_bpps" class="form-control">
+                                                    <option value="">Semua Via Setor</option>
+                                                    <option value="1">Bendahara Penerima</option>
+                                                    <option value="2">Bank</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakbpps()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakbppsexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function cetakbpps() {
+                                                window.open('<?= $this->url() ?>/cetakbpps?tgl1=' + $("#tgl1").val() + "&tgl2=" + $("#tgl2").val() + '&mengetahui=' + $('#pej_bpps0').val() + '&diperiksa=' + $('#pej_bpps1').val() + '&viapembayaran=' + $('#viasetor_bpps').val() + '&jenispajak=' + $('#jenisobjrekapvia').val() + '&anggaran=' + $('#anggaranrekapvia').val());
+                                            }
+
+                                            function cetakbppsexcel() {
+                                                window.open('<?= $this->url() ?>/cetakbppsexcel?tgl1=' + $("#tgl1").val() + "&tgl2=" + $("#tgl2").val() + '&mengetahui=' + $('#pej_bpps0').val() + '&diperiksa=' + $('#pej_bpps1').val() + '&viapembayaran=' + $('#viasetor_bpps').val() + '&jenispajak=' + $('#jenisobjrekapvia').val() + '&anggaran=' + $('#anggaranrekapvia').val());
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- cetakan realisasi dari opd -->
+                        <!-- <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapselain">
+                                        Cetak Realisasi Setoran Lain (Per OPD)
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapselain" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            OPD/Dinas
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" onchange="gettargetsatker()" id="s_idsatker">
+                                                <option value="">Silahkan Pilih</option>
+                                                <?php foreach ($recordsopd as $k) { ?>
+                                                    <option value="<?= $k['s_idsatker'] ?>"><?= $k['s_namasatker'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Target
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="s_idkelompoktarget">
+                                                <option value="">Silahkan Pilih</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetak" id="tglcetak" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input class="form-control" type="text" name="tahunsetoranlain" id="tahunsetoranlain" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Bulan
+                                        </label>
+                                        <div class="col-md-3">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <select class="form-control" id="bulansetoranlain">
+                                                    <option value="01">Januari</option>
+                                                    <option value="02">Febuari</option>
+                                                    <option value="03">Maret</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">Mei</option>
+                                                    <option value="06">Juni</option>
+                                                    <option value="07">Juli</option>
+                                                    <option value="08">Agustus</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pejabatlaplain" id="pejabatlaplain" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pejabatlaplain1" id="pejabatlaplain1" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            FORMAT CETAK
+                                        </label>
+                                        <div class="col-md-3">
+                                            <select name="formatcetakopd" id="formatcetakopd" class="form-control">
+                                                <option value="1">PDF</option>
+                                                <option value="2">EXCEL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        &nbsp;
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label">
+
+                                        </label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetaksetoranlainpdf()"><i class="glyph-icon icon-file-pdf-o"></i> CETAK</a>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapselain1">
+                                        Cetak Realisasi Setoran Lain(Semua OPD)
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapselain1" class="panel-collapse collapse">
+                                <div class="panel-body">
+
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Tanggal Cetak
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input type="text" class="bootstrap-datepicker form-control" name="tglcetaksemua" id="tglcetaksemua" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Periode
+                                        </label>
+                                        <div class="col-md-2">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <input class="form-control" type="text" name="tahunsetoranlainsemua" id="tahunsetoranlainsemua" value="<?= date('Y') ?>">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Bulan
+                                        </label>
+                                        <div class="col-md-3">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon">
+                                                    <i class="glyph-icon icon-calendar"></i>
+                                                </span>
+                                                <select class="form-control" id="bulansetoranlainsemua">
+                                                    <option value="01">Januari</option>
+                                                    <option value="02">Febuari</option>
+                                                    <option value="03">Maret</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">Mei</option>
+                                                    <option value="06">Juni</option>
+                                                    <option value="07">Juli</option>
+                                                    <option value="08">Agustus</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Mengetahui
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pejabatlaplainsemua" id="pejabatlaplainsemua" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            Pembuat Laporan
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-prepend input-group">
+                                                <select name="pejabatlaplain1semua" id="pejabatlaplain1semua" class="form-control">
+                                                    <?php foreach ($ar_pejabat as $row) : ?>
+                                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . ' || ' . $row['s_jabatanpej'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-horizontal">
+                                        <label class="col-md-3 control-label">
+                                            FORMAT CETAK
+                                        </label>
+                                        <div class="col-md-3">
+                                            <select name="formatcetakopdsemua" id="formatcetakopdsemua" class="form-control">
+                                                <option value="1">PDF</option>
+                                                <option value="2">EXCEL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                        &nbsp;
+                                    </div>
+                                    <div class='col-md-12'>
+                                        <label class="col-md-3 control-label">
+
+                                        </label>
+                                        <div class="col-md-1">
+                                            <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetaksemuasetoranlainpdf()"><i class="glyph-icon icon-file-pdf-o"></i> CETAK</a>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <script type="text/javascript">
+                        $('#tahunsetoranlain').bsdatepicker({
+                            autoclose: true,
+                            format: " yyyy",
+                            viewMode: "years",
+                            minViewMode: "years",
+                            maxDate: new Date(),
+                        });
+                        $('#tahunsetoranlainsemua').bsdatepicker({
+                            autoclose: true,
+                            format: " yyyy",
+                            viewMode: "years",
+                            minViewMode: "years",
+                            maxDate: new Date(),
+                        });
+
+                        function cetaksetoranlainpdf() {
+                            if ($("#s_idkelompoktarget").val() == '') {
+                                alert("data tidak boleh kosong !")
+                            } else {
+                                window.open('<?= $this->url() ?>/cetaksetoranlain?tglcetak=' + $("#tglcetak").val() + "&bulansetoranlain=" + $("#bulansetoranlain").val() + "&tahunsetoranlain=" + $("#tahunsetoranlain").val() + "&pejabatlaplain=" + $("#pejabatlaplain").val() + "&pejabatlaplain1=" + $("#pejabatlaplain1").val() + "&s_idkelompoktarget=" + $("#s_idkelompoktarget").val() + "&s_idsatker=" + $("#s_idsatker").val() + "&formatcetak=" + $("#formatcetakopd").val());
+                            }
+                        }
+
+                        function cetaksemuasetoranlainpdf() {
+                            window.open('<?= $this->url() ?>/cetaksemuasetoranlain?tglcetak=' + $("#tglcetaksemua").val() + "&bulansetoranlain=" + $("#bulansetoranlainsemua").val() + "&tahunsetoranlain=" + $("#tahunsetoranlainsemua").val() + "&pejabatlaplain=" + $("#pejabatlaplainsemua").val() + "&pejabatlaplain1=" + $("#pejabatlaplain1semua").val() + "&formatcetak=" + $("#formatcetakopdsemua").val());
+                        }
+                    </script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="modalObjekPajak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Daftar Wajib Pajak</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class="example-box-wrapper">
+                    <div class="remove-columns">
+                        <table class="table table-condensed table-bordered cf" style="font-size: 11px;">
+                            <thead class="cf" style="background-color: blue">
+                                <tr>
+                                    <th></th>
+                                    <th><input type="text" class="form-control" id="t_npwpd_cari_0" onkeyup="calldatagridwp()" /></th>
+                                    <th><input type="text" class="form-control" id="t_nama_cari_0" onkeyup="calldatagridwp()" /></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr class="bg-blue">
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        No.
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        NPWPD
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Alamat
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Kelurahan
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Kecamatan
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Kabupaten
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Tgl. Daftar
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Jumlah OP
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        #
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="body_grid">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="11" class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-3 text-left">
+                                                <span class="hiddene">
+                                                    <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid(1)">
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-6" style="text-align: center">
+                                                <center>
+                                                    <div id="paginatore"></div>
+                                                    <input type="hidden" id="page" value="1">
+                                                </center>
+                                            </div>
+                                            <div class="col-sm-3 text-right">
+                                                <span class="hiddene">
+                                                    <p>
+                                                        <b><span id="awaldata"></span>-<span id="akhirdata"></span>/<span id="total_data"></span> Data</b>
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+
+                    <button class='btn btn-danger btn-sm' type="button" onclick='tutupObjekPajak()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function comboKelurahanCamatRealisasiObjek() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatanrealisasiobjek').val()
+        }, function(data) {
+            $("#t_kelurahanrealisasiobjek").html(data);
+        });
+    }
+
+    function comboKelurahanCamatPiutang() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatanpiutang').val()
+        }, function(data) {
+            $("#t_kelurahanpiutang").html(data);
+        });
+    }
+
+    function comboKelurahanCamatTunggakan() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatantunggakan').val()
+        }, function(data) {
+            $("#t_kelurahantunggakan").html(data);
+        });
+    }
+
+    function cariwp() {
+        calldatagridwp();
+        $('#modalObjekPajak').modal('show');
+    }
+
+    function pilihwp(a) {
+        $.post('<?= $this->url() ?>/pilihwp', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#npwpdbukuwp").val(aa.t_npwpd);
+            $("#jenisobjbukuwp").html(aa.jenisobjbukuwp);
+            tutupObjekPajak();
+        });
+    }
+
+    function tutupObjekPajak() {
+        $('#modalObjekPajak').modal('hide');
+    }
+
+    $(function() {
+        calldatagridwp();
+        $('#tahun_bku').bsdatepicker({
+            autoclose: true,
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            maxDate: new Date(),
+        });
+        $('#tahun_bpp').bsdatepicker({
+            autoclose: true,
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            maxDate: new Date(),
+        });
+    });
+
+    function calldatagridwp(direction) {
+        datagrid($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function datagrid(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGrid/' + page + '/' + row + '/' + direction, {
+            t_npwpd: $("#t_npwpd_cari_0").val(),
+            t_nama: $("#t_nama_cari_0").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#body_grid").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+            $("#paginatore").html(aa.paginatore);
+            $("#awaldata").html(aa.awaldata);
+            $("#akhirdata").html(aa.akhirdata);
+        });
+    }
+
+    /* Multiselect inputs */
+    $(function() {
+        "use strict";
+        $(".multi-select").multiSelect();
+        $(".ms-container").append("<i class='glyph-icon icon-exchange'></i>");
+    });
+
+
+    function gettargetsatker() {
+        $.post('<?= $this->url() ?>/gettargetsatker', {
+            s_idsatker: $("#s_idsatker").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#s_idkelompoktarget").html(aa.opsi);
+        });
+    }
+</script>

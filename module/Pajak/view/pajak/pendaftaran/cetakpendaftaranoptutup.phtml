@@ -1,0 +1,263 @@
+<?php
+
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '1024M');
+
+if (($jniscetak == 1) || ($jniscetak == 3)) {
+    include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+    $mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 10, 5, 1, 1, 1, '');
+} else {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakdatapendaftaranwp" . $tgldaftar0 . "sd" . $tgldaftar1 . ".xls");
+}
+
+if(!empty($data_get['t_jenispajakop'])){
+    $namaop = $this->MenuHelper()->cekjenispajak($data_get['t_jenispajakop']);
+    $namaopnya = '<br>'.strtoupper($namaop['s_namajenis']);
+}else{
+    $namaopnya = '';
+}
+
+
+if(!empty($data_get['t_kecamatanop'])){
+    $datakec = $this->MenuHelper()->cekkecamatan($data_get['t_kecamatanop']);
+    $namakec = '<br>Kecamatan : '.$datakec['s_namakec'];
+}else{
+    $namakec = '';
+}
+
+
+if(!empty($data_get['t_kelurahanop'])){
+    $datakel = $this->MenuHelper()->cekkelurahan($data_get['t_kelurahanop']);
+    $namakel = '<br>Kelurahan : '.$datakel['s_namakel'];
+}else{
+    $namakel = '';
+}
+
+
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        
+    </head>
+    <body>
+        
+        <table width="100%" style="border-spacing: 0; font-size:9pt; table-layout: fixed;">
+            <tr>
+                <td colspan="12">
+                    <center>
+                    <span style="text-align: center; font-size: 10pt; font-weight: BOLD;">PEMERINTAH ' . strtoupper($ar_pemda->s_namakabkota) . ', ' . strtoupper($ar_pemda->s_namaprov) . '</span><br>
+                    <span style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">' . strtoupper($ar_pemda->s_namainstansi) . ' (' . strtoupper($ar_pemda->s_namasingkatinstansi) . ')</span><br>
+                    <span style="text-align: center; font-size: 8pt; line-height: 5px">' . strtoupper($ar_pemda->s_alamatinstansi) . ' Telp/Fax ' . $ar_pemda->s_notelinstansi . ', ' . $ar_pemda->s_namaibukotakabkota . ' ' . $ar_pemda->s_kodepos . ' </span>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12"><br><center><h4 style="text-align: center">DATA PENUTUPAN OBJEK PAJAK
+                '.$namaopnya.'
+                </h4>
+                '.$namakec.' '.$namakel.'
+                </center></td>
+            </tr> 
+            <tr>
+                <td colspan="12"><br>Tanggal : ' . $tgldaftar0 . ' s/d ' . $tgldaftar1 . ' <br></td>
+                
+            </tr>  
+            <tr style="text-align: center">
+                <td style="border-bottom: 1px solid #000;border-left: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">No.</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">NPWPD</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Nama WP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Alamat WP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Tgl. Tutup OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">ID OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Nama OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Alamat OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Kode Pos OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">No. Telp. OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Latitude OP</td>
+                <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">Longitude OP</td>
+                
+            </tr>';
+
+$counter = 1;
+foreach ($data as $k => $v) {
+    
+    if($v['t_bidangusaha'] == 2){
+        $namawp = $v['t_nama_badan'];
+        $alamatwp = '';
+        if(!empty($v['t_jalan_badan'])){
+            $alamatwp .= $v['t_jalan_badan'];
+        }
+        if(!empty($v['t_rt_badan'])){
+            $alamatwp .= ' RT '.$v['t_rt_badan'];
+        }
+        if(!empty($v['t_rw_badan'])){
+            $alamatwp .= ' RW '.$v['t_rw_badan'];
+        }
+        if(!empty($v['s_namakel'])){
+            $alamatwp .= ' Kel. '.$v['s_namakel'];
+        }
+        if(!empty($v['s_namakec'])){
+            $alamatwp .= ' Kec. '.$v['s_namakec'];
+        }
+        if(!empty($v['t_kabupaten_badan'])){
+            $alamatwp .= ' Kab. '.$v['t_kabupaten_badan'];
+        }
+    }else{
+        $namawp = $v['t_nama'];
+        $alamatwp = '';
+        if(!empty($v['t_alamat'])){
+            $alamatwp .= $v['t_alamat'];
+        }
+        if(!empty($v['t_rt'])){
+            $alamatwp .= ' RT '.$v['t_rt'];
+        }
+        if(!empty($v['t_rw'])){
+            $alamatwp .= ' RW '.$v['t_rw'];
+        }
+        if(!empty($v['s_namakel'])){
+            $alamatwp .= ' Kel. '.$v['s_namakel'];
+        }
+        if(!empty($v['s_namakec'])){
+            $alamatwp .= ' Kec. '.$v['s_namakec'];
+        }
+        if(!empty($v['t_kabupaten'])){
+            $alamatwp .= ' Kab. '.$v['t_kabupaten'];
+        }
+    }
+    
+    
+$alamatobjek = '';
+if (!empty($v['t_alamatobjek'])) {
+    $alamatobjek .= ucwords(strtolower($v['t_alamatobjek']));
+}
+if ((!empty($v['t_rtobjek'])) || (($v['t_rtobjek'] == '   '))) {
+    $alamatobjek .= ' RT ' . $v['t_rtobjek'];
+}
+if (!empty($v['t_rwobjek'])) {
+    $alamatobjek .= ' RW ' . $v['t_rwobjek'];
+}
+if (!empty($v['s_namakelobjek'])) {
+    $alamatobjek .= ' Kel. ' . ucfirst(strtolower($v['s_namakelobjek']));
+}
+if (!empty($v['s_namakecobjek'])) {
+    $alamatobjek .= ' Kec. ' . ucfirst(strtolower($v['s_namakecobjek']));
+}
+if (!empty($v['t_kabupatenobjek'])) {
+    $alamatobjek .= ' ' . ucfirst(strtolower($v['t_kabupatenobjek']));
+}
+
+
+if($data_get['subjudul'] == 1){
+
+    if ($urutkanop == 1) {
+        if ($clast_rek <> $v['t_tgltutupobjek']) {
+
+
+            $html .= '<tr>
+                                    <td colspan="12" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>Tanggal Tutup : ' . date('d-m-Y', strtotime($v['t_tgltutupobjek'])) . '</b></td>
+
+                                </tr>';
+
+            $clast_rek = $v['t_tgltutupobjek'];
+            $clast_rek_name = date('d-m-Y', strtotime($v['t_tgltutupobjek']));
+            //$counter = 1;
+        }
+    }
+
+    if ($urutkanop == 2) {
+        if ($clast_rek_kel <> $v['t_kelurahanobjek']) {
+            if ($clast_rek_kel <> '') {
+                
+            }
+            if ($clast_rek <> $v['t_kecamatanobjek']) {
+                if ($clast_rek <> '') {
+                    
+                }
+                $html .= '<tr>
+                        <td colspan="12" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Kecamatan : <b> ' . $v['s_namakecobjek'] . '</td>
+
+                        </tr>';
+                $clast_rek = $v['t_kecamatanobjek'];
+                $clast_rek_name = $v['s_namakecobjek'];
+                //$counter = 1;
+            }
+
+
+
+            $html .= '<tr>
+                <td style="border-bottom: 1px solid #000;border-left: 1px solid #000;">&nbsp;</td>
+                <td colspan="11" style="border-bottom: 1px solid #000;border-right: 1px solid #000;">Kelurahan : <b> ' . $v['s_namakelobjek'] . '</td>
+
+                </tr>';
+            $clast_rek_kel = $v['t_kelurahanobjek'];
+            $clast_rek_name_kel = $v['s_namakelobjek'];
+            //$counter = 1;
+        }
+    }
+    
+    if ($urutkanop == 3) {
+        if ($clast_rek <> $v['t_idwp']) {
+
+
+            $html .= '<tr>
+                                    <td colspan="12" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>Nama WP : '.$namawp.' (' . $v['t_npwpd'] . ')</b></td>
+
+                                </tr>';
+
+            $clast_rek = $v['t_idwp'];
+            $clast_rek_name = date('d-m-Y', strtotime($v['t_idwp']));
+            //$counter = 1;
+        }
+    }
+    
+    if ($urutkanop == 4) {
+        if ($clast_rek <> $v['t_jenisobjek']) {
+
+
+            $html .= '<tr>
+                                    <td colspan="12" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>Jenis Pajak : ' . $v['s_namajenis'] . '</b></td>
+
+                                </tr>';
+
+            $clast_rek = $v['t_jenisobjek'];
+            $clast_rek_name = date('d-m-Y', strtotime($v['t_jenisobjek']));
+            //$counter = 1;
+        }
+    }
+    
+}    
+
+    $html .= '
+                <tr>
+                    <td style="border-bottom: 1px solid #000;border-left: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $counter . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_npwpd'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:left;">' . $namawp . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $alamatwp . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:left;">' . date('d-m-Y', strtotime($v['t_tgltutupobjek'])) . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:left;">' . $v['t_nop'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_namaobjek'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $alamatobjek . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_kodeposobjek'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_notelpobjek'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_latitudeobjek'] . '</td>
+                    <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; vertical-align:middle;">' . $v['t_longitudeobjek'] . '</td>
+                    
+                </tr>';
+
+    $counter++;
+}
+$html .= '            
+        </table>
+    </body>
+</html>';
+
+if (($jniscetak == 1) || ($jniscetak == 3)) {
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakdatapendaftaranwp" . $tgldaftar0 . "sd" . $tgldaftar1 . ".pdf", "I");
+} else {
+    echo $html;
+}
+?>

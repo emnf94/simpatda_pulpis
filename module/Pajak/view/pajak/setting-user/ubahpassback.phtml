@@ -1,0 +1,90 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/ubahpassback');
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="content-box">
+            <h3 class="content-box-header content-box-header-alt bg-red">
+                <span class="icon-separator">
+                    <i class="glyph-icon icon-key"></i>
+                </span>
+                <span class="header-wrapper">
+                    Ganti Password <?= $datauser['s_nama']; ?>
+                </span>
+            </h3>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($frm) ?>
+                    <div class="row-fluid">
+                        <?= $this->formRow($frm->get('s_iduser')) ?>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label>Password Lama</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <?= $this->formRow($frm->get('t_password_old')) ?>
+                            </div>
+                            <div class="col-sm-5" id="pesan_passlama" style="color:red;">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label>Password Baru</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <?= $this->formRow($frm->get('s_password')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label>Ulangi Password Baru</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <?= $this->formRow($frm->get('t_pass2')) ?>
+                            </div>
+                            <div class="col-sm-5" id="pesan_passbaru" style="color:red;">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-alt btn-hover btn-warning">
+                                    <span>Ganti Password</span>
+                                    <i class="glyph-icon icon-unlock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <?= $this->form()->closeTag($frm) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#t_password_old').change(function() {
+        $.post('<?= $this->url() ?>/validasipass', {
+            t_password_old: $('#t_password_old').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#pesan_passlama").html(aa.pesan_passlama);
+            $("#t_password_old").val(aa.field_passlama);
+        });
+    });
+
+    $('#t_pass2').change(function() {
+        $.post('<?= $this->url() ?>/validasipass', {
+            s_password: $('#s_password').val(),
+            t_pass2: $('#t_pass2').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#pesan_passbaru").html(aa.pesan_passbaru);
+            $("#s_password").val(aa.field_passbaru);
+            $("#t_pass2").val(aa.field_passbaru2);
+        });
+    });
+</script>

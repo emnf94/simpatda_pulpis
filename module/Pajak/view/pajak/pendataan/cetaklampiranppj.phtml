@@ -1,0 +1,284 @@
+<html>
+    <head>
+        <style type="text/css">
+            .text-center{
+                text-align: center !important;
+            }
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_lima {
+                font-size: 5pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                font-size: 10pt;
+            }
+
+            .font_duabelas {
+                font-size: 12pt;
+            }
+            .row_a td{
+                border: #000 1px solid;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglpendataan = date('d', strtotime($data['t_tglpendataan'])) . " " . $abulan[date('m', strtotime($data['t_tglpendataan']))] . " " . date('Y', strtotime($data['t_tglpendataan']));
+        ?>
+        <table class="border_atas border_bawah border_kanan border_kiri font_delapan" style="width: 100%">
+            <tr>
+                <td style="width: 10%; text-align: center;">
+                    <img src="<?= $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>" style="width:40px;"  />
+                </td>
+                <td style="width: 30%; text-align: center;">
+                    PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?>
+                    <br>
+                    <?= $ar_pemda->s_namainstansi ?>
+                    <br>
+                    <?= $ar_pemda->s_alamatinstansi ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?>
+                </td>
+                <td style="width:30%; text-align: center;" class="border_kiri">
+                    LAMPIRAN<br>
+                    SURAT PEMBERITAHUAN PAJAK DAERAH (SPTPD)<br>
+                    PAJAK PENERANGAN JALAN
+                </td>
+                <td class="border_kiri" style="width: 30%; padding-left: 10px">
+                    No. SPTPD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $data['t_nourut']; ?>
+                    <br>
+                    Masa Pajak &nbsp;&nbsp;&nbsp;&nbsp;: <?= date('d-m-Y', strtotime($data['t_masaawal'])); ?> S/D <?= date('d-m-Y', strtotime($data['t_masaakhir'])); ?>
+                    <br>
+                    Tahun Pajak &nbsp;&nbsp;&nbsp;: <?= $data['t_periodepajak']; ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_kiri border_kanan border_bawah font_delapan" style="width:100%;">
+            <thead>
+                <tr>
+                    <td colspan="11" class="border_bawah">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td rowspan="2" class="text-center border_kanan">NO.</td>
+                    <td colspan="7" class="text-center border_kanan">VARIABEL PENENTU BESARAN TENAGA LISTRIK TERJUAL</td>
+                    <td rowspan="2" class="text-center border_kanan">JML NILAI JUAL TENAGA LISTRIK (Rp.)</td>
+                    <td colspan="2" class="text-center">PENGHITUNGAN PAJAK</td>
+                </tr>
+                <tr>
+                    <td class="text-center border_atas border_kanan border_bawah">GOL TARIF PLN</td>
+                    <td class="text-center border_atas border_kanan border_bawah">BATAS DAYA</td>
+                    <td class="text-center border_atas border_kanan border_bawah">JML PELANGGAN</td>
+                    <td class="text-center border_atas border_kanan border_bawah">JML KWH TERJUAL</td>
+                    <td class="text-center border_atas border_kanan border_bawah">TARIF PER KWH (Rp.)</td>
+                    <td class="text-center border_atas border_kanan border_bawah">JML LISTRIK TERJUAL (Rp.)</td>
+                    <td class="text-center border_atas border_kanan border_bawah">JML BIAYA BEBAN (Rp.)</td>
+                    <td class="text-center border_atas border_kanan border_bawah">TARIF</td>
+                    <td class="text-center border_atas border_bawah">JML (Rp.)</td>
+                </tr>
+                <tr class="litle_font">
+                    <td class="text-center border_kanan border_bawah border_atas">1</td>
+                    <td class="text-center border_kanan border_bawah">2</td>
+                    <td class="text-center border_kanan border_bawah">3</td>
+                    <td class="text-center border_kanan border_bawah">4</td>
+                    <td class="text-center border_kanan border_bawah">5</td>
+                    <td class="text-center border_kanan border_bawah">6</td>
+                    <td class="text-center border_kanan border_bawah">7 (4x5x6)</td>
+                    <td class="text-center border_kanan border_bawah">8</td>
+                    <td class="text-center border_kanan border_bawah border_atas">9 (7+8)</td>
+                    <td class="text-center border_kanan border_bawah">10</td>
+                    <td class="text-center border_bawah">11 (9x10)</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">A. PENJUALAN LISTRIK SETELAH PENGGUNAAN:</td>
+                </tr>
+                <?php
+                $no = 1;
+                $jumlah_a = 0;
+                foreach ($lampiranppj_a as $col => $row):
+                    ?>
+                    <tr class="row_a">
+                        <td class="text-center"><?= $no; ?></td>
+                        <td><?= $row['t_goltarifpln'] ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_batasdaya'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlpelanggan'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlkwhterjual'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_tarifperkwh'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmllistrikterjual'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlbiayabeban'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlnilaijuallistrik'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= $row['t_tarif'] ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jumlah'], 0, ',', '.') ?></td>
+
+                    </tr>
+                    <?php
+                    $jumlah_a += $row['t_jumlah'];
+                    $no++;
+                endforeach;
+                ?>
+                <tr class="row_a">
+                    <td></td>
+                    <td colspan="9">Jumlah A</td>
+                    <td style="text-align:right;"><?= number_format($jumlah_a, 0, ',', '.') ?></td>
+                </tr>
+                <tr class="row_a">
+                    <td colspan="12">B. PENJUALAN LISTRIK PRABAYAR:</td>
+                </tr>
+                <?php
+                $no = 1;
+                $jumlah_b = 0;
+                foreach ($lampiranppj_b as $col => $row):
+                    ?>
+                    <tr class="row_a">
+                        <td class="text-center"><?= $no; ?></td>
+                        <td><?= $row['t_goltarifpln'] ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_batasdaya'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlpelanggan'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlkwhterjual'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_tarifperkwh'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmllistrikterjual'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlbiayabeban'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jmlnilaijuallistrik'], 0, ',', '.') ?></td>
+                        <td style="text-align:right;"><?= $row['t_tarif'] ?></td>
+                        <td style="text-align:right;"><?= number_format($row['t_jumlah'], 0, ',', '.') ?></td>
+
+                    </tr>
+                    <?php
+                    $jumlah_b += $row['t_jumlah'];
+                    $no++;
+                endforeach;
+                ?>
+                <tr class="row_a">
+                    <td></td>
+                    <td colspan="9">Jumlah B</td>
+                    <td style="text-align:right;"><?= number_format($jumlah_b, 0, ',', '.') ?></td>
+                </tr>
+                <tr class="row_a">
+                    <td></td>
+                    <td colspan="9">Jumlah A+B</td>
+                    <td style="text-align:right;"><?= number_format(($jumlah_a + $jumlah_b), 0, ',', '.') ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="border_atas border_bawah border_kiri border_kanan font_delapan" style="width:100%;">
+            <tr>
+                <td style="width:30%;">&nbsp;</td>
+                <td style="width:50%;">&nbsp;</td>
+                <td><table class="text-center">
+                        <tr>
+                            <td><?= $ar_pemda->s_namaibukotakabkota ?>, <?= date('d-m-Y') ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= $data['t_namaobjek'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>.............................</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+
+</html>

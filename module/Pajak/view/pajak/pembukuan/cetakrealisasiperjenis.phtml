@@ -1,0 +1,204 @@
+<?php
+if ($formatcetak == 'excel') {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakrealisasiperjenis.xls");
+}
+
+error_reporting(0);
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '1024M');
+$bulan_text = [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+    "X",
+    "XI",
+    "XII"
+];
+
+$namabulan_text = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+];
+
+$gambar = '<img src="' . $ar_pemda->s_logo . '" width="60">';
+if ($ar_pemda->s_notelinstansi == 0 && $ar_pemda->s_notelinstansi == "") {
+    $no_telp = '';
+} else {
+    $no_telp = ' Telp/Fax ' . $ar_pemda->s_notelinstansi . ',';
+}
+?>
+
+<html>
+
+<head>
+    <style>
+        @page {
+            size: auto;
+            margin: 30px 40px 50px 30px;
+            odd-header-name: html_MyHeader1;
+            odd-footer-name: html_MyFooter1;
+        }
+
+        @page chapter2 {
+            odd-header-name: html_MyHeader2;
+            odd-footer-name: html_MyFooter2;
+        }
+
+        @page noheader {
+            odd-header-name: _blank;
+            odd-footer-name: _blank;
+        }
+
+        div.chapter2 {
+            page-break-before: always;
+            page: chapter2;
+        }
+
+        div.noheader {
+            page-break-before: always;
+            page: noheader;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <table width="100%" style="font-family:arial;">
+            <tr>
+                <?php
+                if ($formatcetak == 'pdf') {
+                    echo '<td width="10%" style="border: 1px solid #fff;">' . $gambar . '</td>';
+                } else {
+                    echo '<img src="' . $_SERVER["DOCUMENT_ROOT"] . '/' . $ar_pemda->s_logo . '" width="60">';
+                }
+                ?>
+                <td colspan="4" style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                    <span style="font-size:14pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?></span><br>
+                    <span style="font-size:16pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi) ?></span><br>
+                    <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi . ' ' . $no_telp . ' ' . $ar_pemda->s_namaibukotakabkota . ' Kode Pos. ' . $ar_pemda->s_kodepos ?></span>
+                </td>
+            </tr>
+        </table>
+        <hr style="line-height: 1px; color: black">
+        <div style="text-align:center;">
+            <b style="font-family:arial;font-size:16pt;">LAPORAN REALISASI PER JENIS <?= strtoupper($jenispungutan) ?><br>
+                TAHUN <?= $periode ?></b>
+        </div>
+        <table width="100%" cellpadding="4" cellspacing="4" style="border-collapse: collapse;border-top:4px double black; table-layout: fixed; border-spacing: 0; text-align: center;font-family:arial;" border="0">
+            <thead>
+                <tr style="text-align: center;background: #f3f3f3">
+                    <th style="border: 1px solid black; border-bottom: 1px solid black;width:15%;">
+                        KODE REKENING
+                    </th>
+                    <th style="border: 1px solid black;width:35%;">
+                        NAMA REKENING
+                    </th>
+                    <th style="border: 1px solid black;width:15%;">
+                        JUMLAH TARGET<br>(Rp)
+                    </th>
+                    <th style="border: 1px solid black;width:15%;">
+                        JUMLAH REALISASI<br>(Rp)
+                    </th>
+                    <th style="border: 1px solid black;width:10%;">
+                        PERSENTASE<br>(%)
+                    </th>
+                </tr>
+            </thead>
+            <?php
+            foreach ($data as $row) {
+
+                if ($row['s_jenisobjek'] == 11) {
+                    $realdata_pbb = 0;
+                    $realdata_bphtb = $real_bphtb;
+                } elseif ($row['s_jenisobjek'] == 10) {
+                    $realdata_pbb = $real_pbb;
+                    $realdata_bphtb = 0;
+                }
+
+                if ($row['s_jenispungutan'] == 'Pajak') {
+                    $jmlh_realisasi = $row['real_tahunini'] + $row['real_skpdkb'] + $row['real_skpdkbt'] + $realdata_bphtb + $realdata_pbb;
+                } else {
+                    // $jmlh_realisasi = $row['real_tahuniniret'];
+                    $jmlh_realisasi = $row['real_tahuniniret'] + $row['real_setorantahuniniret'];
+                }
+
+                $persentase = $jmlh_realisasi / $row['target'] * 100;
+                echo '<tbody>'
+                    . '<tr>'
+                    . '<td style="border: 1px solid black; border-bottom: 1px solid;">' . $row['korek'] . '</td>'
+                    . '<td style="border: 1px solid black;text-align:left;">' . strtoupper($row['s_namakorek']) . '</td>'
+                    . '<td style="border: 1px solid black;text-align:right;">' . number_format($row['target'], 0, ',', '.') . ',-</td>'
+                    . '<td style="border: 1px solid black;text-align:right;">' . number_format($jmlh_realisasi, 0, ',', '.') . ',-</td>'
+                    . '<td style="border: 1px solid black;">' . number_format($persentase, 2, ',', '.') . ' %</td>'
+                    . '</tr>';
+                $totaltarget += $row['target'];
+                $totalrealisasi += $jmlh_realisasi;
+                $totalpersentase += $persentase;
+            }
+            ?>
+            <tr>
+                <th colspan="2" style="border: 1px solid black;">TOTAL REALISASI</th>
+                <th style="border: 1px solid black;text-align: right;"><?= number_format($totaltarget, 0, ',', '.') ?>,-</th>
+                <th style="border: 1px solid black;text-align: right;"><?= number_format($totalrealisasi, 0, ',', '.') ?>,-</th>
+                <th style="border: 1px solid black;"><?= number_format($totalrealisasi / $totaltarget * 100, 2, ',', '.') ?> %</th>
+            </tr>
+            <tr>
+                <td colspan="5" style="border-top: 1px solid black;"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table width="100%" class="mengetahui">
+            <tr class="mengetahui">
+                <td style=" width: 35%; text-align: center;vertical-align: bottom;" class="mengetahui">
+                    Mengetahui<br>
+
+                    <?= $ar_diperiksa->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <u><b><?= $ar_diperiksa->s_namapej ?></b></u><br>
+                    NIP <?= $ar_diperiksa->s_nippej ?>
+                </td>
+                <td style=" width: 30%" class="mengetahui"></td>
+                <td style=" width: 35%;text-align: center;vertical-align: bottom;" class="mengetahui">
+                    <?= $ar_pemda->s_namaibukotakabkota . ', ' . date('d', strtotime($tglcetak)) . " " . $namabulan_text[date('m', strtotime($tglcetak)) - 1] . " " . date('Y', strtotime($tglcetak)) ?>
+                    <br>
+                    Diperiksa Oleh<br>
+                    <?= $ar_mengetahui->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <u><b><?= $ar_mengetahui->s_namapej ?></b></u><br>
+                    NIP <?= $ar_mengetahui->s_nippej ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <?php if ($formatcetak == 'pdf') { ?>
+        <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                   color: #000000; font-weight: bold; font-style: italic;border: 1px solid;">
+                <tr>
+                    <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 11px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </table>
+        </htmlpagefooter>
+    <?php } ?>
+</body>
+
+</html>

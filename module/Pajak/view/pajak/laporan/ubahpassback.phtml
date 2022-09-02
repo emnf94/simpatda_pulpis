@@ -1,0 +1,50 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/ubahpassback');
+$frm->prepare();
+?>            
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <div id="page-title">
+                <h2>
+                    Ubah Password
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($frm) ?>
+                        <div class="row-fluid">           
+                            <?= $this->formRow($frm->get('s_iduser')) ?>
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                    <label>Password</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <?= $this->formRow($frm->get('s_password')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                    <label>Ulangi Password</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <?= $this->formRow($frm->get('t_pass2')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-5">
+                                    <?= $this->formInput($frm->get('simpan')) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?= $this->form()->closeTag($frm) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

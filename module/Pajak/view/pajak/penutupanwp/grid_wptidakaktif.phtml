@@ -1,0 +1,197 @@
+<div class="tab-pane" id="tab2">
+    <div class="example-box-wrapper">
+        <div class="row" style="overflow: auto">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center">No.</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Tgl. Daftar</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">NPWPD</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Nama</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Alamat</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">Jumlah Objek</th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center">#</th>
+                    </tr>
+                    <tr class="bg-default">
+                        <td></td>
+                        <td><input type="text" id="t_tgldaftar_cari_1" class="form-control input-sm" onchange="calldatagrid1()"></td>
+                        <td><input type="text" id="t_npwpd_cari_1" class="form-control input-sm" onkeyup="calldatagrid1()"></td>
+                        <td><input type="text" id="t_nama_cari_1" class="form-control input-sm" onkeyup="calldatagrid1()"></td>
+                        <td><input type="text" id="t_alamat_lengkap_cari_1" class="form-control input-sm" onkeyup="calldatagrid1()"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="body_grid1">
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-3 text-left">
+                    <span>
+                        <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid1(1)">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="col-sm-6" style="text-align: center">
+                    <center>
+                        <div id="paginatore1"></div>
+                        <input type="hidden" id="page1" value="1">
+                    </center>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <span>
+                        <p>
+                            <b style="font-size: 13px; color: orangered"><span id="awaldata1"></span> s/d <span id="akhirdata1"></span> Dari <span id="total_data1"></span> Data</b>
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalAktifasiWP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-minus-circle'></span> FORM PENUTUPAN WAJIB PAJAK/RETRIBUSI</b></h4>
+            </div>
+            <form action="<?= $this->url() ?>/simpanaktifasiwp" method="post">
+                <div class='modal-body'>
+                    <div class="example-box-wrapper">
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NPWPD/NPWRD</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="hidden" id="t_idwp1" name="t_idwp1">
+                                <input class="form-control" type="text" id="t_npwpdwp1" name="t_npwpdwp1" readonly="true" style="color:blue;font-weight:bold;">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama WP</label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="t_namawp1" name="t_namawp1" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat WP</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" id="t_alamatwp1" name="t_alamatwp1" readonly="true">
+                            </div>
+                        </div>
+                        <br />
+                        <hr />
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Tgl. Penutupan</label>
+                            <div class="col-md-3">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input class="form-control bootstrap-datepicker" type="text" id="t_tglaktifasiwp" name="t_tglaktifasiwp" readonly="true" value="<?= date('d-m-Y') ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">No.Berita Acara</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" id="t_noberitawp" name="t_noberitawp">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Isi Berita Acara</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" id="t_isiberitawp1" name="t_isiberitawp1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <div class='col-sm-12' style="text-align:center;">
+                        <button type="submit" class='btn btn-primary btn-sm'><i class='glyph-icon icon-save'></i> Simpan</button>
+            </form>
+            <a class='btn btn-danger btn-sm' onclick='tutupDataAktifasiwp()'><i class='glyph-icon icon-close'></i> Batal</a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<style>
+    .tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tableDaftar tr:hover {
+        background: #edf968;
+    }
+
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+</style>
+<script type="text/javascript">
+    $(function() {
+        $('#t_tgldaftar_cari_1').daterangepicker({
+            format: 'DD-MM-YYYY'
+        }, function() {
+            calldatagrid1();
+        });
+    });
+
+    $(function() {
+        calldatagrid1();
+    });
+
+    function calldatagrid1(direction) {
+        datagridtidakaktif($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function datagridtidakaktif(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridTutup/' + page + '/' + row + '/' + direction, {
+            t_tgldaftar: $('#t_tgldaftar_cari_1').val(),
+            t_npwpd: $('#t_npwpd_cari_1').val(),
+            t_nama: $('#t_nama_cari_1').val(),
+            t_alamat_lengkap: $('#t_alamat_lengkap_cari_1').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#body_grid1").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data1").html(": " + aa.count);
+            $("#total_halaman1").html(": " + aa.total_halaman);
+            $("#paginatore1").html(aa.paginatore);
+            $("#awaldata1").html(aa.awaldata);
+            $("#akhirdata1").html(aa.akhirdata);
+        });
+    }
+
+    function bukaDataAktifasiwp(a) {
+        $.post('<?= $this->url() ?>/dataWP', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_idwp1").val(aa.idwp);
+            $("#t_npwpdwp1").val(aa.npwpdwp);
+            $("#t_namawp1").val(aa.namawp);
+            $("#t_alamatwp1").val(aa.alamatwp);
+        });
+        $('#modalAktifasiWP').modal('show');
+    }
+
+    function tutupDataAktifasiwp() {
+        $('#modalAktifasiWP').modal('hide');
+    }
+
+    // function simpandatapenutupanwp() {
+    // $.post('<?= $this->url() ?>/simpanpenutupanwp?t_idwp=' + $("#t_idwp").val() + 
+    // "&t_tglpenutupanwp=" + $("#t_tglpenutupanwp").val() + 
+    // "&t_noberitawp=" + $("#t_noberitawp").val() + 
+    // "&t_isiberitawp=" + $("#t_isiberitawp").val() + 
+    // "&t_statuswp=" + $("#t_statuswp").val());
+    // }
+</script>

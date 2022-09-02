@@ -1,0 +1,21 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    PENETAPAN SKRD
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab2" data-toggle="tab">SUDAH DITETAPKAN</a></li>
+                    <li><a href="#tab3" data-toggle="tab">PENCETAKAN</a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_sudahskrd.phtml'); ?>
+                    <?= $this->partial('pencetakanskrd.phtml'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

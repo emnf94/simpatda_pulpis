@@ -1,0 +1,336 @@
+
+<?php
+
+if ($formatcetak == 'excel') {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakspj.xls");
+}
+
+	error_reporting(0);
+	ini_set("max_execution_time", 5000);
+	ini_set('memory_limit', '1024M');
+	 $bulan_text = [
+		"I",
+		"II",
+		"III",
+		"IV",
+		"V",
+		"VI",
+		"VII",
+		"VIII",
+		"IX",
+		"X",
+		"XI",
+		"XII"
+	];
+	
+	$namabulan_text = [
+		"Januari",
+		"Februari",
+		"Maret",
+		"April",
+		"Mei",
+		"Juni",
+		"Juli",
+		"Agustus",
+		"September",
+		"Oktober",
+		"November",
+		"Desember"
+	];
+
+	$gambar = '<img src="'. $ar_pemda->s_logo .'" width="60">';
+	if($ar_pemda->s_notelinstansi == 0 && $ar_pemda->s_notelinstansi == ""){
+        $no_telp = '';
+    }else{
+        $no_telp = ' Telp/Fax '.$ar_pemda->s_notelinstansi.',';
+    }
+?>
+
+<html>
+	<head>
+		<style>
+            @page {
+              size: auto;
+              odd-header-name: html_MyHeader1;
+              odd-footer-name: html_MyFooter1;
+            }
+            @page chapter2 {
+                odd-header-name: html_MyHeader2;
+                odd-footer-name: html_MyFooter2;
+            }
+            @page noheader {
+                odd-header-name: _blank;
+                odd-footer-name: _blank;
+            }
+            div.chapter2 {
+                page-break-before: always;
+                page: chapter2;
+            }
+            div.noheader {
+                page-break-before: always;
+                page: noheader;
+            }
+            </style>
+	</head>
+	<body>
+        <?php if ($formatcetak == 'pdf') { ?>    
+		<htmlpagefooter name="MyFooter1">
+			<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+		    color: #000000; font-weight: bold; font-style: italic;border: 1px solid;">
+			    <tr>
+			            <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+			        <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+			        <td style="font-style: italic;text-align: right;font-size: 11px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+			    </tr>
+		    </table>
+		</htmlpagefooter>
+        <?php } ?>
+		<div>
+        <table width="100%" style="font-family:arial;">
+                <tr>
+                    <td width="10%" style="border: 1px solid #fff;"><?= $gambar?></td>
+                    <td style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                        <span style="font-size:14pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota)?></span><br>
+                        <span style="font-size:16pt;font-weight: BOLD;"><?=strtoupper($ar_pemda->s_namainstansi)?></span><br>
+                        <span style="font-size:10pt;"><?=$ar_pemda->s_alamatinstansi.' '. $no_telp .' '. $ar_pemda->s_namaibukotakabkota .' Kode Pos. '. $ar_pemda->s_kodepos?></span>
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            <div style="text-align:center;">
+            <b style="font-family:arial;font-size:16pt;">LAPORAN PERTANGGUNGJAWABAN BENDAHARA PENERIMAAN SKPD<br>(SPJ - PENDAPATAN - FUNGSIONAL)<br>
+			Bulan <?=$namabulan_text[date('m', strtotime($tglcetak)) - 1] . " " . date('Y', strtotime($tglcetak))?></b><br>
+            
+			<table style="border:none; font-size: 10pt;font-family:arial;">
+                <tr style="border:none;">
+                    <td style="border:none;">SKPD</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= strtoupper($ar_pemda->s_namainstansi) ?></td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">Pengguna Anggaran</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?=$ar_pejabat0->s_namapej?></td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">Bendahara Penerimaan</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= $ar_pejabat1->s_namapej ?></td>
+                </tr>
+               
+            </table>
+        	</div>
+        	<table width="100%" style="border-collapse: collapse;border-top:4px double black; table-layout: fixed; border-spacing: 0; text-align: center;font-family:arial;" border="0">
+                <thead>
+                <tr>
+                    <td style="border: 1px solid black; border-bottom: 1px solid;" rowspan="2">
+                        <b>&nbsp;Kode Rekening&nbsp;
+                    </td>
+                    <td rowspan="2" style="border: 1px solid black;" colspan="6">
+                        <b>&nbsp;Uraian&nbsp;
+                    </td>
+                    <td rowspan="2" style="border: 1px solid black;">
+                        <b>&nbsp;Target Anggaran&nbsp;
+                    </td>
+                    <td colspan="4" style="border: 1px solid black;">
+                        <b>&nbsp;Jumlah Realisasi (Rp)&nbsp;
+                    </td>
+                    <td colspan="2" style="border: 1px solid black;">
+                        <b>&nbsp;SELISIH&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;s/d Bulan lalu&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;Bulan ini&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;s/d Bulan ini&nbsp;						
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;%&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;Selisih Target&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <b>&nbsp;%&nbsp;
+                    </td>
+                </tr>
+                </thead>
+                <?php
+                $selisih = 0;
+                $total_selisih = 0;
+        foreach ($data as $row){
+            $jmlh_bulanlalu = $row['transaksi_blnlalu'] + $row['minerba_blnlalu'] + $row['dendatransaksi_blnlalu'] + $row['setoranlain_blnlalu'] + $row['bphtb_blnlalu'];
+            $jmlh_bulanini = $row['transaksi_blnini'] + $row['minerba_blnini'] + $row['dendatransaksi_blnini'] + $row['setoranlain_blnini'] + $row['bphtb_blnini'];
+            $jmlh_sdbulanini = $row['transaksi_sdblnini'] + $row['minerba_sdblnini'] + $row['dendatransaksi_sdblnini'] + $row['setoranlain_sdblnini'] + $row['bphtb_sdblnini'];
+           
+            $b1 = '';
+            $b2 = '';
+            
+            if($row['s_rinciankorek'] == '00' || $row['s_rinciankorek'] == ''){
+                $b1 = '<b>';
+                $b2 = '</b>';
+            }
+            
+            echo '
+                <tbody>
+                <tr>
+                        <td style="text-align: left; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; ">
+                            '.$b1.str_ireplace('.00', '', $row['korek']).$b2.'
+                        </td>';
+            if($row['s_kelompokkorek'] == '0'){
+                 echo '<td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;" colspan="6">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }else if($row['s_jeniskorek'] == '0'){
+                echo '<td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                    <td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;" colspan="5">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }else if($row['s_objekkorek'] == '0'){
+                echo '<td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                    <td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;" colspan="4">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }else if($row['s_rinciankorek'] == '0' || $row['s_rinciankorek'] == '00' || $row['s_rinciankorek'] == ''){
+                echo '<td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                    <td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;" colspan="3">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }else if($row['s_sub1korek'] == '' || $row['s_sub1korek'] == '00'){
+                echo '<td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black;"></td>
+                    <td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;" colspan="2">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }else{
+                 echo '<td style="width:10px;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black; border-bottom: 0.5px solid black;"></td>
+                        <td style="width:10px; border-bottom: 0.5px solid black; border-bottom: 0.5px solid black;"></td>
+                    <td style="text-align: left; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+                                </td>';
+            }
+            
+//                        echo '<td style="text-align: left; border-right: 1px solid black;" colspan="6">
+//                            '.$b1. ucwords(strtolower($row['s_namakorek'])).$b2.'
+//                                </td>';
+            
+                        if($dataget['cetakan'] == 1){
+                            $target = number_format($row['target'],2,',','.');
+                        }else{
+                            $target = $row['target'];
+                        }
+                        
+                        if($row['target'] <=0){
+                            $target = '-';
+                        }
+                        
+                       echo ' <td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.$target.$b2.'
+                        </td>';
+                       
+                       if($dataget['cetakan'] == 1){
+                            $vjmlh_bulanlalu = number_format($jmlh_bulanlalu,2,',','.');
+                        }else{
+                            $vjmlh_bulanlalu = $jmlh_bulanlalu;
+                        }
+                        
+                        if($jmlh_bulanlalu <=0){
+                            $vjmlh_bulanlalu = '-';
+                        }
+                        
+                        echo '<td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.$vjmlh_bulanlalu.$b2.'
+                        </td>';
+                        
+                        if($dataget['cetakan'] == 1){
+                            $vjmlh_bulanini = number_format($jmlh_bulanini,2,',','.');
+                        }else{
+                            $vjmlh_bulanini = $jmlh_bulanini;
+                        }
+                        
+                        if($jmlh_bulanini <=0){
+                            $vjmlh_bulanini = '-';
+                        }
+                        
+                        echo '<td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.$vjmlh_bulanini.$b2.'
+                        </td>';
+                        
+                        if($dataget['cetakan'] == 1){
+                            $vjmlh_sdbulanini = number_format($jmlh_sdbulanini,2,',','.');
+                        }else{
+                            $vjmlh_sdbulanini = $jmlh_sdbulanini;
+                        }
+                        
+                        if($jmlh_sdbulanini <=0){
+                            $vjmlh_sdbulanini = '-';
+                        }
+                        
+                        echo '<td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.$vjmlh_sdbulanini.$b2.'
+                        </td>';
+                        if($row['target'] == 0){
+                            $bagi = $jmlh_sdbulanini;
+                        }else{
+                            $bagi = $row['target'];
+                        }
+//                        $persen = round($jmlh_sdbulanini/$bagi * 100);
+                        $persen = $jmlh_sdbulanini/$bagi * 100;
+//                        if($persen <= 0){
+//                            $persen = '-';
+//                        }
+                        echo '<td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.number_format($persen,2,',','.').$b2.' 
+                        </td>';
+                        
+                        if($row['target'] == 0){
+                            $selisih = 0;
+                        }else{
+                            $selisih = $jmlh_sdbulanini - $row['target'];
+                        }
+                        if($dataget['cetakan'] == 1){
+                            $vselisih = number_format($selisih,2,',','.');
+                        }else{
+                            $vselisih = $selisih;
+                        }
+                        if($selisih == 0){
+                            $vselisih = '-';
+                        }
+//                        $persen_selisih = round($selisih/$row['target'] * 100);
+                        $persen_selisih = $selisih/$row['target'] * 100;
+//                        if($persen_selisih == 0){
+//                            $persen_selisih = '-';
+//                        }
+                        echo '<td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                                '.$b1.$vselisih.$b2.'
+                        </td>
+                        <td style="text-align: right; border-right: 1px solid black; border-bottom: 0.5px solid black;">
+                            '.$b1.number_format($persen_selisih, 2,',','.').$b2.'
+                        </td>
+                        
+                        
+                    </tr>';
+        }
+        ?>
+        <tr>
+                    <td colspan="14" style="border-top: 1px solid black;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+	</body>
+</html>

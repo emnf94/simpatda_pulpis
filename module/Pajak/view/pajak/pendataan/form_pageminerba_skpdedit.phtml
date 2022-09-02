@@ -1,0 +1,740 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pageminerba_skpd');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<?php
+$judul = 'PENDATAAN ' . strtoupper($datapendaftaran['s_namajenis']) . ' [EDIT] <b class="blink" style="font-size: 12px; color: red">' . $message . '</b>';
+$link = '<a href="'.$this->url('pendataan').'/pendataandariskpd" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<div class="example-box-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <center><span style="text-align:right; background:#605ca8; color: #fff; padding: 10px 10px; font-size: 16px; font-weight:bold"><?= $datapendaftaran['t_npwpd'] ?></span></center>
+        </div>
+    </div><br>
+    <?= $this->form()->openTag($form) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="box box-primary" style="border: 1px solid #f39c12;">
+                <div class="box-header" style="background-color: #f39c12;">
+                    <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA WP</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">NIK</label>
+                        <div class="col-sm-4">
+                            : <?= $datapendaftaran['t_nik'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Nama</label>
+                        <div class="col-sm-4">
+                            : <?= $datapendaftaran['t_nama'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Alamat</label>
+                        <div class="col-sm-10">
+                            : <?= $datapendaftaran['t_alamat'] ?>
+                            ,RT. <?= $datapendaftaran['t_rt'] ?>
+                            ,RW. <?= $datapendaftaran['t_rw'] ?>
+                            ,Desa/Kel. <?= $datapendaftaran['s_namakel'] ?>
+                            ,Kec. <?= $datapendaftaran['s_namakec'] ?>
+                            ,Kab. <?= $datapendaftaran['t_kabupaten'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="box box-primary" style="border: 1px solid #f39c12;">
+                <div class="box-header" style="background-color: #f39c12;">
+                    <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA OP</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">ID OP</label>
+                        <div class="col-sm-4">
+                            : <?= $datapendaftaran['t_nop'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Nama</label>
+                        <div class="col-sm-4">
+                            : <?= $datapendaftaran['t_namaobjek'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Alamat</label>
+                        <div class="col-sm-10">
+                            : <?= $datapendaftaran['t_alamatobjek'] ?>
+                            ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                            ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                            ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                            ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                            ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary" style="border: 1px solid #00a65a;">
+                <div class="box-header" style="background-color: #00a65a;">
+                    <center><h3 class="box-title" style="color: white; font-size: 18px;">FORM PENDATAAN [EDIT]</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nama SKPD</label>
+                        <div class="col-sm-4">
+                            <?= $this->formHidden($frm->get("s_idskpd")) ?>
+                            <?= $this->formText($frm->get("s_namaskpd")) ?>
+                        </div>
+                        <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalSkpd()" title="cari"><span class="fa fa-search"></span></button></div>
+                    </div>
+
+
+
+
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nama WP</label>
+                        <div class="col-md-4">
+                        <?= $this->formText($frm->get('namawp')) ?>
+                        </div>    
+                        <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalWP()" title="cari"><span class="fa fa-search"></span></button></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">NPWPD</label>
+                        <div class="col-md-2">
+                            <?= $this->formText($frm->get('npwpd')) ?>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nomor Urut</label>
+                        <div class="col-sm-2">
+                            <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                            <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                            <?= $this->formHidden($form->get("t_idobjek")) ?>
+                            <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                            <?= $this->formText($form->get("t_nourut")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Periode Pajak</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_periodepajak")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_tglpendataan")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Masa Pajak</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_masaawal")) ?>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">S/D</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_masaakhir")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nama Kegiatan</label>
+                        <div class="col-sm-5">
+                            <?= $this->formTextarea($form->get("t_namakegiatan")) ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box box-danger">
+                                <div class="box-header with-border">
+                                    <span class="btn btn-sm btn-danger" id="tambahDetail">Tambah</span>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                        <tr>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Rekening</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Volume</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Harga Pasaran</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Jumlah</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Tarif</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Pajak</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Hapus</th>
+                                        </tr>
+                                        <?php
+                                        $kk = 1;
+                                        foreach (@$datadetail as $row) {
+                                            ?>
+                                            <tr id="detailnode<?= $kk ?>">
+                                                <td>
+                                                    <input type="hidden" id="t_idminerba<?= $kk ?>" name="t_idminerba[]" value="<?= $row['t_idminerba'] ?>">
+                                                    <select name="t_idkorek[]" id="t_idkorek<?= $kk ?>" class="form-control" onchange="caritarifminerba(<?= $kk ?>)">
+                                                        <option value="">Silahkan Pilih</option>
+                                                        <?php
+                                                        foreach ($rekeningmineral as $row1) {
+                                                            if ($row1['s_idkorek'] == $row['t_idkorek']) {
+                                                                $selected = 'selected';
+                                                            } else {
+                                                                $selected = '';
+                                                            }
+                                                            ?>
+                                                            <option <?= $selected ?> value="<?= $row1['s_idkorek'] ?>"><?= $row1['s_namakorek'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                                <!--onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);  this.value = formatCurrency(this.value); this.value = formatCurrency(this.value);-->
+                                                <td><input class="form-control" value="<?= $row['t_volume'] ?>" hitungpajakminerba(<?= $kk ?>)" onblur =" hitungpajakminerba(<?= $kk ?>);" onkeyup=" hitungpajakminerba(<?= $kk ?>);" name="t_volume[]" id="t_volume<?= $kk ?>" style="text-align:right"></td>
+                                                <td><input class="form-control" value="<?= number_format($row['t_hargapasaran'], 0, ',', '.') ?>" name="t_hargapasaran[]" id="t_hargapasaran<?= $kk ?>" readonly="true" style="text-align:right"></td>
+                                                <td><input class="form-control" value="<?= number_format($row['t_jumlah'], 0, ',', '.') ?>" name="t_jumlah[]" id="t_jumlah<?= $kk ?>" readonly="true" style="text-align:right"></td>
+                                                <td><input class="form-control" value="<?= $row['t_tarifpersen'] ?>" name="t_tarifpersen[]" id="t_tarifpersen<?= $kk ?>" readonly="true" style="text-align:right"></td>
+                                                <td><input class="form-control" value="<?= number_format($row['t_pajak'], 0, ',', '.') ?>" name="t_pajak[]" id="t_pajak<?= $kk ?>" readonly="true" style="text-align:right"></td>
+                                                <td><span class="btn btn-xs btn-danger" onclick="removetr(<?= $kk ?>)"><span class="fa fa-trash"></span></span></td>
+                                            </tr>
+                                            <?php
+                                            $kk++;
+                                        }
+                                        ?>
+                                        <input type="hidden" id="idl" value="<?= $kk++ ?>">
+                                        <tbody id="add_Detail"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Total Pajak (Rp.)</label>
+                        <div class="col-sm-4">
+                            <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="hitungtotalpajakminerba()">Hitung</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="bg-default pull-right" id="tombolsimpan">
+                            <br><?= $this->formInput($form->get('Pendataansubmit')) ?> 
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <?= $this->form()->closeTag($form) ?>
+</div>
+<?= $this->MenuHelper()->headeratas_end(); ?>
+
+<div class="modal fade" id="ModalCariSKPD" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog  modal-lg" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA SKPD</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuaskpd" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>NAMA</th>            
+            <th>JALAN</th>      
+            <th>KECAMATAN</th>       
+            <th>KELURAHAN</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalCariWP" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content ">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA WAJIB PAJAK</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuawp" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">NO</th>
+            <th>NPWPD</th>            
+            <th>NAMA OBJEK</th>      
+            <th>KODE REKENING</th>       
+            <th>NAMA REKENING</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    
+    <th></th>
+    <th></th>
+    <th style="width: 200px;"></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+
+
+<script>
+    function tutupmodalSkpd() {
+        $('#ModalCariSKPD').modal('hide');
+    }
+    
+    function bukamodalSkpd() {
+        $('#ModalCariSKPD').modal('show');
+    }
+    
+    
+    
+    
+    
+    function pilihSkpd(a) {
+        $.post('<?= $this->url() ?>/pilihSkpd', {s_idskpd: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#s_idskpd').val(aa.s_idskpd);
+            $('#s_namaskpd').val(aa.s_namaskpd);
+           
+            jQuery('#ModalCariSKPD').modal('hide');
+
+        });
+    }
+    
+    function tutupmodalWP() {
+        $('#ModalCariWP').modal('hide');
+    }
+    
+    function bukamodalWP() {
+        $('#ModalCariWP').modal('show');
+    }
+    
+    
+    function pilihWajibPajak(a) {
+        $.post('<?= $this->url() ?>/pilihWajibPajak', {t_idobjek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_idwp').val(aa.t_idwp);
+            $('#npwpd').val(aa.npwpd);
+            $('#namawp').val(aa.namawp);
+            $('#namaobjekwp').val(aa.namaobjekwp);
+            $('#t_idobjek').val(aa.t_idobjek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+           
+            jQuery('#ModalCariWP').modal('hide');
+
+        });
+    }
+    
+    
+    var dTableskpd;
+    var dTablewp;
+    // #Example adalah id pada table 
+    $(document).ready(function () {
+        dTableskpd = $('#datasemuaskpd').DataTable({
+            "bProcessing": true,
+            "bServerSide": true,
+            "bJQueryUI": false,
+            //"responsive": true,
+            "sAjaxSource": "<?= $this->url('pendataan') ?>/datagridpilihskpd", // Load Data
+            "sServerMethod": "POST",
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+            "aaSorting": [[0, "asc"]],
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            //"scrollY":        "400px",
+            "scrollX": true,
+            //"scrollCollapse": true,
+
+            "oLanguage": {
+                "sEmptyTable": "No incompleted albums found!", //when empty
+                "sSearch": "<span>Pencarian:</span> _INPUT_", //search
+                "sLengthMenu": "<span>Tampilkan data:</span> _MENU_", //label
+                "sZeroRecords": "<center>Tidak ada data</center>",
+                "sEmptyTable": "<center>Tidak ada data</center>",
+                "sInfo": "Halaman _PAGE_ dari _PAGES_ dari _TOTAL_ data",
+                "sInfoEmpty": "Tidak ada data",
+                "sProcessing": "<img src='<?= $this->basePath(); ?>/public/img/gif/loader.gif'>", //<img src='path/to/ajax-loader.gif'>
+                "sLoadingRecords": "Loading...",
+                "sInfoFiltered": "(Pencarian Dari _MAX_ total data)",
+                "oPaginate": {"sFirst": "First", "sLast": "Last", "sNext": ">>", "sPrevious": "<<"} //pagination
+            },
+
+            "columnDefs": [
+                {"targets": ['0','10','11','12','13','14'],"orderable": false, "searchable": false}
+            ]
+        });
+
+        //=========================== buat pencarian dibawah aktif
+        $('th', dTableskpd.table().footer()).each(function () {
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+            //$(this).html('<input type="text" placeholder="Search ' + title + '" />');
+           if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'statuspembayaran') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- SEMUA --</option><option value="1">SUDAH</option><option value="2">BELUM</option></select></center>');
+            }
+            
+            
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'volume') {
+                $(this).html('<input type="text" style="width:140px;" placeholder="nama skpd" class="pencariantable" />');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'hargapasaran') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="Jalan" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jumlah') {
+                $(this).html('<input type="text" style="width:120px;" placeholder="Kecamatan" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'tarif') {
+                $(this).html('<input type="text" style="width:120px;" placeholder="Kelurahan" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'pajak') {
+                $(this).html('');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'rekening') {
+                $(this).html('<center>cari:</center>');
+            }
+            
+
+            $('#ModalCariSKPD').on('shown.bs.modal', function (e) {
+                dTableskpd.columns.adjust();
+                
+            });
+
+        });
+
+        // Apply the search
+        dTableskpd.columns().eq(0).each(function (colIdx) {
+            $('input', dTableskpd.column(colIdx).footer()).on('keyup change', function () {
+                dTableskpd
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+            });
+
+        });
+
+        dTableskpd.columns().eq(0).each(function (colIdx) {
+            $('select', dTableskpd.column(colIdx).footer()).on('keyup change', function () {
+                dTableskpd
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+            });
+
+        });
+        
+        
+        //============================== data wp
+        
+        dTablewp = $('#datasemuawp').DataTable({
+            "bProcessing": true,
+            "bServerSide": true,
+            "bJQueryUI": false,
+            //"responsive": true,
+            "sAjaxSource": "<?= $this->url('pendataan') ?>/dataGridPilihwp/2", // Load Data
+            "sServerMethod": "POST",
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+            "aaSorting": [[0, "asc"]],
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            //"scrollY":        "400px",
+            "scrollX": true,
+            //"scrollCollapse": true,
+
+            "oLanguage": {
+                "sEmptyTable": "No incompleted albums found!", //when empty
+                "sSearch": "<span>Pencarian:</span> _INPUT_", //search
+                "sLengthMenu": "<span>Tampilkan data:</span> _MENU_", //label
+                "sZeroRecords": "<center>Tidak ada data</center>",
+                "sEmptyTable": "<center>Tidak ada data</center>",
+                "sInfo": "Halaman _PAGE_ dari _PAGES_ dari _TOTAL_ data",
+                "sInfoEmpty": "Tidak ada data",
+                "sProcessing": "<img src='<?= $this->basePath(); ?>/public/img/gif/loader.gif'>", //<img src='path/to/ajax-loader.gif'>
+                "sLoadingRecords": "Loading...",
+                "sInfoFiltered": "(Pencarian Dari _MAX_ total data)",
+                "oPaginate": {"sFirst": "First", "sLast": "Last", "sNext": ">>", "sPrevious": "<<"} //pagination
+            },
+
+            "columnDefs": [
+                {"targets": ['0','10','11','12','13','14'],"orderable": false, "searchable": false}
+            ]
+        });
+
+        //=========================== buat pencarian dibawah aktif
+        $('th', dTablewp.table().footer()).each(function () {
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+            //$(this).html('<input type="text" placeholder="Search ' + title + '" />');
+           if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'statuspembayaran') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- SEMUA --</option><option value="1">SUDAH</option><option value="2">BELUM</option></select></center>');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'volume') {
+                $(this).html('<input type="text" style="width:140px;" placeholder="NPWPD" class="pencariantable" />');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'hargapasaran') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="Nama Objek" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jumlah') {
+                $(this).html('<input type="text" style="width:120px;" placeholder="Kode Rekening" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'tarif') {
+                $(this).html('<input type="text" style="width:120px;" placeholder="Nama Rekening" class="pencariantable" />');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'pajak') {
+                $(this).html('');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'rekening') {
+                $(this).html('<center>cari:</center>');
+            }
+            
+            
+            $('#ModalCariWP').on('shown.bs.modal', function (e) {
+                
+                dTablewp.columns.adjust();
+            });
+
+
+        });
+
+        // Apply the search
+        dTablewp.columns().eq(0).each(function (colIdx) {
+            $('input', dTablewp.column(colIdx).footer()).on('keyup change', function () {
+                dTablewp
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+            });
+
+        });
+
+        dTablewp.columns().eq(0).each(function (colIdx) {
+            $('select', dTablewp.column(colIdx).footer()).on('keyup change', function () {
+                dTablewp
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+            });
+
+        });
+        
+        //============================== end data wp
+
+        $('.dataTable').removeClass('display').addClass('table table-striped table-bordered');
+        //=========================== end buat pencarian dibawah aktif
+
+
+        $('#dataskpd').removeClass('display').addClass('table table-striped table-bordered');
+
+    });   
+    
+    
+    
+    function caritarifminerba(a) {
+        $.post('<?= $this->url() ?>/caritarifminerba', {t_idkorek: $('#t_idkorek' + a).val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_hargapasaran' + a).val(aa.t_hargapasaran);
+            $('#t_tarifpersen' + a).val(aa.t_tarifpersen);
+        });
+    }
+
+    function hitungpajakminerba(a) {
+        $.post('<?= $this->url() ?>/hitungpajakminerba', {t_volume: $('#t_volume' + a).val(), t_hargapasaran: $('#t_hargapasaran' + a).val(), t_tarifpersen: $('#t_tarifpersen' + a).val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_jumlah' + a).val(aa.t_jumlah);
+            $('#t_pajak' + a).val(aa.t_pajak);
+        });
+    }
+
+    function hitungtotalpajakminerba() {
+        $.post('<?= $this->url() ?>/hitungtotalpajakminerba', {t_pajak1: $('#t_pajak1').val(), t_pajak2: $('#t_pajak2').val(), t_pajak3: $('#t_pajak3').val(), t_pajak4: $('#t_pajak4').val(), t_pajak5: $('#t_pajak5').val(), t_pajak6: $('#t_pajak6').val(), t_pajak7: $('#t_pajak7').val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+        });
+    }
+
+    $(document).ready(function () {
+        $("#tambahDetail").click(function () {
+            var idl = document.getElementById("idl").value;
+            $("#add_Detail").append(
+                    '<tr id="detailnode' + idl + '">' +
+                    '<td>' +
+                    '<input type="hidden" id="t_idminerba' + idl + '" name="t_idminerba[]">' +
+                    '<select name="t_idkorek[]" id="t_idkorek' + idl + '" class="form-control" onchange="caritarifminerba(' + idl + ')">' +
+                    '<option value="">Silahkan Pilih</option>' +
+<?php foreach ($rekeningmineral as $row) { ?>
+                '<option value="<?= $row['s_idkorek'] ?>"><?= $row['s_namakorek'] ?></option>' +
+<?php } ?>
+            '</select>' +
+            '</td>' +
+                    '<td>' +
+                    '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value); hitungpajakminerba(' + idl + ')" onblur ="this.value = formatCurrency(this.value); hitungpajakminerba(' + idl + ');" onkeyup="this.value = formatCurrency(this.value); hitungpajakminerba(' + idl + ');" name="t_volume[]" id="t_volume' + idl + '">' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" onblur="this.value = formatCurrency(this.value);" onkeyup="this.value = formatCurrency(this.value);" name="t_hargapasaran[]" id="t_hargapasaran' + idl + '" readonly="true">' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" onblur="this.value = formatCurrency(this.value);" onkeyup="this.value = formatCurrency(this.value);" name="t_jumlah[]" id="t_jumlah' + idl + '" readonly="true">' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" onblur="this.value = formatCurrency(this.value);" onkeyup="this.value = formatCurrency(this.value);" name="t_tarifpersen[]" id="t_tarifpersen' + idl + '" readonly="true">' +
+                    '</td>' +
+                    '<td>' +
+                    '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" onblur="this.value = formatCurrency(this.value);" onkeyup="this.value = formatCurrency(this.value);" name="t_pajak[]" id="t_pajak' + idl + '" readonly="true">' +
+                    '</td>' +
+                    '<td>' +
+                    '<span class="btn btn-xs btn-danger" onclick="removetr(' + idl + ')"><span class="fa fa-trash"></span></span>' +
+                    '</td>' +
+                    '</tr>'
+                    );
+            idl = (idl - 1) + 2;
+            document.getElementById("idl").value = idl;
+        });
+    });
+
+    function removetr(a) {
+        $("#detailnode" + a).remove();
+    }
+</script>

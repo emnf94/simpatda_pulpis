@@ -1,0 +1,195 @@
+<link href="<?= $this->basePath(); ?>/public/css/animate-custom.css" rel="stylesheet">
+<?php 
+    $bg = $this->MenuHelper()->GetDataBackground(); 
+    
+    if(!empty($bg['file_bg'])){
+        $filebg = $bg['file_bg']; 
+    }else{
+        $filebg = '/public/img/pulau_kemaro.jpg';
+    }
+    
+ ?>
+<style>
+
+    body { 
+       
+        
+    }
+    
+    .login-img {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .fadeIn {
+        -webkit-animation-name: fadeIn;
+        animation-name: fadeIn;
+    }
+    img {
+        border: 0;
+        vertical-align: middle;
+    }
+
+    .panel-default {
+        opacity: 0.9;
+        margin-top:30px;
+    }
+    .form-group.last {
+        margin-bottom:0px;
+    }
+    
+   .login-page{
+        /*height-min: 125%;*/
+         background: url('//<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath().$filebg; ?>') #fff no-repeat center center fixed;  
+         min-height: 100%;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        
+        /*position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 125%; 
+        background: url('//<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/upload/pendopo.jpg') no-repeat; 
+        background-size: 100% 100%;*/
+        
+    }   
+    
+    .login-box_headercoy{
+        background: transparent url('//<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/img/145925-0.75.png') repeat;	
+		
+    }
+    
+    .login-box_tengah{
+        background: transparent url('//<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/img/transpBlack75.png') repeat;
+    } 
+    
+    .login-box_kanan{
+        background: transparent url('//<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/img/transpOrange75.png') repeat;
+    }
+    
+    .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    .input-group .form-control {
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url());
+$form->setAttribute("id", "frm-horizontal");
+$form->setAttribute("class", "form-signin");
+$form->prepare();
+?>
+
+
+<!--<img src="<?= "//" . $_SERVER['HTTP_HOST'] . "" . $this->basePath() .$filebg.""; ?>" class="login-img wow fadeIn" alt="">-->
+
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-12" style="color: #fff;">
+            
+                <div class="panel-body" style="margin-top:10%; ">
+                    <div class="col-md-10 col-md-offset-3">
+                    
+                    <?= $this->form()->openTag($form) ?>  
+                    <div class="content-box login-box_headercoy animated flipInY col-md-6" style="min-height: 240px; border: 2px solid;  border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; border-color: white;">
+                        <div class="row animated bounceInDown login-box_headercoy">
+                            <div style="float: left;">
+                                <img class="profile-img" src="<?= $this->basePath().'/'.$data_pemda->s_logo ?>" style="width:90px;height:100px; padding: 10px; ">	
+                            </div>
+                            <center style="margin-top: 10px;"><strong style="font-size:24px; color: #fff; "> <?php if(!empty($data_pemda->s_namaapp_simpatda)){ echo $data_pemda->s_namaapp_simpatda; }else{echo 'SIMPATDA';}; ?> </strong><br><span style="font-size: 12px; color: #fff;"><?= strtoupper($data_pemda->s_namainstansi." ".$data_pemda->s_namakabkota) ?></span></center>
+                        </div>
+                        <div class="panel-body " >  
+                            <div class="content-box-wrapper pad10T">
+                                <div class="form-group">
+                                    <center>
+                                        <div class="input-group" style="width: 80%;">
+                                            <?= $this->formtext($form->get("s_username")) ?>
+                                            <span class="input-group-addon bg-blue">
+                                                <span class="glyphicon glyphicon-user"></span>
+                                            </span>
+                                        </div>
+                                    </center>
+                                </div>
+                                <div class="form-group">
+                                    <center> 
+                                        <div class="input-group" style="width: 80%; ">
+                                            <?= $this->formpassword($form->get("s_password")) ?>
+                                            <span class="input-group-addon bg-blue">
+                                                <span class="glyphicon glyphicon-lock"></span>
+
+                                            </span>
+                                        </div> 
+                                    </center>
+                                </div>
+                                <div class="form-group">
+                                    <center> 
+                                        <div class="input-group" style="width: 80%;">
+                                            <?= $this->formsubmit($form->get("Loginsubmit")) ?>  
+                                        </div>
+                                    </center>    
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="content-box login-box_headercoy animated bounceInDown col-md-6" style="min-height: 240px; border: 2px solid;  border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-color: white;">
+                        
+                        <div class="panel-body " >  
+                            <div class="content-box-wrapper pad10T">
+                                <div class="form-group">
+                                    <span style="font-size:20px;"><b><?php if(!empty($data_pemda->s_namaapp_simpatda)){ echo $data_pemda->s_namaapp_simpatda; }else{echo 'SIMPATDA';}; ?></b></span><br>
+                                        Sistem Informasi Pendapatan Asli Daerah<br>
+                                        (<?= strtoupper($data_pemda->s_namainstansi." ".$data_pemda->s_namakabkota) ?>)<hr>
+                                    <center>
+                                       Masukkan Username dan Password jika mempunyai akun<br>
+                                       Aplikasi Pencatatan Pajak <?= ucwords(strtolower($data_pemda->s_namakabkota)) ?>
+                                    </center>
+                                </div>
+                                
+                            </div>  
+                        </div>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>    
+            
+        </div>
+    </div>
+    <?php
+    echo $this->form()->closeTag();
+    ?>
+</div>              

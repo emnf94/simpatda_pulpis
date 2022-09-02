@@ -1,0 +1,48 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Setting Tipe Usaha
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Kode Usaha</label>
+                                <div class="col-md-1">
+                                    <?= $this->formHidden($frm->get('s_idusaha')) ?>  
+                                    <?= $this->formRow($frm->get('s_kodeusaha')) ?> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Usaha</label>
+                                <div class="col-md-4">
+                                    <?= $this->formRow($frm->get('s_namausaha')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_tipeusaha') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

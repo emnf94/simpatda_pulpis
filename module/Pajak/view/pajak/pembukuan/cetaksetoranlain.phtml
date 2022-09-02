@@ -1,0 +1,304 @@
+<?php
+if ($formatcetak == '2') {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakrealisasisetoranlain.xls");
+    
+    $gambar = '<img src="http://103.124.44.90:98/public/upload/Lambang_Kabupaten_Pulang Pisau.png" width="10%">';
+     
+    
+}
+
+error_reporting(0);
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '-1');
+
+$namabulan_text = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+];
+
+$bulan=(int)$bulan;
+if ($bulan==1){
+    $bulan="Januari";
+}elseif($bulan==2){
+    $bulan="Febuari";
+}elseif($bulan==3){
+    $bulan="Maret";
+}elseif($bulan==4){
+    $bulan="April";
+}elseif($bulan==5){
+    $bulan="Mei";
+}elseif($bulan==6){
+    $bulan="Juni";
+}elseif($bulan==7){
+    $bulan="Juli";
+}elseif($bulan==8){
+    $bulan="Agustus";
+}elseif($bulan==9){
+    $bulan="September";
+}elseif($bulan==10){
+    $bulan="Oktober";
+}elseif($bulan==11){
+    $bulan="November";
+}elseif($bulan==12){
+    $bulan="Desember";
+}
+
+$gambar = '<img src="' . $ar_pemda->s_logo . '" width="60">';
+if ($ar_pemda->s_notelinstansi == 0 && $ar_pemda->s_notelinstansi == "") {
+    $no_telp = '';
+} else {
+    $no_telp = ' Telp/Fax ' . $ar_pemda->s_notelinstansi . ',';
+}
+if ($formatcetak == '2') {  
+    $gambar = '<img src="http://103.124.44.90:98/public/upload/Lambang_Kabupaten_Pulang Pisau.png" width="5%">';
+        
+}
+
+?>
+
+<html>
+    <head>
+        <style>
+            @page {
+                size: auto;
+                odd-header-name: html_MyHeader1;
+                odd-footer-name: html_MyFooter1;
+            }
+            @page chapter2 {
+                odd-header-name: html_MyHeader2;
+                odd-footer-name: html_MyFooter2;
+            }
+            @page noheader {
+                odd-header-name: _blank;
+                odd-footer-name: _blank;
+            }
+            div.chapter2 {
+                page-break-before: always;
+                page: chapter2;
+            }
+            div.noheader {
+                page-break-before: always;
+                page: noheader;
+            }
+        </style>
+    </head>
+    <body>
+        <?php if ($formatcetak == '1') { ?>    
+        <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                   color: #000000; font-weight: bold; font-style: italic;border: 1px solid;">
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 11px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </table>
+        </htmlpagefooter>
+    <?php } ?>
+    <div>
+        <table width="100%" style="font-family:arial;">
+            <tr>
+                <td width="10%" style="border: 1px solid #fff;"><?= $gambar ?></td>
+                <td colspan="14" style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                    <span style="font-size:14pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?></span><br>
+                    <span style="font-size:16pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi) ?></span><br>
+                    <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi . ' ' . $no_telp . ' ' . $ar_pemda->s_namaibukotakabkota . ' Kode Pos. ' . $ar_pemda->s_kodepos ?></span>
+                </td>
+            </tr>
+        </table>
+        <hr style="line-height: 1px; color: black">
+        <div style="text-align:center;">
+            <b style="font-family:arial;font-size:16pt;">LAPORAN REALISASI PER SATUAN KERJA/OPD/DINAS </b><br>
+            <span style="font-family:arial;">Periode : s/d <?= $bulan ." ". $tahun ?></span>
+        </div>
+        <table border="0" width="100%">
+            <tr>
+                 <tr>
+                 <td colspan="14" style="text-align: left;"><b><?=$dataopd['s_kodesatker'] ?>&nbsp;<?=$dataopd['s_namasatker']?></b></td>
+            </tr>
+           
+        </table>
+        <table border="1" width="100%" style="border-collapse: collapse;border-top:4px double black; table-layout: fixed; border-spacing: 0; text-align: center;font-family:arial;" border="1">
+            <thead>
+                <tr>
+                    <td style="border: 1px solid black; border-bottom: 1px solid;background-color:#28a745;" rowspan="2" colspan="4">
+                        <b>&nbsp;Kode Rekening&nbsp;
+                    </td>
+                    <td rowspan="2" style="border: 1px solid black;background-color:#28a745;" colspan="6">
+                        <b>&nbsp;Nama Rekening &nbsp;
+                    </td>
+                    <td rowspan="2" style="border: 1px solid black;background-color:#28a745;" >
+                        <b>&nbsp;Target&nbsp;
+                    </td>
+                    
+                    <td colspan="3" style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;Jumlah Realisasi (Rp)&nbsp;
+                    </td>
+                     <td colspan="2" style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;Selisih&nbsp;
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;s/d Bulan lalu&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;Bulan ini&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;s/d Bulan ini&nbsp;                        
+                    </td>
+                     <td style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;Selisih Target&nbsp;
+                    </td>
+                    <td style="border: 1px solid black;background-color:#28a745;">
+                        <b>&nbsp;%&nbsp;                        
+                    </td>
+                   
+                </tr>
+            </thead>
+             <tbody style="border: 1px">
+           
+            <?php $no=1; foreach ($datas as $key) {
+                // echo $s_idsatker;
+                 if (strlen($key['korek'])==22){
+                    $key['korek'] = substr($key['korek'], 0, 16);
+                  }
+                $jml=$key['jmltarget']+$key['setoranlain_blnini']+$key['setoranlain_blnlalu'];
+                if ($jml > 0) {
+                    if ($row['s_rinciankorek'] == '00' || $row['s_rinciankorek'] == '') {
+                    $b1 = '<b>';
+                    $b2 = '</b>';
+                }
+                //  foreach ($rekeningpokok as $k) {
+                //    $koreks[]=$k['s_idkorek'];
+                   
+                //  }
+                //  $kor="'".$key['korek']."'";
+                
+                //  $ke = array_search($kor, $koreks);
+                //  // var_dump($ke);exit();
+                // if ((int)$s_idsatker == (int)($key['s_idsatker']) || $key['s_objekkorek']!='0'|| $ke) {
+                 
+                $korek=$key['korek'];
+                $bulanini=$key['setoranlain_blnini'];
+                $bulanlalu=$key['setoranlain_blnlalu'];
+                $sampaidenganbulanini=$key['setoranlain_sdblnini'];
+                $korekpokok=$key['korekpokok'];
+                $selisih = ((int)$sampaidenganbulanini)-((int)$key['jmltarget']);
+
+                $persen =  ($sampaidenganbulanini / ((int)$key['jmltarget']) * 100);
+               
+               $totaltargets+=$key['jmltarget'];
+                if (empty($key['jmltarget'])) {
+                   $target='-';
+                }else{
+                    $target=$key['jmltarget'];
+                }
+                ?>
+
+            
+               <?php if ($key['s_objekkorek'] != 14 && strlen($korek)==16){
+                if ($key['s_jeniskorek']==01){
+                    $pajak='Pajak&nbsp;';
+                }else{
+                    $pajak='';
+                }
+                ?>
+
+                <tr>
+               <td colspan="4" style="text-align: left;border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; "><b><?=substr($korek, 0, 12) ?></b></td>
+               <td colspan="6" style="text-align: left;background-color:#bbf283 ; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; "><b><?=$pajak.$key['s_namakorek'] ?></b></td>
+              <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?= number_format($key['jmltarget'], 2, ',', '.') ?></b></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?= number_format($bulanlalu, 2, ',', '.') ?></b></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?= number_format($bulanini, 2, ',', '.') ?></b></td> 
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?= number_format($sampaidenganbulanini, 2, ',', '.') ?></b></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?= number_format($selisih, 2, ',', '.') ?></b></td>
+              <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><b><?=number_format($persen, 2, ',', '.') ?></b></td></td>
+            </tr>
+              <?php }
+               if ($key['s_idkorek'] == 85|| strlen($korek)<=9) {
+                   $bg='background-color:#bbf283;';
+                   $b='<b>';
+                   $b2='</b>';
+                }else{
+                    $bg='';
+                    $b='';
+                    $b2='';
+
+                }
+
+              ?>
+          
+               <tr border="1">
+              
+               <td colspan="4" style="text-align: left; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?=$korek?><?=$b2?></td>
+               <td colspan="6" style="border: 1px solid black;text-align: left; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?=$key['s_namakorek']?><?=$b2?></td>
+                <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?= number_format($key['jmltarget'], 2, ',', '.') ?><?=$b2?></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?= number_format($bulanlalu, 2, ',', '.') ?><?=$b2?></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?= number_format($bulanini, 2, ',', '.') ?><?=$b2?></td> 
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?= number_format($sampaidenganbulanini, 2, ',', '.') ?><?=$b2?></td>
+               <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?= number_format($selisih, 2, ',', '.') ?><?=$b2?></td>
+              <td colspan="" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black; <?=$bg?>"><?=$b?><?=number_format($persen, 2, ',', '.') ?><?=$b2?></td>
+            </tr>
+             <?php
+             // $totalpembayaran += $sampaidenganbulanini;
+             // $totaltarget +=$target;
+             // $totalbulanlalu +=$bulanlalu;
+             // $totalbulanini +=$bulanini;
+              // } 
+           }
+          }?>
+
+            <!-- <tr>
+                <td colspan="16" style="border-top: 1px solid black">&nbsp;</td> -->
+            <!-- 
+                <td colspan="10" style="text-align: center; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;"><b>Jumlah Total <?=$dataopd['s_namasatker']?></b></td>
+                <td colspan="1" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;"><?= number_format($tottarget, 2, ',', '.')?></td>
+                <td colspan="1" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;"><?= number_format($totalbulanlalu, 2, ',', '.')?></td>
+                <td colspan="1" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;"><?= number_format($totalbulanini, 2, ',', '.')?></td>
+                <td colspan="1" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;"><?= number_format($totalpembayaran, 2, ',', '.')?></td>
+                <td colspan="2" style="text-align: right; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 0.5px solid black;">&nbsp;</td> -->
+            <!-- </tr> -->
+            </tbody>
+           
+        </table>
+        <br><br>
+        <table width="100%" class="mengetahui">
+            <tr class="mengetahui"> 
+          
+                <td colspan="8" style=" width: 35%; text-align: center;vertical-align: bottom;" class="mengetahui">
+                    Mengetahui<br>
+                    <?= $ar_mengetahui->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <u><b><?= $ar_mengetahui->s_namapej ?></b></u><br>
+                    NIP <?= $ar_mengetahui->s_nippej ?>
+                </td>
+                 <td style=" width: 30%" class="mengetahui"></td>
+                       <td colspan="7" style=" width: 35%;text-align: center;vertical-align: bottom;" class="mengetahui">
+                    <?= $ar_pemda->s_namaibukotakabkota . ', ' . date('d', strtotime($tglcetak)) . " " . $namabulan_text[date('m', strtotime($tglcetak)) - 1] . " " . date('Y', strtotime($tglcetak)) ?>
+                    <br>
+                    Diperiksa Oleh<br>
+                    <?= $ar_diperiksa->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <u><b><?= $ar_diperiksa->s_namapej ?></b></u><br>
+                    NIP <?= $ar_diperiksa->s_nippej ?>  
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

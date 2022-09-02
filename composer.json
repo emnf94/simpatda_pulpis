@@ -1,0 +1,24 @@
+{
+    "name": "zendframework/skeleton-application",
+    "description": "Skeleton Application for ZF2",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zendframework" : "=2.4.8",
+        "neilime/zf2-twb-bundle" : "=2.5.0",
+        "twbs/bootstrap" : "=v3.3.5",
+        "neilime/zf2-assets-bundle" : "=3.4.1",
+        "dompdf/dompdf" : "dev-master",
+        "dino/dompdf-module" : "dev-hotfix-18",
+        "phpoffice/phpword" : "=0.12.0",
+        "phpoffice/phpexcel" : "~1.8",
+        "cboden/ratchet" : "0.3.*",
+        "los/lospdf": "1.*",
+        "mpdf/mpdf" : ">=v5.7.4"
+    }
+}

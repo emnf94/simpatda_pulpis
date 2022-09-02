@@ -1,0 +1,363 @@
+<div class="tab-pane" id="tab5">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="loading-progress" style="display: none"></div>
+        </div>
+        <div class="col-md-3">
+            <select id="bulanmasapajak" class="form-control">
+                <option value="">Silahkan Pilih</option>
+                <option value="01">01 || Januari</option>
+                <option value="02">02 || Februari</option>
+                <option value="03">03 || Maret</option>
+                <option value="04">04 || April</option>
+                <option value="05">05 || Mei</option>
+                <option value="06">06 || Juni</option>
+                <option value="07">07 || Juli</option>
+                <option value="08">08 || Agustus</option>
+                <option value="09">09 || September</option>
+                <option value="10">10 || Oktober</option>
+                <option value="11">11 || Nopember</option>
+                <option value="12">12 || Desember</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="text" id="tahunmasapajak" class="form-control" maxlength="4" value="<?= date('Y') ?>" placeholder="yyyy" onkeypress="return numbersonly(this, event);">
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-success btn-md" onclick="cariblmlapor()"><span class="glyph-icon icon-search"></span> CARI</button>
+            <a href='javascript:void(0)' class='btn btn-warning btn-md' onclick="inputteguranmasal()"><span class='glyph-icon icon-pencil'></span> INPUT TEGURAN</a>
+            <a href='javascript:void(0)' class='btn btn-danger btn-md' onclick="cetakdaftarblmlapor()"><span class='glyph-icon icon-file-pdf-o'></span> EXPORT TO PDF</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="jumlahdata"></div>
+            <!--<a href='form_pagedefault?t_idobjek=$row[t_idobjek]' class='btn btn-danger btn-xs'><span class='glyph-icon icon-pencil'></span> Input Teguran</a>
+            <a href='javascript:void(0)' class='btn btn-danger btn-xs' onclick="inputteguranmasal()"><span class='glyph-icon icon-pencil'></span> Input Teguran</a>
+            <a href='javascript:void(0)' class='btn btn-warning btn-xs' onclick="cetakdaftarblmlapor()"><span class='glyph-icon icon-print'></span> Cetak Daftar</a>-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocari" onchange="calldatagrid3()">
+                <option value="t_namaobjek">Nama OP</option>
+                <option value="t_nop">NIOP</option>
+                <option value="t_alamatlengkapobjek">Alamat OP</option>
+                <option value="t_npwpdwp">NPWPD</option>
+                <option value="t_namawp">Nama</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari" id="kolomcari" onkeyup="calldatagrid3()">
+                <div class="input-group-btn combooperatorwpc">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator" onchange="calldatagrid3()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosorting" onchange="calldatagrid3()">
+                    <option value="">Pilih Urutan</option>
+                    <option value="t_namaobjek">Nama OP</option>
+                    <option value="t_nop">NIOP</option>
+                    <option value="t_alamatlengkapobjek">Alamat OP</option>
+                    <option value="t_npwpdwp">NPWPD</option>
+                    <option value="t_namawp">Nama</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortasc" name="sortere" onclick="calldatagrid3()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdesc" name="sortere" onclick="calldatagrid3()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div style="overflow: auto">
+            <div class="row">
+                <table class="table table-condensed table-bordered cf tableBelumLapor" id="table-patient-time" style="font-size: 11px; color: black;">
+                    <thead class="cf" style="background-color: blue">
+                        <tr class="bg-blue">
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                No.
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                NPWPD
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                Nama
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                NIOP
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                Nama Objek
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                Alamat Objek
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                No. Telp.
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                No. HP.
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="body_grid3">
+                    </tbody>
+                </table>
+                <input type="hidden" id="s_idjenis" value="<?= $s_idjenis ?>">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AlertTeguran" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Isilah "Bulan" dan "Tahun" Terlebih Dahulu.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AlertCetakTeguran" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Centang Minimal 1 Baris Data.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function cariblmlapor() {
+        if ($("#bulanmasapajak").val() == '' || $("#tahunmasapajak").val() == '') {
+            $('#AlertTeguran').modal('show');
+        } else {
+            calldatagrid3();
+        }
+    }
+
+    // function calldatagrid3(direction) {
+    //     datagridbelumlapor($("#s_idjenis").val(), $("#bulanmasapajak").val(), $("#tahunmasapajak").val(), direction);
+    // }
+
+    // function datagridbelumlapor(s_idjenis, bulanmasapajak, tahunmasapajak, direction) {
+
+    //     const divprogress = document.getElementById('loading-progress');
+    //     divprogress.style.display = 'block';
+    //     var progress1 = $("#loading-progress").progressTimer();
+
+    //     $.get('<?= $this->url() ?>/dataGridBelumLapor/' + s_idjenis + '/' + bulanmasapajak + '/' + tahunmasapajak + '/' + direction, function (data) {
+    //         var aa = JSON.parse(data)
+    //         $("#body_grid3").html(aa.gridbelumlapor);
+    //         $("#jumlahdata").html(aa.jumlah);
+
+    //         $.ajax().error(function () {
+    //             progress1.progressTimer('error', {
+    //                 errorText: 'ERROR!',
+    //                 onFinish: function () {
+    //                     console.log('1 - There was an error processing your information!');
+    //                 }
+    //             });
+    //         }).done(function () {
+    //             progress1.progressTimer('complete');
+    //         });
+    //         setTimeout(() => {
+    //             divprogress.style.display = 'none';
+    //         }, 1000);
+    //     });
+    // }
+
+    $(function() {
+        calldatagrid3();
+    });
+
+    function calldatagrid3(direction) {
+        if ($("#combocari").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari").val()
+        if ($("#kolomcari").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari").val()
+        if ($("#combosorting").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting").val()
+        if (document.getElementById("sortasc").checked)
+            par4 = $("#sortasc").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc").checked)
+            par5 = $("#sortdesc").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator").val()
+        // datagrid($("#page").val(), $("#rows").val(), direction, par1, par2, par3, par4, par5, par6);
+        datagridbelumlapor($("#s_idjenis").val(), $("#bulanmasapajak").val(), $("#tahunmasapajak").val(), direction, par1, par2, par3, par4, par5, par6);
+
+    }
+
+    function datagridbelumlapor(s_idjenis, bulanmasapajak, tahunmasapajak, direction) {
+
+        const divprogress = document.getElementById('loading-progress');
+        divprogress.style.display = 'block';
+        var progress1 = $("#loading-progress").progressTimer();
+
+        $.get('<?= $this->url() ?>/dataGridBelumLapor/' + s_idjenis + '/' + bulanmasapajak + '/' + tahunmasapajak + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function(data) {
+            var aa = JSON.parse(data)
+            $("#body_grid3").html(aa.gridbelumlapor);
+            $("#jumlahdata").html(aa.jumlah);
+
+            $.ajax().error(function() {
+                progress1.progressTimer('error', {
+                    errorText: 'ERROR!',
+                    onFinish: function() {
+                        console.log('1 - There was an error processing your information!');
+                    }
+                });
+            }).done(function() {
+                progress1.progressTimer('complete');
+            });
+            setTimeout(() => {
+                divprogress.style.display = 'none';
+            }, 1000);
+        });
+    }
+
+    function inputteguranmasal() {
+        var checkValues = $('input[name=idobjekdbelumlapor]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        if (checkValues == '') {
+            $('#AlertCetakTeguran').modal('show');
+        } else {
+            window.open('<?= $this->url() ?>/form_pageinputteguran?idobjekbelumlapor=' + checkValues + "&bulanmasapajak=" + $("#bulanmasapajak").val() + "&tahunmasapajak=" + $("#tahunmasapajak").val() + "&s_idjenis=" + $("#s_idjenis").val());
+        }
+    }
+
+    function cetakdaftarblmlapor() {
+        var checkValues = $('input[name=idobjekdbelumlapor]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        if (checkValues == '') {
+            $('#AlertCetakTeguran').modal('show');
+        } else {
+            window.open('<?= $this->url() ?>/cetakdaftarblmlapor?idobjekbelumlapor=' + checkValues + "&bulanmasapajak=" + $("#bulanmasapajak").val() + "&tahunmasapajak=" + $("#tahunmasapajak").val() + "&s_idjenis=" + $("#s_idjenis").val());
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#selectAll').click(function(event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function() {
+                    this.checked = true;
+                }).change();
+            } else {
+                $(':checkbox').each(function() {
+                    this.checked = false;
+                }).change();
+            }
+        });
+
+        $('.tableBelumLapor tr').click(function(event) {
+            if (event.target.type !== 'checkbox') {
+                $(':checkbox', this).trigger('click');
+            }
+        });
+
+        $("input[type='checkbox']").change(function(e) {
+            if ($(this).is(":checked")) {
+                $(this).closest('tr').addClass("highlight_row");
+            } else {
+                $(this).closest('tr').removeClass("highlight_row");
+            }
+        });
+    });
+</script>
+
+<style type="text/css">
+    .combooperatorteguranc select {
+        border: 0 !important;
+        /*Removes border*/
+        -webkit-appearance: none;
+        /*Removes default chrome and safari style*/
+        -moz-appearance: none;
+        /* Removes Default Firefox style*/
+        appearance: none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px;
+        /* Removes default arrow from firefox*/
+        color: #FFF;
+    }
+
+    .tableBelumLapor {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tableBelumLapor tr:hover {
+        background: #C6E746;
+    }
+
+    .tableBelumLapor td {
+        border: 1px solid #eee;
+    }
+
+    .highlight_row {
+        background: #eee;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>

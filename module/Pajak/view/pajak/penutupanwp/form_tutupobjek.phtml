@@ -1,0 +1,207 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+
+        <?php
+        if ($this->flashMessenger()->hasMessages()) {
+            echo '<div class="alert alert-success">';
+            $messages = $this->flashMessenger()->getMessages();
+            foreach ($messages as $message) {
+                echo $message;
+            }
+            echo '</div>';
+        }
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <b style="font-family: monospace;">PENUTUPAN OBJEK PAJAK</b>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row" style="font-size: 11px">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data WP</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Tanggal Pendaftaran</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_tgldaftar'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">NPWPD/NPWRD</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_npwpd'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">NIK</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nik'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Nama</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nama'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Alamat</label>
+                            <div class="col-md-10">
+                                : <?= $data['t_alamat'] ?>, Rt. <?= $data['t_rt'] ?>, Rw. <?= $data['t_rw'] ?>, Kel./Desa <?= $data['s_namakel'] ?>, Kec. <?= $data['s_namakec'] ?>, Kab. <?= $data['t_kabupaten'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">No. Telp.</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_notelp'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Kode Pos</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_kodepos'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak / Retribusi</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <?= $this->formHidden($form->get("t_idwp")) ?>
+                        <div class="row pad10B">
+                            <div class="col-sm-12">
+                                <div class="box box-danger">
+                                    <input type="hidden" id="idl" value="1">
+                                    <div class="box-body">
+                                        <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                            <thead>
+                                                <tr>
+                                                    <th style='background-color: #00BCA4; color: white; text-align:center'>NIOP</th>
+                                                    <th style='background-color: #00BCA4; color: white; text-align:center'>Nama</th>
+                                                    <th style='background-color: #00BCA4; color: white; text-align:center'>Jenis</th>
+                                                    <th style='background-color: #00BCA4; color: white; text-align:center'>Alamat</th>
+                                                    <th style='background-color: #00BCA4; color: white; text-align:center'>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $counter = 1;
+                                                foreach ($this->dataobjek as $row) {
+                                                ?>
+                                                    <tr>
+                                                        <td style='color:red; font-size:12px; font-weight:bold'><?= $row['t_nop'] ?></td>
+                                                        <td><?= $row['t_namaobjek']; ?></td>
+                                                        <td><?= $row['s_namajenis']; ?></td>
+                                                        <td><?= $row['t_alamatobjek'] . ", RT. " . $row['t_rtobjek'] . ", RW. " . $row['t_rwobjek'] . ", Kel/Desa " . $row['s_namakel'] . ", Kec. " . $row['s_namakec'] ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($row['t_statusobjek'] == 'f') {
+                                                                echo '<span class="btn btn-danger btn-xs" title="Objek Tutup"><i class="glyph-icon icon-minus-circle"></i></span>';
+                                                            } else {
+                                                            ?>
+                                                                <button onclick="bukaTutupObjek(<?= $row['t_idobjek'] ?>)" class="btn btn-warning btn-xs" title="Penutupan Objek"><i class='glyph-icon icon-close'></i></button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                            <tbody id="add_Detail"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-default pull-right" id="tombolsimpan">
+                            <a href="<?= $this->url('penutupanwp') ?>" class='btn btn-danger btn-sm'><i class='glyph-icon icon-mail-reply'></i> Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalTutupOP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-exclamation-triangle'></span> PERHATIAN!!!</b></h4>
+            </div>
+            <form action="<?= $this->url() ?>/simpantutupop" method="post">
+                <div class='modal-body'>
+                    <div class="example-box-wrapper">
+                        <div class="col-sm-12">
+                            <label class="col-sm-3">NPWPD/NPWRD</label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="hidden" id="t_idwp_tutupop" name="t_idwp_tutupop">
+                                <input class="form-control" type="hidden" id="t_idwpobjek1" name="t_idwpobjek1">
+                                <input class="form-control" type="text" id="t_npwpdwpobjek" name="t_npwpdwpobjek" readonly="true" style="color:blue;font-weight:bold;">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3">Nama Objek</label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="t_namaobjek1" name="t_namaobjek1" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3">Alamat Objek</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" id="t_alamatobjek1" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3">Jenis</label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="t_jenisobjek1" name="t_jenisobjek1" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <label class="col-sm-12"></label>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <label class="col-sm-12">Apakah anda yakin ingin Non-aktifkan Objek ini?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <div class='col-sm-12' style="text-align:center;">
+                        <button type="submit" class='btn btn-success btn-sm'><i class='glyph-icon icon-check'></i> Ya</button>
+            </form>
+            <a class='btn btn-danger btn-sm' onclick='tutupObjek()'><i class='glyph-icon icon-close'></i> Tidak</a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+    function bukaTutupObjek(a) {
+        $.post('<?= $this->url() ?>/dataObjek', {
+            t_idwpobjek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_idwp_tutupop").val(aa.idwp);
+            $("#t_idwpobjek1").val(aa.idobjek);
+            $("#t_npwpdwpobjek").val(aa.npwpdwp);
+            $("#t_namawp1").val(aa.namawp);
+            $("#t_namaobjek1").val(aa.namaobjek);
+            $("#t_alamatobjek1").val(aa.alamatobjek);
+            $("#t_jenisobjek1").val(aa.jenisobjek);
+        });
+        $('#modalTutupOP').modal('show');
+    }
+
+    function tutupObjek() {
+        $('#modalTutupOP').modal('hide');
+    }
+</script>

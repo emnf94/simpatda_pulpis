@@ -1,0 +1,225 @@
+<style>
+    .periode {
+        font-family: Arial, Helvetica, sans-serif;
+        color: rgb(122, 120, 119);
+        font-size: 14px;
+        width: 60px;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 0 0 1px #719ECE;
+        outline: none;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    .periode:focus {
+        border-color: white;
+        box-shadow: 0 0 2px;
+    }
+
+
+
+    .btn-dat-objek-pajak {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 50px;
+        height: 30px;
+        border: none;
+        background-color: rgb(237, 142, 69);
+        color: white;
+        border-radius: 4px;
+        margin-left: 4px;
+        font-size: 1.4rem;
+
+    }
+
+    .btn-dat-objek-pajak.transaksi {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 80px;
+        height: 30px;
+        border: none;
+        background-color: rgb(237, 142, 69);
+        color: white;
+        border-radius: 4px;
+        margin-left: 4px;
+        font-size: 1.4rem;
+
+    }
+
+    .cari {
+        float: right;
+    }
+
+    .remove-columns {
+        font-family: Arial, Helvetica, sans-serif;
+        border-radius: 4px;
+    }
+</style>
+
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    CEK TUNGGAKAN
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <label class="col-sm-2">
+                            NPWPD
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="input-mask form-control" name="npwpd" id="npwpd" data-inputmask="&apos;mask&apos;:&apos;P.9.9999999.999.999&apos;" style=" font-weight: bold;font-size: 14pt;">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-md btn-warning" onclick="CariObjekPajak()"><i class='glyph-icon icon-search'></i> CARI</button>
+                        </div>
+                    </div>
+                    <!-- 
+                    <div class="col-sm-6"> 
+                        <label class="col-sm-2" style="left : 20px;"> 
+                            NOP
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="input-mask form-control" name="npwpd" id="npwpd" data-inputmask="&apos;mask&apos;:&apos;P.9.9999999.99.99&apos;" style=" font-weight: bold;font-size: 14pt;">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-md btn-warning" onclick="CariObjekPajak()"><i class='glyph-icon icon-search'></i> CARI</button>
+                        </div>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- <label for="periode">Periode</label> <input type='text'  name='periode' id='periode' >
+        <input type='button'id='cariperiode' value='cari' onclick='cariTunggakanObjekPerPeriode(".$iddiv.", ".$row['t_idobjek'].")'> -->
+
+        <div id="datawp"></div>
+        <div id="dataobjek"></div>
+    </div>
+</div>
+<div class="modal fade" id="modalTransaksiByObjek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>DATA TRANSAKSI</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="row">
+                            <div id="dataop"></div>
+                        </div>
+                        <div class="row">
+                            <div id="datatransaksi"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <button class='btn btn-danger btn-sm' onclick='tutuptransaksibyobjek()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalPembayaranByObjek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>DATA LUNAS PEMBAYARAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="row">
+                            <div id="datawppembayaran"></div>
+                        </div>
+                        <div class="row">
+                            <div id="datalunaspembayaran"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <button class='btn btn-warning btn-sm' onclick='cetaklunaspembayaranbyobjek()'><i class='glyph-icon icon-print'></i> Cetak</button>
+                    <button class='btn btn-danger btn-sm' onclick='tutuplunaspembayaranbyobjek()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modalloading"></div>
+
+<script type="text/javascript">
+    function cariTunggakanObjekPerPeriode(iddiv, idobjek) {
+        body = $("body");
+        body.addClass("loading");
+        $.post('<?= $this->url() ?>/cariTunggakanObjekPerPeriode', {
+            idobjek: idobjek,
+            periodepajak: $('#periode' + iddiv).val()
+        }, function(data) {
+            body.removeClass("loading");
+            var aa = JSON.parse(data);
+            $("#datatransaksi" + iddiv).html(aa.datatransaksi);
+        });
+    }
+
+    function CariObjekPajak() {
+        body = $("body");
+        body.addClass("loading");
+        $.post('<?= $this->url() ?>/CariObjekPajak', {
+            npwpd: $('#npwpd').val()
+        }, function(data) {
+            body.removeClass("loading");
+            var aa = JSON.parse(data);
+            $("#datawp").html(aa.datawp);
+            $("#dataobjek").html(aa.dataobjek);
+        });
+
+    }
+
+    function bukatransaksibyobjek(a, b) {
+
+        $.post('<?= $this->url() ?>/CariTransaksiByobjek', {
+            idobjek: a,
+            periodeobjek: $("#periode" + b).val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#dataop").html(aa.dataop);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+        $('#modalTransaksiByObjek').modal('show');
+    }
+
+    function tutuptransaksibyobjek() {
+        $('#modalTransaksiByObjek').modal('hide');
+    }
+
+    function bukalunaspembayaranbyobjek(a) {
+        $.post('<?= $this->url() ?>/CariPembayaranByobjek', {
+            idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#datawppembayaran").html(aa.datawp);
+            $("#datalunaspembayaran").html(aa.datalunaspembayaran);
+        });
+        $('#modalPembayaranByObjek').modal('show');
+    }
+
+    function tutuplunaspembayaranbyobjek() {
+        $('#modalPembayaranByObjek').modal('hide');
+    }
+
+    function cetaklunaspembayaranbyobjek() {
+        window.open('<?= $this->url() ?>/cetaklunaspembayaran?idwp=' + $("#t_idwplunaspembayaran").val() +
+            "&mengetahui=" + $("#mengetahuilunaspembayaran").val());
+    }
+</script>

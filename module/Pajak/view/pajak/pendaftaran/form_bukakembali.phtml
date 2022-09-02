@@ -1,0 +1,89 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_bukakembali');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #f39c12">
+                <h4 style="">
+                    <i class="glyph-icon icon-close"></i> Form Pembukaan Kembali Wajib Pajak/Retribusi
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">
+                            <p style="color: red; font-size: 10px; margin-top: -20px">(*) Wajib Diisi</p>
+                        </label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">NPWPD</label>
+                        <div class="col-md-4">
+                            <?= $this->formHidden($form->get("t_idwp")) ?>
+                            <?PHP $NPWPD = $data->t_jenispendaftaran . '.' . $data->t_bidangusaha . '.' . str_pad($data->t_nopendaftaran, 7, '0', STR_PAD_LEFT) . '.' . str_pad($data->t_kecamatan, 2, '0', STR_PAD_LEFT) . '.' . str_pad($data->t_kelurahan, 3, '0', STR_PAD_LEFT) ?>
+                            <input class="form-control" value="<?= $NPWPD ?>" readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Nama</label>
+                        <div class="col-md-4">
+                            <input class="form-control" value="<?= $data->t_nama ?>" readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Jalan</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" readonly=""><?= $data->t_alamat ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading col-sm-12" style="background-color: #f39c12;">
+                        <h4 style="color: white;">
+                            Form Pembukaan Kembali Wajib Pajak
+                        </h4>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Tanggal Pembukaan<span style="color: red">*</span></label>
+                        <div class="col-md-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-calendar"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_tgl_buka")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">No. Berita Acara<span style="color: red">*</span></label>
+                        <div class="col-md-2">
+                            <?= $this->formtext($form->get("t_noberita_buka")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Status WP<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <?= $this->formSelect($form->get("t_status_wp")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Isi Berita Acara</label>
+                        <div class="col-md-4">
+                            <?= $this->formTextarea($form->get("t_ket_buka")) ?>
+                        </div>
+                    </div>
+                    <!-- <div class="bg-default" id="tombolsimpan"> -->
+                    <?= $this->formInput($form->get('Pendaftaransubmit')) ?>
+                    <!-- </div> -->
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

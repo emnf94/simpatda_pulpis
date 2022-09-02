@@ -1,0 +1,60 @@
+ SELECT a.t_idobjek,
+    a.t_idwp,
+    a.t_noobjek,
+    a.t_tgldaftarobjek,
+    (((((lpad(a.t_jenisobjek::text, 2, '0'::text) || '.'::text) || lpad(a.t_noobjek::text, 5, '0'::text)) || '.'::text) || lpad(g.s_kodekec::text, 3, '0'::text)) || '.'::text) || lpad(h.s_kodekel::text, 3, '0'::text) AS t_nop,
+    g.s_kodekec,
+    h.s_kodekel,
+    a.t_namaobjek,
+    a.t_alamatobjek,
+    a.t_namaobjekpj,
+    a.t_alamatobjekpj,
+    a.t_rtobjek,
+    a.t_rwobjek,
+    a.t_kelurahanobjek,
+    d.s_namakel AS s_namakelobjek,
+    a.t_kecamatanobjek,
+    c.s_namakec AS s_namakecobjek,
+    a.t_kabupatenobjek,
+    (((((((a.t_alamatobjek::text || ', RT. '::text) || a.t_rtobjek::text) || ', RW. '::text) || a.t_rwobjek::text) || ', Desa '::text) || d.s_namakel::text) || ', Kec. '::text) || c.s_namakec::text AS t_alamatlengkapobjek,
+    a.t_kodeposobjek,
+    a.t_latitudeobjek,
+    a.t_longitudeobjek,
+    a.t_notelpobjek,
+    a.t_jenisobjek,
+    a.t_operatorid,
+    b.s_idjenis,
+    b.s_namajenis,
+    b.s_namajenissingkat,
+    b.t_akhirlapor,
+    b.t_akhirbayar,
+    b.t_jmlharitempo,
+    a.t_gambarobjek,
+    b.s_jenispungutan,
+    ( SELECT aa.t_npwpd
+           FROM view_wp_v3 aa
+          WHERE aa.t_idwp = a.t_idwp) AS t_npwpdwp,
+        CASE
+            WHEN e.t_bidangusaha = 1 THEN e.t_nama
+            ELSE e.t_nama_badan
+        END AS t_namawp,
+        CASE
+            WHEN e.t_bidangusaha = 1 THEN concat(e.t_alamat, ', RT. ', e.t_rt, ', RW. ', e.t_rw, ', Desa ', d.s_namakel, ', Kec. ', c.s_namakec, ', Kab. ', e.t_kabupaten)
+            ELSE concat(e.t_jalan_badan, ', RT. ', e.t_rt_badan, ', RW. ', e.t_rw_badan, ', Desa ', h.s_namakel, ', Kec. ', g.s_namakec, ', Kab. ', e.t_kabupaten_badan)
+        END AS t_alamat_lengkapwp,
+    f.s_nama,
+    a.t_korekobjek,
+    e.t_noberita,
+    a.t_statusobjek,
+    e.t_nik AS t_nikwp,
+    a.t_tipeusaha,
+    i.s_namausaha
+   FROM t_wpobjek a
+     LEFT JOIN s_jenisobjek b ON a.t_jenisobjek = b.s_idjenis
+     LEFT JOIN s_kecamatan c ON a.t_kecamatanobjek = c.s_idkec
+     LEFT JOIN s_kelurahan d ON a.t_kelurahanobjek = d.s_idkel
+     LEFT JOIN t_wp e ON a.t_idwp = e.t_idwp
+     LEFT JOIN s_users f ON a.t_operatorid = f.s_iduser
+     LEFT JOIN s_kecamatan g ON a.t_kecamatanobjek = g.s_idkec
+     LEFT JOIN s_kelurahan h ON a.t_kelurahanobjek = h.s_idkel
+     LEFT JOIN s_tipeusaha i ON a.t_tipeusaha = i.s_idusaha

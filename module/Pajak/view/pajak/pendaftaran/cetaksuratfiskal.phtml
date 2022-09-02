@@ -1,0 +1,253 @@
+<?php
+if ($formatcetak == 'word') {
+    header("Content-type: application/vnd-ms-word");
+    header("Content-Disposition: attachment; filename=cetaksuratpengukuhan.doc");
+}
+
+$txt_bulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+$txt_romawi = ['1' => 'I', '2' => 'II', '3' => 'III', '4' => 'IV'];
+
+$objekpajak = (substr($data['t_npwpd'], 0, 1) == 'P') ? 'Pajak' : 'Retribusi';
+$nomorawal = (substr($data['t_npwpd'], 0, 1) == 'P') ? '973' : '974';
+
+?>
+<?php
+if ($data['t_bidangusaha'] == 2) {
+    $nama = $data['t_nama'] . " / " . $data['t_nama_badan'];
+} else {
+    $nama = $data['t_nama'];
+}
+
+// var_dump($tglawal);exit;
+
+?>
+<html>
+
+<head>
+    <style type="text/css">
+        .border_atas {
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .border_kiri {
+            border-left: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .border_kanan {
+            border-right: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .border_bawah {
+            border-bottom: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .font_besar {
+            font-size: 12pt;
+        }
+
+        .font_kecil {
+            font-size: 10pt;
+        }
+
+        .font_lima {
+            font-size: 7pt;
+        }
+
+        .font_tujuh {
+            font-size: 7pt;
+        }
+
+        .font_delapan {
+            font-size: 8pt;
+        }
+
+        .font_sembilan {
+            font-size: 9pt;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="border_atas border_bawah border_kanan border_kiri" style="width: 100%">
+        <tr>
+            <td class="border_bawah" style="width: 40%; padding:0; border-spacing:0px;">
+                <table class="font_sepuluh">
+                    <tr>
+                        <td>
+                            <?php
+                            $gambar = $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo;
+                            ?>
+                            <img src="<?= $gambar ?>" style="width:50px; padding: 10px" />
+                        </td>
+                        <td style="width: 80%;text-align: center;">
+                            <strong style="font-size:12pt;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?> </strong>
+                            <br>
+                            <strong style="font-size:12pt;"><?= strtoupper($ar_pemda->s_namainstansi) ?></strong>
+                            <br>
+                            <p style="font-size:8pt;"><?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?> </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- <div style='width: 100%;font-family:sans-serif;'>
+
+            <p style="text-align: center;">
+                <strong style=" font-size: 10pt; ">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></strong><br>
+                <strong style=" font-size: 12pt; "><?= strtoupper($ar_pemda->s_namainstansi); ?></strong><br>
+                <span style="font-size:8pt"><?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+            </P>
+        </div>
+        <hr style="color: black"> -->
+    <p style="font-size:8pt;margin:10px 10px 10px 10px;text-align:center;line-height:20px;">
+        <strong style="font-size:11pt"><u>SURAT KETERANGAN FISKAL</u></strong>
+        <br>
+        NOMOR : 6203 / <?= str_ireplace(".", "", substr($data['t_npwpd'], 2, 9)) . ' / ' . $txt_romawi[substr($data['t_npwpd'], 2, 1)] . ' / ' . date('m / Y', strtotime($data['t_tgldaftar'])) ?>
+    </p>
+    <!-- <p style="font-size:11pt;margin:10px 10px 10px 10px;text-align:center;line-height:20px;">
+            TENTANG<BR>
+            PENGUKUHAN SEBAGAI WAJIB <?= strtoupper($objekpajak) ?> DAERAH
+        </p>
+        <p style="font-size:11pt;margin:10px 10px 10px 10px;text-align:center;line-height:20px;">
+            KEPALA <?= strtoupper($ar_pemda->s_namainstansi) ?><BR>
+            KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?>
+        </p> -->
+    <table cellpadding="2" cellspacing="2" style="font-size:10pt;margin:10px 10px 0px 10px;">
+        <tr>
+            <td style="line-height:20px;" colspan="3">Badan Pendapatan Daerah Kabupaten <?= $ar_pemda->s_namaibukotakabkota ?>, menerangkan bahwa orang / badan tersebut dibawah ini: </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <table style="font-size:9.5pt;width:100%" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td style="vertical-align:top;width:30%">
+                            NPW<?= substr($data['t_npwpd'], 0, 1) ?>D
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <?= $data['t_npwpd'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            Nama Penanggung <?= $objekpajak ?>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <?= strtoupper($nama) ?>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            Alamat
+                        </td>
+                        <td style="vertical-align:top;">
+                            :
+                        </td>
+                        <td><?= strtoupper($data['t_alamat']) ?>, RT. <?= strtoupper($data['t_rt']) ?> , RW. <?= strtoupper($data['t_rw']) ?> , DESA <?= strtoupper($kelurahan) ?>, KEC. <?= strtoupper($kecamatan) ?>, KAB. <?= strtoupper($data['t_kabupaten']) ?></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            NIO<?= substr($data['t_npwpd'], 0, 1) ?>
+
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <?= strtoupper($dataobjek['t_nop']) ?>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            Nama Usaha
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <?= strtoupper($dataobjek['t_namaobjek']) ?>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            Alamat Usaha
+                        </td>
+                        <td style="vertical-align:top;">
+                            :
+                        </td>
+                        <td>
+                            <?= strtoupper($dataobjek['t_alamatobjek'] . ' - ' . $dataobjek['s_namakel'] . '<br>' . $dataobjek['s_namakec'] . ' - ' . $dataobjek['t_kabupatenobjek']) ?>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            Tgl. Daftar Usaha/Objek
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <?= date('d-m-Y', strtotime($dataobjek['t_tgldaftarobjek']))  ?>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">Telah melunasi pembayaran <?= $objekpajak ?> Daerah terhitung Mulai
+                Tanggal
+                <?= date('d', strtotime($tglawal)) . ' ' . $txt_bulan[date('m', strtotime($tglawal))] . ' ' . date('Y', strtotime($tglawal)) ?>
+                sampai dengan
+                Tanggal
+                <?= date('d', strtotime($tglakhir)) . ' ' . $txt_bulan[date('m', strtotime($tglakhir))] . ' ' . date('Y', strtotime($tglakhir)) ?>. </td>
+        </tr>
+    </table>
+    <table style="font-size:12px;margin:20px 5px 10px 10px;width:100%;">
+        <tr>
+            <td width="60%"></td>
+            <td width="40%" align="left">
+                <table style="width:100%;" class="border_bawah">
+                    <tr>
+                        <td>Ditetapkan di</td>
+                        <td>:</td>
+                        <td><?= $ar_pemda->s_namaibukotakabkota ?></td>
+                    </tr>
+                    <tr>
+                        <td>Pada tanggal</td>
+                        <td>:</td>
+                        <td><?= date('d', strtotime($tglawal)) . ' ' . $txt_bulan[date('m', strtotime($tglawal))] . ' ' . date('Y', strtotime($tglawal)) ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="text-align:center;"><?= strtoupper($ar_mengetahui->s_jabatanpej) ?><br>KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?>
+                <br><br><br>
+                <?= strtoupper($ar_mengetahui->s_namapej .  '<br>NIP. ' . $ar_mengetahui->s_nippej) ?>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

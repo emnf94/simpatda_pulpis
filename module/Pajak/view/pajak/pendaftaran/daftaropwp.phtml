@@ -1,0 +1,354 @@
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 28px;"><b>DATA OBJEK PAJAK WAJIB PAJAK</b></span>';
+$link = '<a href="' . $this->url('pendaftaran') . '"  class="btn btn-danger btn-sm btn-flat">
+                        <i class="fa fa-undo"></i>&nbsp;&nbsp;Kembali
+                    </a> ';
+ 
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>  
+
+
+<table id="daftarpendataanwp" cellpadding="0" cellspacing="0" border="0" class="display" width="100%">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>NPWPD</th>
+            <th>Nama Badan</th>
+            <th>Nama Pemilik</th>
+            <th>Nama Objek</th>
+            <th>Alamat Objek</th>         
+            <th>Kelurahan Objek</th>
+            <th>Kecamatan Objek</th> 
+            <th>Perintah</th>
+            <th>Jenis Pajak</th>
+            <th>Kode Rekening</th> 
+            <th>Nama Rekening</th> 
+            <th>Tarif Rekening</th> 
+            <th>NPWPD LAMA</th> 
+            <th>Tgl Tutup</th> 
+            <th>Status Tutup</th> 
+            
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <th></th>
+    <th></th>
+    <th></th>    
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+</div> 
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+
+<?php
+    $idtabel = '#daftarpendataanwp';
+    $url = $this->url('pendaftaran').'/datagriddaftaropwp';
+    $jmlkolom = 15;
+    $seleksi_kolom = "'0','8'"; //iki data sort di disabel
+    $pencarian_bawah = 1;
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+<div class="modal fade" id="modalFormtutup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0073b7; color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-print"></i> FORM OBJEK WP TUTUP</h4></center>
+            </div>
+            <div class="panel-body">
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="t_idwptutup" id="t_idwptutup">
+                                <input type="hidden" name="t_idobjektutup" id="t_idobjektutup">
+                                <input type="text" class="form-control" name="nama_wptutup" id="nama_wptutup" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="t_alamatwp" id="t_alamatwp" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama Objek
+                            </label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="t_namaobjek_tutup" id="t_namaobjek_tutup" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Tutup Objek
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="t_tgltutupobjek" id="t_tgltutupobjek" >
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Status Objek
+                            </label>
+                            <div class="col-md-9">
+                                <select name="status_optutup" id="status_optutup" class="form-control">
+                                    <!--<option value="">-- Pilih --</option>-->
+                                    <option value="">Buka</option>
+                                    <option value="1">Tutup</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-success" title="" onclick="simpandataoptutup()"><i class="fa fa-save"></i> SIMPAN</a>
+                    <button class='btn btn-danger btn-sm' onclick='tutupFormtutup()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalCetakskwpcabut" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0073b7; color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-print"></i> CETAK SK PENCABUTAN</h4></center>
+            </div>
+            <div class="panel-body">
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="t_idwpskwpcabut" id="t_idwpskwpcabut">
+                                <input type="hidden" name="t_idobjekskwpcabut" id="t_idobjekskwpcabut">
+                                <input type="text" class="form-control" name="nama_wpskwpcabut" id="nama_wpskwpcabut" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="t_alamatwp_skwpcabut" id="t_alamatwp_skwpcabut" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama Objek
+                            </label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="t_namaobjek_skwpcabut" id="t_namaobjek_skwpcabut" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Tutup Objek
+                            </label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="t_tgltutupobjek_skwpcabut" id="t_tgltutupobjek_skwpcabut" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Status Objek
+                            </label>
+                            <div class="col-md-9">
+                                <select name="status_opskwpcabut" id="status_opskwpcabut" class="form-control">
+                                    <!--<option value="">-- Pilih --</option>-->
+                                    <option value="">Buka</option>
+                                    <option value="1">Tutup</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-9">
+                                <select name="mengetahuiskwpcabut" id="mengetahuiskwpcabut" class="form-control">
+<?php foreach ($ar_pejabat as $row) { ?>
+                                            <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+<?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-success" title="" onclick="cetakSKWPcabutpdf()"><i class="fa fa-file-pdf-o"></i> CETAK PDF</a>
+                    <button class='btn btn-danger btn-sm' onclick='tutupCetakskwpcabut()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+fr_tanggal("#t_tgltutupobjek");
+
+function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+            
+            fr_tanggal("#tgltutup");
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'namawp') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenispajak') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->getDatajenispajak() as $key => $row) {
+                                        echo '<option value="' . $row['s_idjenis'] . '">' . $row['s_namajenis'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'statustutup') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- PILIH -- </option><option value="2">BUKA</option><option value="1">TUTUP</option></select></center>');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'tgltutup') {
+                $(this).html('<input type="text" style="width:100px;" id="tgltutup" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+            
+        });
+    }
+
+function hapusopwptutup(a) {
+    var tanya = confirm("Hapus data ini?")
+    if (tanya) {
+        $.post('<?= $this->url('pendaftaran') ?>/hapusopwptutup/' + a);
+    }
+    setTimeout(function () {
+        dTable.ajax.reload();
+    }, 500);
+}
+    
+    function bukaFormtutup(a) {
+        $.post('<?= $this->url() ?>/caridatasatuop', {t_idobjek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_idwptutup").val(aa.t_idwp);
+            $("#t_idobjektutup").val(aa.t_idobjek);
+            $("#nama_wptutup").val(aa.namawp);
+            
+            $("#t_alamatwp").val(aa.alamatwp);
+            $("#t_namaobjek_tutup").val(aa.t_namaobjek);
+            $("#status_optutup").val(aa.status_optutup);
+            $("#t_tgltutupobjek").val(aa.t_tgltutupobjek);
+        });
+        $('#modalFormtutup').modal('show');
+    }
+
+    function tutupFormtutup() {
+        $('#modalFormtutup').modal('hide');
+    }
+    
+    function simpandataoptutup() {
+        var tanya = confirm("Yakin menyimpan status data objek pajak ini?")
+        if (tanya) {
+            
+            $.post('<?= $this->url('pendaftaran') ?>/simpanopwptutup', {t_idobjek: $("#t_idobjektutup").val(), status_optutup: $("#status_optutup").val(), t_tgltutupobjek: $("#t_tgltutupobjek").val()}, function (data) {
+            var aa = JSON.parse(data);
+            
+        });
+        }
+        setTimeout(function () {
+            $('#modalFormtutup').modal('hide');
+            dTable.ajax.reload();
+        }, 500);
+    }
+    
+    function bukaCetakskwpcabut(a) {
+        $.post('<?= $this->url() ?>/caridatasatuop', {t_idobjek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#t_idwpskwpcabut").val(aa.t_idwp);
+            $("#t_idobjekskwpcabut").val(aa.t_idobjek);
+            $("#nama_wpskwpcabut").val(aa.namawp);
+            
+            $("#t_alamatwp_skwpcabut").val(aa.alamatwp);
+            $("#t_namaobjek_skwpcabut").val(aa.t_namaobjek);
+            $("#status_opskwpcabut").val(aa.t_objektutup);
+            $("#t_tgltutupobjek_skwpcabut").val(aa.t_tgltutupobjek);
+        });
+        $('#modalCetakskwpcabut').modal('show');
+    }
+
+    function tutupCetakskwpcabut() {
+        $('#modalCetakskwpcabut').modal('hide');
+    }
+    
+    function cetakSKWPcabutpdf() {
+          
+            window.open("<?= $this->url() ?>/cetakskwpcabut?idwpskwp=" + $("#t_idwpskwpcabut").val() + "&ttd0=" + $("#mengetahuiskwpcabut").val() + "&objekpajakwp=" + $("#t_idobjekskwpcabut").val() + "&jeniscetak=1");
+        
+    }
+    
+</script>    

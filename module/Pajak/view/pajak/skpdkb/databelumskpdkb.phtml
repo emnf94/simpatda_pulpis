@@ -1,0 +1,141 @@
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 24px;"><b>DAFTAR TRANSAKSI SELF</b></span>';
+$link = '<a href="'.$this->url('skpdkb').'" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+<table id="datapendataanobjek" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>No. SPTPD</th>            
+            <th>NPWPD</th> 
+            <th>Nama Badan</th>         
+            <th>Nama Pemilik</th>       
+            <th>Nama Objek</th>  
+            <th>Jenis Ketetapan</th>
+            <th>Tgl. Pendataan</th>    
+            <th>Dasar Pengenaan (Omzet)</th>
+            <th>Tarif Pajak (%)</th>
+            <th>Jumlah Pajak/Ret. (Rp.)</th>  
+            
+            <th>Perintah</th>
+            <th>Masa Pajak</th>
+            <th>Jumlah Denda</th>  
+            <th>Status Bayar</th>
+            <th>Tgl. Bayar</th> 
+            <th>Jumlah Bayar</th> 
+            <th>Tgl. Bayar Denda</th>
+            <th>Jumlah Bayar Denda</th> 
+            <th>Kode Rekening</th> 
+            <th>Nama Rekening</th> 
+            <th>NPWPD Lama</th> 
+            <th>Dari</th> 
+            <th>APP Dari</th> 
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <th></th>  
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+
+<?php
+    $idtabel = '#datapendataanobjek';
+    $url = $this->url().'/dataGridbelumskpdkb';
+    $jmlkolom = 22;
+    $seleksi_kolom = "'0','11'"; //iki data sort di disabel
+    $pencarian_bawah = '1';
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+
+
+
+<script type="text/javascript">
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'namawp') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenisketetapan') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->getDatajenisketetapan() as $key => $row) {
+                                        echo '<option value="' . $row['s_idsurat'] . '">' . $row['s_namasingkatsurat'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'statusbayar') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">SUDAH</option><option value="2">BELUM</option></select></center>');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'dari') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="0">Wajib Pajak</option><option value="1">SKPD</option></select></center>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'appdari') {
+                $(this).html('<center><select class="pencariantable" style="width:100px;text-size:8pt;"><option value="">-- Pilih --</option><option value="S">SIMPATDA</option><option value="E">E-SPTPD</option></select></center>');
+            }
+        });
+    }
+</script>

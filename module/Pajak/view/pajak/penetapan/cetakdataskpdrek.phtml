@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <style type="text/css" media="print">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            .font_empatbelas {
+                font-size: 14pt;
+            }    
+            .mengetahui{
+                margin-top: 10px;
+                border: 1px solid white;
+                border-collapse: collapse;
+            }
+            @page{
+                margin: 25px 40px 40px 25px;
+                /* ensure you append the header/footer name with 'html_' */
+                header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+                footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+            }
+        </style>
+    </head>
+    <body><?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+
+        if ($jenisketetapan == 'pajak') {
+            $jenis_ketetapan = 'P';
+        } else {
+            $jenis_ketetapan = 'R';
+        }
+
+        if ($formatcetak == 'excel') {
+            header("Content-type: application/vnd-ms-excel");
+            header("Content-Disposition: attachment; filename=cetakdatask" . strtolower($jenis_ketetapan) . "drek.xls");
+        }
+        
+	$namabulan_text = [
+		"Januari",
+		"Februari",
+		"Maret",
+		"April",
+		"Mei",
+		"Juni",
+		"Juli",
+		"Agustus",
+		"September",
+		"Oktober",
+		"November",
+		"Desember"
+	];
+        ?>
+        <div>
+            <div>
+                <div style='width: 100%;text-align: center;padding-right: 5%;font-family: sans-serif;'>
+                    <img src="<?= $ar_pemda->s_logo ?>" width="50" style=" float: left;">
+                    <span style="font-size:13pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                    <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                    <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h3 style="text-align: center;font-family: sans-serif;">DAFTAR PENETAPAN <?= strtoupper($jenisketetapan) ?> PER-REKENING</h3>
+            <p style="font-size: 10pt; line-height: 5px;font-family: sans-serif;"> 
+                Tanggal Penetapan : <?= $tglpenetapan0 ?> s/d <?= $tglpenetapan1 ?>
+            </p>
+            <table width="100%" cellpadding="2" cellspacing="2" style="font-family: sans-serif;">
+                <tr style="text-align: center;background: #f3f3f3">
+                    <th>No.</th>
+                    <th>No.SK<?= $jenis_ketetapan ?>D</th>
+                    <th>NPW<?= $jenis_ketetapan ?>D</th>
+                    <th>NAMA W<?= $jenis_ketetapan ?></th>
+                    <th>NAMA OBJEK</th>
+                    <th>ALAMAT OBJEK</th>
+                    <th>TGL.PENETAPAN</th>
+                    <th>MASA <?= strtoupper($jenisketetapan) ?></th>
+                    <th><?= strtoupper($jenisketetapan) ?> (Rp)</th>
+                    <th>KETERANGAN</th>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($data as $k => $v) {
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $counter ?>.
+                        </td>
+                        <td style="text-align: center">
+                            <?= $v['t_nopenetapan'] ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= $v['t_npwpd'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_nama'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_namaobjek'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_alamatlengkapobjek'] ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= date('d/m/Y', strtotime($v['t_tglpenetapan'])) ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= date('d/m/Y', strtotime($v['t_masaawal'])) . ' sd.' . date('d/m/Y', strtotime($v['t_masaakhir'])) ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhpajak']) ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['korek'] . '<br>' . $v['s_namakorek'] ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $counter++;
+                    $totalketetapan += $v['t_jmlhpajak'];
+                }
+                ?>
+                <tr>
+                    <th colspan="8">TOTAL PENETAPAN <?= strtoupper($jenisketetapan) ?></th>
+                    <th><?= number_format($totalketetapan) ?></th>
+                </tr>
+            </table>
+            
+            <table width="100%" class="mengetahui">
+                <tr class="mengetahui">
+                    <td colspan="3" style=" width: 25%; text-align: center;vertical-align: bottom;" class="mengetahui">
+                        Mengetahui<br>
+                        <?= $ar_mengetahui->s_jabatanpej ?>
+                        <br><br><br><br><br><br><br>
+                        <u><b><?= $ar_mengetahui->s_namapej ?></b></u><br>
+                        NIP <?= $ar_mengetahui->s_nippej ?>
+                    </td>
+                    <td colspan="4" style=" width: 50%" class="mengetahui"></td>
+                    <td colspan="3" style=" width: 25%;text-align: center;vertical-align: bottom;" class="mengetahui">
+                        <?= $ar_pemda->s_namaibukotakabkota .', '.date('d', strtotime($tglcetak)) . " " . $namabulan_text[date('m', strtotime($tglcetak)) - 1] . " " . date('Y', strtotime($tglcetak))?>
+                        <br>
+                        Diperiksa Oleh<br>
+                        <?= $ar_diperiksa->s_jabatanpej ?>
+                        <br><br><br><br><br><br><br>
+                        <u><b><?= $ar_diperiksa->s_namapej ?></b></u><br>
+                        NIP <?= $ar_diperiksa->s_nippej ?>  
+                    </td>
+                </tr>
+            </table>
+        </div>
+    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+</body>
+</html>

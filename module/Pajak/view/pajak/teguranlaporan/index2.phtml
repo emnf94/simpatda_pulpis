@@ -1,0 +1,52 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <b style="font-family: monospace;">Penagihan Pelaporan SPTPD</b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">BELUM MELAPORKAN SPTPD</a></li>
+                    <li><a href="#tab2" data-toggle="tab">DAFTAR TEGURAN SPTPD</a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_belumlapor.phtml'); ?>
+                    <?= $this->partial('grid_teguran.phtml'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#selectAll').click(function(event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function() {
+                    this.checked = true;
+                }).change();
+            } else {
+                $(':checkbox').each(function() {
+                    this.checked = false;
+                }).change();
+            }
+        });
+
+        $('.record_table tr').click(function(event) {
+            if (event.target.type !== 'checkbox') {
+                $(':checkbox', this).trigger('click');
+            }
+        });
+
+        $("input[type='checkbox']").change(function(e) {
+            if ($(this).is(":checked")) {
+                $(this).closest('tr').addClass("highlight_row");
+            } else {
+                $(this).closest('tr').removeClass("highlight_row");
+            }
+        });
+    });
+</script>

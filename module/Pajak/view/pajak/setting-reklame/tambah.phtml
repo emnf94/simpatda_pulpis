@@ -1,0 +1,72 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Tambah Tarif Reklame
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Reklame</label>
+                                <div class="col-md-6">
+                                    <?= $this->formHidden($frm->get('s_idreklamejenis')) ?>
+                                    <?= $this->formRow($frm->get('s_namareklamejenis')) ?>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Rekening</label>
+                                <div class="col-md-6">
+                                    <?= $this->formRow($frm->get('s_idrekening')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tipe</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('s_permanen')) ?>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">NJOP (Rp.)</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('s_njop')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nilai Strategis</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('kawasan1')) ?>
+                                    <?= $this->formRow($frm->get('kawasan2')) ?>
+                                    <?= $this->formRow($frm->get('kawasan3')) ?>
+                                    <?= $this->formRow($frm->get('kawasan4')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?>
+                                    <a href="<?= $this->url('setting_reklame') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

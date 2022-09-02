@@ -1,0 +1,164 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $via = [0 => 'BKP & BANK', 1 => 'BKP', 2 => 'BANK'];
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        ?>
+        <div>
+            <div>
+                <div style='width: 10%; float: left;'>
+                </div>
+                <div style='width: 90%; float: right;'>
+                    <p style="text-align: center; font-size: 10pt; font-weight: BOLD;">
+                        KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">
+<?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 5px">
+<?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?> 
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 5px">
+<?= $ar_pemda->s_namaibukotakabkota ?> 
+                    </p>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center; text-decoration: underline;">REKAPITULASI PENERIMAAN VIA <?= $via[(int) $viapembayaran] ?></h4>
+            <p style="font-size: 9pt; line-height: 2px;">No. ....</p>
+            <p style="font-size: 9pt; line-height: 2px; width: 100%; text-align: right;"><b>Bank : </b><?= $ar_pemda->s_namabank ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <p style="font-size: 9pt; line-height: 2px; width: 100%; text-align: right;"><b>No. Rekening : </b> <?= $ar_pemda->s_norekbank ?></p>
+            <p style="font-size: 9pt; line-height: 2px;">Harap diterima uang sebesar <b>Rp. <?= number_format($total_rekap, 0, ',', '.') ?></b></p>
+            <p style="font-size: 9pt; line-height: 2px;">dengan huruf: <b><?= terbilang($total_rekap); ?> Rupiah</b></p>
+            <p style="font-size: 9pt;">Dengan rincian penerimaan sebagai berikut : </p>
+            <table width="100%" style="font-size: 10pt;">
+                <tr style="text-align: center;">
+                    <th class="border_atas border_bawah border_kanan border_kiri">
+                        No.
+                    </th>
+                    <th>
+                        Kode Rekening
+                    </th>
+                    <th>
+                        Uraian Rincian Objek
+                    </th>
+                    <th>
+                        Jumlah (Rp.)
+                    </th>
+                </tr>
+                <?php
+                $no = 1;
+                $total = 0;
+                foreach ($data as $col => $row):
+                    ?>
+                    <tr>
+                        <td style="text-align: center;"><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $row['korek'] ?></td>
+                        <td><?= $row['s_namakorek'] ?></td>
+                        <td style="text-align: right;"><?= number_format($row['jumlah'], 0, ',', '.') ?></td>
+                    </tr>
+                    <?php
+                    $total += $row['jumlah'];
+                endforeach;
+                ?>
+                <tr>
+                    <td colspan="3" style="text-align: center; font-weight: bold;">Jumlah</td>
+                    <td style="text-align: right; font-weight: bold;"><?= number_format($total, 0, ',', '.') ?></td>
+                </tr>
+
+            </table>
+
+            <br>
+            <div>
+                <div style="float:left; width: 35%; text-align: center">
+                    <div>&nbsp;</div>
+                    <div><?= ($ar_mengetahui->s_idpej == 1) ? 'Pengguna Anggaran' : 'a.n Pengguna Anggaran' ?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?= $ar_mengetahui->s_namapej ?></div>
+                    <div><?= $ar_mengetahui->s_nippej ?></div>
+                </div>
+                <div style="float:right;width: 35%; text-align: center;" >
+                    <div><?= $ar_pemda->s_namaibukotakabkota ?>, <?= date('d') . ' ' . $abulan[date('m')] . ' ' . date('Y') ?></div>
+                    <div style="text-align:center;"><?= $ar_diperiksa->s_jabatanpej ?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?= $ar_diperiksa->s_namapej ?></div>
+                    <div><?= $ar_diperiksa->s_nippej ?></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>
+

@@ -1,0 +1,239 @@
+<div class="tab-pane" id="tab5">
+    <div class="example-box-wrapper">
+        <div class="row" style="overflow: auto">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            No. SKPDT
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            NPWPD
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Nama
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            NIOP
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Nama OP
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Jenis Pajak
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Masa Pajak
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Kode Bayar
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Pajak
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Denda
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Tunggakan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            #
+                        </th>  
+                    </tr>
+                    <tr class="bg-default">
+                        <td></td>
+                        <td><input type="text" id="t_nourut_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td><input type="text" id="t_npwpd_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td><input type="text" id="t_nama_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td><input type="text" id="t_niop_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td><input type="text" id="t_namaobjek_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td><input type="text" id="t_jenispajak_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td></td>
+                        <td><input type="text" id="t_kodebayar_cari_4" class="form-control input-sm" onkeyup="calldatagrid4()"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><select id="t_statusbayar_cari_4" class="form-control input-sm" onchange="calldatagrid4()">
+                                <option value="">-ALL-</option>
+                                <option value="1">LUNAS</option>
+                                <option value="2">BELUM</option>
+                            </select></td>
+                    </tr>
+                </thead>
+                <tbody id="body_grid4">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="13" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rows4" class="form-control" style="width: 30%" onchange="calldatagrid4(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatore4"></div>
+                                        <input type="hidden" id="page4" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b style="font-size: 13px; color: orangered"><span id="awaldata4"></span> s/d <span id="akhirdata4"></span> Dari <span id="total_data4"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSSPDSKPDT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SSPD SKPDT</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pembayaran
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksiskpdt" id="idtransaksiskpdt">
+                                <input type="text" class="form-control" name="tglpembayaranskpdt" id="tglpembayaranskpdt" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawpskpdt" id="namawpskpdt" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpskpdt" id="alamatwpskpdt" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttdskpdt" id="ttdskpdt" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaksspdskpdt()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSSPDSKPDT()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        calldatagrid4();
+    });
+
+    function calldatagrid4(direction) {
+        datagridskpdt($("#page4").val(), $("#rows4").val(), direction);
+    }
+
+    function datagridskpdt(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridSkpdt/' + page + '/' + row + '/' + direction,{
+            t_nourut: $('#t_nourut_cari_4').val(),
+            t_npwpd: $('#t_npwpd_cari_4').val(),
+            t_nama: $('#t_nama_cari_4').val(),
+            t_niop: $('#t_niop_cari_4').val(),
+            t_namaobjek: $('#t_namaobjek_cari_4').val(),
+            t_jenispajak: $('#t_jenispajak_cari_4').val(),
+            t_kodebayar: $('#t_kodebayar_cari_4').val(),
+            t_statusbayar: $('#t_statusbayar_cari_4').val()
+        }, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid4").html(aa.grid);
+            $("#rows4").val(aa.rows);
+            $("#page4").val(aa.page);
+            $("#total_data4").html(": " + aa.count);
+            $("#total_halaman4").html(": " + aa.total_halaman);
+            $("#paginatore4").html(aa.paginatore);
+            $("#awaldata4").html(aa.awaldata);
+            $("#akhirdata4").html(aa.akhirdata);
+        });
+    }
+
+    function bukaCetakSSPDSKPDT(a) {
+        $.post('<?= $this->url() ?>/dataPembayaran', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksiskpdt").val(aa.idtransaksi);
+            $("#namawpskpdt").val(aa.namawp);
+            $("#alamatwpskpdt").val(aa.alamatwp);
+            $("#tglpembayaranskpdt").val(aa.tglpembayaran);
+        });
+        $('#modalCetakSSPDSKPDT').modal('show');
+    }
+
+    function tutupCetakSSPDSKPDT() {
+        $('#modalCetakSSPDSKPDT').modal('hide');
+    }
+
+    function cetaksspdskpdt() {
+        window.open('<?= $this->url() ?>/cetaksspdskpdt?idtransaksi=' + $("#idtransaksiskpdt").val() + "&ttd0=" + $("#ttdskpdt").val());
+    }
+</script>
+<style type="text/css">
+    .combooperatorskpdtc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+	.tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tableDaftar tr:hover {
+        background: #edf968; 
+    }
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+    .highlight_row {
+        background: #eee;
+    }
+</style>

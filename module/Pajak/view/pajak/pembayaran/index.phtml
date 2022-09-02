@@ -1,0 +1,32 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-family: monospace;font-weight: bold;font-size:12pt;">
+                    <i class="glyph-icon icon-money"></i>
+                    PEMBAYARAN
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">SPTPD/SKPD
+                            <!-- /SKRD -->
+                        </a></li>
+                    <li><a href="#tab2" data-toggle="tab">SKPDKB</a></li>
+                    <li><a href="#tab3" data-toggle="tab">SKPDKBT</a></li>
+                    <li><a href="#tab4" data-toggle="tab">SKPDLB</a></li>
+                    <!-- <li><a href="#tab5" data-toggle="tab">SKPDT</a></li> -->
+                    <li><a href="#tab6" data-toggle="tab">LAPORAN PEMBAYARAN</a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_sptpd.phtml'); ?>
+                    <?= $this->partial('grid_skpdkb.phtml'); ?>
+                    <?= $this->partial('grid_skpdkbt.phtml'); ?>
+                    <?= $this->partial('grid_skpdlb.phtml'); ?>
+                    <!-- <?= $this->partial('grid_skpdt.phtml'); ?> -->
+                    <?= $this->partial('pencetakan.phtml'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

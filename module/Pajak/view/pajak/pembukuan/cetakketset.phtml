@@ -1,0 +1,526 @@
+<?php
+if ($formatcetak == 'excel') {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=cetakketset.xls");
+}
+?>
+<html>
+
+<body>
+    <?php
+    ini_set("max_execution_time", 5000);
+    ini_set('memory_limit', '1024M');
+    $namabulan_text = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+    ];
+
+    if (!empty($ar_jenisobj)) {
+        $objek = '<b class="font_sembilan">Jenis Pajak &nbsp;:  ' . $ar_jenisobj['s_namajenis'] . '</b><br>';
+    }
+    if (!empty($ar_korek)) {
+        $korek = '<b class="font_sembilan">Nama Rekening &nbsp;:  ' . $ar_korek->s_namakorek . '</b><br>';
+    }
+    ?>
+    <div>
+        <table width="100%">
+            <tr>
+                <?php
+                if ($formatcetak == 'pdf') {
+                    echo '<td width="10%" style="border: 1px solid #fff;"><img src="' . $ar_pemda->s_logo . '" width="60"></td>';
+                } else {
+                    echo '<img src="' . $_SERVER["DOCUMENT_ROOT"] . '/' . $ar_pemda->s_logo . '" width="60">';
+                }
+                ?>
+                <td colspan="16" style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                    <span style="font-size:12pt;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                    <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                    <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+                </td>
+            </tr>
+        </table>
+        <hr style="line-height: 1px; color: black">
+        <h4 style="text-align: center">DAFTAR REKAPITULASI KETETAPAN DAN SETORAN</h4>
+        <?= $objek ?>
+        <?= $korek ?>
+        <b class="font_sembilan">Tgl. Cetak &nbsp;: <?= date('d-m-Y', strtotime($tglcetak)) ?></b><br>
+        <span style="color: #cf4436">
+            K = Ketetapan
+        </span><br>
+        <span style="color: #3b5998">
+            P = Pembayaran
+        </span>
+        <table width="100%" class="font_sembilan" style="text-align: center">
+            <tr style="background:#efefef;">
+                <td class="border_atas border_bawah border_kanan border_kiri" rowspan="2">
+                    <B>No.</B>
+                </td>
+                <td rowspan="2">
+                    <B>WP</B>
+                </td>
+                <td rowspan="2">
+                    <B>OP</B>
+                </td>
+                <td colspan="12">
+                    <B>Periode Pajak <?= $periodeketset ?></B>
+                </td>
+                <td rowspan="2">
+                    <B>Total K/P (Rp.)</B>
+                </td>
+                <td rowspan="2">
+                    <B>Piutang (Rp.)</B>
+                </td>
+            </tr>
+            <tr style="background:#efefef;">
+                <td class="border_bawah border_kanan border_kiri">
+                    <B>Januari</B>
+                </td>
+                <td>
+                    <B>Februari</B>
+                </td>
+                <td>
+                    <B>Maret</B>
+                </td>
+                <td>
+                    <B>April</B>
+                </td>
+                <td>
+                    <B>Mei</B>
+                </td>
+                <td>
+                    <B>Juni</B>
+                </td>
+                <td>
+                    <B>Juli</B>
+                </td>
+                <td>
+                    <B>Agustus</B>
+                </td>
+                <td>
+                    <B>September</B>
+                </td>
+                <td>
+                    <B>Oktober</B>
+                </td>
+                <td>
+                    <B>Nopember</B>
+                </td>
+                <td>
+                    <B>Desember</B>
+                </td>
+            </tr>
+            <?php
+            $counter = 1;
+            foreach ($this->data as $k => $v) {
+            ?>
+                <tr>
+                    <td rowspan="3">
+                        <?= $counter ?>
+                    </td>
+                    <td style="text-align: left" rowspan="3">
+                        <?= $v['t_nama'] ?> <br>
+                        <?= $v['t_npwpd'] ?>
+                    </td>
+                    <td style="text-align: left" rowspan="3"><small>
+                            <?= $v['t_namaobjek'] ?><br>
+                            <?= $v['t_alamatobjek'] ?> RT.<?= $v['t_rtobjek'] ?> RW.<?= $v['t_rwobjek'] ?> KEL.<?= $v['s_namakel'] ?> KEC.<?= $v['s_namakec'] ?> </small>
+
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_jan']) : number_format($v['data_jan'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_feb']) : number_format($v['data_feb'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_mar']) : number_format($v['data_mar'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_apr']) : number_format($v['data_apr'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_mei']) : number_format($v['data_mei'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_jun']) : number_format($v['data_jun'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_jul']) : number_format($v['data_jul'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_agu']) : number_format($v['data_agu'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_sep']) : number_format($v['data_sep'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_okt']) : number_format($v['data_okt'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_nov']) : number_format($v['data_nov'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['data_des']) : number_format($v['data_des'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #d2a5a5  !important">&nbsp;
+                        <?php $total_data = $v['data_jan'] + $v['data_feb'] + $v['data_mar'] + $v['data_apr'] + $v['data_mei'] + $v['data_jun'] + $v['data_jul'] + $v['data_agu'] + $v['data_sep'] + $v['data_okt'] + $v['data_nov'] + $v['data_des'] ?>
+                        <?php $total_bayar = $v['bayar_jan'] + $v['bayar_feb'] + $v['bayar_mar'] + $v['bayar_apr'] + $v['bayar_mei'] + $v['bayar_jun'] + $v['bayar_jul'] + $v['bayar_agu'] + $v['bayar_sep'] + $v['bayar_okt'] + $v['bayar_nov'] + $v['bayar_des'] ?>
+                        <?= ($formatcetak == 'excel') ? number_format($total_data) : number_format($total_data, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right" rowspan="3">
+                        <?= ($formatcetak == 'excel') ? number_format($total_data - $total_bayar) : number_format($total_data - $total_bayar, 0, ',', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_jan']) : number_format($v['bayar_jan'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_feb']) : number_format($v['bayar_feb'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_mar']) : number_format($v['bayar_mar'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_apr']) : number_format($v['bayar_apr'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_mei']) : number_format($v['bayar_mei'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_jun']) : number_format($v['bayar_jun'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_jul']) : number_format($v['bayar_jul'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_agu']) : number_format($v['bayar_agu'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_sep']) : number_format($v['bayar_sep'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_okt']) : number_format($v['bayar_okt'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_nov']) : number_format($v['bayar_nov'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right ;background-color: #c6d1ec !important">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($v['bayar_des']) : number_format($v['bayar_des'], 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right; background-color: #c6d1ec !important ">&nbsp;
+                        <?= ($formatcetak == 'excel') ? number_format($total_bayar) : number_format($total_bayar, 0, ',', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirjan'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirjan'], 4, '0', STR_PAD_LEFT));
+                        } ?>
+
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirfe'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirfe'], 4, '0', STR_PAD_LEFT));
+                        } ?>
+
+                    </td>
+                    <td style="text-align: right ">
+                        <?php if (empty($v['kohirmar'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirmar'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirapr'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirapr'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right ">
+                        <?php if (empty($v['kohirmei'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirmei'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right ">
+                        <?php if (empty($v['kohirjun'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirjun'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirjul'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirjul'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right ">
+                        <?php if (empty($v['kohiragu'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohiragu'], 4, '0', STR_PAD_LEFT));
+                        } ?>
+
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirsep'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirsep'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirokt'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirokt'], 4, '0', STR_PAD_LEFT));
+                        } ?>
+
+                    </td>
+                    <td style="text-align: right">&nbsp;
+                        <?php if (empty($v['kohirnov'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirnov'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+                    </td>
+                    <td style="text-align: right ">
+                        <?php if (empty($v['kohirdes'])) {
+                            echo '-';
+                        } else {
+                            echo (str_pad($v['kohirdes'], 4, '0', STR_PAD_LEFT));
+                        }
+                        ?>
+
+                    </td>
+                    <td style="text-align: right;">
+
+                    </td>
+                </tr>
+            <?php
+                $counter++;
+                $datatotal_jan += $v['data_jan'];
+                $datatotal_feb += $v['data_feb'];
+                $datatotal_mar += $v['data_mar'];
+                $datatotal_apr += $v['data_apr'];
+                $datatotal_mei += $v['data_mei'];
+                $datatotal_jun += $v['data_jun'];
+                $datatotal_jul += $v['data_jul'];
+                $datatotal_agu += $v['data_agu'];
+                $datatotal_sep += $v['data_sep'];
+                $datatotal_okt += $v['data_okt'];
+                $datatotal_nov += $v['data_nov'];
+                $datatotal_des += $v['data_des'];
+                $bayartotal_jan += $v['bayar_jan'];
+                $bayartotal_feb += $v['bayar_feb'];
+                $bayartotal_mar += $v['bayar_mar'];
+                $bayartotal_apr += $v['bayar_apr'];
+                $bayartotal_mei += $v['bayar_mei'];
+                $bayartotal_jun += $v['bayar_jun'];
+                $bayartotal_jul += $v['bayar_jul'];
+                $bayartotal_agu += $v['bayar_agu'];
+                $bayartotal_sep += $v['bayar_sep'];
+                $bayartotal_okt += $v['bayar_okt'];
+                $bayartotal_nov += $v['bayar_nov'];
+                $bayartotal_des += $v['bayar_des'];
+                $total_ketetapan += $total_data;
+                $total_pembayaran += $total_bayar;
+            }
+            ?>
+            <tr style="background:#efefef;">
+                <th colspan="2" rowspan="2">
+                    JUMLAH TOTAL
+                </th>
+                <th style="text-align: left">
+                    KETETAPAN
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_jan) : number_format($datatotal_jan, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_feb) : number_format($datatotal_feb, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_mar) : number_format($datatotal_mar, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_apr) : number_format($datatotal_apr, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_mei) : number_format($datatotal_mei, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_jun) : number_format($datatotal_jun, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_jul) : number_format($datatotal_jul, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_agu) : number_format($datatotal_agu, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_sep) : number_format($datatotal_sep, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_okt) : number_format($datatotal_okt, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_nov) : number_format($datatotal_nov, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($datatotal_des) : number_format($datatotal_des, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($total_ketetapan) : number_format($total_ketetapan, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right" rowspan="2">
+                    <?= ($formatcetak == 'excel') ? number_format($total_ketetapan - $total_pembayaran) : number_format($total_ketetapan - $total_pembayaran, 0, ',', '.') ?>
+                </th>
+            </tr>
+            <tr style="background:#efefef;">
+                <th style="text-align: left">
+                    PEMBAYARAN
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_jan) : number_format($bayartotal_jan, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_feb) : number_format($bayartotal_feb, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_mar) : number_format($bayartotal_mar, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_apr) : number_format($bayartotal_apr, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_mei) : number_format($bayartotal_mei, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_jun) : number_format($bayartotal_jun, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_jul) : number_format($bayartotal_jul, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_agu) : number_format($bayartotal_agu, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_sep) : number_format($bayartotal_sep, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_okt) : number_format($bayartotal_okt, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_nov) : number_format($bayartotal_nov, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($bayartotal_des) : number_format($bayartotal_des, 0, ',', '.') ?>
+                </th>
+                <th style="text-align: right">&nbsp;
+                    <?= ($formatcetak == 'excel') ? number_format($total_pembayaran) : number_format($total_pembayaran, 0, ',', '.') ?>
+                </th>
+            </tr>
+        </table>
+        <br>
+
+        <table width="100%" class="mengetahui">
+            <tr class="mengetahui">
+                <td colspan="8" style=" width: 35%; text-align: center;vertical-align: bottom;" class="mengetahui">
+                    Mengetahui<br>
+
+
+                    <?= $ar_diperiksa->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <b><?= $ar_diperiksa->s_namapej ?></b><br>
+                    <?= $ar_diperiksa->s_nippej ?>
+                </td>
+                <td style=" width: 30%" class="mengetahui"></td>
+                <td colspan="8" style=" width: 35%;text-align: center;vertical-align: bottom;" class="mengetahui">
+                    <?= $ar_pemda->s_namaibukotakabkota ?>, <?= date('d', strtotime($tglcetak)) . " " . $namabulan_text[date('m', strtotime($tglcetak)) - 1] . " " . date('Y', strtotime($tglcetak)) ?><br>
+                    Diperiksa Oleh<br>
+                    <?= $ar_mengetahui->s_jabatanpej ?>
+                    <br><br><br><br><br><br><br>
+                    <b><?= $ar_mengetahui->s_namapej ?></b><br>
+                    <?= $ar_mengetahui->s_nippej ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family: serif;" width="100%">
+            <tbody>
+                <tr>
+                    <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 12px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+</body>
+
+</html>
+
+<style type="text/css" media="print">
+    @page {
+        margin-top: 30px;
+        /* ensure you append the header/footer name with 'html_' */
+        header: html_MyCustomHeader;
+        /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+        footer: html_MyCustomFooter;
+        /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .font_empatbelas {
+        font-size: 14pt;
+    }
+
+    .mengetahui {
+        border: 1px solid white;
+        border-collapse: collapse;
+    }
+
+    body {
+        font-family: arial;
+    }
+</style>

@@ -1,0 +1,103 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <table width="100%" style="font-family:arial">
+                <tr>
+                    <td width="10%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="60"></td>
+                    <td style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                        <span style="font-size:12pt;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> <?= $notelp ?> <?= $ar_pemda->s_namaibukotakabkota ?> Kode Pos <?= $ar_pemda->s_kodepos ?></span>
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center">DAFTAR PEMBAYARAN</h4>
+            <p style="font-size: 10pt; line-height: 5px"> 
+                Tanggal : <?= $tglbayar0 ?> s/d <?= $tglbayar1 ?>
+            </p>
+            <table width="100%" class="font_sembilan">
+                <tr style="text-align: center">
+                    <td class="border_atas border_bawah border_kanan border_kiri">
+                        No.
+                    </td>
+                    <td>
+                        Nama
+                    </td>
+                    <td>
+                        Alamat
+                    </td>
+                    <td>
+                        Bangunan
+                    </td>
+                    <td>
+                        Nomor
+                    </td>
+                    <td>
+                        Alamat Pasar
+                    </td>
+                    <td>
+                        Panjang/Lebar
+                    </td>
+                    <td>
+                        Jenis Usaha
+                    </td>
+                    <td>
+                        Jenis Tempat Usaha
+                    </td>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    ?>
+                    <tr style="text-align: center">
+                        <td>
+                            <?= $counter ?>
+                        </td>
+                        <td>
+                            <?= $v['t_nama'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_alamat'] ?> Kel. <?= $v['s_namakel'] ?> Kec. <?= $v['s_namakec'] ?> Kab/kota <?= $v['t_kabupaten'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_bangunan'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_nomor'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_alamatpasar'] ?>
+                        </td>
+                        <td>
+                            <?= $v['t_panjang'] ?> / <?= $v['t_lebar'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_jenisusaha'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['s_namatempat'] ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </table>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>

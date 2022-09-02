@@ -1,0 +1,215 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pagedefault');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Laporan <?= $datapendaftaran['s_namajenis'] ?><b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NPWPD</label>
+                            <div class="col-sm-4">
+                                : <?= $datapendaftaran['t_npwpd'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NIK</label>
+                            <div class="col-sm-4">
+                                : <?= $datapendaftaran['t_nik'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama</label>
+                            <div class="col-sm-4">
+                                : <?= $datapendaftaran['t_nama'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat</label>
+                            <div class="col-sm-10">
+                                : <?= $datapendaftaran['t_alamat'] ?>
+                                ,RT. <?= $datapendaftaran['t_rt'] ?>
+                                ,RW. <?= $datapendaftaran['t_rw'] ?>
+                                ,Desa/Kel. <?= $datapendaftaran['s_namakel'] ?>
+                                ,Kec. <?= $datapendaftaran['s_namakec'] ?>
+                                ,Kab. <?= $datapendaftaran['t_kabupaten'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NIOP</label>
+                            <div class="col-sm-4">
+                                : <?= $datapendaftaran['t_nop'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama</label>
+                            <div class="col-sm-4">
+                                : <?= $datapendaftaran['t_namaobjek'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat</label>
+                            <div class="col-sm-10">
+                                : <?= $datapendaftaran['t_alamatobjek'] ?>
+                                ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                                ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                                ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                                ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                                ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Histori Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="datatransaksi"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Laporan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">Tahun Pajak</label>
+                            <div class="col-sm-1">
+                                <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                                <?= $this->formHidden($form->get("t_idkorek")) ?>
+                                <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                <?= $this->formHidden($form->get("t_idobjek")) ?>
+                                <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                <?= $this->formText($form->get("t_periodepajak")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">Masa Pajak</label>
+                            <div class="col-sm-4">
+                                <?= $this->formSelect($form->get("t_masapajak")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">Dasar Pengenaan/Omzet (Rp.)</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_dasarpengenaan")) ?>
+                            </div>
+                            <label class="col-sm-1 control-label">Tarif (%)</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_tarifpajak")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">Total Pajak (Rp.)</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Laporansubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function hitungpajak() {
+        $.post('<?= $this->url() ?>/hitungpajak', {
+            t_dasarpengenaan: $("#t_dasarpengenaan").val(),
+            t_tarifpajak: $("#t_tarifpajak").val(),
+            t_jenispajak: $("#t_jenispajak").val(),
+            t_idkorek: $("#t_idkorek").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+        });
+    }
+
+    $(function() {
+        CariLaporanByObjek();
+    });
+
+    function CariLaporanByObjek() {
+        $.post('<?= $this->url() ?>/CariLaporanByObjek', {
+            idobjek: $("#t_idobjek").val(),
+            periodepajak: $("#t_periodepajak").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+    }
+</script>

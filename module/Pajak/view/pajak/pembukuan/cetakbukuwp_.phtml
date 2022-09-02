@@ -1,0 +1,165 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <div>
+                <div style='width: 10%; float: left;'>
+                </div>
+                <div style='width: 90%; float: right;'>
+                    <p style="text-align: center; font-size: 10pt; font-weight: BOLD;">
+                        PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota); ?>, <?= strtoupper($ar_pemda->s_namaprov); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">
+                        <?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 5px">
+                        <?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?>
+                    </p>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center">Buku Wajib Pajak (Realisasi Penerimaan)</h4>
+            <table width="100%" class="font_sembilan" style="text-align: center">
+                <tr>
+                    <td class="border_atas border_bawah border_kanan border_kiri"></td>
+                    <td colspan="2">
+                        SPTPD
+                    </td>
+                    <td></td>
+                    <td colspan="3">
+                        Realisasi Penerimaan
+                    </td>
+                    <td></td>
+                    <td colspan="2">
+                        Denda
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="border_atas border_bawah border_kanan border_kiri">
+                        Bulan
+                    </td>
+                    <td>
+                        Tgl.
+                    </td>
+                    <td>
+                        Nilai
+                    </td>
+                    <td>
+                        Tgl. Jatuh Tempo
+                    </td>
+                    <td>
+                        Tgl.
+                    </td>
+                    <td>
+                        Pokok
+                    </td>
+                    <td>
+                        Denda
+                    </td>
+                    <td>
+                        Lebih/Kurang Bayar
+                    </td>
+                    <td>
+                        Uraian
+                    </td>
+                    <td>
+                        Jml. Denda
+                    </td>
+                    <td>
+                        Jml. Piutang Pajak
+                    </td>
+                </tr>
+                <?php
+                $total_nilai = 0;
+                $total_bayar = 0;
+                $total_denda = 0;
+                foreach ($this->data as $k => $v) {
+                    ?>
+                    <tr>
+                        <td style="text-align: left">
+                            <?php
+                            $abulan = ['1' => 'Januari', '2' => 'Februari', '3' => 'Maret', '4' => 'April', '5' => 'Mei', '6' => 'Juni', '7' => 'Juli', '8' => 'Agustus', '9' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+                            $t_masapajak = $abulan[$k + 1] . " " . $periode;
+                            $total_nilai += $v['t_jmlhpajak'];
+                            $total_bayar += $v['t_jmlhpembayaran'];
+                            $total_denda += $v['t_jmlhbayardenda'];
+                            ?>
+                            <?= $t_masapajak ?>
+                        </td>
+                        <td>
+                            <?php $t_tglpendataan = (!empty($v['t_tglpendataan']) ? date('d-m-Y', strtotime($v['t_tglpendataan'])) : '-'); ?>
+                            <?= $t_tglpendataan ?>
+                        </td>
+                        <td style="text-align: right;">
+                            <?= number_format($v['t_jmlhpajak'], 0, ',', '.') ?>
+                        </td>
+                        <td>
+                            <?php $t_tgljatuhtempo = (!empty($v['t_tgljatuhtempo']) ? date('d-m-Y', strtotime($v['t_tgljatuhtempo'])) : '-'); ?>
+                            <?= $t_tgljatuhtempo ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?php $t_tglpembayaran = (!empty($v['t_tglpembayaran']) ? date('d-m-Y', strtotime($v['t_tglpembayaran'])) : '-'); ?>
+                            <?= $t_tglpembayaran ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhpembayaran'], 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhbayardenda'], 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: right">
+
+                        </td>
+                        <td style="text-align: right">
+                            <?php
+                            if (!empty($v['t_jmlhbulandendapembayaran']) || $v['t_jmlhbulandendapembayaran'] != 0) {
+                                echo $v['t_jmlhbulandendapembayaran'] . " (bulan) x " . number_format($v['t_jmlhpajak'], 0, ',', '.') . " x 2%";
+                            }
+                            ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhdendapembayaran'], 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format(($v['t_jmlhpajak'] + $v['t_jmlhdendapembayaran']) - ($v['t_jmlhpembayaran'] + $v['t_jmlhbayardenda']), 0, ',', '.') ?>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                <tr>
+                    <td colspan="2">
+                        
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_nilai, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right">
+                        <?= number_format($total_bayar, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
+                    <td colspan="2" style="text-align: right">
+                        <?= number_format($total_denda, 0, ',', '.') ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>

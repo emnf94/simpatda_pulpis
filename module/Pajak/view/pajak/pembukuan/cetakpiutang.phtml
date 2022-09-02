@@ -1,0 +1,174 @@
+<html>
+    <body>
+
+        <?php
+
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <table width="100%">
+                <tr>
+                    <td width="10%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="40"></td>
+                    <td style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                        <span style="font-size:12pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            
+            <table width="100%" class="font_sembilan" style="text-align: center">
+                
+                <?php
+                $totalpendataan = 0;
+                $totalpembayaran = 0;
+                $counter = 1;
+
+                $clast_rek = '';
+                $total_subpajak = 0;
+                $total_subdenda = 0;
+
+                foreach ($this->data as $k => $v) {
+                    // var_dump($v['t_jenispajak']);die;
+                    $v['t_jenispajak']=(int)$v['t_jenispajak'];
+                    if($v['t_jenispajak'] == 4 || $v['t_jenispajak'] == 8){
+                        $no_urut = str_pad($v['t_nopenetapan'], 5, "0", STR_PAD_LEFT).'/SKPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = $v['t_tglpendataan'];
+                    }else{
+                        $no_urut = str_pad($v['t_nourut'], 5, "0", STR_PAD_LEFT).'/SPTPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = $v['t_tglpendataan'];
+                    }
+                    if ($clast_rek <> $v['t_periodepajak']) {
+                        if ($clast_rek <> '') {
+                            echo '<tr>
+                                <td colspan="8"><b>JUMLAH TAHUN '.$clast_rek_name.'</b></td>
+                                <td class="" style="text-align:right;"><b>'.number_format($total_subpajak, 2, ',', '.').'</b></td>
+                            </tr>';
+                            
+                            $total_subpajak = 0;
+                        }
+
+                        echo '<tr>
+                                <td colspan="9" class="" style="border-top: 1px solid #fff;border-left: 1px solid #fff;border-right: 1px solid #fff;font-size:12pt;padding-top:30px;padding-bottom:10px;"><b>DAFTAR PIUTANG '.strtoupper($v['s_namajenis']).'<br>
+                                BULAN KETETAPAN PAJAK : JANUARI '.$v['t_periodepajak'].' s/d DESEMBER '.$v['t_periodepajak'].'</b></td>
+                            </tr>
+                            <tr>
+                                <th style="">NO</th>
+                                <th>NAMA WAJIB PAJAK</th>
+                                <th>NPWPD</th>
+                                <th>NAMA OBJEK PAJAK</th>
+                                <th>NOMOR KETETAPAN</th>
+                                <th>TGL PENETAPAN</th>
+                                <th>JENIS PAJAK</th>
+                                <th>MASA PAJAK</th>
+                                <th>JUMLAH</th>
+                            </tr>';
+
+                        $clast_rek = $v['t_periodepajak'];
+                        $clast_rek_name = $v['t_periodepajak'];
+                        $counter = 1;
+                    }
+
+                    ?>
+                    <tr>
+                        <td style="vertical-align:top;">
+                            <?= $counter ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_nama'] ?>
+                        </td>
+                        <td>
+                            <?= $v['t_npwpd'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_namaobjek'] ?>
+                        </td>
+                        <td>
+                            <?= $no_urut ?>
+                        </td>
+                        <td>
+                            <?= date('d-m-Y', strtotime($tgl_pajak)) ?>
+                        </td>
+                        <!-- <td>
+                            <= $v['korek'] ?>
+                        </td> -->
+                        <td style="text-align: left">
+                            <?= $v['s_namakorek'] ?>
+                        </td>
+                        <td>
+                            <?= date('d-m-Y', strtotime($v['t_masaawal'])) . " s/d " . date('d-m-Y', strtotime($v['t_masaakhir'])) ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhpajak'] - $v['t_jmlhpembayaran'], 0, ',', '.') ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $total_subpajak += $v['t_jmlhpajak'];
+                    $totalpendataan += $v['t_jmlhpajak'];
+                    $totalpembayaran += $v['t_jmlhpembayaran'];
+                    $counter++;
+                }
+
+                if ($clast_rek <> '') {
+                    echo '<tr>
+                        <td colspan="8"><b>JUMLAH TAHUN '.$clast_rek_name.'</b></td>
+                        <td style="text-align:right;"><b>'.number_format($total_subpajak, 2, ',', '.').'</b></td>
+                    </tr>';
+                    
+                    $total_subpajak = 0;
+                }
+
+                ?>
+                <!-- <tr>
+                    <td colspan="7" style="text-align: center;">
+                        <b>JUMLAH </b>
+                    </td>
+                    <td style="text-align: right">
+                        <b><= number_format($totalpendataan - $totalpembayaran, 0, ',', '.') ?></b>
+                    </td>
+                </tr> -->
+            </table>
+        </div>
+
+    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family: serif;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 12px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+</body>
+</html>
+
+<style type="text/css" media="print">
+    @page {
+        margin: 30px;
+        /* ensure you append the header/footer name with 'html_' */
+        header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+        footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+    }    
+    body{
+        font-family: arial;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    /* .border_atas{border-top: 1px solid black;
+        border-collapse: collapse;}
+    .border_kanan{border-right: 1px solid black;
+        border-collapse: collapse;}
+    .border_bawah{border-bottom: 1px solid black;
+        border-collapse: collapse;}
+    .border_kiri{border-left: 1px solid black;
+        border-collapse: collapse;} */
+    .font_empatbelas {
+        font-size: 14pt;
+    }
+</style>

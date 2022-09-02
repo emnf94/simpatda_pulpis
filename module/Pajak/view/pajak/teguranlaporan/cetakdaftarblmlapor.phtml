@@ -1,0 +1,54 @@
+<?php
+if ($post->file_format == 'excel') {
+    header("Content-type: application/vnd-ms-excel");
+    header("Content-Disposition: attachment; filename=DATA_OP.xls");
+}
+?>
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <p style="text-align: left; font-size: 9pt; font-weight: BOLD;">
+            PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota); ?>, <?= strtoupper($ar_pemda->s_namaprov); ?><br>
+            <?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)<br>
+            <?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?>
+        </p>
+        <?php $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember']; ?>
+        <h4 style="text-align: center">DAFTAR WAJIB <?= strtoupper($datajenispajak['s_namajenis']) ?> YANG BELUM MELAPORKAN SPTPD<br>Masa Pajak <?= $abulan[$bulan] ?>  Tahun <?= $tahun ?></h4>
+        <p style="font-size: 10pt; line-height: 5px"> 
+            Tanggal : <?= date('d-m-Y') ?>
+        </p>
+        <table style="border-collapse: collapse">
+            <tr>
+                <td style="border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">No.</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">NPWPD</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">Nama WP</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">NIOP</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">Nama OP</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">Alamat OP</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">No. Telp.</td>
+                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center; font-weight: bold">No. HP.</td>
+            </tr>
+            <?php
+            $counter = 1;
+            foreach ($data as $k => $v) {
+                ?>
+                <tr>
+                    <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center;"><?= $counter ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center;"><?= $v['t_npwpdwp'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top;"><?= $v['t_namawp'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center;"><?= $v['t_nop'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top;"><?= $v['t_namaobjek'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top;"><?= $v['t_alamatlengkapobjek'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center;"><?= $v['t_notelpobjek'] ?></td>
+                    <td style="border-bottom: 1px solid #000; border-right: 1px solid #000; vertical-align:top; text-align: center;"><?= $v['t_nohpobjek'] ?></td>
+                </tr>
+                <?php
+                $counter++;
+            }
+            ?>
+        </table>
+    </body>
+</html>

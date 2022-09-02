@@ -1,0 +1,426 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pagepemadam');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class="glyph-icon icon-pencil"></i>
+                    Pendataan <?= $datapendaftaran['s_namajenis'] ?><b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 center-div">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:center; background:black; border-radius: 25px; color: orange; padding: 5px 15px 5px 15px; font-size: 16px; font-weight:bolder">NPWRD : <?= $datapendaftaran['t_npwpd'] ?> / ID OR : <?= $datapendaftaran['t_nop'] ?></span>
+                        </div>
+                    </div>
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-md-6">
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data WR
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIK</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nik'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nama'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamat_lengkap'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data OR
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIOR</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nop'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_namaobjek'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamatobjek'] ?>
+                                            ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                                            ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                                            ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                                            ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                                            ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pendataan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nomor Retribusi</label>
+                            <div class="col-sm-2">
+                                <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                                <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                <?= $this->formHidden($form->get("t_idretpemadam")) ?>
+                                <?= $this->formHidden($form->get("t_idobjek")) ?>
+                                <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                <?= $this->formText($form->get("t_nourut")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Retribusi</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_periodepajak")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Penetapan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Retribusi</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaawal")) ?>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaakhir")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("t_idkorek")) ?>
+                                <?= $this->formText($form->get("t_korek")) ?>
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()"><span class="glyph-icon icon-search"></span></button></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-6">
+                                <?= $this->formText($form->get("t_namakorek")) ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border">
+                                        <span class="btn btn-xs btn-danger" id="tambahDetail"><span class="glyph-icon icon-plus-square"></span> Tambah</span>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                            <tr>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Jenis Retribusi</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Volume</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Tarif(Rp)</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Satuan</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Jumlah (Rp)</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Hapus</th>
+                                            </tr>
+                                            <input type="hidden" id="idl" value="1">
+                                            <tbody id="add_Detail"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Retribusi (Rp.)</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="hitungtotalretpemadam()">Hitung</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Pendataansubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <input type="hidden" id="t_jenisobjek" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="korek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_namakorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_persentarifkorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridRekening(1);
+                                                    return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridRekening(2);
+                                                    return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function calldataGridRekening(direction) {
+        dataGridRekening($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function dataGridRekening(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + null + '/' + page + '/' + row + '/' + direction + '?korek=' + $("#korek").val() + "&s_namakorek=" + $("#s_namakorek").val() + "&s_persentarifkorek=" + $("#s_persentarifkorek").val() + "&t_jenisobjek=" + $("#t_jenisobjek").val(), function(data) {
+            var aa = JSON.parse(data);
+            $("#listrekening").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+        });
+    }
+
+    function bukamodalRekening() {
+        calldataGridRekening();
+        $('#modalRekening').modal('show');
+    }
+
+    function pilihRekening(a) {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $('#modalRekening').modal('hide');
+        });
+    }
+
+    function caritarifpemadam(a) {
+        $.post('<?= $this->url() ?>/caritarifpemadam', {
+            t_idtarif: $('#t_idtarif' + a).val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_tarifdasar' + a).val(aa.t_tarifdasar);
+            $('#t_satuan' + a).val(aa.t_satuan);
+        });
+    }
+
+    function hitungretpemadam(a) {
+        $.post('<?= $this->url() ?>/hitungretpemadam', {
+            t_jmltitikbuah: $('#t_jmltitikbuah' + a).val(),
+            t_tarifdasar: $('#t_tarifdasar' + a).val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jumlah' + a).val(aa.t_jumlah);
+        });
+        hitungtotalretpemadam();
+    }
+
+    function hitungtotalretpemadam() {
+        $.post('<?= $this->url() ?>/hitungtotalretpemadam', {
+            t_jumlah1: $('#t_jumlah1').val(),
+            t_jumlah2: $('#t_jumlah2').val(),
+            t_jumlah3: $('#t_jumlah3').val(),
+            t_jumlah4: $('#t_jumlah4').val(),
+            t_jumlah5: $('#t_jumlah5').val(),
+            t_jumlah6: $('#t_jumlah6').val(),
+            t_jumlah7: $('#t_jumlah7').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+        });
+    }
+
+    $(document).ready(function() {
+        $("#tambahDetail").click(function() {
+            var idl = document.getElementById("idl").value;
+            $("#add_Detail").append(
+                '<tr id="detailnode' + idl + '">' +
+                '<td>' +
+                '<input type="hidden" id="t_idretpemadam' + idl + '" name="t_idretpemadam[]">' +
+                '<select name="t_idtarif[]" id="t_idtarif' + idl + '" class="form-control" onchange="caritarifpemadam(' + idl + ')">' +
+                '<option value="">Silahkan Pilih</option>' +
+                <?php foreach ($jenistarif as $row) { ?> '<option value="<?= $row['s_idtarif'] ?>"><?= $row['s_idtarif'] . ' | ' . $row['s_namatarif'] ?></option>' +
+                <?php } ?> '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value); hitungretpemadam(' + idl + ')" onblur ="this.value = formatCurrency(this.value); hitungretpemadam(' + idl + ');" onkeyup="this.value = formatCurrency(this.value); hitungretpemadam(' + idl + ');" name="t_jmltitikbuah[]" id="t_jmltitikbuah' + idl + '">' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" hitungretpemadam(' + idl + ')" onblur ="this.value = formatCurrency(this.value); hitungretpemadam(' + idl + ');" onkeyup="this.value = formatCurrency(this.value); hitungretpemadam(' + idl + ');" name="t_tarifdasar[]" id="t_tarifdasar' + idl + '" readonly="true">' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" style="text-align:center" name="t_satuan[]" id="t_satuan' + idl + '" readonly="true">' +
+                '</td>' +
+                '<td>' +
+                '<input class="form-control" style="text-align:right" onKeyPress="return numbersonly(this, event);" onchange="this.value = formatCurrency(this.value);" onblur="this.value = formatCurrency(this.value);" onkeyup="this.value = formatCurrency(this.value);" name="t_jumlah[]" id="t_jumlah' + idl + '" readonly="true">' +
+                '</td>' +
+                '<td>' +
+                '<span class="btn btn-xs btn-danger" onclick="removetr(' + idl + ')"><span class="glyph-icon icon-trash"></span></span>' +
+                '</td>' +
+                '</tr>'
+            );
+            idl = (idl - 1) + 2;
+            document.getElementById("idl").value = idl;
+        });
+    });
+
+    function removetr(a) {
+        $("#detailnode" + a).remove();
+    }
+</script>

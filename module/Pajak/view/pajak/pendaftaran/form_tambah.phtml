@@ -1,0 +1,378 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_tambah');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    Pendaftaran Wajib Pajak
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">
+                            <p style="color: red; font-size: 10px; margin-top: -20px">(*) Wajib Diisi</p>
+                        </label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Tanggal Pendaftaran<span style="color: red">*</span></label>
+                        <div class="col-md-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-calendar"></i>
+                                </span>
+                                <?= $this->formHidden($form->get("t_idwp")) ?>
+                                <?= $this->formText($form->get("t_tgldaftar")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Jenis Pendaftaran<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <?= $this->formSelect($form->get("t_jenispendaftaran")) ?>
+                        </div>
+                        <label class="col-sm-2">Golongan WP<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <?= $this->formSelect($form->get("t_bidangusaha")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" hidden="">
+                        <label class="col-sm-2 ">Nomor Pendaftaran<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <?= $this->formText($form->get("t_nopendaftaran")) ?>
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div id="hidden_div" style="display: none; border: 2px solid #0073b7;" class="row"> -->
+                    <div id="hidden_div" style="display: none;" class="col-sm-12">
+
+
+                        <div class="card bg-default" style="padding-top: 10px">
+
+                            <div class="card header">
+                                <h4><b>
+                                        Form Badan Usaha</b>
+                                </h4>
+                            </div>
+                            <div class="card-body" style="border: 1px solid #0073b7 ; ">
+                                <div class="col-sm-12">&nbsp</div>
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 ">Nama<span style="color: red">*</span></label>
+                                    <div class="col-md-4">
+                                        <?= $this->formText($form->get("t_nama_badan")) ?>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 ">Alamat</label>
+                                    <div class="col-md-4">
+                                        <?= $this->formTextarea($form->get("t_jalan_badan")) ?>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 ">RT<span style="color: red">*</span></label>
+                                    <div class="col-md-1">
+                                        <?= $this->formText($form->get("t_rt_badan")) ?>
+                                    </div>
+                                    <label class="col-sm-1">RW<span style="color: red">*</span></label>
+                                    <div class="col-md-1">
+                                        <?= $this->formText($form->get("t_rw_badan")) ?>
+                                    </div>
+                                </div>
+                                <div id="keckelluar_badan"></div>
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 ">Kecamatan<span style="color: red">*</span></label>
+                                    <div class="col-md-4">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon">
+                                                <i class="glyph-icon icon-map-marker"></i>
+                                            </span>
+                                            <?= $this->formSelect($form->get("t_kecamatan_badan")) ?>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-1">Kelurahan<span style="color: red">*</span></label>
+                                    <div class="col-md-4">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon">
+                                                <i class="glyph-icon icon-map-marker"></i>
+                                            </span>
+                                            <?= $this->formSelect($form->get("t_kelurahan_badan")) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="col-sm-2 ">Kabupaten/kota<span style="color: red">*</span></label>
+                                    <div class="col-md-3">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon">
+                                                <i class="glyph-icon icon-map-marker"></i>
+                                            </span>
+                                            <?= $this->formText($form->get("t_kabupaten_badan")) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <hr style="height: 2px;background-color: #0073b7 ">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">NIK/NPWP<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <?= $this->formText($form->get("t_nik")) ?>
+                        </div>
+                        <div class="col-md-1">
+                            <!--  <button type="button" class="btn btn-primary btn-xs" onclick="ceknikcapil()">NIK CAPIL</button> -->
+                        </div>
+                        <div class="col-md-6">
+                            <div id="message_nik"> </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Nama<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <?= $this->formText($form->get("t_nama")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Alamat</label>
+                        <div class="col-md-4">
+                            <?= $this->formTextarea($form->get("t_alamat")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">RT<span style="color: red">*</span></label>
+                        <div class="col-md-1">
+                            <?= $this->formText($form->get("t_rt")) ?>
+                        </div>
+                        <label class="col-sm-1">RW<span style="color: red">*</span></label>
+                        <div class="col-md-1">
+                            <?= $this->formText($form->get("t_rw")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Kecamatan<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-map-marker"></i>
+                                </span>
+                                <?= $this->formSelect($form->get("t_kecamatan")) ?>
+                            </div>
+                        </div>
+                        <label class="col-sm-1">Kelurahan<span style="color: red">*</span></label>
+                        <div class="col-md-4">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-map-marker"></i>
+                                </span>
+                                <?= $this->formSelect($form->get("t_kelurahan")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="keckelluar"></div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Kabupaten<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-map-marker"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_kabupaten")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">No. Telp./HP.<span style="color: red">*</span></label>
+                        <div class="col-sm-3">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-phone"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_notelp")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <b style="color: blue">ex : 08</b>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Email</label>
+                        <div class="col-sm-3">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="glyph-icon icon-envelope"></i>
+                                </span>
+                                <?= $this->formText($form->get("t_email")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 ">Kode Pos</label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_kodepos")) ?>
+                        </div>
+                    </div>
+                    <!--  <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Photo
+                        </label>
+                        <div class="col-md-10">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 170px; height: 200px;">
+                                    <img id="image-preview" src=""/>  
+                                </div>
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <span class="fileinput-new">Upload Photo</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <?= $this->formFile($form->get("t_photowp")) ?>
+                                    </span>
+                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="bg-default" id="tombolsimpan">
+                    <?= $this->formInput($form->get('Pendaftaransubmit')) ?>
+                </div>
+                <?= $this->form()->closeTag($form) ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #image-preview {
+        display: none;
+        width: 250px;
+        height: 300px;
+    }
+</style>
+<script>
+    $('#t_nama_badan').removeAttr('required');
+    $('#t_rt_badan').removeAttr('required');
+    $('#t_rw_badan').removeAttr('required');
+    $('#t_kecamatan_badan').removeAttr('required');
+    $('#t_kelurahan_badan').removeAttr('required');
+    $('#t_jalan_badan').removeAttr('required');
+    $('#t_kabupaten_badan').removeAttr('required');
+    $('#t_rt_badan').removeAttr('data-parsley-type');
+    $('#t_rw_badan').removeAttr('data-parsley-type');
+
+    function showDiv(elem) {
+        if (elem.value == 2) {
+            document.getElementById('hidden_div').style.display = "block";
+            $('#t_nama_badan').attr('required', 'required');
+            $('#t_rt_badan').attr('required', 'required');
+            $('#t_rw_badan').attr('required', 'required');
+            $('#t_kecamatan_badan').attr('required', 'required');
+            $('#t_kelurahan_badan').attr('required', 'required');
+            $('#t_jalan_badan').attr('required', 'required');
+            $('#t_kabupaten_badan').attr('required', 'required');
+            $('#t_rt_badan').attr('onkeypress', 'digits');
+            $('#t_rw_badan').attr('onkeypress', 'digits');
+
+        } else {
+            document.getElementById('hidden_div').style.display = "none";
+
+            $('#t_nama_badan').removeAttr('required');
+            $('#t_rt_badan').removeAttr('required');
+            $('#t_rw_badan').removeAttr('required');
+            $('#t_kecamatan_badan').removeAttr('required');
+            $('#t_kelurahan_badan').removeAttr('required');
+            $('#t_jalan_badan').removeAttr('required');
+            $('#t_kabupaten_badan').removeAttr('required');
+            $('#t_rt_badan').removeAttr('data-parsley-type');
+            $('#t_rw_badan').removeAttr('data-parsley-type');
+        }
+    }
+</script>
+
+<script>
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatan').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahan").html(aa.res);
+            $("#keckelluar").html(aa.keckelluar);
+        });
+    }
+
+    function comboKelurahanCamat_badan() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatan_badan').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahan_badan").html(aa.res);
+            $("#keckelluar_badan").html(aa.keckelluar_badan);
+        });
+    }
+
+    function ceknik() {
+        $.post('<?= $this->url() ?>/ceknik', {
+            t_jenispendaftaran: $('#t_jenispendaftaran').val(),
+            t_nik: $('#t_nik').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#message_nik').html(aa.message);
+            $('#t_nik').val(aa.t_nik);
+        });
+    }
+
+    function ceknikcapil() {
+        $.post('<?= $this->url() ?>/ceknikcapil', {
+            t_nik: $('#t_nik').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_nama').val(aa.nama_lengkap);
+            $('#t_alamat').val(aa.alamat);
+            $('#t_rt').val(aa.rt);
+            $('#t_rw').val(aa.rw);
+            $('#t_kabupaten').val(aa.nama_kab);
+            $('#t_kecamatan').val(aa.idkec);
+            comboKelurahanCamat();
+            setTimeout(function() {
+                $('#t_kelurahan').val(aa.idkel);
+            }, 1500);
+        });
+
+    }
+
+    function nopendaftaran() {
+        $.post('<?= $this->url() ?>/nopendaftaran', {
+            t_jenispendaftaran: $('#t_jenispendaftaran').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_nopendaftaran").val(aa.t_nopendaftaran);
+        });
+    }
+
+    function previewImage() {
+        document.getElementById("image-preview").style.display = "block";
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("t_photowp").files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            document.getElementById("image-preview").src = oFREvent.target.result;
+        };
+    }
+</script>

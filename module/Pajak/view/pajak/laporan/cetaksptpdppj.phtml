@@ -1,0 +1,464 @@
+<html>
+    <head>
+        <style type="text/css">            
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_lima {
+                font-size: 5pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                font-size: 10pt;
+            }
+
+            .font_duabelas {
+                font-size: 12pt;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglpendataan = date('d', strtotime($data['t_tglpendataan'])) . " " . $abulan[date('m', strtotime($data['t_tglpendataan']))] . " " . date('Y', strtotime($data['t_tglpendataan']));
+        ?>
+        <table class="border_atas border_bawah border_kanan border_kiri font_delapan" style="width: 100%">
+            <tr>
+                <td style="width: 10%">
+                    <img src="<?= $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>" style="width:40px;"  />
+                </td>
+                <td style="width: 40%">
+                    PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?>
+                    <br>
+                    <?= $ar_pemda->s_namainstansi ?>
+                    <br>
+                    <?= $ar_pemda->s_alamatinstansi ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?>
+                </td>
+                <td class="border_kiri" style="width: 50%; padding-left: 10px">
+                    No. SPTPD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $data['t_nourut']; ?>
+                    <br>
+                    Masa Pajak &nbsp;&nbsp;&nbsp;&nbsp;: <?= date('d-m-Y', strtotime($data['t_masaawal'])); ?> S/D <?= date('d-m-Y', strtotime($data['t_masaakhir'])); ?>
+                    <br>
+                    Tahun Pajak &nbsp;&nbsp;&nbsp;: <?= $data['t_periodepajak']; ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td class="border_kiri" style="border-spacing:0px; padding-top: 10px; text-align: center" colspan="4">
+                    <b>
+                        SPTPD
+                        <br>
+                        (SURAT PEMBERITAHUAN PAJAK DAERAH)
+                        <br>
+                        PAJAK PENERANGAN JALAN
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="border_bawah" style="border-spacing:0px; padding-top: 10px; padding-left: 10px;">
+                    NPWPD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $data['t_npwpd']; ?><br>
+                    NIOP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $data['t_nop'] ?><br>
+                    Nama OP &nbsp;&nbsp;: <?= $data['t_namaobjek']?><br>
+                    Alamat OP : <?= $data['t_alamatlengkapobjek']?><br>
+                    K. Bayar &nbsp;&nbsp;&nbsp;: <?= $data['t_kodebayar'] ?><br>
+                </td>
+                <td class="border_bawah" style="padding:0;border-spacing:0px; padding-top: 10px;">
+                    Kepada Yth :
+                    <br>
+                    <?= $ar_pemda->s_namainstansi ?>
+                    <br>
+                    di <?= $ar_pemda->s_alamatinstansi ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="width: 5%; padding:0; border-spacing:0px; padding-left: 15px; padding-top: 10px;">
+                    PERHATIAN :
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%; padding:0; border-spacing:0px; padding-left: 15px; vertical-align: top">
+                    1.
+                </td>
+                <td colspan="3">
+                    Harap diisi dalam rangkap dua (2) ditulis dengan huruf CETAK
+                </td>
+            </tr>
+<!--            <tr>
+                <td style="width: 5%; padding:0; border-spacing:0px; padding-left: 15px; vertical-align: top">
+                    2.
+                </td>
+                <td colspan="3">
+                    Beri Nomor pada kotak yang tersedia untuk jawaban yang diberikan
+                </td>
+            </tr>-->
+            <tr>
+                <td style="width: 5%; padding:0; border-spacing:0px; padding-left: 15px; vertical-align: top">
+                    2.
+                </td>
+                <td colspan="3">
+                    Setelah diisi dan ditanda tangani, harap diserahkan kembali kepada <?= $ar_pemda->s_namainstansi ?> 
+                    paling lambat tanggal <?= $data['t_akhirlapor']?> bulan berikutnya
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%; padding-bottom:15px; border-spacing:0px; padding-left: 15px; vertical-align: top" class="border_bawah">
+                    3.
+                </td>
+                <td colspan="3" class="border_bawah" style="padding-bottom:15px;">
+                    Keterlambatan Penyerahan pada tanggal tersebut diatas akan dilakukan Penetapan secara Jabatan untuk WP yang berdasarkan Official Assesment
+                    dan Denda untuk WP yang berdasarkan Self Assesment
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="padding:0; border-spacing:0px; text-align: center" class="border_bawah">
+                    A. DIISI OLEH PENGUSAHA PENERANGAN JALAN SELF ASSESMENT
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="vertical-align: top; width: 5%; padding-left: 15px; padding-top: 10px;">
+                    1.
+                </td>
+                <td colspan="4" style="padding-top: 10px; padding-right: 15px;">
+                    Jumlah Pembayaran dan Pajak Terhutang untuk Masa Pajak sebelumnya (akumulasi dari awal Masa Pajak dalam Tahun Pajak Tertentu) :
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top; width: 2%;">
+                    a.
+                </td>
+                <td style="width: 40%">
+                    Masa Pajak
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+                    <?php
+                    $t_masaawalsblm = ($datasebelumnya['t_masaawal'] != null ? date('d-m-Y', strtotime($datasebelumnya['t_masaawal'])) : '...........'); // returns true
+                    $t_masaakhirsblm = ($datasebelumnya['t_masaakhir'] != null ? date('d-m-Y', strtotime($datasebelumnya['t_masaakhir'])) : '...........'); // returns true
+                    ?>
+                    Tgl. <?= $t_masaawalsblm ?> 
+                    s/d 
+                    Tgl. <?= $t_masaakhirsblm ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top;">
+                    b.
+                </td>
+                <td>
+                    Dasar Pengenaan (Jumlah pembayaran yang diterima)
+                </td>
+                <td>
+                    : 
+                </td>
+                <td>
+                    Rp. <?= number_format($datasebelumnya['t_dasarpengenaan'], 0, ",", "."); ?>,-
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top;">
+                    c.
+                </td>
+                <td>
+                    Tarif Pajak (Sesuai Perda)
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    <?= $datasebelumnya['t_tarifpajak']; ?> %
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top;">
+                    d.
+                </td>
+                <td>
+                    Pajak Terhutang ( b x c )
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    Rp. <?= number_format($datasebelumnya['t_jmlhpajak'], 0, ",", "."); ?>,-
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; width: 5%; padding-left: 15px">
+                    2.
+                </td>
+                <td colspan="4">
+                    Jumlah Pembayaran dan Pajak Terhutang untuk Masa Pajak Sekarang (lampirkan foto copy dokumen) :
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top; width: 2%;">
+                    a.
+                </td>
+                <td style="width: 40%">
+                    Masa Pajak
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+                    <?php
+                    $t_masaawalskrng = ($data['t_masaawal'] != null ? date('d-m-Y', strtotime($data['t_masaawal'])) : ''); // returns true
+                    $t_masaakhirskrng = ($data['t_masaakhir'] != null ? date('d-m-Y', strtotime($data['t_masaakhir'])) : ''); // returns true
+                    ?>
+                    Tgl. <?= $t_masaawalskrng ?> 
+                    s/d 
+                    Tgl. <?= $t_masaakhirskrng ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top;">
+                    b.
+                </td>
+                <td>
+                    Dasar Pengenaan (Jumlah pembayaran yang diterima)
+                </td>
+                <td>
+                    : 
+                </td>
+                <td>
+                    Rp. <?= number_format($data['t_dasarpengenaan'], 0, ",", "."); ?>,-
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="vertical-align: top;">
+                    c.
+                </td>
+                <td>
+                    Tarif Pajak (Sesuai Perda)
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    <?= $data['t_tarifpajak']; ?> %
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px">
+
+                </td>
+                <td style="vertical-align: top; padding-bottom: 10px">
+                    d.
+                </td>
+                <td style="padding-bottom: 10px">
+                    Pajak Terhutang ( b x c )
+                </td>
+                <td style="padding-bottom: 10px">
+                    :
+                </td>
+                <td style="padding-bottom: 10px">
+                    Rp. <?= number_format($data['t_jmlhpajak'], 0, ",", "."); ?>,-
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_atas border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="padding:0; border-spacing:0px; text-align: center" class="border_bawah">
+                    B. PERNYATAAN
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_delapan" style="width: 100%">
+            <tr>
+                <td style="width: 5%; padding-left: 15px; padding-top: 10px; padding-right: 15px; text-align: justify" colspan="2">
+                    Dengan menyadari sepenuhnya akan akibat termasuk sanksi-sanksi sesuai dengan ketentuan perudang-undangan yang berlaku, saya
+                    atau yang saya beri kuasa menyatakan apa yang telah kami beritahukan tersebut diatas beserta lampiran-lampirannya adalah benar,
+                    lengkap dan jelas.
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 32%">
+
+                </td>
+                <td style="text-align: center">
+                    <?= $ar_pemda->s_alamatinstansi ?>, <?= $t_tglpendataan ?> 
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td style="text-align: center">
+                    Wajib Pajak
+                    <br><br><br><br><br>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px">
+
+                </td>
+                <td style="text-align: center; padding-bottom: 10px">
+                    ( <?= strtoupper($data['t_nama']) ?> )
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="padding:0; border-spacing:0px; text-align: center" class="border_bawah">
+                    D. DIISI OLEH PETUGAS PENERIMA <?= $ar_pemda->s_namasingkatinstansi ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="width: 30%; padding-left: 15px; padding-top: 10px">
+                    Diterima tanggal
+                </td>
+                <td style="width: 2%; padding-top: 10px">
+                    :
+                </td>
+                <td style="padding-top: 10px">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px">
+                    Nama Petugas
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px; padding-bottom: 10px">
+                    NIP
+                </td>
+                <td>
+                    :
+                </td>
+                <td style="padding-bottom: 10px">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-left: 300px">
+                    <br>
+                    <br>
+                    (...............................)
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

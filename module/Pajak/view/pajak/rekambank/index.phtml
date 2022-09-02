@@ -1,0 +1,21 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Rekam Setoran Ke Bank <a href="<?= $this->url() ?>/form_setoran" class="btn btn-xs btn-warning" title=""><i class="glyph-icon icon-plus"></i> Tambah</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Daftar Setoran</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Pencetakan</a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_setoran.phtml'); ?>
+                    <?= $this->partial('pencetakan.phtml'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

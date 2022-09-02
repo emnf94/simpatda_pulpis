@@ -1,0 +1,329 @@
+<?php
+$frm = $this->form;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Entry Setoran Lain-lain
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div class="row">
+                            <?= $this->form()->openTag($frm) ?>
+                            <?= $this->formHidden($frm->get('t_idsetoranlain')) ?>  
+                            <?= $this->formHidden($frm->get('t_idsatker')) ?>
+                            <?= $this->formHidden($frm->get('t_idrekening')) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Kode Satker</label>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" id="kodesatker" class="form-control" value="<?= $data_setor['s_kodesatker'] ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 text-center"><button class="btn btn-success btn-sm" type="button" onclick="bukamodalSatker()"><span class="glyph-icon icon-search"></span></button></div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Satker</label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" id="namasatker" class="form-control" readonly="true" value="<?= $data_setor['s_namasatker'] ?>"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Kode Rekening</label>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" id="koderekening" class="form-control" readonly="true" value="<?= $data_setor['korek'] ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 text-center">
+                                    <button class="btn btn-success btn-sm" type="button" onclick="bukamodalRekening()"><i class="glyph-icon icon-search"></i></button>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Rekening</label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" id="namarekening" class="form-control" readonly="true" value="<?= $data_setor['s_namakorek'] ?>"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tahun</label>
+                                <div class="col-sm-2">
+                                    <?= $this->formRow($frm->get('t_tahunpajak')) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">Jumlah Setor (Rp.)</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('t_jumlahsetor')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tanggal Setor</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('t_tglsetor')) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">Via Setor</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('t_viasetor')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Kode Bukti</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('t_kodebukti')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Keterangan</label>
+                                <div class="col-md-6">
+                                    <?= $this->formRow($frm->get('t_keterangan')) ?>
+                                </div>
+                            </div>
+
+
+                            
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <?= $this->formSubmit($frm->get('SubmitBtn')) ?> <a href="<?= $this->url('setoranlain') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <input type="hidden" id="t_jenisobjek" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="korek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_namakorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_persentarifkorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                        <tfoot>              
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridRekening(1);
+                                            return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridRekening(2);
+                                            return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>                                    
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalSatker" tabindex="-1" role="dialog" aria-labelledby="modalSatkerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalSatkerLabel"><b>Data Satker</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Satker
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Satker
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="s_kodesatker" class="form-control input-sm" onkeyup="calldataGridSatker()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_namasatker" class="form-control input-sm" onkeyup="calldataGridSatker()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listsatker">
+                        </tbody>
+                        <tfoot>              
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows_satker" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridSatker(1);
+                                            return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page_satker" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridSatker(2);
+                                            return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data_satker"></span>&nbsp;Jumlah Halaman <span id="total_halaman_satker"></span></p>                                    
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   var rupiah = document.getElementById('t_jumlahsetor');
+   rupiah.addEventListener('keyup', function(e){
+
+    rupiah.value = formatRupiah(this.value, '');
+});
+
+   /* Fungsi formatRupiah */
+   function formatRupiah(angka, prefix){
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    split           = number_string.split(','),
+    sisa            = split[0].length % 3,
+    rupiah          = split[0].substr(0, sisa),
+    ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if(ribuan){
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ?  rupiah : '');
+        }
+        $(document).ready(function () {
+            $('#t_tahunpajak').bsdatepicker({
+                autoclose: true,
+                format: " yyyy",
+                viewMode: "years",
+                minViewMode: "years",
+                maxDate: new Date(),
+            });
+        });
+
+        function calldataGridRekening(direction) {
+            dataGridRekening($("#page").val(), $("#rows").val(), direction);
+        }
+        function calldataGridSatker(direction) {
+            dataGridSatker($("#page_satker").val(), $("#rows_satker").val(), direction);
+        }
+
+        function dataGridRekening(page, row, direction) {
+            $.post('<?= $this->url() ?>/dataGridRekening/' + null + '/' + page + '/' + row + '/' + direction + '?korek=' + $("#korek").val() + "&s_namakorek=" + $("#s_namakorek").val() + "&s_persentarifkorek=" + $("#s_persentarifkorek").val(), function (data) {
+                var aa = JSON.parse(data);
+                $("#listrekening").html(aa.grid);
+                $("#rows").val(aa.rows);
+                $("#page").val(aa.page);
+                $("#total_data").html(": " + aa.count);
+                $("#total_halaman").html(": " + aa.total_halaman);
+            });
+        }
+        function dataGridSatker(page, row, direction) {
+            $.post('<?= $this->url() ?>/dataGridSatker/' + null + '/' + page + '/' + row + '/' + direction + '?s_kodesatker=' + $("#s_kodesatker").val() + "&s_namasatker=" + $("#s_namasatker").val(), function (data) {
+                var aa = JSON.parse(data);
+                $("#listsatker").html(aa.grid);
+                $("#rows_satker").val(aa.rows);
+                $("#page_satker").val(aa.page);
+                $("#total_data_satker").html(": " + aa.count);
+                $("#total_halaman_satker").html(": " + aa.total_halaman);
+            });
+        }
+
+        function bukamodalRekening() {
+            calldataGridRekening();
+            $('#modalRekening').modal('show');
+        }
+
+        function bukamodalSatker() {
+            calldataGridSatker();
+            $('#modalSatker').modal('show');
+        }
+
+        function pilihRekening(a) {
+            $.post('<?= $this->url() ?>/pilihRekening', {s_idkorek: a}, function (data) {
+                var aa = JSON.parse(data);
+                $('#t_idrekening').val(aa.t_idkorek);
+                $('#koderekening').val(aa.t_korek);
+                $('#namarekening').val(aa.t_namakorek);
+                $('#modalRekening').modal('hide');
+            });
+        }
+        function pilihSatker(a) {
+            $.post('<?= $this->url() ?>/pilihSatker', {s_idsatker: a}, function (data) {
+                var aa = JSON.parse(data);
+                $('#t_idsatker').val(aa.s_idsatker);
+                $('#kodesatker').val(aa.s_kodesatker);
+                $('#namasatker').val(aa.s_namasatker);
+                $('#modalSatker').modal('hide');
+            });
+        }
+    </script>

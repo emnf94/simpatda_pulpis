@@ -1,0 +1,69 @@
+ SELECT a.t_idwp,
+    a.t_tgldaftar,
+    a.t_jenispendaftaran,
+    a.t_bidangusaha,
+    a.t_nopendaftaran,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN (((((((a.t_jenispendaftaran::text || '.'::text) || a.t_bidangusaha) || '.'::text) || lpad(a.t_nopendaftaran::text, 7, '0'::text)) || '.'::text) || lpad(b.s_kodekec::text, 3, '0'::text)) || '.'::text) || lpad(c.s_kodekel::text, 3, '0'::text)
+            ELSE (((((((a.t_jenispendaftaran::text || '.'::text) || a.t_bidangusaha) || '.'::text) || lpad(a.t_nopendaftaran::text, 7, '0'::text)) || '.'::text) || lpad(d.s_kodekec::text, 2, '0'::text)) || '.'::text) || lpad(e.s_kodekel::text, 2, '0'::text)
+        END AS t_npwpd,
+    a.t_nik,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_nama
+            ELSE a.t_nama_badan
+        END AS t_nama,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN concat(a.t_alamat, ', RT. ', a.t_rt, ', RW. ', a.t_rw, ', Desa ', c.s_namakel, ', Kec. ', b.s_namakec, ', Kab. ', a.t_kabupaten)
+            ELSE concat(a.t_jalan_badan, ', RT. ', a.t_rt_badan, ', RW. ', a.t_rw_badan, ', Desa ', e.s_namakel, ', Kec. ', d.s_namakec, ', Kab. ', a.t_kabupaten_badan)
+        END AS t_alamat_lengkap,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_alamat
+            ELSE a.t_jalan_badan
+        END AS t_alamat,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_rt
+            ELSE a.t_rt_badan
+        END AS t_rt,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_rw
+            ELSE a.t_rw_badan
+        END AS t_rw,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_kelurahan
+            ELSE a.t_kelurahan_badan
+        END AS t_kelurahan,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN c.s_namakel
+            ELSE e.s_namakel
+        END AS s_namakel,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_kecamatan
+            ELSE a.t_kecamatan_badan
+        END AS t_kecamatan,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN b.s_namakec
+            ELSE d.s_namakec
+        END AS s_namakec,
+        CASE
+            WHEN a.t_bidangusaha = 1 THEN a.t_kabupaten
+            ELSE a.t_kabupaten_badan
+        END AS t_kabupaten,
+    a.t_notelp,
+    a.t_kodepos,
+    a.t_email,
+    a.t_operatorid,
+    a.is_deluser,
+    f.s_nama,
+    a.t_status_wp,
+    a.t_tgl_tutup,
+    a.t_ket_tutup,
+    a.t_operatorid_tutup,
+    a.t_photowp,
+    a.t_kecamatanluar AS kecamatanluarwp,
+    a.t_kelurahanluar AS kelurahanluarwp
+   FROM t_wp a
+     LEFT JOIN s_kecamatan b ON a.t_kecamatan = b.s_idkec
+     LEFT JOIN s_kelurahan c ON a.t_kelurahan = c.s_idkel AND a.t_kecamatan = c.s_idkeckel
+     LEFT JOIN s_kecamatan d ON a.t_kecamatan_badan = d.s_kodekec
+     LEFT JOIN s_kelurahan e ON a.t_kelurahan_badan = e.s_kodekel AND a.t_kecamatan_badan = e.s_idkeckel
+     LEFT JOIN s_users f ON a.t_operatorid = f.s_iduser

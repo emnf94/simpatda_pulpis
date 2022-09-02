@@ -1,0 +1,630 @@
+<?php
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/barcodecoy/qrlib.php');
+
+$PNG_TEMP_DIR = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' .
+        $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' .
+        $data['t_idtransaksi'] . '/';
+
+$PNG_WEB_DIR = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' .
+        $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' .
+        $data['t_idtransaksi'] . '/';
+
+if (!file_exists($PNG_TEMP_DIR)) {
+    mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/', 0777, true);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/', 0777);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/', 0777);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/', 0777);
+}
+
+$errorCorrectionLevel = 'L';
+$matrixPointSize = 3;
+$barcode = $data['t_kodebayar'];
+
+$filename = $PNG_TEMP_DIR . '' . $data['t_idjenisobjek'] . '_' . $data['t_periodepajak'] . '_' . $data['t_idtransaksi'] . '_' . md5($barcode . '|' . $errorCorrectionLevel . '|' . $matrixPointSize) . '.png';
+QRcode::png($barcode, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+$tampilbarcode = '<img width="70" src="' . $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/' . basename($filename) . '" />';
+?>
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 10pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+            table{
+                font-family:sans-serif;
+            }
+            @page{
+                margin: 30px;
+                header: html_MyCustomHeader;
+                footer: html_MyCustomFooter;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglpenetapan = date('d', strtotime($data['t_tglpenetapan'])) . " " . $abulan[date('m', strtotime($data['t_tglpenetapan']))] . " " . date('Y', strtotime($data['t_tglpenetapan']));
+        ?>
+        <table class="border_atas border_bawah border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="width: 5%;padding: 5px;">
+                    <img src="<?= $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>" style="width:70;"  />
+                </td>
+                <td style="width: 35%;padding: 15px 8px;vertical-align: top;">
+                    <span style="font-size:9pt">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?></span>
+                    <br>
+                    <b style="font-size:11pt"><?= strtoupper($ar_pemda->s_namainstansi) ?></b>
+                    <br>
+                    <span style="font-size:9pt;"><?= $ar_pemda->s_alamatinstansi ?> <?= $ar_pemda->s_namaibukotakabkota ?><br>Telp <?= $ar_pemda->s_notelinstansi ?></span>
+                </td>
+                <td class="border_kiri" style="width: 40%;text-align: center;vertical-align: top;">
+                    <b style="font-size: 24pt;">SKRD</b> 
+                    <br>
+                    <b style="font-size:10pt;">(SURAT KETETAPAN RETRIBUSI DAERAH)</b>
+                    <br>
+                    Masa Retribusi : <?= date('d-m-Y', strtotime($data['t_masaawal'])); ?> s.d. <?= date('d-m-Y', strtotime($data['t_masaakhir'])); ?>
+                    <br>
+                    Tahun Retribusi : <?= $data['t_periodepajak']; ?>
+                </td>
+                <td class="border_kiri" style="width: 20%;text-align: center">
+                    No. SKRD : <?= str_pad($data['t_nopenetapan'], 5, 0, STR_PAD_LEFT) ?><br>
+                    Kode Bayar<br><?= $tampilbarcode ?><br><b><?= $data['t_kodebayar'] ?></b>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sembilan" style="width: 100%;">
+            <tr>
+                <td style="width: 5%; padding:0; border-spacing:0px; padding-left: 15px; padding-top: 10px;">
+                    <b>I</b>
+                </td>
+                <td colspan="2" style="padding:0;border-spacing:0px; padding-top: 10px;">
+                    <b>Identitas Wajib Retribusi</b>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    NPWRD
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_npwpd'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="width: 20%; padding:0; border-spacing:0px;">
+                    Nama
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_nama'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    Alamat
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_alamat'] . ", Kel./Desa " . $data['s_namakel'] . ", Kec. " . $data['s_namakec'] . ", Kab. " . $data['t_kabupaten'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    NIOR
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_nop'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    Nama Objek
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_namaobjek'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    Alamat Objek
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_alamatobjek'] . ", Kel./Desa " . $data['s_namakelobjek'] . ", Kec. " . $data['s_namakecobjek'] . ", Kab. " . $data['t_kabupatenobjek'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; padding-bottom: 10px">
+                    <b>II</b>
+                </td>
+                <td style="padding:0; border-spacing:0px; padding-bottom: 10px;font-size:9pt;">
+                    <b>Tanggal Jatuh Tempo</b>
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px; padding-bottom: 10px">
+                    : <b><?= date('d-m-Y', strtotime($data['t_tgljatuhtempo'])) ?></b>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sembilan" style="width: 100%;">
+            <tr style="text-align: center">
+                <td class="border_kanan border_kiri" style="padding-top: 10px;">
+                    <table style="margin-left: 15px; margin-right: 15px; padding-top: 10px; border: 1px solid black; border-collapse: collapse; width: 100%; margin-bottom: 10px; vertical-align: top"cellpadding="3";>
+                        <tr>
+                            <th style="width: 5%; border: 1px solid black; border-collapse: collapse; text-align: center">
+                                No.
+                            </th>
+                            <th style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                Kode Rekening
+                            </th>
+                            <th style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                Uraian
+                            </th>
+                            <th style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                Jumlah (Rp.)
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; border: 1px solid black; border-collapse: collapse">
+                                1.
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse;width:20%">
+                                <?php
+                                if($data['s_rinciankorek'] != '00' || $data['s_rinciankorek'] != '0' || $data['s_rinciankorek'] != ''){
+                                    $korek = substr($data['korek'],0,12).'<br>'.$data['korek'];
+                                    $namakorek = strtoupper($datakorek['s_namakorek']).'<br>'
+                                            . '&nbsp;&nbsp;- '.strtoupper($data['s_namakorek']);
+                                }else{
+                                    $korek = substr($data['korek'],0,12);
+                                    $namakorek = strtoupper($data['s_namakorek']);
+                                }
+                                ?>
+                                <?= $korek ?><br>
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse;padding-bottom:50px;font-size: 9pt;padding: 5px;">
+                                - <?= $namakorek ?><br>
+                                Pembayaran <?=$data['s_namakorek']?> dengan tarif ditetapkan sebagai berikut: <br>
+                                <?php if ($jenisobjek == 16) { 
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="5" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Jenis Layanan</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['t_namatarif'].'</td></tr>'
+                                        . '<tr><td>Kali</td><td>:</td><td>'.$vv['t_volume'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($vv['t_hargadasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>:</td><td>'.number_format($vv['t_volume'], 0, ',', '.').' x '.$vv['t_hargadasar'].' = '.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+                                ?>
+                                <?php 
+                                }elseif ($jenisobjek == 13) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                        . '<tr><td width="35%">Klasifikasi</td><td width="5%">:</td><td>'.$datadetail['t_namaklasifikasi'].'</td></tr>'
+                                        . '<tr><td>Kategori</td><td>:</td><td>'.$datadetail['t_namakategori'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>=</td><td>Tarif Dasar x Jumlah Bulan</td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').' x '.$datadetail['t_jmlhbln'].'</td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</td></tr>'
+                                    . '</table>';
+                                }elseif ($jenisobjek == 17) {
+                                    if ((int)$datadetail['t_idklasifikasi']==1){
+                                        $klasifikasi='Ibukota Kabupaten';
+                                    }elseif((int)$datadetail['t_idklasifikasi']==2){
+                                        $klasifikasi='Ibukota Kecamatan';
+                                    }else{
+                                        $klasifikasi='Didesa';
+                                    }
+                                    
+                                     $t_masaawal = date_create(date('d-m-Y', strtotime($data['t_masaawal'])));
+                                     $t_masaakhir = date_create(date('d-m-Y', strtotime($data['t_masaakhir'])));
+                                     $selisih = date_diff($t_masaawal, $t_masaakhir);
+                                     $hari = $selisih->days;
+                                    if (empty($datadetail['t_nokios'])) {
+                                        $datadetail['t_nokios']='-';
+                                    }
+                                   
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                        . '<tr><td width="35%">Klasifikasi</td><td width="5%">:</td><td>'.$klasifikasi.'</td></tr>'
+                                        . '<tr><td>Nomor Kios</td><td>:</td><td>'.$datadetail['t_nokios'].'</td></tr>'
+                                        . '<tr><td>Lama Waktu (Hari)</td><td>:</td><td>'.$hari.'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td style="vertical-align:top;">Keterangan</td><td style="vertical-align:top;">:</td><td>'.$datadetail['t_keteranganpasar'].'</td></tr>'
+                                        . '<tr><td>Muka (m) </td><td>:</td><td>'.number_format($datadetail['t_panjang'], 2, ',', '.').'m x '.'M<sup>2</sup></td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>=</td><td>Tarif Dasar x Muka x Lama Waktu </td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').' x '.$datadetail['t_luas'].' x '.$hari.'</td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</td></tr>'
+                                    . '</table>';
+                                }elseif ($jenisobjek == 26) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="3" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Kategori</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['kategori'].'( '.$vv['layanan'].' )</td></tr>'
+                                        . '<tr><td>Keterangan</td><td>:</td><td>'.$vv['t_keterangan'].'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+                                }elseif ($jenisobjek == 30) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                        . '<tr><td width="35%">Jenis Kendaraan</td><td width="5%">:</td><td>'.$datadetail['s_jeniskendaraan'].'</td></tr>'
+                                        . '<tr><td>Jumlah Kendaraan</td><td>:</td><td>'.$datadetail['t_jumlah'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td style="vertical-align:top;">Keterangan</td><td style="vertical-align:top;">:</td><td>'.$datadetail['t_keterangan'].'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').' x '.$datadetail['t_jumlah'].' = '.number_format($data['t_jmlhpajak'], 0, ',', '.').'</td></tr>'
+                                    . '</table>';
+
+                                }elseif ($jenisobjek == 12) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="2" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Uraian</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['t_uraianretribusi'].'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+                                    //  echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                    //     . '<tr><td width="35%">Uraian</td><td width="5%">:</td><td>'.$datadetail['t_uraianretribusi'].'</td></tr>'
+                                    //     . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($datadetail['t_jumlah'], 0, ',', '.').'</td></tr>'
+                                        
+                                    // . '</table>';
+                                }elseif ($jenisobjek == 18) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="5" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Jenis Layanan</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['t_namatarif'].'</td></tr>'
+                                        . '<tr><td>Jumlah Kendaraan</td><td>:</td><td>'.$vv['t_jumlahkendaraan'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($vv['t_hargadasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>:</td><td>'.number_format($vv['t_jumlahkendaraan'], 0, ',', '.').' x '.$vv['t_hargadasar'].' = '.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+
+                                }elseif ($jenisobjek == 27) {
+                                    if ((int)$datadetail['t_idklasifikasi']==1) {
+                                       $klasifikasi='Non Pasar Inpres Dalam Ibukota Kabupaten';
+                                    }elseif((int)$datadetail['t_idklasifikasi']==2) {
+                                        $klasifikasi='Non Pasar Inpres Semi Permane Dalam Ibukota Kabupaten'; 
+                                    }elseif((int)$datadetail['t_idklasifikasi']==3) {
+                                       $klasifikasi='Pasar Inpres';
+                                    }
+
+                                  $nomorkios = ($datadetail['t_nokios'] != 0) ? $datadetail['t_nokios'] : '-';
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                        . '<tr><td width="35%">Klasifikasi</td><td width="5%">:</td><td>'.$klasifikasi.'</td></tr>'
+                                        . '<tr><td width="35%">Kategori</td><td width="5%">:</td><td>'.$detailpasargrosir['s_keterangan'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Luas </td><td>:</td><td>'.number_format($datadetail['t_panjang'], 2, ',', '.').'m x '.number_format($datadetail['t_lebar'], 2, ',', '.').'m = '.number_format($datadetail['t_luas'], 2, ',', '.').'M<sup>2</sup></td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>=</td><td>Tarif Dasar x Luas x Jumlah </td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').' x '.$datadetail['t_luas'].' x '.$datadetail['t_jmlhbln'].'</td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</td></tr>'
+                                    . '</table>';
+
+
+                                }elseif ($jenisobjek == 40) {
+                                    // echo "Hello world!";
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="6" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Jenis Layanan</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['t_namatarif'].'</td></tr>'
+                                        . '<tr><td>Jumlah Kendaraan</td><td>:</td><td>'.$vv['t_jmlhkendaraan'].'</td></tr>'
+                                        . '<tr><td>Jumlah Perjalanan</td><td>:</td><td>'.$vv['t_jmlhperjalanan'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($vv['t_hargadasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>:</td><td>'.number_format($vv['t_jmlhkendaraan'], 0, ',', '.').' x '.number_format($vv['t_jmlhperjalanan'], 0, ',', '.').' x '.$vv['t_hargadasar'].' = '.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+                                }elseif ($jenisobjek == 29) {
+                                    // echo "He/llo world!";
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">';
+                                    $nomorurutdetail = 1;
+                                    foreach ($datadetail as $vv):
+                                    echo '<tr><td rowspan="5" width="5%" style="vertical-align:top;">'.$nomorurutdetail++.'.</td>'
+                                        . '<td width="30%" style="vertical-align:top;">Jenis Layanan</td><td width="5%" style="vertical-align:top;">:</td>'
+                                        . '<td>'.$vv['t_namajenispelayanan'].'</td></tr>'
+                                        . '<tr><td>Nama Tarif</td><td>:</td><td>'.$vv['t_namatarif'].'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($vv['t_hargadasar'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Perhitungan</td><td>:</td><td>'.number_format($vv['t_volume'], 0, ',', '.').' x '.$vv['t_hargadasar'].' = '.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>'
+                                        . '<tr><td>Jumlah</td><td>:</td><td>'.number_format($vv['t_jumlah'], 0, ',', '.').'</td></tr>';
+                                    endforeach;
+                                    echo '</table>';
+                                }elseif ($jenisobjek == 37) {
+                                    echo '<table style="width:100%;margin-left:10px;font-size: 8pt;">'
+                                        . '<tr><td width="35%">Jumlah Bangunan</td><td width="5%">:</td><td>'.$datadetail['t_jmlhbangunan'].'</td></tr>'
+                                        . '<tr><td>Panjang Bangunan</td><td>:</td><td>'.$datadetail['t_panjang'].'</td></tr>'
+                                        . '<tr><td>Lebar Bangunan</td><td>:</td><td>'.$datadetail['t_lebar'].'</td></tr>'
+                                        . '<tr><td>Luas Bangunan</td><td>:</td><td>'.$datadetail['t_luas'].'</td></tr>'
+                                        . '<tr><td>Koef Jenis Bangunan</td><td>:</td><td>'.$datadetail['s_idluas'].' || '.$datadetail['s_namaluas'].' ('.$datadetail['s_koefluas'].')'.'</td></tr>'
+                                        . '<tr><td>Koef Tingkat Bangunan</td><td>:</td><td>'.$datadetail['s_idlantai'].' || '.$datadetail['s_namalantai'].' ('.$datadetail['s_koeflantai'].')'.'</td></tr>'
+                                        . '<tr><td>Koef Guna Bangunan</td><td>:</td><td>'.$datadetail['s_idgunabgn'].' || '.$datadetail['s_namagunabgn'].' ('.$datadetail['s_koefgunabgn'].')'.'</td></tr>'
+                                        . '<tr><td>Koef Lokasi Bangunan</td><td>:</td><td>'.$datadetail['s_idlokasi'].' || '.$datadetail['s_namalokasi'].' ('.$datadetail['s_koeflokasi'].')'.'</td></tr>'
+                                        . '<tr><td>Koef Kondisi Bangunan</td><td>:</td><td>'.$datadetail['s_idkondisi'].' || '.$datadetail['s_namakondisi'].' ('.$datadetail['s_koefkondisi'].')'.'</td></tr>'
+                                        . '<tr><td>Tarif Dasar</td><td>:</td><td>'.number_format($datadetail['t_tarifdasar'], 0, ',', '.').'</td></tr>'
+                                        
+                                        . '<tr><td>Perhitungan</td><td>=</td><td>Luas x Koef x Tarif Dasar </td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($datadetail['t_luas'], 0, ',', '.').' x '.' ( '.$datadetail['s_koefluas'].' x '.$datadetail['s_koeflantai'].' x '.$datadetail['s_koefgunabgn'].' x '.$datadetail['s_koeflokasi'].' x '.$datadetail['s_koefkondisi'].' ) '.' x '.$datadetail['t_tarifdasar'].'</td></tr>'
+                                        . '<tr><td></td><td>=</td><td>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</td></tr>'
+                                    . '</table>';
+                                
+                                } ?>
+                                <br>
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;width:25%">
+                                <?= number_format($data['t_jmlhpajak'], 0, ',', '.'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; border: 1px solid black; border-collapse: collapse" colspan="3">
+                                Jumlah Ketetapan Pokok Retribusi
+                            </th>
+                            <th style="border: 1px solid black; border-collapse: collapse; text-align: right">
+                                <?= number_format($data['t_jmlhpajak'], 0, ',', '.'); ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; border-collapse: collapse" colspan="4">
+                                Dengan Huruf : #<i><?= terbilang($data['t_jmlhpajak']); ?> Rupiah</i>#
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sembilan" style="width: 100%">
+            <tr>
+                <td style="padding-top: 0px; padding-left: 15px" colspan="2">
+                    PERHATIAN :
+                </td>
+            </tr>
+            <tr>
+                <td style="width:5%; border-spacing:0px; padding-left: 15px; vertical-align: top">
+                    1.
+                </td>
+                <td style="padding:0; border-spacing:0px;">
+                    Harap penyetoran dilakukan melalui Bank KALTENG dengan menggunakan Surat Ketetapan Retribusi Daerah (SKRD) atau Kode Bayar.
+                </td>
+            </tr>
+            <tr>
+                <td style="border-spacing:0px; padding-left: 15px; padding-bottom: 10px; vertical-align: top">
+                    2.
+                </td>
+                <td style="padding:0; border-spacing:0px; padding-bottom: 10px">
+                    Apabila SKRD ini tidak atau kurang dibayar setelah waktu paling lama 30 hari sejak SKRD ini ditetapkan dikenakan sanksi administrasi berupa bunga sebesar 2% per bulan.
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sembilan" style="width: 100%">
+            <tr>
+                <td style="width: 50%; padding: 10px; padding-left: 15px;vertical-align:bottom;">
+                    
+                </td>
+                <td style="text-align: center; padding-top: 10px">
+                    <?= $ar_pemda->s_namaibukotakabkota ?>, <?= $t_tglpenetapan ?><br>
+                    a.n, Kepala <?= $ar_pemda->s_namainstansi ?><br>
+                    <?= strtoupper($ar_ttd0->s_jabatanpej) ?>
+                    <br><br><br><br>
+                    <b><?= $ar_ttd0->s_namapej ?></b><br>
+                    NIP. <?= $ar_ttd0->s_nippej ?>
+                </td>
+            </tr>
+        </table>
+
+        <div style="margin-top:10px;margin-bottom:10px;border: 0 none;border-top: 1px dashed #322f32;background: none;height:0;"></div>
+        <table class="border_bawah border_kanan border_kiri border_atas" style="width: 100%;font-size:9pt;">
+            <tr>
+                <td colspan="2" style="padding-top: 5px">
+
+                </td>
+                <td style="text-align: right; padding-top: 5px;padding-right: 20px;">
+                    <!--No. SKRD : <b><= str_pad($data['t_nopenetapan'], 5, "0", STR_PAD_LEFT).'/SKRD/'.substr($data['t_kodebayar'],2,2).'/'.date('m', strtotime($data['t_masaawal'])).'/'.$data['t_periodepajak'] ?></b>-->
+                    No. SKRD : <?= str_pad($data['t_nopenetapan'], 5, 0, STR_PAD_LEFT) ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center">
+                    <b style="font-size: 14pt;">TANDA TERIMA</b>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%;padding-left: 25px;">
+                    NPWPD
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+<?= $data['t_npwpd'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%;padding-left: 25px; vertical-align: top;">
+                    Nama
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+<?= strtoupper($data['t_nama']); ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%;padding-left: 25px; vertical-align: top;">
+                    Alamat
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+<?= strtoupper($data['t_alamat_lengkap']) ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%;padding-left: 25px; vertical-align: top;">
+                    Nama Objek / Usaha
+                </td>
+                <td style="width: 2%">
+                    :
+                </td>
+                <td>
+                    <?= strtoupper($data['t_namaobjek']) ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+
+                </td>
+                <td style="text-align: right;padding-right: 30px;">
+<?= $ar_pemda->s_namaibukotakabkota ?>, 
+                    .................................. 20 ...........
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="vertical-align:bottom;">
+                    <div class="barcodecell"><barcode code="<?= $data['t_kodebayar'] ?>" type="I25" class="barcode" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8pt;"><?= $data['t_kodebayar'] ?></span></div>
+                </td>
+                 <td style="text-align: right;padding-right: 65px;">
+                     WR/Penanggung Retribusi/Kuasa
+                    <br><br><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-bottom: 10px">
+
+                </td>
+                <td style="text-align: right;padding-right: 85px; padding-bottom: 10px">
+                    (............................)
+                </td>
+            </tr>
+        </table>
+        <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+    </body>
+</html>

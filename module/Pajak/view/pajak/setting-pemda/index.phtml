@@ -1,0 +1,114 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Setting Pemerintah Daerah
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div>
+                        <?= $this->form()->openTag($frm) ?>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Instansi</label>
+                            <div class="col-md-8">
+                                <?= $this->formHidden($frm->get('s_idpemda')) ?>
+                                <?= $this->formRow($frm->get('s_namainstansi')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Singkat Instansi</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_namasingkatinstansi')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Alamat Instansi</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_alamatinstansi')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">No. Telp.</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_notelinstansi')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kodepos</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_kodepos')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Ibu Kota Kab/Kota</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_namaibukotakabkota')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Kabupaten/Kota</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_kodekabkot')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kabupaten/Kota</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_namakabkota')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Provinsi</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_kodeprovinsi')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Provinsi</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_namaprov')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Bank</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_namabank')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">No. Rek. Bank</label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_norekbank')) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-md-4">
+                                <?= $this->formRow($frm->get('s_logofile')) ?>
+                            </div>
+                        </div>
+                        <div align="center">
+                            <?= $this->formRow($frm->get('s_logo')) ?>
+                        </div>
+                        <br />
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <button type="submit" class="btn btn-warning btn-block"><i class="glyph-icon icon-hand-o-right"></i> Simpan Profil Pemda !</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <?= $this->form()->closeTag($frm) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

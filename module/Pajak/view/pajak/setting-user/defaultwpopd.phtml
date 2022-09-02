@@ -1,0 +1,111 @@
+<?php
+$judul = '<span style="font-size: 24px;"><b>SETTING DEFAULT WP SKPD</b></span>';
+$link = '<a href="'.$this->url().'/tambah" class="btn bg-purple btn-sm margin">Tambah</a>                                                       
+                            ';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<table id="datapengguna"  cellpadding="0" cellspacing="0" border="0" class="display" width="100%" >
+    <thead>
+        <tr class="bg-blue" style="font-size:10pt; font: bold;">
+            <th width="20"><center>No</center></th>
+            <th width="70"><center>Perintah</center></th>
+            <th width="20"><center>NPWPD</center></th>
+            <th width="20"><center>NAMA BADAN</center></th>
+            <th width="20"><center>NAMA PEMILIK</center></th>
+            <th width="20"><center>ALAMAT PEMILIK</center></th>
+            
+
+        </tr>
+</thead>
+<tbody>
+</tbody>
+<tfoot>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tfoot>
+</table>
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?>                         
+
+
+
+
+<style type="text/css">
+    .dataTables_filter {
+        display: none;
+    }
+</style> 
+
+<?php
+$idtabel = '#datapengguna';
+$url = $this->url() . '/dataGriddefaultwpopd';
+$jmlkolom = 5;
+$seleksi_kolom = "'0','5'"; //iki data sort di disabel
+$pencarian_bawah = 1; //========== custom pencarian bawah 1 aktif, selain itu defeault pencarian
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null); ?>
+            
+
+            
+<script type="text/javascript">
+    
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'hakakses') {
+                $(this).html('<center><select class="pencariantable" style="width:130px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->semudadata_role() as $key => $row) {
+                                        echo '<option value="' . $row['rid'] . '">' . $row['role_name'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+
+            
+        });
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+            
+        }
+        setTimeout(function () {
+            //calldatagrid();
+            dTable.ajax.reload();
+
+        }, 500);
+    }
+
+    
+</script>

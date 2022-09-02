@@ -1,0 +1,277 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    SETTING PENGGUNA
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <?= $this->form()->openTag($frm) ?>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Username
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_iduser')) ?>
+                            <?= $this->formRow($frm->get('s_username')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Password
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_password')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Ulangi Password
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('t_pass2')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Tipe Pengguna
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_akses')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="divwp" style="display: none">
+                        <label class="col-md-2">
+                            Wajib Pajak
+                        </label>
+                        <div class="col-md-6">
+                            <?= $this->formRow($frm->get('s_wp')) ?>
+                        </div>
+                    </div>
+                    <div id="dataobjek"></div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Nama
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_nama')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="divoperator" style="display: none">
+                        <label class="col-md-2">
+                            Jabatan
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_jabatan')) ?>
+                        </div>
+                    </div>
+                    <script type='text/javascript'>
+                        $(function() {
+                            "use strict";
+                            $(".multi-select").multiSelect();
+                            $(".ms-container").append("<i class='glyph-icon icon-exchange'></i>");
+                        });
+                    </script>
+                    <div class="row-fluid">
+                        <?= $this->formRow($frm->get('s_main')) ?>
+                        <div id="divwpakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_laporan')) ?>
+                        </div>
+                        <div id="divbendinasakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_laporanbendahara')) ?>
+                        </div>
+                        <div id="divoperatorakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_pendaftaran')) ?>
+                            <?= $this->formRow($frm->get('s_pendataan')) ?>
+                            <?= $this->formRow($frm->get('s_penetapan')) ?>
+                            <?= $this->formRow($frm->get('s_skpdjabatan')) ?>
+                            <?= $this->formRow($frm->get('s_skpdkb')) ?>
+                            <?= $this->formRow($frm->get('s_skpdkbt')) ?>
+                            <?= $this->formRow($frm->get('s_skpdlb')) ?>
+                            <?= $this->formRow($frm->get('s_skpdn')) ?>
+                            <?= $this->formRow($frm->get('s_skpdt')) ?>
+                            <?= $this->formRow($frm->get('s_pembayaran')) ?>
+                            <?= $this->formRow($frm->get('s_pembayarandenda')) ?>
+                            <?= $this->formRow($frm->get('s_rekambank')) ?>
+                            <?= $this->formRow($frm->get('s_setoranlain')) ?>
+                            <?= $this->formRow($frm->get('s_stpdpembayaran')) ?>
+                            <?= $this->formRow($frm->get('s_penagihan')) ?>
+                            <?= $this->formRow($frm->get('s_pemeriksaan')) ?>
+                            <?= $this->formRow($frm->get('s_pembukuan')) ?>
+                            <?= $this->formRow($frm->get('s_monitoring')) ?>
+                        </div>
+                        <div id="divperizinanakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_perizinan')) ?>
+                        </div>
+                        <div id="divpratamaakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_pratama')) ?>
+                        </div>
+                        <div id="divadminakses" style="display: none">
+                            <?= $this->formRow($frm->get('s_pemda')) ?>
+                            <?= $this->formRow($frm->get('s_user')) ?>
+                            <?= $this->formRow($frm->get('s_kelurahan')) ?>
+                            <?= $this->formRow($frm->get('s_pejabat')) ?>
+                            <?= $this->formRow($frm->get('s_kecamatan')) ?>
+                            <?= $this->formRow($frm->get('s_rekening')) ?>
+                            <?= $this->formRow($frm->get('s_target')) ?>
+                            <?= $this->formRow($frm->get('s_reklame')) ?>
+                            <?= $this->formRow($frm->get('s_air')) ?>
+                        </div>
+                    </div>
+                    <div align="right">
+                        <?= $this->formInput($frm->get('simpan')) ?> <a href="<?= $this->url('setting_user') ?>" class="btn btn-danger">Kembali</a>
+                    </div>
+                    <?= $this->form()->closeTag($frm) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function splitakses() {
+        document.getElementById("divwp").style.display = 'none';
+        document.getElementById("divwpakses").style.display = 'none';
+        document.getElementById("divbendinasakses").style.display = 'none';
+        document.getElementById("divoperator").style.display = 'none';
+        document.getElementById("divoperatorakses").style.display = 'none';
+        document.getElementById("divperizinanakses").style.display = 'none';
+        document.getElementById("divpratamaakses").style.display = 'none';
+        document.getElementById("divadminakses").style.display = 'none';
+        var s_akses = document.getElementById('s_akses').value;
+        if (s_akses == 1) { // wp
+            document.getElementById("divwp").style.display = 'block';
+            document.getElementById("divwpakses").style.display = 'block';
+            document.getElementById("divbendinasakses").style.display = 'none';
+            document.getElementById("divoperator").style.display = 'none';
+            document.getElementById("divoperatorakses").style.display = 'none';
+            document.getElementById("divperizinanakses").style.display = 'none';
+            document.getElementById("divpratamaakses").style.display = 'none';
+            document.getElementById("divadminakses").style.display = 'none';
+        } else if (s_akses == 2) { // admin
+            document.getElementById("divwp").style.display = 'none';
+            document.getElementById("divwpakses").style.display = 'none';
+            document.getElementById("divbendinasakses").style.display = 'none';
+            document.getElementById("divoperator").style.display = 'block';
+            document.getElementById("divoperatorakses").style.display = 'block';
+            document.getElementById("divperizinanakses").style.display = 'none';
+            document.getElementById("divpratamaakses").style.display = 'none';
+            document.getElementById("divadminakses").style.display = 'block';
+        } else if (s_akses == 3) { // operator
+            document.getElementById("divwp").style.display = 'none';
+            document.getElementById("divwpakses").style.display = 'none';
+            document.getElementById("divbendinasakses").style.display = 'none';
+            document.getElementById("divoperator").style.display = 'block';
+            document.getElementById("divoperatorakses").style.display = 'block';
+            document.getElementById("divperizinanakses").style.display = 'none';
+            document.getElementById("divpratamaakses").style.display = 'none';
+            document.getElementById("divadminakses").style.display = 'none';
+        } else if (s_akses == 4) { // DPMPTSP/Satpol PP
+            document.getElementById("divwp").style.display = 'none';
+            document.getElementById("divwpakses").style.display = 'none';
+            document.getElementById("divbendinasakses").style.display = 'none';
+            document.getElementById("divoperator").style.display = 'none';
+            document.getElementById("divoperatorakses").style.display = 'none';
+            document.getElementById("divperizinanakses").style.display = 'block';
+            document.getElementById("divpratamaakses").style.display = 'none';
+            document.getElementById("divadminakses").style.display = 'none';
+        } else if (s_akses == 5) { // KPP Pratama
+            document.getElementById("divwp").style.display = 'none';
+            document.getElementById("divwpakses").style.display = 'none';
+            document.getElementById("divbendinasakses").style.display = 'none';
+            document.getElementById("divoperator").style.display = 'none';
+            document.getElementById("divoperatorakses").style.display = 'none';
+            document.getElementById("divperizinanakses").style.display = 'none';
+            document.getElementById("divpratamaakses").style.display = 'block';
+            document.getElementById("divadminakses").style.display = 'none';
+        } else if (s_akses == 6) { // Bendahara Dinas
+            document.getElementById("divwp").style.display = 'none';
+            document.getElementById("divwpakses").style.display = 'none';
+            document.getElementById("divbendinasakses").style.display = 'block';
+            document.getElementById("divoperator").style.display = 'none';
+            document.getElementById("divoperatorakses").style.display = 'none';
+            document.getElementById("divperizinanakses").style.display = 'none';
+            document.getElementById("divpratamaakses").style.display = 'none';
+            document.getElementById("divadminakses").style.display = 'none';
+        }
+    }
+
+    function cariobjekwp(a) {
+        $.post('<?= $this->url() ?>/cariobjekwp', {
+            idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#dataobjek").html(aa.dataobjek);
+        });
+    }
+
+    function bukamodalRekening(jenisobj, idobj) {
+        calldataGridRekening(jenisobj, idobj);
+        $('#modalRekening').modal('show');
+    }
+
+    function calldataGridRekening(jenisobj, idobj) {
+        dataGridRekening($("#page").val(), $("#rows").val(), jenisobj, idobj);
+    }
+
+    function dataGridRekening(page, row, jenisobj, idobj) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + page + '/' + row + '/' + 1 + '?t_jenisobjek=' + jenisobj + "&t_idobjek=" + idobj, function(data) {
+            var aa = JSON.parse(data);
+            $("#listrekening").html(aa.grid);
+        });
+    }
+
+    function pilihRekening(a, b) {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: a,
+            t_idobjek: b
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek' + b).val(aa.t_idkorek);
+            $('#t_korek' + b).val(aa.t_korek);
+            $('#modalRekening').modal('hide');
+        });
+    }
+</script>

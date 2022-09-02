@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <style type="text/css">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="printarea">            
+            <h2 style="text-align: center">DAFTAR KECAMATAN</h2>
+            <table width="100%" style="font-size: 12px">
+                <tr style="background:#f3f3f3;">
+                    <td style="width: 5%; text-align: center">
+                        NO.
+                    </td>
+                    <td style="text-align: center">
+                        KODE KECAMATAN
+                    </td>
+                    <td style="text-align: center">
+                        NAMA KECAMATAN
+                    </td>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($this->datakecamatan as $k => $v) {
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $counter ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= str_pad($v['s_kodekec'], 2, "0", STR_PAD_LEFT); ?>
+                        </td>
+                        <td>
+                            <?= $v['s_namakec']; ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </table>
+        </div>
+    </body>
+</html>
+

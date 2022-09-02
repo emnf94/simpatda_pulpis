@@ -1,0 +1,187 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/bayarkan');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div>
+                <h3 style="color: blue">
+                    Pembayaran Denda
+                </h3>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($form) ?>
+                        <div class="row pad10B">
+                            <div class="col-sm-12">
+                                <div class="alert alert-warning">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pembayaran Denda</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Tanggal Pembayaran Denda</label>
+                                <div class="col-md-2">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon">
+                                            <i class="glyph-icon icon-calendar"></i>
+                                        </span>
+                                        <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                        <?= $this->formText($form->get("t_tglbayardenda")) ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Jumlah Pembayaran Denda</label>
+                                <div class="col-md-2">
+                                    <?= $this->formText($form->get("t_jmlhbayardenda")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal Pendaftaran</label>
+                                <div class="col-md-2">
+                                    : <?= $datapenetapandenda['t_tgldaftar'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_nama'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-md-10">
+                                    : <?= $datapenetapandenda['t_alamat'] ?>
+                                    ,Desa/Kel. <?= $datapenetapandenda['s_namakel'] ?>
+                                    ,Kec. <?= $datapenetapandenda['s_namakec'] ?>
+                                    ,Kab. <?= $datapenetapandenda['t_kabupaten'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Usaha</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tempat Usaha</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['s_namatempat'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Bangunan</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_bangunan'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nomor</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_nomor'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat Pasar</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_alamatpasar'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Panjang</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_panjang'] ?> m<sup>2</sup>
+                                </div>
+                                <label class="col-sm-2">Lebar</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_lebar'] ?> m<sup>2</sup>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Jenis Usaha</label>
+                                <div class="col-md-4">
+                                    : <?= $datapenetapandenda['t_jenisusaha'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Penetapan</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal</label>
+                                <div class="col-md-4">
+                                    : <?= date('d-m-Y', strtotime($datapenetapandenda['t_tglpenetapan'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Jumlah</label>
+                                <div class="col-md-4">
+                                    : <?= number_format($datapenetapandenda['t_jmlhpenetapan'], 0, ',', '.') ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pembayaran</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal</label>
+                                <div class="col-md-4">
+                                    : <?= date('d-m-Y', strtotime($datapenetapandenda['t_tglpembayaran'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Jumlah</label>
+                                <div class="col-md-4">
+                                    : <?= number_format($datapenetapandenda['t_jmlhpembayaran'], 0, ',', '.') ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-default" id="tombolsimpan">
+                            <?= $this->formInput($form->get('submit')) ?> 
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {t_kecamatan: $('#t_kecamatan').val()}, function (data) {
+            $("#t_kelurahan").html(data);
+        });
+    }
+</script>

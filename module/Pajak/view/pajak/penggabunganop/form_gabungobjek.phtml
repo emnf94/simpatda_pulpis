@@ -1,0 +1,235 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url() . '/form_gabungobjek');
+        $form->setAttribute("id", "demoform");
+        $form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+        $form->setAttribute("data-parsley-validate", "data-parsley-validate");
+        $form->setAttribute('enctype', 'multipart/form-data');
+        $form->prepare();
+        ?>
+        <?php
+        if ($this->flashMessenger()->hasMessages()) {
+            echo '<div class="alert alert-success">';
+            $messages = $this->flashMessenger()->getMessages();
+            foreach ($messages as $message) {
+                echo $message;
+            }
+            echo '</div>';
+        }
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <b style="font-family: monospace;">PENGGABUNGAN OBJEK PAJAK</b>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row" style="font-size: 11px">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data WP</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Tanggal Pendaftaran</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_tgldaftar'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">NPWPD</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_npwpd'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">NIK</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nik'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Nama</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nama'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Alamat</label>
+                            <div class="col-md-10">
+                                : <?= $data['t_alamat'] ?>, Rt. <?= $data['t_rt'] ?>, Rw. <?= $data['t_rw'] ?>, Kel./Desa <?= $data['s_namakel'] ?>, Kec. <?= $data['s_namakec'] ?>, Kab. <?= $data['t_kabupaten'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">No. Telp.</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_notelp'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Kode Pos</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_kodepos'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <?= $this->form()->openTag($form) ?>
+                        <?= $this->formHidden($form->get("t_idwp")) ?>
+                        <div class="row pad10B">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="box box-danger">
+                                        <div class="box-header with-border">
+                                            <button class="btn btn-sm btn-danger" type="button" onclick="bukamodalObjek()">
+                                                <span class="glyph-icon icon-plus-circle">
+                                                    Tambah Objek
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <input type="hidden" id="idl" value="1">
+                                        <div class="box-body">
+                                            <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                                <thead>
+                                                    <tr>
+                                                        <th style='background-color: #00BCA4; color: white; text-align:center'>NIOP</th>
+                                                        <th style='background-color: #00BCA4; color: white; text-align:center'>Nama</th>
+                                                        <th style='background-color: #00BCA4; color: white; text-align:center'>Jenis</th>
+                                                        <th style='background-color: #00BCA4; color: white; text-align:center'>Alamat</th>
+                                                        <th style='background-color: #00BCA4; color: white; text-align:center'>#</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $counter = 1;
+                                                    foreach ($this->dataobjek as $row) {
+                                                    ?>
+                                                        <tr>
+                                                            <td style='color:red; font-size:12px; font-weight:bold'><?= $row['t_nop'] ?></td>
+                                                            <td><?= $row['t_namaobjek']; ?></td>
+                                                            <td><?= $row['s_namajenis']; ?></td>
+                                                            <td><?= $row['t_alamatobjek'] . ", RT. " . $row['t_rtobjek'] . ", RW. " . $row['t_rwobjek'] . ", Kel/Desa " . $row['s_namakel'] . ", Kec. " . $row['s_namakec'] ?></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                                <tbody id="add_Detail"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-default pull-right" id="tombolsimpan">
+                            <?= $this->formInput($form->get('submit')) ?>
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalObjek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Objek</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    NIOP
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama OP
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Alamat OP
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="t_nop" class="form-control input-sm" onkeyup="calldataGridObjek()">
+                                </td>
+                                <td>
+                                    <input type="text" id="t_namaobjek" class="form-control input-sm" onkeyup="calldataGridObjek()">
+                                </td>
+                                <td>
+                                    <input type="text" id="t_alamatlengkapobjek" class="form-control input-sm" onkeyup="calldataGridObjek()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listobjek">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function bukamodalObjek() {
+        calldataGridObjek();
+        $('#modalObjek').modal('show');
+    }
+
+    function calldataGridObjek(direction) {
+        dataGridObjek();
+    }
+
+    function dataGridObjek() {
+        $.post('<?= $this->url() ?>/dataGridObjek/' + null + '/' + null + '/' + null + '/' + null + '?t_nop=' + $("#t_nop").val() +
+            "&t_namaobjek=" + $("#t_namaobjek").val() + "&idobjek_1=" + $("#t_idobjek1").val() + "&idobjek_2=" + $("#t_idobjek2").val() +
+            "&idobjek_3=" + $("#t_idobjek3").val() + "&idobjek_4=" + $("#t_idobjek4").val() +
+            "&idobjek_5=" + $("#t_idobjek5").val() + "&idobjek_6=" + $("#t_idobjek6").val() +
+            "&idobjek_7=" + $("#t_idobjek7").val() + "&idobjek_8=" + $("#t_idobjek8").val() +
+            "&idobjek_9=" + $("#t_idobjek9").val() + "&idobjek_10=" + $("#t_idobjek10").val() +
+            "&idobjek_11=" + $("#t_idobjek11").val() + "&idobjek_12=" + $("#t_idobjek12").val() +
+            "&idobjek_13=" + $("#t_idobjek13").val() + "&idobjek_14=" + $("#t_idobjek14").val() +
+            "&idobjek_15=" + $("#t_idobjek15").val() + "&idobjek_16=" + $("#t_idobjek16").val() +
+            "&idobjek_17=" + $("#t_idobjek17").val() + "&idobjek_18=" + $("#t_idobjek18").val() +
+            "&idobjek_19=" + $("#t_idobjek19").val() + "&idobjek_20=" + $("#t_idobjek20").val(),
+            function(data) {
+                var aa = JSON.parse(data);
+                $("#listobjek").html(aa.grid);
+            });
+    }
+
+    function pilihObjek(a) {
+        var idl = document.getElementById("idl").value;
+        $.post('<?= $this->url() ?>/detailobjek', {
+            i: idl,
+            t_idobjek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#add_Detail').append(aa.add_Detail);
+        });
+        idl = (idl - 1) + 2;
+        document.getElementById("idl").value = idl;
+        $('#modalObjek').modal('hide');
+    }
+
+    function removetr(a) {
+        $("#detailnode" + a).remove();
+        hitungSetoran();
+    }
+</script>

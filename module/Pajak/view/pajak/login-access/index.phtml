@@ -1,0 +1,424 @@
+<link href="<?= $this->basePath(); ?>/public/css/animate-custom.css" rel="stylesheet">
+
+<style>
+    .login-box_headercoy {
+        background: transparent url('http://<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/img/transpBlack50.png') repeat;
+    }
+
+    .login-box_tengah {
+        background: transparent url('http://<?= $_SERVER['HTTP_HOST']; ?><?= $this->basePath(); ?>/public/img/transpBlue50.png') repeat;
+    }
+
+    .gambar {
+        /*width: 100px;
+  height: 50px;
+  background-color: red;
+  font-weight: bold;*/
+        position: relative;
+
+        /*-webkit-backface-visibility: visible;
+    -ms-backface-visibility: visible;
+    backface-visibility: visible;
+    -webkit-animation-name: flip 5s infinite;
+    animation-name: flip;
+    animation: flip 5s infinite;*/
+
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipInY 5s infinite;
+        animation-name: flipInY;
+        animation: flipInY 5s infinite;
+    }
+
+
+
+    @keyframes shake {
+
+        0%,
+        100% {
+            -webkit-transform: translateX(0);
+            -ms-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+            -webkit-transform: translateX(-10px);
+            -ms-transform: translateX(-10px);
+            transform: translateX(-10px);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+            -webkit-transform: translateX(10px);
+            -ms-transform: translateX(10px);
+            transform: translateX(10px);
+        }
+    }
+
+    .shake {
+        -webkit-animation-name: shake;
+        animation-name: shake;
+    }
+
+    @-webkit-keyframes flip {
+        0% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(0) scale(1);
+            transform: perspective(400px) translateZ(0) rotateY(0) scale(1);
+            -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(1);
+            transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(1);
+            -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+        }
+
+        50% {
+            -webkit-transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+            transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+
+        80% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+            transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);
+            transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+    }
+
+    @keyframes flip {
+        0% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(0) scale(1);
+            -ms-transform: perspective(400px) translateZ(0) rotateY(0) scale(1);
+            transform: perspective(400px) translateZ(0) rotateY(0) scale(1);
+            -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(1);
+            -ms-transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(1);
+            transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(1);
+            -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+        }
+
+        50% {
+            -webkit-transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+            -ms-transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+            transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+
+        80% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+            -ms-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+            transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);
+            -ms-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);
+            transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);
+            -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+        }
+    }
+
+    .animated.flip {
+        -webkit-backface-visibility: visible;
+        -ms-backface-visibility: visible;
+        backface-visibility: visible;
+        -webkit-animation-name: flip;
+        animation-name: flip;
+    }
+
+    @-webkit-keyframes flipInX {
+        0% {
+            -webkit-transform: perspective(400px) rotateX(90deg);
+            transform: perspective(400px) rotateX(90deg);
+            opacity: 0;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) rotateX(-10deg);
+            transform: perspective(400px) rotateX(-10deg);
+        }
+
+        70% {
+            -webkit-transform: perspective(400px) rotateX(10deg);
+            transform: perspective(400px) rotateX(10deg);
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateX(0deg);
+            transform: perspective(400px) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    @keyframes flipInX {
+        0% {
+            -webkit-transform: perspective(400px) rotateX(90deg);
+            -ms-transform: perspective(400px) rotateX(90deg);
+            transform: perspective(400px) rotateX(90deg);
+            opacity: 0;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) rotateX(-10deg);
+            -ms-transform: perspective(400px) rotateX(-10deg);
+            transform: perspective(400px) rotateX(-10deg);
+        }
+
+        70% {
+            -webkit-transform: perspective(400px) rotateX(10deg);
+            -ms-transform: perspective(400px) rotateX(10deg);
+            transform: perspective(400px) rotateX(10deg);
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateX(0deg);
+            -ms-transform: perspective(400px) rotateX(0deg);
+            transform: perspective(400px) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    .flipInX {
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipInX;
+        animation-name: flipInX;
+    }
+
+    @-webkit-keyframes flipInY {
+        0% {
+            -webkit-transform: perspective(400px) rotateY(90deg);
+            transform: perspective(400px) rotateY(90deg);
+            opacity: 0;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) rotateY(-10deg);
+            transform: perspective(400px) rotateY(-10deg);
+        }
+
+        70% {
+            -webkit-transform: perspective(400px) rotateY(10deg);
+            transform: perspective(400px) rotateY(10deg);
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateY(0deg);
+            transform: perspective(400px) rotateY(0deg);
+            opacity: 1;
+        }
+    }
+
+    @keyframes flipInY {
+        0% {
+            -webkit-transform: perspective(400px) rotateY(90deg);
+            -ms-transform: perspective(400px) rotateY(90deg);
+            transform: perspective(400px) rotateY(90deg);
+            opacity: 0;
+        }
+
+        40% {
+            -webkit-transform: perspective(400px) rotateY(-10deg);
+            -ms-transform: perspective(400px) rotateY(-10deg);
+            transform: perspective(400px) rotateY(-10deg);
+        }
+
+        70% {
+            -webkit-transform: perspective(400px) rotateY(10deg);
+            -ms-transform: perspective(400px) rotateY(10deg);
+            transform: perspective(400px) rotateY(10deg);
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateY(0deg);
+            -ms-transform: perspective(400px) rotateY(0deg);
+            transform: perspective(400px) rotateY(0deg);
+            opacity: 1;
+        }
+    }
+
+    .flipInY {
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipInY;
+        animation-name: flipInY;
+    }
+
+    @-webkit-keyframes flipOutX {
+        0% {
+            -webkit-transform: perspective(400px) rotateX(0deg);
+            transform: perspective(400px) rotateX(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateX(90deg);
+            transform: perspective(400px) rotateX(90deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes flipOutX {
+        0% {
+            -webkit-transform: perspective(400px) rotateX(0deg);
+            -ms-transform: perspective(400px) rotateX(0deg);
+            transform: perspective(400px) rotateX(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateX(90deg);
+            -ms-transform: perspective(400px) rotateX(90deg);
+            transform: perspective(400px) rotateX(90deg);
+            opacity: 0;
+        }
+    }
+
+    .flipOutX {
+        -webkit-animation-name: flipOutX;
+        animation-name: flipOutX;
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+    }
+
+    @-webkit-keyframes flipOutY {
+        0% {
+            -webkit-transform: perspective(400px) rotateY(0deg);
+            transform: perspective(400px) rotateY(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateY(90deg);
+            transform: perspective(400px) rotateY(90deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes flipOutY {
+        0% {
+            -webkit-transform: perspective(400px) rotateY(0deg);
+            -ms-transform: perspective(400px) rotateY(0deg);
+            transform: perspective(400px) rotateY(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: perspective(400px) rotateY(90deg);
+            -ms-transform: perspective(400px) rotateY(90deg);
+            transform: perspective(400px) rotateY(90deg);
+            opacity: 0;
+        }
+    }
+
+    .flipOutY {
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipOutY;
+        animation-name: flipOutY;
+    }
+</style>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url());
+$form->setAttribute("id", "frm-horizontal");
+$form->setAttribute("class", "form-signin");
+$form->prepare();
+?>
+<img src="<?= "http://" . $_SERVER['HTTP_HOST'] . "" . $this->basePath() . "/public/upload/bg1.jpg"; ?>" class="login-img wow fadeIn" alt="">
+<div class="center-vertical">
+    <div class="center-content row">
+        <div class="col-md-10 col-lg-8 clearfix center-margin" style="border-radius: 5px;">
+            <div class="col-md-5 pad20T pad20B login-box_headercoy" style="border:1px solid #fff;">
+                <h3 class="text-transform-upr font-size-23 font-bold font-orange"><b>SIMPATDA</b></h3>
+                <b class="font-white font-bold">Sistem Informasi Manajemen Pendapatan Asli Daerah<br>(Kabupaten <?= $data_pemda->s_namakabkota ?>)</b>
+                <div class="divider"></div>
+                <ul class="reset-ul">
+                    <li class="pad10A font-size-12">
+                        <i class="glyph-icon icon-check-circle mrg10R font-white"></i>
+                        <b class="font-white">Masukkan Username dan Password anda!</b>
+                    </li>
+                    <li class="pad10A font-size-12">
+                        <i class="glyph-icon icon-check-circle mrg10R font-white"></i>
+                        <b class="font-white">Aplikasi Pencatatan Pajak Kabupaten <?= $data_pemda->s_namakabkota ?></b>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 pad0A">
+                <form method="post" action="#">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="content-box login-box_tengah animated flipInY">
+                        <h3 class="content-box-header login-box_atas content-box-header-alt animated bounceInDown flipInY">
+                            <div class="col-md-2 text-center gambar"><img src="<?= $data_pemda->s_logo ?>" alt="" width="65px"></div>
+                            <div class="col-md-9" style="color: white; font-size: 20pt;margin-left: 15px;padding-top:10px;">
+                                Aplikasi Simpatda<br>
+                                <small style="color: white;font-size: 12pt">Masukkan Username dan Password !</small>
+                            </div>
+
+                        </h3>
+                        <div class="content-box-wrapper pad10T">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <?= $this->formtext($form->get("s_username")) ?>
+                                    <span class="input-group-addon bg-blue">
+                                        <i class="glyph-icon icon-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <?= $this->formpassword($form->get("s_password")) ?>
+                                    <span class="input-group-addon bg-blue">
+                                        <i class="glyph-icon icon-unlock-alt"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <?= $this->formsubmit($form->get("Loginsubmit")) ?>
+                        </div>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    html,
+    body {
+        height: 100%;
+        background: gray;
+    }
+</style>

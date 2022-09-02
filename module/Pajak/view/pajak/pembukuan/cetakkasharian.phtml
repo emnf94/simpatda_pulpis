@@ -1,0 +1,194 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <div>
+                <div style='width: 10%; float: left;'>
+                </div>
+                <div style='width: 90%; float: right;'>
+                    <p style="text-align: center; font-size: 10pt; font-weight: BOLD;">
+                        PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota); ?>, <?= strtoupper($ar_pemda->s_namaprov); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">
+                        <?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 5px">
+                        <?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?>
+                    </p>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center">LAPORAN HARIAN BUKU KAS UMUM<br>Bulan <?= date('m', strtotime($tglcetak)) ?> Tahun <?= date('Y', strtotime($tglcetak)) ?></h4>
+            <table width="100%" class="font_sembilan" style="text-align: center">
+                <tr>
+                    <td class="border_atas border_bawah border_kanan border_kiri" rowspan="2">
+                        Kode Rekening
+                    </td>
+                    <td rowspan="2">
+                        Jenis Penerimaan
+                    </td>
+                    <td rowspan="2">
+                        Target Anggaran
+                    </td>
+                    <td colspan="3">
+                        Penerimaan
+                    </td>
+                    <td colspan="3">
+                        Pengeluaran
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border_atas border_bawah border_kanan border_kiri">
+                        s/d Hari lalu
+                    </td>
+                    <td>
+                        Hari ini
+                    </td>
+                    <td>
+                        s/d Hari ini
+                    </td>
+                    <td>
+                        s/d Hari lalu
+                    </td>
+                    <td>
+                        Hari ini
+                    </td>
+                    <td>
+                        s/d Hari ini
+                    </td>
+                </tr>
+                <?php
+                $total_target = 0;
+                $total_sdharilalu = 0;
+                $total_hariini = 0;
+                $total_sdhariini = 0;
+                $total_sdharilalu_pengeluaran = 0;
+                $total_sdhariini_pengeluaran = 0;
+                $total_hariini_pengeluaran = 0;
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    if ($v['s_rinciankorek'] == '00') {
+                        $b = '<b>';
+                        $b1 = '</b>';
+                    } else {
+                        $b = '';
+                        $b1 = '';
+                    }
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $b ?><?= $v['korek'] ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $b ?><?= $v['s_namakorek'] ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['targetjumlah'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['real_sdharilalu'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['real_hariini'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['real_sdhariini'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['pengeluaran_sdharilalu'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['pengeluaran_hariini'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= $b ?><?= number_format($v['pengeluaran_sdhariini'], 0, ',', '.') ?><?= $b1 ?>
+                        </td>
+
+                    </tr>
+                    <?php
+                    $total_target += $v['targetjumlah'];
+                    $total_sdharilalu += $v['real_sdharilalu'];
+                    $total_hariini += $v['real_hariini'];
+                    $total_sdhariini += $v['real_sdhariini'];
+
+                    $total_sdharilalu_pengeluaran += $v['pengeluaran_sdharilalu'];
+                    $total_hariini_pengeluaran += $v['pengeluaran_hariini'];
+                    $total_sdhariini_pengeluaran += $v['pengeluaran_sdhariini'];
+                }
+                ?>
+                <tr>
+                    <td colspan="2">
+                        Total
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_target / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_sdharilalu / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_hariini / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_sdhariini / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_sdharilalu_pengeluaran / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_hariini_pengeluaran / 2, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($total_sdhariini_pengeluaran / 2, 0, ',', '.') ?>
+                    </td>
+
+                </tr>
+            </table>
+            <br/>
+            <div>
+                <div style="float: left; width: 30%">
+                    <div>Rekapitulasi:</div>
+                    <div>1. Jumlah Penerimaan: <span style="text-align:right;"><?= number_format($total_sdhariini / 2, 0, ',', '.') ?></span></div>
+                    <div>2. Jumlah Pengeluaran: <span style="text-align:right;text-decoration: underline;"><?= number_format($total_sdhariini_pengeluaran / 2, 0, ',', '.') ?></span></div>
+                    <div>Sisa Kas per <?=$tglproses?>: <span style="text-align:right;"><?= number_format( ($total_sdhariini/2)-($total_sdhariini_pengeluaran / 2), 0, ',', '.') ?></span></div>
+                </div>
+                
+            </div>
+            <br>
+            <div>
+                <div style="float:left; width: 35%; text-align: center">
+                    <div>&nbsp;</div>
+                    <div>Mengetahui</div>
+                    <div><?=$ar_mengetahui->s_jabatanpej?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?=$ar_mengetahui->s_namapej?></div>
+                    <div><?=$ar_mengetahui->s_nippej?></div>
+                </div>
+                <div style="float:right;width: 35%; text-align: center;" >
+                    <div><?=$ar_pemda->s_namaibukotakabkota?>, <?=$tglcetak?></div>
+                    <div style="text-align:center;">Diperiksa Oleh</div>
+                    <div><?=$ar_diperiksa->s_jabatanpej?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?=$ar_diperiksa->s_namapej?></div>
+                    <div><?=$ar_diperiksa->s_nippej?></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>

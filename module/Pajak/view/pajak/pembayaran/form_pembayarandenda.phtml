@@ -1,0 +1,246 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pembayarandenda');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<?php
+$judul = '<span style="font-size: 24px;"><b>FORM PEMBAYARAN DENDA [TAMBAH]</b><br>NO SPTPD : ' . $datatransaksi['t_nourut'] . ' / ' . $datatransaksi['t_periodepajak'] . '</span>';
+$link = '<a href="' . $this->url('pembayaran') . '" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a> ';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<?= $this->form()->openTag($form) ?>
+<div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary" style="border: 1px solid #0073b7;">
+                <div class="box-header" style="background-color: #337ab7;">
+                    <center><h3 class="box-title" style="color: white;font-size: 18px;">FORM PEMBAYARAN DENDA</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nomor SPTPD</label>
+                        <div class="col-sm-2">
+                            <input name="t_jenisobjekpajak" value="<?= $datatransaksi['t_jenispajak']?>" type="hidden">
+                            <input name="t_idtransaksi" id="t_idtransaksi" value="<?= $datatransaksi['t_idtransaksi']?>" type="hidden">                            
+                            <input name="t_idobjek" id="t_idobjek" value="<?= $datatransaksi['t_idwpobjek']?>" type="hidden">                            
+                            <input name="t_jenispajak" id="t_jenispajak" value="<?= $datatransaksi['t_jenispajak']?>" type="hidden">                            
+                            <input name="t_nourut" id="t_nourut" class="form-control" readonly="readonly" style="text-align:right" value="<?= $datatransaksi['t_nourut']?>" type="text" readonly="true">                        
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Periode Pajak</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input name="t_periodepajak" id="t_periodepajak" class="form-control" value="<?= $datatransaksi['t_periodepajak']?>" type="text" readonly="true">                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input name="t_tglpendataan" id="t_tglpendataan" class="form-control" value="<?= date('d-m-Y', strtotime($datatransaksi['t_tglpendataan']))?>" type="text" readonly="true">  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Masa Pajak</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input name="t_masaawal" id="t_masaawal" class="form-control"  value="<?= date('d-m-Y', strtotime($datatransaksi['t_masaawal']))?>" type="text" readonly="true">                            
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">S/D</label>
+                        <div class="col-sm-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input name="t_masaakhir" id="t_masaakhir" class="form-control" value="<?= date('d-m-Y', strtotime($datatransaksi['t_masaakhir']))?>" type="text" readonly="true">                            
+                            </div>
+                        </div>
+                            
+                                            </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Kode Rekening</label>
+                        <div class="col-sm-2">
+                            <?php $koderekening = $datatransaksi['s_tipekorek'].'.'.$datatransaksi['s_kelompokkorek'].'.'.$datatransaksi['s_jeniskorek'].'.'.$datatransaksi['s_objekkorek'].'.'.$datatransaksi['s_rinciankorek'].'.'.$datatransaksi['s_sub1korek'].'.'.$datatransaksi['s_sub2korek'].'.'.$datatransaksi['s_sub3korek']; ?>
+                            <input name="t_idkorek" id="t_idkorek" value="10" type="hidden">                            
+                            <input name="t_korek" id="t_korek" class="form-control" readonly="readonly" value="<?= $koderekening; ?>" type="text">                        
+                        </div>
+                        <!--<div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()" title="cari"><span class="fa fa-search"></span></button></div>-->
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Nama Rekening</label>
+                        <div class="col-sm-4">
+                            <input name="t_namakorek" id="t_namakorek" class="form-control" readonly="readonly" value="<?= $datatransaksi['s_namakorek']; ?> " type="text">                        
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Dasar Pengenaan (Rp.)</label>
+                        <div class="col-sm-2">
+                            <input name="t_dasarpengenaan" id="t_dasarpengenaan" class="form-control" style="text-align:right" value="<?= number_format($datatransaksi['t_dasarpengenaan'], 0, ',', '.'); ?> " type="text" readonly="true">                        
+                        </div>
+                        <label class="col-sm-1 control-label">Tarif (%)</label>
+                        <div class="col-sm-1">
+                            <input name="t_tarifpajak" id="t_tarifpajak" class="form-control" readonly="readonly" style="text-align:right" value="<?= $datatransaksi['t_tarifpajak']; ?>" type="text">                        
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Pajak terhutang</label>
+                        <div class="col-sm-4">
+                            <input name="t_jmlhpajak" id="t_jmlhpajak" class="form-control" readonly="readonly"  value="<?= number_format($datatransaksi['t_jmlhpajak'], 0, ',', '.'); ?>" type="text">                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Tgl. Bayar Denda</label>
+                        <div class="col-md-2">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input name="t_tglbayardenda" id="t_tglbayardenda" class="form-control" value="<?= date('d-m-Y')?>" type="text" >  
+                            </div>
+                                
+                            <?php //$this->formHidden($form->get("t_idskpdkb")) ?>
+                            <?php //$this->formText($form->get("t_tglbayarskpdkb")) ?>
+                        </div>
+                        <script>
+                            fr_tanggal("#t_tglbayardenda");
+                        </script>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Via Bayar</label>
+                        <div class="col-md-4">
+                            <?= $this->formSelect($form->get("t_viabayarskpdkb")) ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Jml. Bulan Denda</label>
+                        <div class="col-md-2">
+                            <input name="t_jmlhbulandendapembayaran" id="t_jmlhbulandendapembayaran" class="form-control" readonly="readonly" style="text-align:right" value="<?= $datatransaksi['t_jmlhbulandendapembayaran'];?>" type="text">                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Total Denda</label>
+                        <div class="col-md-4">
+                            <input style="text-align: right;" name="t_jmlhdendapembayaran" id="t_jmlhdendapembayaran" class="form-control" value="<?= number_format($datatransaksi['t_jmlhdendapembayaran'], 0, ',', '.') ?>" type="text" readonly="true">   
+                            <?php //$this->formText($form->get("t_jmlhbayarskpdkb")) ?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="pull-right" id="tombolsimpan">
+                            <input name="Pendataansubmit" id="Pendataansubmit" class="btn btn-success btn-sm" value="Simpan" type="submit">                        </div>
+                    </div>   
+                </div>
+            </div>
+                    </div>
+    </div>
+    <?= $this->form()->closeTag($form) ?>
+
+<div class="example-box-wrapper">
+    
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="box box-primary" style="border: 1px solid #f39c12;">
+                <div class="box-header" style="background-color: #f39c12;">
+                    <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA PEMILIK</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        <label class="col-sm-4">Tgl. Pendaftaran</label>
+                        <div class="col-md-4">
+                            : <?= $datatransaksi['t_tgldaftar'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-4">Nama</label>
+                        <div class="col-md-4">
+                            : <?= $datatransaksi['t_nama'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-4">Alamat</label>
+                        <div class="col-md-8">
+                            : <?= $datatransaksi['t_alamat'] ?>
+                            ,Desa/Kel. <?= $datatransaksi['s_namakel'] ?>
+                            ,Kec. <?= $datatransaksi['s_namakec'] ?>
+                            ,Kab. <?= $datatransaksi['t_kabupaten'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="box box-primary" style="border: 1px solid #f39c12;">
+                <div class="box-header" style="background-color: #f39c12;">
+                    <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA OBJEK PAJAK</h3></center>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">ID OP</label>
+                        <div class="col-sm-4">
+                            : <?= $datatransaksi['t_nop'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Nama</label>
+                        <div class="col-sm-4">
+                            : <?= $datatransaksi['t_namaobjek'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2">Alamat</label>
+                        <div class="col-sm-10">
+                            : <?= $datatransaksi['t_alamatobjek'] ?>
+                            ,Desa/Kel. <?= $datatransaksi['s_namakelobjek'] ?>
+                            ,Kec. <?= $datatransaksi['s_namakecobjek'] ?>
+                            ,Kab. <?= $datatransaksi['t_kabupatenobjek'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+
+    </div>
+
+    
+    
+    
+</div>
+<?= $this->MenuHelper()->headeratas_end(); ?>

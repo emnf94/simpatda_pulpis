@@ -1,0 +1,222 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pagedefault');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Laporan Katering
+                </h4>
+            </div>
+            <div class="panel-body">
+                <?= $this->form()->openTag($form) ?>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">NPWPD</label>
+                    <div class="col-sm-3">
+                        <input type="hidden" name="t_jenisobjekpajak" id="t_jenisobjekpajak" value="2">
+                        <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                        <?= $this->formHidden($form->get("t_idobjek")) ?>
+                        <?= $this->formText($form->get("t_npwpd")) ?>
+                    </div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalWP()"><span class="glyph-icon icon-search"></span> Cari WP</button></div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Nama WP</label>
+                    <div class="col-sm-3">
+                        <?= $this->formText($form->get("t_nama")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">NIOP</label>
+                    <div class="col-sm-3">
+                        <?= $this->formText($form->get("t_nop")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Nama Objek</label>
+                    <div class="col-sm-3">
+                        <?= $this->formText($form->get("t_namaobjek")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Kegiatan dari tgl.</label>
+                    <div class="col-sm-2">
+                        <?= $this->formText($form->get("t_masaawal")) ?>
+                    </div>
+                    <label class="col-sm-1 control-label">s/d tgl.</label>
+                    <div class="col-sm-2">
+                        <?= $this->formText($form->get("t_masaakhir")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Nama Kegiatan</label>
+                    <div class="col-sm-5">
+                        <?= $this->formTextarea($form->get("t_namakegiatan")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Nama Rekening</label>
+                    <div class="col-sm-4">
+                        <?= $this->formHidden($form->get("t_idkorek")) ?>
+                        <?= $this->formText($form->get("t_namakorek")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Dasar Pengenaan (Rp.)</label>
+                    <div class="col-sm-2">
+                        <?= $this->formText($form->get("t_dasarpengenaan")) ?>
+                    </div>
+                    <label class="col-sm-1 control-label">Tarif (%)</label>
+                    <div class="col-sm-1">
+                        <?= $this->formText($form->get("t_tarifpajak")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Total Pajak (Rp.)</label>
+                    <div class="col-sm-4">
+                        <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Laporansubmit')) ?>
+                    </div>
+                </div>
+                <?= $this->form()->closeTag($form) ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalWP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data WP</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    NPWPD
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama WP
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    NIOP
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Objek
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Alamat Objek
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="npwpd" class="form-control input-sm" onkeyup="calldataGridWP()">
+                                </td>
+                                <td>
+                                    <input type="text" id="nama" class="form-control input-sm" onkeyup="calldataGridWP()">
+                                </td>
+                                <td>
+                                    <input type="text" id="nop" class="form-control input-sm" onkeyup="calldataGridWP()">
+                                </td>
+                                <td>
+                                    <input type="text" id="namaobjek" class="form-control input-sm" onkeyup="calldataGridWP()">
+                                </td>
+                                <td>
+                                    <input type="text" id="alamatlengkapobjek" class="form-control input-sm" onkeyup="calldataGridWP()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listwp">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridWP(1);
+                                                    return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridWP(2);
+                                                    return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function calldataGridWP(direction) {
+        dataGridWP($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function dataGridWP(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridWP/' + page + '/' + row + '/' + direction + '?t_jenisobjekpajak=' + $("#t_jenisobjekpajak").val() + "&npwpd=" + $("#npwpd").val() + "&nama=" + $("#nama").val() + "&nop=" + $("#nop").val() + "&namaobjek=" + $("#namaobjek").val() + "&alamatlengkapobjek=" + $("#alamatlengkapobjek").val(), function(data) {
+            var aa = JSON.parse(data);
+            $("#listwp").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+        });
+    }
+
+    function bukamodalWP() {
+        calldataGridWP();
+        $('#modalWP').modal('show');
+    }
+
+    function pilihWP(a) {
+        $.post('<?= $this->url() ?>/pilihWP', {
+            t_idobjek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idobjek').val(aa.t_idobjek);
+            $('#t_npwpd').val(aa.t_npwpd);
+            $('#t_nama').val(aa.t_nama);
+            $('#t_nop').val(aa.t_nop);
+            $('#t_namaobjek').val(aa.t_namaobjek);
+            $('#modalWP').modal('hide');
+        });
+    }
+
+    function hitungpajak() {
+        $.post('<?= $this->url() ?>/hitungpajak', {
+            t_dasarpengenaan: $("#t_dasarpengenaan").val(),
+            t_tarifpajak: $("#t_tarifpajak").val(),
+            t_jenispajak: $("#t_jenispajak").val(),
+            t_idkorek: $("#t_idkorek").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+        });
+    }
+</script>

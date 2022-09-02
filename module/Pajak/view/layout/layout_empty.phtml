@@ -1,0 +1,351 @@
+<?php
+// This app creted by : Miftahul Huda (miftahul06@gmail.com)
+echo $this->doctype();
+?>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle('SIMPATDA - SUPIORI')->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+    <?=
+    $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/public/upload/icon-logo.png'))
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/admin-responsive.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/responsive-elements.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/themes/components/border-radius.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/themes/components/default.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/themes/admin/color-schemes/default.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/themes/admin/layout.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/applications/mailbox.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/mobile-navigation.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/user-profile.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/todo.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/notification-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/login-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/files-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/snippets/chat.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/xeditable/xeditable.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/wizard/wizard.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/uniform/uniform.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/touchspin/touchspin.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/tooltip/tooltip.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/tocify/tocify.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/timepicker/timepicker.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/theme-switcher/themeswitcher.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/tabs-ui/tabs.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/summernote-wysiwyg/summernote-wysiwyg.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/slider-ui/slider.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/slidebars/slidebars.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/range-slider/rangeslider.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/progressbar/progressbar.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/pretty-photo/prettyphoto.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/popover/popover.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/noty-notifications/noty.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/nestable/nestable.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/multi-upload/fileupload.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/multi-select/multiselect.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/modal/modal.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/markdown/markdown.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/maps/vector-maps/vectormaps.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/loading-bar/loadingbar.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/jgrowl-notifications/jgrowl.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/jcrop/jcrop.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/ionrangeslider/ionrangeslider.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/input-switch/inputswitch-alt.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/input-switch/inputswitch.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/file-input/fileinput.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/dropzone/dropzone.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/dropdown/dropdown.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/dialog/dialog.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/daterangepicker/daterangepicker.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/datepicker-ui/datepicker.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/datepicker/datepicker.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/datatable/datatable.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/colorpicker/colorpicker.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/chosen/chosen.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/charts/xcharts/xcharts.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/charts/piegage/piegage.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/charts/morris/morris.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/charts/justgage/justgage.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/carousel/carousel.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/calendar/calendar.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/widgets/accordion-ui/accordion.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/icons/spinnericon/spinnericon.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/icons/linecons/linecons.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/icons/fontawesome/fontawesome.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/timeline.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/tile-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/tables.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/social-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/ribbon.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/responsive-tables.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/response-messages.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/panel-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/menus.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/loading-indicators.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/invoice.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/info-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/images.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/forms.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/dashboard-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/content-box.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/buttons.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/elements/badges.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/colors.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/utils.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/typography.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/spacing.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/page-transitions.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/grid.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/border-radius.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/boilerplate.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/backgrounds.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/helpers/animate.css')
+        ->prependStylesheet($this->basePath() . '/public/monarch/assets/bootstrap/css/bootstrap.css')
+    ?>
+    <?=
+    $this->headScript()
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/theme-switcher/themeswitcher.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/themes/admin/layout.js')
+        ->prependFile($this->basePath() . '/public/sorttable.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-init/widgets-init.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/overlay/overlay.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/content-box/contentbox.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/screenfull/screenfull.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/piegage/piegage-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/piegage/piegage.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/slidebars/slidebars-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/slidebars/slidebars.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/slimscroll/slimscroll.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/input-switch/inputswitch-alt.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/superclick/superclick.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/progressbar/progressbar.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/bootstrap/js/bootstrap.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/parsley/parsley.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/raphael.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/morris/morris.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot-demo.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot-tooltip.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot-pie.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot-stack.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot-resize.js')
+        //                ->prependFile($this->basePath() . '/public/monarch/assets/widgets/charts/flot/flot.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/input-mask/inputmask.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/chosen/chosen-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/chosen/chosen.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/uniform/uniform-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/uniform/uniform.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/multi-select/multiselect.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/textarea/textarea.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/input-switch/inputswitch.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/touchspin/touchspin-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/touchspin/touchspin.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/autocomplete/autocomplete-demo.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/autocomplete/menu.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/autocomplete/autocomplete.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/spinner/spinner.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/widgets/datepicker/datepicker.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-cookie.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/modernizr.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-ui-position.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-ui-mouse.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-ui-widget.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-ui-core.js')
+        ->prependFile($this->basePath() . '/public/monarch/assets/js-core/jquery-core.js')
+    ?>
+    <style>
+        /* Loading Spinner */
+        .spinner {
+            margin: 0;
+            width: 70px;
+            height: 18px;
+            margin: -35px 0 0 -9px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            text-align: center
+        }
+
+        .spinner>div {
+            width: 18px;
+            height: 18px;
+            background-color: #333;
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+            animation: bouncedelay 1.4s infinite ease-in-out;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -.32s;
+            animation-delay: -.32s
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -.16s;
+            animation-delay: -.16s
+        }
+
+        @-webkit-keyframes bouncedelay {
+
+            0%,
+            80%,
+            100% {
+                -webkit-transform: scale(0.0)
+            }
+
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes bouncedelay {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0)
+            }
+
+            40% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0)
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        $(window).load(function() {
+            setTimeout(function() {
+                $('#loading').fadeOut(400, "linear");
+            }, 300);
+        });
+        $(function() {
+            "use strict";
+            $(".input-mask").inputmask();
+        });
+        /* Datepicker bootstrap */
+
+        $(function() {
+            "use strict";
+            $('.bootstrap-datepicker').bsdatepicker({
+                format: 'dd-mm-yyyy'
+            });
+        });
+
+        function unformatCurrency(num) {
+            if (num != "" || num != "undefined")
+                num = num.replace(/\$|\,00/g, '').replace(/\$|\./g, '');
+            if (num == 0)
+                num = '';
+            return num;
+        }
+
+        function unformatNumber(num) {
+            if (num != "" || num != "undefined")
+                num = num.replace(/\$|\.00/g, '').replace(/\$|\./g, '');
+            if (num == 0)
+                num = '';
+            return num;
+        }
+
+        function formatCurrency(num) {
+            if (num != "" || num != "undefined") {
+                //                    num = num.replace(/\$|\,00/g, '').replace(/\$|\./g, '');
+                num = num.replace(/\$|\,00/g, '').replace(/\$|\./g, '');
+                sign = (num == (num = Math.abs(num)));
+                num = Math.floor(num * 100 + 0.50000000001);
+                cents = num % 100;
+                num = Math.floor(num / 100).toString();
+                if (cents < 10)
+                    cents = "0" + cents;
+                for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+                    num = num.substring(0, num.length - (4 * i + 3)) + '.' + num.substring(num.length - (4 * i + 3));
+                return (((sign) ? '' : '-') + num);
+                //                    return (((sign) ? '' : '-') + num + ',' + cents);
+                /*			}*/
+            }
+        }
+
+        //Membuat Format Mata Uang
+        function currencyFormatDE(num) {
+            return num
+                .toFixed(0) // always two decimal digits
+                .replace(".", ",") // replace decimal point character with ,
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") // use . as a separator
+        }
+
+        function numbersonly(myfield, e, dec) {
+            var key;
+            var keychar;
+
+            if (window.event)
+                key = window.event.keyCode;
+            else if (e)
+                key = e.which;
+            else
+                return true;
+            keychar = String.fromCharCode(key);
+            // control keys
+            if ((key == null) || (key == 0) || (key == 8) ||
+                (key == 9) || (key == 13) || (key == 27))
+                return true;
+
+            // numbers
+            else if ((("0123456789").indexOf(keychar) > -1))
+                return true;
+
+            // decimal point jump
+            else if (dec && (keychar == ".")) {
+                myfield.form.elements[dec].focus();
+                return false;
+            } else
+                return false;
+        }
+    </script>
+</head>
+
+<body>
+    <div id="sb-site">
+        <div id="loading">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+        <div id="page-wrapper" style="background-color: #DFF0D8">
+            <?= $this->content; ?>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<?php
+if ($this->nilai == 2) {
+} else {
+?>
+    <script>
+        jQuery('body').on('keydown', 'input, select, textarea', function(e) {
+            var self = $(this),
+                form = self.parents('form:eq(0)'),
+                focusable, next;
+            if (e.keyCode == 13) {
+                focusable = form.find('input,a,select,button,textarea').filter(':visible');
+                next = focusable.eq(focusable.index(this) + 1);
+                if (next.length) {
+                    next.focus();
+                } else {
+                    form.submit();
+                }
+                return false;
+            }
+        });
+    </script>
+
+<?php } ?>

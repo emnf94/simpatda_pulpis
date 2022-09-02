@@ -1,0 +1,443 @@
+<div class="tab-pane" id="tab3">
+    <div class="example-box-wrapper" style="font-size: 11px">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Cetak Data WP
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetak" id="tglcetak" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Pendaftaran
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftar0" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                    <span class="input-group-addon">s/d</span>
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftar1" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kecamatan WP
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kecamatan" id="t_kecamatan" onchange="comboKelurahanCamat()" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <?php foreach ($ar_kecamatan as $row) { ?>
+                                        <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kelurahan WP
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kelurahan" id="t_kelurahan" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Jenis Pendaftaran
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_jenispendaftaran" id="t_jenispendaftaran" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <option value="P">01 || Wajib Pajak</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Status WP
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_status_wp" id="t_status_wp" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <option value="true">01 || Aktif</option>
+                                    <option value="false">02 || Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Dibuat Oleh
+                            </label>
+                            <div class="col-md-5">
+                                <select name="diperiksa" id="diperiksa" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-5">
+                                <select name="mengetahui" id="mengetahui" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <label class="col-md-2 control-label">
+
+                            </label>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpendaftaran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpendaftaranexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Cetak Data Objek WP
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetakop" id="tglcetakop" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Pendaftaran
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftar0op" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                    <span class="input-group-addon">s/d</span>
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftar1op" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_jenispajakop" id="t_jenispajakop" class="form-control" onchange="carirekening();">
+                                    <option value="">--- SILAHKAN PILIH ---</option>
+                                    <?php foreach ($ar_objekpajak as $row) { ?>
+                                        <option value="<?= $row['s_idjenis'] ?>"><?= $row['s_idjenis'] . ' || ' . $row['s_namajenis'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kode Rekening
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_koderekeningop" id="t_koderekeningop" class="form-control">
+                                    <option value="">--- SILAHKAN PILIH ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kecamatan Objek
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kecamatanop" id="t_kecamatanop" onchange="comboKelurahanCamatOp()" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <?php foreach ($ar_kecamatan as $row) { ?>
+                                        <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kelurahan Objek
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kelurahanop" id="t_kelurahanop" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tipe Usaha
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_tipeusaha" id="t_tipeusaha" class="form-control">
+                                    <option value="">--- SILAHKAN PILIH ---</option>
+                                    <?php foreach ($ar_tipeusaha as $row) { ?>
+                                        <option value="<?= $row['s_idusaha'] ?>"><?= str_pad($row['s_kodeusaha'], 2, "0", STR_PAD_LEFT) . ' || ' . $row['s_namausaha'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Status Objek
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_status_objek" id="t_status_objek" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <option value="true">01 || Aktif</option>
+                                    <option value="false">02 || Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Dibuat Oleh
+                            </label>
+                            <div class="col-md-5">
+                                <select name="diperiksaop" id="diperiksaop" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-5">
+                                <select name="mengetahuiop" id="mengetahuiop" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <label class='col-md-2 control-label'>
+                            </label>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpendaftaranop()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpendaftaranopexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTree">
+                            Cetak Data Objek & WP
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTree" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetakop" id="tglcetakwpop" value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Pendaftaran
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftar1wpop" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                    <span class="input-group-addon">s/d</span>
+                                    <input type="text" class="bootstrap-datepicker form-control" id="tgldaftarwpop" value="<?= date('d-m-Y') ?>" readonly="" style="text-align: left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_jenispajakwpop" id="t_jenispajakwpop" class="form-control">
+                                    <option value="">--- SILAHKAN PILIH ---</option>
+                                    <?php foreach ($ar_objekpajak as $row) { ?>
+                                        <option value="<?= $row['s_idjenis'] ?>"><?= $row['s_idjenis'] . ' || ' . $row['s_namajenis'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Status Objek
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_status_objek" id="t_status_objekwpop" class="form-control">
+                                    <option value="">--- PILIH SEMUA ---</option>
+                                    <option value="true">01 || Aktif</option>
+                                    <option value="false">02 || Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Dibuat Oleh
+                            </label>
+                            <div class="col-md-5">
+                                <select name="diperiksaop" id="diperiksawpop" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-5">
+                                <select name="mengetahuiop" id="mengetahuiwpop" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] ?> || <?= $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <label class='col-md-2 control-label'>
+                            </label>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpendaftaranwpop()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpendaftaranwpopexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatan').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahan").html(aa.res);
+        });
+    }
+
+    function comboKelurahanCamatOp() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatanop').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahanop").html(aa.res);
+        });
+    }
+
+    // Cetak Pendaftaran WP
+    function cetakpendaftaran() {
+        window.open('<?= $this->url() ?>/cetakpendaftaran?tglcetak=' + $("#tglcetak").val() + "&tgldaftar0=" + $("#tgldaftar0").val() + "&tgldaftar1=" + $("#tgldaftar1").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&t_kelurahan=" + $("#t_kelurahan").val() + "&t_jenispendaftaran=" + $("#t_jenispendaftaran").val() + "&t_status_wp=" + $("#t_status_wp").val() + "&diperiksa=" + $("#diperiksa").val() + "&mengetahui=" + $("#mengetahui").val() + "&formatcetak=pdf");
+    }
+
+    function cetakpendaftaranexcel() {
+        window.open('<?= $this->url() ?>/cetakpendaftaran?tglcetak=' + $("#tglcetak").val() + "&tgldaftar0=" + $("#tgldaftar0").val() + "&tgldaftar1=" + $("#tgldaftar1").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&t_kelurahan=" + $("#t_kelurahan").val() + "&t_jenispendaftaran=" + $("#t_jenispendaftaran").val() + "&t_status_wp=" + $("#t_status_wp").val() + "&diperiksa=" + $("#diperiksa").val() + "&mengetahui=" + $("#mengetahui").val() + "&formatcetak=excel");
+    }
+
+    // Cetak Pendaftaran OP
+    function cetakpendaftaranop() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranop?tglcetakop=' + $("#tglcetakop").val() + "&tgldaftar0op=" + $("#tgldaftar0op").val() + "&tgldaftar1op=" + $("#tgldaftar1op").val() + "&t_jenispajakop=" + $("#t_jenispajakop").val() + "&t_kecamatanop=" + $("#t_kecamatanop").val() + "&t_kelurahanop=" + $("#t_kelurahanop").val() + "&t_koderekeningop=" + $("#t_koderekeningop").val() + "&t_tipeusaha=" + $("#t_tipeusaha").val() + "&t_status_objek=" + $("#t_status_objek").val() + "&diperiksa=" + $("#diperiksaop").val() + "&mengetahui=" + $("#mengetahuiop").val() + "&formatcetak=pdf");
+    }
+
+    function cetakpendaftaranopexcel() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranop?tglcetakop=' + $("#tglcetakop").val() + "&tgldaftar0op=" + $("#tgldaftar0op").val() + "&tgldaftar1op=" + $("#tgldaftar1op").val() + "&t_jenispajakop=" + $("#t_jenispajakop").val() + "&t_kecamatanop=" + $("#t_kecamatanop").val() + "&t_kelurahanop=" + $("#t_kelurahanop").val() + "&t_koderekeningop=" + $("#t_koderekeningop").val() + "&t_tipeusaha=" + $("#t_tipeusaha").val() + "&t_status_objek=" + $("#t_status_objek").val() + "&diperiksa=" + $("#diperiksaop").val() + "&mengetahui=" + $("#mengetahuiop").val() + "&formatcetak=excel");
+    }
+
+    function bukaCetakKartuData(a) {
+        $.post('<?= $this->url() ?>/dataWP', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idwpkartudata").val(aa.idwp);
+            $("#namawpkartudata").val(aa.namawp);
+            $("#alamatwpkartudata").val(aa.alamatwp);
+            $("#objekpajak").html(aa.objekpajak);
+        });
+        $('#modalCetakKartuData').modal('show');
+    }
+
+    function carirekening() {
+        $.post('<?= $this->url() ?>/carirekening', {
+            t_jenisobjek: $('#t_jenispajakop').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_koderekeningop").html(aa.res);
+        });
+    }
+
+
+    function cetakpendaftaranwpop() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranwpop?tglcetakwpop=' + $("#tglcetakwpop").val() + "&tgldaftar1wpop=" + $("#tgldaftar1wpop").val() + "&tgldaftarwpop=" + $("#tgldaftarwpop").val() + "&t_jenispajakwpop=" + $("#t_jenispajakwpop").val() + "&t_status_objekwpop=" + $("#t_status_objekwpop").val() + "&diperiksawpop=" + $("#diperiksawpop").val() + "&mengetahuiwpop=" + $("#mengetahuiwpop").val() + "&formatcetak=pdf");
+    }
+
+    function cetakpendaftaranwpopexcel() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranwpop?tglcetakwpop=' + $("#tglcetakwpop").val() + "&tgldaftar1wpop=" + $("#tgldaftar1wpop").val() + "&tgldaftarwpop=" + $("#tgldaftarwpop").val() + "&t_jenispajakwpop=" + $("#t_jenispajakwpop").val() + "&t_status_objekwpop=" + $("#t_status_objekwpop").val() + "&diperiksawpop=" + $("#diperiksawpop").val() + "&mengetahuiwpop=" + $("#mengetahuiwpop").val() + "&formatcetak=excel");
+    }
+</script>

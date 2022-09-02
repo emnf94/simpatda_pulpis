@@ -1,0 +1,79 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Tambah Tarif Minerba
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Rekening</label>
+                                <div class="col-md-6">
+                                    <?= $this->formHidden($frm->get('s_idjenis')) ?>
+                                    <?= $this->formRow($frm->get('s_idkorek')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Zona</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('s_kodekawasan')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Minerba</label>
+                                <div class="col-md-6">
+                                      
+                                    <?= $this->formRow($frm->get('s_nama')) ?>
+                                   
+                                </div>
+                            </div>
+                            
+                            
+                            <!-- <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Masa</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('s_masa')) ?>
+                                </div>
+                            </div> -->
+                       
+                             <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Harga Satuan (Rp)</label>
+                                <div class="col-md-2">
+                                    <?= $this->formRow($frm->get('s_tarif')) ?>
+                                </div>
+                            </div>
+                            
+                              <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Keterangan</label>
+                                <div class="col-md-6">
+                                    <?= $this->formRow($frm->get('s_ket')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_minerba') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

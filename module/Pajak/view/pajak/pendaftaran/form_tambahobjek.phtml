@@ -1,0 +1,698 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <?php
+        if ($this->flashMessenger()->hasMessages()) {
+            echo '<div class="alert alert-success">';
+            $messages = $this->flashMessenger()->getMessages();
+            foreach ($messages as $message) {
+                echo $message;
+            }
+            echo '</div>';
+        }
+        ?>
+        <div class="panel panel-default" style="font-size: 11px;">
+            <div class="panel-heading">
+                <?php if (substr($data['t_npwpd'], 0, 1) == 'P') {
+                    $JENIS_WAJIB = 'Pajak';
+                } else {
+                    $JENIS_WAJIB = 'Retribusi';
+                } ?>
+                <h3>
+                    <center><b>PENDAFTARAN OBJEK <?= strtoupper($JENIS_WAJIB) ?></b></center>
+                </h3>
+                <div style=" text-align: right"><a class="btn btn-warning" href="<?= $this->basePath() ?>/pendaftaran">Kembali</a></div>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row" style="padding-bottom: 15px;text-align: center;">
+                        <div class="col-md-12">
+                            <span style="text-align:right; background:black; color: greenyellow; padding: 10px 10px; font-size: 18px; font-weight:bolder"><?= $data['t_npwpd'] ?></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data W<?= substr($data['t_npwpd'], 0, 1) ?></b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Tanggal Pendaftaran</label>
+                            <div class="col-md-2">
+                                : <?= $data['t_tgldaftar'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">NIK</label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nik'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Nama </label>
+                            <div class="col-md-4">
+                                : <?= $data['t_nama'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Alamat</label>
+                            <div class="col-md-10">
+                                : <?= $data['t_alamat'] ?>, Rt. <?= $data['t_rt'] ?>, Rw. <?= $data['t_rw'] ?>, Kel./Desa <?= $data['s_namakel'] ?>, Kec. <?= $data['s_namakec'] ?>, Kab. <?= $data['t_kabupaten'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">No. Telp.</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_notelp'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Kode Pos</label>
+                            <div class="col-md-3">
+                                : <?= $data['t_kodepos'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek <?= strtoupper($JENIS_WAJIB) ?></b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-sm btn-warning" type="button" onclick="tambahobjekpajak()">
+                                <span class="glyph-icon icon-plus-circle">
+                                    Tambah Objek
+                                </span>
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="scroll-columns">
+                                <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                    <thead class="cf">
+                                        <tr>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>No.</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>NIO<?= substr($data['t_npwpd'], 0, 1) ?></th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Nama</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Jenis <?= $JENIS_WAJIB ?></th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Alamat</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Rekening</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Tipe Usaha</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?= $table_objek ?>
+                                        <?php
+                                        // $counter = 1;
+                                        // foreach ($this->dataobjek as $row) {
+                                        ?>
+                                        <!--    <tr>
+                                                <td><= $counter++ ?></td>
+                                                <td style='color:red; font-size:12px; font-weight:bold'><= $row['t_nop'] ?></td>
+                                                <td><= $row['t_namaobjek']; ?></td>
+                                                <td><= $row['s_namajenis']; ?></td>
+                                                <td><= $row['t_alamatobjek'] . ", RT. " . $row['t_rtobjek'] . ", RW. " . $row['t_rwobjek'] . ", Kel/Desa " . $row['s_namakel'] . ", Kec. " . $row['s_namakec'] ?></td>
+                                                <?php
+                                                // $hapus = "";
+                                                // $operator = "";
+                                                // if ($datauser['s_akses'] == 2) {
+                                                //     $hapus = "<button class='btn btn-danger btn-xs' type='button' onclick='hapusobjekpajak($row[t_idobjek])'><span class='glyph-icon icon-trash'></span></button>";
+                                                //     $operator = $row['s_nama'];
+                                                // }
+
+                                                // $mapop = "<a href='".$this->url('pendaftaran')."/detailop?t_idobjek=$row[t_idobjek]' class='btn btn-success btn-xs' title='Map OP'><i class='glyph-icon icon-map-marker'></i></a>";
+                                                // $cetaksp = "<button class='btn btn-primary btn-xs' type='button' onclick='bukaCetakSP($row[t_idobjek])'><span class='glyph-icon icon-print'></span></button>";
+                                                ?>
+                                                <td style="text-align: center"><= $mapop ?> <button class="btn btn-warning btn-xs" type="button" onclick="editobjekpajak(<= $row['t_idobjek'] ?>)"><span class="glyph-icon icon-pencil"></span></button> <= $hapus ?><br><= $operator?></td>
+                                            </tr>-->
+                                        <?php //} 
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SURAT PERNYATAAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                NPWPD
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idobjekwp" id="idobjekwp">
+                                <input type="text" class="form-control" name="npwpdwp" id="npwpdwp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawp" id="namawp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama Usaha
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namausaha" id="namausaha" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat Usaha
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatusaha" id="alamatusaha" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="jenispajak" id="jenispajak" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Format Cetakan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="formatcetak" id="formatcetak" class="form-control">
+                                    <option value="pdf">PDF</option>
+                                    <option value="word">WORD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakSuratPernyataan()"><i class="glyph-icon icon-print"></i> CETAK</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSP()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_tambahobjek');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<?= $this->form()->openTag($form) ?>
+<div class="modal fade" id="modalObjekPajak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Tambah Objek <?= $JENIS_WAJIB ?></b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-12" style="color: blue; font-size: 16px; padding-top: 5px">
+                            <u>Objek <?= $JENIS_WAJIB ?></u>
+                        </label>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Jenis Objek<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-5">
+                            <?= $this->formHidden($form->get("t_idwp")) ?>
+                            <?= $this->formHidden($form->get("t_idobjek")) ?>
+                            <?= $this->formSelect($form->get("t_jenisobjek")) ?>
+                        </div>
+                        <label class="col-md-1">
+                            No.<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-2">
+                            <?= $this->formText($form->get("t_noobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Kode Rekening
+                        </label>
+                        <div class="col-md-5">
+                            <?= $this->formSelect($form->get("t_korekobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Tgl. Daftar<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-2">
+                            <?= $this->formText($form->get("t_tgldaftarobjek")) ?>
+                        </div>
+                        <label class="col-md-3"></label>
+                        <label class="col-md-1">
+                            Tipe Usaha<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formSelect($form->get("t_tipeusaha")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Nama Objek / Usaha<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-5">
+                            <?= $this->formText($form->get("t_namaobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Alamat Objek
+                        </label>
+                        <div class="col-md-5">
+                            <?= $this->formText($form->get("t_alamatobjek")) ?>
+                        </div>
+                        <label class="col-md-1">
+                            RT/RW
+                        </label>
+                        <div class="col-md-1">
+                            <?= $this->formText($form->get("t_rtobjek")) ?>
+                        </div>
+                        <div class="col-md-1">
+                            <?= $this->formText($form->get("t_rwobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Kecamatan<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formSelect($form->get("t_kecamatanobjek")) ?>
+                        </div>
+                        <label class="col-md-2">
+                            Kelurahan/Desa<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formSelect($form->get("t_kelurahanobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Kabupaten/Kota<span style="color: red">*</span>
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_kabupatenobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            No. Telp/Hp
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_notelpobjek")) ?>
+                        </div>
+                        <label class="col-md-2">
+                            Kode Pos
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_kodeposobjek")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal" hidden="">
+                        <label class="col-md-2">
+                            Latitude
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_latitudeobjek")) ?>
+                        </div>
+                        <label class="col-md-2">
+                            Longitude
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_longitudeobjek")) ?>
+                        </div>
+                    </div>
+                    <div class=" col-md-12" hidden="">
+                        <center>
+                            <button type="button" onclick="initMap()" class="btn btn-primary">Lokasi Pilih</button>
+                            <button type="button" onclick="initMap2()" class="btn btn-primary">Lokasi Ini</button>
+                        </center>
+                    </div>
+                    <div class="col-md-12" hidden="">
+                        <center>
+                            <div align="center" id="map" style="width: 100%; height: 400px"></div>
+                        </center>
+                    </div>
+                    <div class="col-md-12 form-horizontal" hidden="">
+                        <label class="col-md-2">
+                            Gambar Objek
+                        </label>
+                        <div class="col-md-10">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 300px; height: 200px;">
+                                    <img id="t_gambarobjek" src="" />
+                                </div>
+                                <div>
+                                    <span class="btn btn-primary btn-file">
+                                        <span class="fileinput-new">Upload Gambar</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <?= $this->formFile($form->get("t_gambarobjek")) ?>
+                                    </span>
+                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-12" style="color: blue; font-size: 16px; padding-top: 5px">
+                            <u>Penanggungjawab</u>
+                        </label>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            Nama
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_namaobjekpj")) ?>
+                        </div>
+                        <label class="col-md-2">
+                            Alamat
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_alamatobjekpj")) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-horizontal">
+                        <label class="col-md-2">
+                            No.Telp/HP
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formText($form->get("t_notelpobjek")) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <?= $this->formInput($form->get('submit')) ?>
+                    <button class='btn btn-danger btn-sm' type="button" onclick='tutupObjekPajak()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $this->form()->closeTag($form) ?>
+<div class="modal fade" id="modalKeteranganHapus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-exclamation-triangle'></span> PERHATIAN!!!</b></h4>
+            </div>
+            <div class='modal-body' style="text-align:center;font-size:12pt;">
+                <strong>Penghapusan Objek tidak dapat dilakukan!<br>dikarenakan Objek sudah dilakukan transaksi pajak</strong>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12' style="text-align:center;">
+                    <button class='btn btn-danger btn-sm' onclick='tutupAlert()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIcfDt4yUMeAiGKDTNyIufrBMuif-efms" async defer></script>
+<script>
+    function initMap() {
+        var latitude = $("#t_latitudeobjek").val() * 1;
+        var longitude = $("#t_longitudeobjek").val() * 1;
+        // Create a map object and specify the DOM element for display.
+        if (latitude == '' && longitude == '') {
+            var latlng = {
+                lat: -0.755288,
+                lng: 135.628303
+            };
+        } else {
+            var latlng = {
+                lat: latitude,
+                lng: longitude
+            };
+        }
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            scrollwheel: false,
+            zoom: 17,
+        });
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            draggable: true,
+            title: "Lokasi Objek Pajak"
+        });
+        google.maps.event.addListener(marker, 'dragend', function(a) {
+            console.log(a);
+            $("#t_longitudeobjek").val(a.latLng.lng().toFixed(4));
+            $("#t_latitudeobjek").val(a.latLng.lat().toFixed(4));
+        });
+        google.maps.event.trigger(map, "resize");
+    }
+
+    function initMap2() {
+        var latitude = $("#t_latitudeobjek").val() * 1;
+        var longitude = $("#t_longitudeobjek").val() * 1;
+        // Create a map object and specify the DOM element for display.
+        if (latitude == '' && longitude == '') {
+            var latlng = {
+                lat: 4.306674,
+                lng: 136.0884759
+            };
+        } else {
+            var latlng = {
+                lat: latitude,
+                lng: longitude
+            };
+        }
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            scrollwheel: false,
+            zoom: 17,
+        });
+        google.maps.event.trigger(map, "resize");
+        var infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                $("#t_latitudeobjek").val(position.coords.latitude.toFixed(4));
+                $("#t_longitudeobjek").val(position.coords.longitude.toFixed(4));
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Location found.');
+                infoWindow.open(map);
+                map.setCenter(pos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalObjekPajak').on('shown.bs.modal', function() {
+            initMap();
+        });
+
+        $("#t_latitudeobjek").keyup(function() {
+            initMap();
+        });
+        $("#t_longitudeobjek").keyup(function() {
+            initMap();
+        });
+    });
+
+    $('#t_tgldaftarobjek').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {
+            t_kecamatan: $('#t_kecamatanobjek').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_kelurahanobjek").html(aa.res);
+        });
+    }
+
+    function tambahobjekpajak(a) {
+        $('#modalObjekPajak').modal('show');
+        $("#t_idobjek").val("");
+        $("#t_jenisobjek").val("");
+        $("#t_noobjek").val("");
+        //        $("#t_tgldaftarobjek").val("");
+        $("#t_namaobjek").val("");
+        $("#t_alamatobjek").val("");
+        $("#t_namaobjekpj").val("");
+        $("#t_alamatobjekpj").val("");
+        $("#t_rtobjek").val("");
+        $("#t_rwobjek").val("");
+        // $("#t_kecamatanobjek").val("");
+        // $("#t_kelurahanobjek").val("");
+        // $("#t_kabupatenobjek").val("");
+        $("#t_notelpobjek").val("");
+        $("#t_kodeposobjek").val("");
+        $("#t_latitudeobjek").val("");
+        $("#t_longitudeobjek").val("");
+    }
+
+    function tutupObjekPajak() {
+        $('#modalObjekPajak').modal('hide');
+    }
+
+    function editobjekpajak(a) {
+        $.post('<?= $this->url() ?>/editobjekpajak', {
+            t_idobjek: a,
+            basepath: '<?= $this->basePath() ?>'
+        }, function(data) {
+            $('#modalObjekPajak').modal('show');
+            var aa = JSON.parse(data);
+            $("#t_idobjek").val(aa.t_idobjek);
+            $("#t_jenisobjek").val(aa.t_jenisobjek);
+            $("#t_noobjek").val(aa.t_noobjek);
+            $("#t_tgldaftarobjek").val(aa.t_tgldaftarobjek);
+            $("#t_namaobjek").val(aa.t_namaobjek);
+            $("#t_alamatobjek").val(aa.t_alamatobjek);
+            $("#t_rtobjek").val(aa.t_rtobjek);
+            $("#t_rwobjek").val(aa.t_rwobjek);
+            $("#t_kecamatanobjek").val(aa.t_kecamatanobjek);
+            $("#t_kelurahanobjek").html(aa.t_kelurahanobjek);
+            $("#t_kabupatenobjek").val(aa.t_kabupatenobjek);
+            $("#t_notelpobjek").val(aa.t_notelpobjek);
+            $("#t_kodeposobjek").val(aa.t_kodeposobjek);
+            $("#t_latitudeobjek").val(aa.t_latitudeobjek);
+            $("#t_longitudeobjek").val(aa.t_longitudeobjek);
+            $("#t_namaobjekpj").val(aa.t_namaobjekpj);
+            $("#t_alamatobjekpj").val(aa.t_alamatobjekpj);
+            $("#t_tipeusaha").val(aa.t_tipeusaha);
+            $("#t_korekobjek").html(aa.t_korekobjek);
+            var _img = document.getElementById('t_gambarobjek');
+            var newImg = new Image;
+            newImg.onload = function() {
+                _img.src = this.src;
+            }
+            console.log(aa.t_gambarobjek);
+            if (aa.t_gambarobjek !== null) {
+                newImg.src = aa.t_gambarobjek;
+            } else {
+                newImg.src = "";
+            }
+        });
+    }
+
+    function noobjek() {
+        $.post('<?= $this->url() ?>/noobjek', {
+            t_jenisobjek: $('#t_jenisobjek').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_noobjek").val(aa.t_noobjek);
+        });
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#t_gambarobjek').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function hapusobjekpajak(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapusobjekpajak/' + a, function() {
+                // reload page
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            });
+        }
+    }
+
+
+    function bukaCetakSP(a) {
+        $.post('<?= $this->url() ?>/dataWPSurat', {
+            t_idobjek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idobjekwp").val(aa.idobjekwp);
+            $("#npwpdwp").val(aa.npwpdwp);
+            $("#namawp").val(aa.namawp);
+            $("#namausaha").val(aa.namausaha);
+            $("#alamatusaha").val(aa.alamatusaha);
+            $("#jenispajak").val(aa.namajenis);
+        });
+        $('#modalCetakSP').modal('show');
+    }
+
+    function tutupCetakSP() {
+        $('#modalCetakSP').modal('hide');
+    }
+
+    function cetakSuratPernyataan() {
+        window.open('<?= $this->url() ?>/cetaksuratpernyataan?idobjekwp=' + $("#idobjekwp").val() + "&formatcetak=" + $("#formatcetak").val());
+    }
+
+    function carirekening() {
+        $.post('<?= $this->url() ?>/carirekening', {
+            t_jenisobjek: $('#t_jenisobjek').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_korekobjek").html(aa.res);
+        });
+    }
+
+    function bukaAlert() {
+        $('#modalKeteranganHapus').modal('show');
+    }
+
+    function tutupAlert() {
+        $('#modalKeteranganHapus').modal('hide');
+    }
+</script>

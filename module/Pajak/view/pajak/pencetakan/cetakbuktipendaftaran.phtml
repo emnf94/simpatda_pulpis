@@ -1,0 +1,162 @@
+<style type="text/css">
+    .kotak{
+        border: 1px black solid;
+    }
+    .tengah {
+        float: none;
+        margin: 0 auto;
+    }
+    .radio_render{
+        margin-top: -2.5px;
+        margin-left: 17%;
+    }
+
+    .radio_render label {
+        width: 75%;
+        float: left;
+    }
+
+
+</style>
+<?php
+ini_set("max_execution_time", 500);
+$data_pemda = $this->data_pemda;
+?>
+<div style="page-break-after: always;width: 100%;">
+    <table align="center">
+        <tr>
+            <td width="100px">
+                <?php $gambar = "/var/www/html/simantaponline/" . $data_pemda->s_logo; ?>        
+                <img width="50" title="LOGO <?= $data_pemda->s_namakabkota; ?>" align="left" src="<?= $gambar ?>"/>
+            </td>
+            <td style="text-align: center">
+                <b>PEMERINTAH <?= strtoupper($data_pemda->s_namakabkota); ?>, <?= strtoupper($data_pemda->s_namaprov); ?></b><br>
+                <b><?= strtoupper($data_pemda->s_namainstansi); ?> (<?= strtoupper($data_pemda->s_namasingkatinstansi); ?>)</b><br>
+                <b style="font-size: 12px"><?= strtoupper($data_pemda->s_alamatinstansi); ?> Telp/Fax <?= $data_pemda->s_notelinstansi ?>, <?= $data_pemda->s_namaibukotakabkota ?> <?= $data_pemda->s_kodepos ?></b>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <center>
+        <table align="center">
+            <thead>
+                <tr>
+                    <th>
+                        <b>TANDA BUKTI PENDAFTARAN</b>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </center>
+    <div class="tengah">
+        <table align="center">
+            <thead>
+                <tr>
+                    <th width="100px" align="left"><b>Nomor Pendaftaran</b></th>
+                    <th> : </th>
+                    <th align="left"><?= $datapendaftaran['id_register'] ?></th>
+                </tr>
+            </thead>
+        </table>
+    </div>    
+    <p>Dengan surat ini saya menyatakan bahwa telah mendaftarkan perizinan dengan data sebagai berikut :</p>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td width="150px">
+                Jenis Permohonan
+            </td>
+            <td>
+                : <?= $datapendaftaran['tipe_permohonan'] ?> 
+            </td>   
+        </tr>
+        <tr>
+            <td width="150px">
+                Jenis Izin
+            </td>
+            <td>
+                : <?= $datapendaftaran['deskripsiijin'] ?> 
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Nama Badan Usaha
+            </td>
+            <td>
+                : <?= $datapendaftaran['nama_pemohon'] ?> 
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Alamat
+            </td>
+            <td>
+                : <?= $datapendaftaran['alamat'] . ", Kel." . $datapendaftaran['deskripsikelurahan'] . ", Kec. " . $datapendaftaran['deskripsikecamatan'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                No. Telp/Email
+            </td>
+            <td class="border_bawah">
+                : <?= $datapendaftaran["telpon"] . "/" . $datapendaftaran["email"]; ?>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <p>Beserta data penanggungjawab sebagai berikut :</p>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td width="150px">
+                Nama
+            </td>
+            <td>
+                : <?= $datapendaftaran['penanggung_jawab'] ?> 
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Jabatan
+            </td>
+            <td>
+                : <?= $datapendaftaran['jbt_penanggung_jawab'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Alamat
+            </td>
+            <td class="border_bawah">
+                : <?= $datapendaftaran["alamat_penanggung_jawab"] ?>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <p>Bersama ini saya lampirkan persyaratan dokumen pendukung sebagai berikut</p>
+    <ul>
+        <?php foreach ($persyaratan as $row) { ?>
+            <li>
+                <?= $row['deskripsi'] ?>
+            </li>
+        <?php } ?>
+    </ul>
+    <br>
+    <p>Maka dari itu sekiranya proses permohonan izin yang saya ajukan untuk segera diproses ke tahap selanjutnya.</p>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td width="400px">.</td>
+            <td><center>Yang bertanda tangan dibawah ini</center></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><center><?= date('d-m-Y') ?>, di ...............</center><br><br></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><center><u><?= ucwords($datapendaftaran['penanggung_jawab']) ?></u></center></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><center><?= ucwords($datapendaftaran['jbt_penanggung_jawab']) ?></center></td>
+        </tr>
+    </table>
+</div>

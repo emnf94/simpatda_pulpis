@@ -1,0 +1,380 @@
+<div class="tab-pane active" id="tab1">
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocari" onchange="calldatagrid()">
+                <option value="">Pilih Pencarian</option>
+                <option value="t_npwpd">NPWPD</option>
+                <option value="t_nama">Nama</option>
+                <option value="t_alamat">Alamat</option>
+                <option value="s_namakel">Kelurahan</option>
+                <option value="s_namakec">Kecamatan</option>
+                <option value="t_kabupaten">Kabupaten</option>
+                <option value="t_tgldaftar">Tanggal Daftar</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari" id="kolomcari" onkeyup="calldatagrid()">
+                <div class="input-group-btn combooperatorc">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator" onchange="calldatagrid()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosorting" onchange="calldatagrid()">
+                    <option value="">Pilih Urutan</option>
+                    <option value="t_npwpd">NPWPD</option>
+                    <option value="t_nama">Nama</option>
+                    <option value="t_alamat">Alamat</option>
+                    <option value="s_namakel">Kelurahan</option>
+                    <option value="s_namakec">Kecamatan</option>
+                    <option value="t_kabupaten">Kabupaten</option>
+                    <option value="t_tgldaftar">Tanggal Daftar</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortasc" name="sortere" onclick="calldatagrid()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdesc" name="sortere" onclick="calldatagrid()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div class="remove-columns">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black; width: 100%;">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center; vertical-align: middle;width:5%; ">
+                            No.
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            NPWPD
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:15%;">
+                            Nama
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:15%;">
+                            Alamat
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kelurahan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kecamatan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kabupaten
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Tgl. Daftar
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:5%;">
+                            Jumlah Objek
+                        </th>  
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            #
+                        </th>  
+                    </tr>
+                </thead>
+                <tbody id="body_grid">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="11" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatore"></div>
+                                        <input type="hidden" id="page" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b style="font-size: 13px; color: orangered"><span id="awaldata"></span> s/d <span id="akhirdata"></span> Dari <span id="total_data"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakKartuData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK KARTU DATA</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Periode
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idwpkartudata" id="idwpkartudata">
+                                <input type="text" class="form-control" name="periodekartudata" id="periodekartudata"  value="<?= date('Y') ?>" data-date-format="yy">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawpkartudata" id="namawpkartudata" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpkartudata" id="alamatwpkartudata" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Objek Pajak
+                            </label>
+                            <div class="col-md-9">
+                                <div id="objekpajak"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-9">
+                                <select name="mengetahuikartudata" id="mengetahuikartudata" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Diperiksa Oleh
+                            </label>
+                            <div class="col-md-9">
+                                <select name="diperiksakartudata" id="diperiksakartudata" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakkartudata()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakKartuData()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakRekapData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK REKAP DATA TUNGGAKAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Periode
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idwprekapdata" id="idwprekapdata">
+                                <input type="text" class="form-control" name="perioderekapdata" id="perioderekapdata"  value="<?= date('Y') ?>" data-date-format="yy">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawprekapdata" id="namawprekapdata" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwprekapdata" id="alamatwprekapdata" readonly=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakrekapdata()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakRekapData()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .combooperatorc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+	.tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tableDaftar tr:hover {
+        background: #edf968; 
+    }
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+    .highlight_row {
+        background: #eee;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        calldatagrid();
+    });
+
+    function calldatagrid(direction) {
+        if ($("#combocari").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari").val()
+        if ($("#kolomcari").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari").val()
+        if ($("#combosorting").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting").val()
+        if (document.getElementById("sortasc").checked)
+            par4 = $("#sortasc").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc").checked)
+            par5 = $("#sortdesc").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator").val()
+        datagrid($("#page").val(), $("#rows").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagrid(pagedaftar, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGrid/' + pagedaftar + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid").html(aa.griddaftar);
+            $("#rows").val(aa.rowsdaftar);
+            $("#page").val(aa.pagedaftar);
+            $("#total_data").html(": " + aa.countdaftar);
+            $("#total_halaman").html(": " + aa.total_halamandaftar);
+            $("#paginatore").html(aa.paginatoredaftar);
+            $("#awaldata").html(aa.awaldatadaftar);
+            $("#akhirdata").html(aa.akhirdatadaftar);
+        });
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function () {
+            calldatagrid();
+        }, 500);
+    }
+
+    function bukaCetakKartuData(a) {
+        $.post('<?= $this->url() ?>/dataWP', {t_idwp: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idwpkartudata").val(aa.idwp);
+            $("#namawpkartudata").val(aa.namawp);
+            $("#alamatwpkartudata").val(aa.alamatwp);
+            $("#objekpajak").html(aa.objekpajak);
+        });
+        $('#modalCetakKartuData').modal('show');
+    }
+
+    function tutupCetakKartuData() {
+        $('#modalCetakKartuData').modal('hide');
+    }
+
+    function cetakkartudata() {
+        window.open('<?= $this->url() ?>/cetakkartudata?periodekartudata=' + $("#periodekartudata").val() + "&idwpkartudata=" + $("#idwpkartudata").val() + "&objekpajakwp=" + $("#objekpajakwp").val() + "&mengetahuikartudata=" + $("#mengetahuikartudata").val() + "&diperiksakartudata=" + $("#diperiksakartudata").val());
+    }
+	
+	function bukaCetakRekapData(a) {
+        $.post('<?= $this->url() ?>/dataWP', {t_idwp: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idwprekapdata").val(aa.idwp);
+            $("#namawprekapdata").val(aa.namawp);
+            $("#alamatwprekapdata").val(aa.alamatwp);
+        });
+        $('#modalCetakRekapData').modal('show');
+    }
+
+    function tutupCetakRekapData() {
+        $('#modalCetakRekapData').modal('hide');
+    }
+
+    function cetakrekapdata() {
+        window.open('<?= $this->url() ?>/cetakrekapdata?perioderekapdata=' + $("#perioderekapdata").val() + "&idwprekapdata=" + $("#idwprekapdata").val());
+    }
+</script>

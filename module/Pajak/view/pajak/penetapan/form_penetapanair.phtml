@@ -1,0 +1,197 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_penetapanair');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink, .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% { opacity: 0 }
+    }
+
+    @-moz-keyframes blink {
+        67% { opacity: 0 }
+    }
+
+    @-o-keyframes blink {
+        67% { opacity: 0 }
+    }
+
+    @keyframes blink {
+        67% { opacity: 0 }
+    }
+</style>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <div>
+                <h3 style="color: blue">
+                    Penetapan <b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h3>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($form) ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal Pendaftaran</label>
+                                <div class="col-sm-2">
+                                    : <?= $datatransaksi['t_tgldaftar'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">NPWPD</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_npwpd'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">NIK</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nik'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nama'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-sm-10">
+                                    : <?= $datatransaksi['t_alamat'] ?>
+                                    ,RT. <?= $datatransaksi['t_rt'] ?>
+                                    ,RW. <?= $datatransaksi['t_rw'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakel'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakec'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupaten'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">NIOP</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nop'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_namaobjek'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-sm-10">
+                                    : <?= $datatransaksi['t_alamatobjek'] ?>
+                                    ,RT. <?= $datatransaksi['t_rtobjek'] ?>
+                                    ,RW. <?= $datatransaksi['t_rwobjek'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakelobjek'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakecobjek'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupatenobjek'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Latitude</label>
+                                <div class="col-sm-3">
+                                    : <?= $datatransaksi['t_latitudeobjek'] ?>
+                                </div>
+                                <label class="col-sm-2">Longitude</label>
+                                <div class="col-sm-3">
+                                    : <?= $datatransaksi['t_longitudeobjek'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pendataan</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Volume</label>
+                                <div class="col-sm-4">
+                                    : <?= number_format($datatransaksi['t_volume'], 0, ',', '.') ?> (m<sup>3</sup>)
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Peruntukan</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['s_peruntukan'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tarif</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_tarifpajak'] ?> (%)
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Pajak</label>
+                                <div class="col-sm-4">
+                                    : Rp. <?= number_format($datatransaksi['t_jmlhpajak'], 0, ',', '.') ?>,-
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pad10B">
+                            <div class="col-sm-12">
+                                <div class="alert alert-warning">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Penetapan</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tanggal Penetapan</label>
+                                <div class="col-md-2">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon">
+                                            <i class="glyph-icon icon-calendar"></i>
+                                        </span>
+                                        <input type="hidden" name="t_jenisobjekpajak" value="<?= $datatransaksi['t_jenisobjek'] ?>">
+                                        <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                        <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-default" id="tombolsimpan">
+                            <?= $this->formInput($form->get('Penetapansubmit')) ?> 
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

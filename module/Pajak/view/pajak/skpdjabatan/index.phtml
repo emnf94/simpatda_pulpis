@@ -1,0 +1,303 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-family: monospace;font-weight: bold;font-size:12pt;">
+                    SKPD JABATAN
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <select class="form-control input-sm" id="combocari" onchange="calldatagrid()">
+                            <option value="">Pilih Pencarian</option>
+                            <option value="t_nourut">No. SKPD JABATAN</option>
+                            <option value="t_nama">Nama</option>
+                            <option value="t_tglpendataan">Tanggal Pendataan</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group input-group-sm">
+                            <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari" id="kolomcari" onkeyup="calldatagrid()">
+                            <div class="input-group-btn combooperatorc">
+                                <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator" onchange="calldatagrid()" style="text-align: left;">
+                                    <option value="">Pilih</option>
+                                    <option value="carisama">=</option>
+                                    <option value="carilike">%</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <span class="hiddene">
+                            <select class="form-control input-sm" id="combosorting" onchange="calldatagrid()">
+                                <option value="">Pilih Urutan</option>
+                                <option value="t_nourut">No. SKPD JABATAN</option>
+                                <option value="t_nama">Nama</option>
+                                <option value="t_alamatpasar">Alamat Pasar</option>
+                                <option value="t_tglpendataan">Tanggal Pendataan</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span class="hiddene">
+                            <div class="form-inline">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="ASC" id="sortasc" name="sortere" onclick="calldatagrid()">
+                                        Terkecil
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" checked="" value="DESC" id="sortdesc" name="sortere" onclick="calldatagrid()">
+                                        Terbesar
+                                    </label>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="example-box-wrapper">
+                    <div class="remove-columns">
+                        <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                            <thead class="cf" style="background-color: blue">
+                                <tr class="bg-blue">
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        No.
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        No. SKPD JABATAN
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        NPWPD
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        NIOP
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama Objek
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Tgl. Pendataan
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Kenaikan (Rp.)
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Jumlah Pajak (Rp.)
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        #
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="body_grid">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10" class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-3 text-left">
+                                                <span class="hiddene">
+                                                    <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid()">
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-6" style="text-align: center">
+                                                <center>
+                                                    <div id="paginatore"></div>
+                                                    <input type="hidden" id="page" value="1">
+                                                </center>
+                                            </div>
+                                            <div class="col-sm-3 text-right">
+                                                <span class="hiddene">
+                                                    <p>
+                                                        <b style="font-size: 13px; color: orangered"><span id="awaldata"></span> s/d <span id="akhirdata"></span> Dari <span id="total_data"></span> Data</b>
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSKPDJABATAN" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SKPD JABATAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksi" id="idtransaksi">
+                                <input type="text" class="form-control" name="tglketetapan" id="tglketetapan" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idjenispajak" id="idjenispajak">
+                                <input type="text" class="form-control" name="jenispajak" id="jenispajak" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawp" id="namawp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwp" id="alamatwp" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd0" id="ttd0" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakskpdjabatan()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSKPDJABATAN()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        calldatagrid();
+    });
+
+    function calldatagrid(direction) {
+        if ($("#combocari").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari").val()
+        if ($("#kolomcari").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari").val()
+        if ($("#combosorting").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting").val()
+        if (document.getElementById("sortasc").checked)
+            par4 = $("#sortasc").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc").checked)
+            par5 = $("#sortdesc").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator").val()
+        datagrid($("#page").val(), $("#rows").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagrid(page, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGrid/' + page + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function(data) {
+            var aa = JSON.parse(data)
+            $("#body_grid").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+            $("#paginatore").html(aa.paginatore);
+            $("#awaldata").html(aa.awaldata);
+            $("#akhirdata").html(aa.akhirdata);
+        });
+    }
+
+    function bukaCetakSKPDJABATAN(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {
+            idtransaksi: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi").val(aa.idtransaksi);
+            $("#namawp").val(aa.namawp);
+            $("#alamatwp").val(aa.alamatwp);
+            $("#tglketetapan").val(aa.tglketetapan);
+            $("#jenispajak").val(aa.jenispajak);
+            $("#idjenispajak").val(aa.idjenispajak);
+        });
+        $('#modalCetakSKPDJABATAN').modal('show');
+    }
+
+    function tutupCetakSKPDJABATAN() {
+        $('#modalCetakSKPDJABATAN').modal('hide');
+    }
+
+    function cetakskpdjabatan() {
+        window.open('<?= $this->url() ?>/cetakskpdjabatan?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd0").val());
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function() {
+            calldatagrid();
+        }, 1000);
+    }
+</script>
+<style type="text/css">
+    .combooperatorc select {
+        border: 0 !important;
+        /*Removes border*/
+        -webkit-appearance: none;
+        /*Removes default chrome and safari style*/
+        -moz-appearance: none;
+        /* Removes Default Firefox style*/
+        appearance: none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px;
+        /* Removes default arrow from firefox*/
+        color: #FFF;
+    }
+</style>

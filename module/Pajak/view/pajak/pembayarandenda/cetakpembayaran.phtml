@@ -1,0 +1,107 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <table width="100%" style="font-family:arial">
+                <tr>
+                    <td width="10%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="60"></td>
+                    <td style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                        <span style="font-size:12pt;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> <?= $notelp ?> <?= $ar_pemda->s_namaibukotakabkota ?> Kode Pos <?= $ar_pemda->s_kodepos ?></span>
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center;font-family:arial;">DAFTAR PEMBAYARAN DENDA</h4>
+            <p style="font-size: 10pt; line-height: 5px;font-family:arial;"> 
+                Tanggal : <?= $tglbayar0 ?> s/d <?= $tglbayar1 ?>
+            </p>
+            <table width="100%" class="font_sembilan" style="text-align: center;font-family:arial;">
+                <tr style="text-align: center;background: #ccc;">
+                    <td class="border_atas border_bawah border_kanan border_kiri">
+                        No.
+                    </td>
+                    <td>
+                        Nama
+                    </td>
+                    <td>
+                        NPWPD
+                    </td>
+                    <td>
+                        Nama OP
+                    </td>
+                    <td>
+                        NIOP
+                    </td>
+                    <td>
+                        Jenis Pajak
+                    </td>
+                    <td>
+                        Tgl. Pembayaran
+                    </td>
+                    <td>
+                        Jumlah Pembayaran
+                    </td>
+                </tr>
+                <?php
+                $totalpembayaran = 0;
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    ?>
+                    <tr style="text-align: center">
+                        <td>
+                            <?= $counter ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_nama'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_npwpd'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_namaobjek'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['t_nop'] ?>
+                        </td>
+                        <td align="left">
+                            <?= $v['s_namajenis'] ?>
+                        </td>
+                        <td>
+                            <?= date('d-m-Y', strtotime($v['t_tglbayardenda'])) ?>
+                        </td>
+                        <td align="right">
+                            <?= number_format($v['t_jmlhbayardenda'], 0, ',', '.') ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $totalpembayaran += $v['t_jmlhbayardenda'];
+                    $counter++;
+                }
+                ?>
+                <tr>
+                    <td colspan="7">
+                        Jumlah
+                    </td>
+                    <td style="text-align: right">
+                        <?= number_format($totalpembayaran, 0, ',', '.') ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>

@@ -1,0 +1,128 @@
+<html>
+
+<body>
+    <?php
+    ini_set("max_execution_time", 5000);
+    ini_set('memory_limit', '1024M');
+    $tgl_penetapan = (!empty($data['t_tglpenetapan'])) ? $data['t_tglpenetapan'] : $data['t_tglpendataan'];
+    $statusbayar = (!empty($data['t_tglpembayaran'])) ? '<b style="color:green;">LUNAS (Tgl. ' . date('d-m-Y', strtotime($data['t_tglpembayaran'])) . ')</b>' : '<b style="color:red;">BELUM BAYAR</b>';
+    ?>
+    <div>
+        <div style="border-bottom: 2px double black;">
+            <div style='width: 10%; float: left;'>
+                <?php $gambar = $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>
+                <img src="<?= $gambar ?>" style="width:50px;" />
+            </div>
+            <div style='width: 80%; float: right;padding-right:10%;font-family: sans-serif;text-align: center;'>
+                <strong style="font-size: 12pt;">
+                    PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota); ?>
+                </strong><br>
+                <strong style="font-size: 14pt;">
+                    <?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)
+                </strong><br>
+                <span style="font-size: 9pt;">
+                    <?= strtoupper($ar_pemda->s_alamatinstansi); ?> Kode Pos <?= $ar_pemda->s_kodepos ?><br><?= strtoupper($ar_pemda->s_namaibukotakabkota) ?>
+                </span>
+            </div>
+        </div>
+        <h4 style="text-align: center;font-family: sans-serif;">DATA <?= strtoupper($data['s_namajenis']) ?></h4>
+        <table width="100%">
+            <tr>
+                <td colspan="3"><strong>DATA WAJIB PAJAK</strong></td>
+            </tr>
+            <tr>
+                <td>NPWPD</td>
+                <td>:</td>
+                <td><?= $data['t_npwpd'] ?></td>
+            </tr>
+            <tr>
+                <td>Nama Wajib Pajak</td>
+                <td>:</td>
+                <td><?= $data['t_nama'] ?></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">Alamat Wajib Pajak</td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"><?= $data['t_alamat'] . "
+                                        ,RT. " . $data['t_rt'] . "
+                                        ,RW. " . $data['t_rw'] . "
+                                        <br>Desa/Kel. " . $data['s_namakel'] . "
+                                        ,Kec. " . $data['s_namakec'] . "
+                                        ,Kab. " . $data['t_kabupaten'] ?></td>
+            </tr>
+            <tr>
+                <td colspan="3"><strong>DATA OBJEK PAJAK</strong></td>
+            </tr>
+            <tr>
+                <td>NIOP</td>
+                <td>:</td>
+                <td><?= $data['t_nop'] ?></td>
+            </tr>
+            <tr>
+                <td>Nama Objek Pajak</td>
+                <td>:</td>
+                <td><?= $data['t_namaobjek'] ?></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">Alamat Objek Pajak</td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"><?= $data['t_alamatobjek'] . "
+                                        ,RT. " . $data['t_rtobjek'] . "
+                                        ,RW. " . $data['t_rwobjek'] . "
+                                        <br>Desa/Kel. " . $data['s_namakelobjek'] . "
+                                        ,Kec. " . $data['s_namakecobjek'] . "
+                                        ,Kab. " . $data['t_kabupatenobjek'] ?></td>
+            </tr>
+            <tr>
+                <td colspan="3"><strong>DATA <?= strtoupper($data['s_namajenis']) ?></strong></td>
+            </tr>
+            <tr>
+                <td>No Penetapan</td>
+                <td>:</td>
+                <td><?= $data['t_nourut'] ?></td>
+            </tr>
+            <tr>
+                <td>Tgl Penetapan</td>
+                <td>:</td>
+                <td><?= date('d-m-Y', strtotime($tgl_penetapan)) ?></td>
+            </tr>
+            <tr>
+                <td>Masa Pajak</td>
+                <td>:</td>
+                <td><?= date('d-m-Y', strtotime($data['t_masaawal'])) . " s/d " . date('d-m-Y', strtotime($data['t_masaakhir'])) ?></td>
+            </tr>
+            <tr>
+                <td>Jumlah Pajak</td>
+                <td>:</td>
+                <td><?= "Rp. " . number_format($data['t_jmlhpajak'], 0, ',', '.') . ",-" ?></td>
+            </tr>
+            <tr>
+                <td>Rekening</td>
+                <td>:</td>
+                <td><?= $data['s_namakorek'] ?></td>
+            </tr>
+            <tr>
+                <td>Status Pembayaran</td>
+                <td>:</td>
+                <td><?= $statusbayar ?></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right;">
+                    <!-- <barcode code="<?= $data['t_kodebayar'] ?>" type="QR" class="barcode" size="1.5" error="M" /> -->
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
+
+<style type="text/css" media="print">
+    body {
+        font-family: sans-serif;
+    }
+
+    .font_empatbelas {
+        font-size: 14pt;
+    }
+</style>

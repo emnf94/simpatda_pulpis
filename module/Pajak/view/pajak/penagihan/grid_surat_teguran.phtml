@@ -1,0 +1,362 @@
+<div class="tab-pane" id="tab3">
+    <!--<center><h2><b>SURAT TEGURAN</b></h2></center>-->
+    <!-- <i>
+       <b>Penagihan Pasif</b> : fiskus pasif, hanya memberitahukan ke WP
+ada hutang pajak, jatuh tempo 1 bulan sejak tanggal terbit SKPD/SPTPD, apabila
+tidak dilunasi juga, maka dilakukan penagihan aktif.
+<br>
+<b>Penagihan Aktif</b> : setelah jatuh tempo pembayaran masih belum
+dilunasi, 7 hari setelah jatuh tempo tersebut akan diterbitkan surat teguran,
+21 hari masih belum lunas juga maka akan dikeluarkan surat paksa, dalam jangka
+waktu sejak tanggal surat paksa, 2x24 jam tidak dilunasi maka dilakukan penyitaan,
+dan&nbsp; 14 hari setelah penyitaan dilakukan pelelangan
+(pengumuman lelang, tergantung barang yang disita), dalam proses penyitaan juga
+bisa dilakukan pencegahan dan penyanderaan.
+    </i> -->
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocari3" onchange="calldatagridsuratteguran()">
+                <option value="">Pilih Pencarian</option>
+                <option value="t_nourut">No. SPTPD</option>
+                <option value="t_nama">Nama</option>
+                <option value="t_npwpd">NO. NPWPD</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari3" id="kolomcari3" onkeyup="calldatagridsuratteguran()">
+                <div class="input-group-btn combooperatorsudahc">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator3" onchange="calldatagridsuratteguran()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosorting3" onchange="calldatagridsuratteguran()">
+                    <option value="">Pilih Urutan</option>
+                <option value="t_nourut">No. SPTPD</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortasc3" name="sortere" onclick="calldatagridsuratteguran()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdesc3" name="sortere" onclick="calldatagridsuratteguran()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div class="remove-columns">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No. Urut
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            NPWPD
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            NIOP
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama OP
+                        </th>     
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Tgl. Pendataan/Penetapan
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Masa Pajak
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jumlah Pajak
+                        </th>           
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Tgl. Jatuh Tempo
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Hari Lebih Tempo
+                        </th>       
+                           
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            #
+                        </th>       
+                    </tr>
+                </thead>
+                <tbody id="body_grid3">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="13" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rows3" class="form-control" style="width: 30%" onchange="calldatagridsuratteguran(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatore3"></div>
+                                        <input type="hidden" id="page3" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b style="font-size: 13px; color: orangered"><span id="awaldata3"></span> s/d <span id="akhirdata3"></span> Dari <span id="total_data3"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSuratTeguran" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SURAT TEGURAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idtransaksi3" id="idtransaksi3">
+                                <input type="text" class="form-control" name="namawp3" id="namawp3" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwp3" id="alamatwp3" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd0teguran" id="ttd0teguran" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaksuratteguran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSuratTeguran()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCetakSuratPaksa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SURAT PAKSA</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idtransaksi3paksa" id="idtransaksi3paksa">
+                                <input type="text" class="form-control" name="namawp3paksa" id="namawp3paksa" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwp3paksa" id="alamatwp3paksa" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd0paksa" id="ttd0paksa" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaksuratpaksa()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSuratPaksa()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        calldatagridsuratteguran();
+    });
+
+    function calldatagridsuratteguran(direction) {
+        if ($("#combocari3").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari3").val()
+        if ($("#kolomcari3").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari3").val()
+        if ($("#combosorting3").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting3").val()
+        if (document.getElementById("sortasc3").checked)
+            par4 = $("#sortasc3").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc3").checked)
+            par5 = $("#sortdesc3").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator3").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator3").val()
+        datagridsuratteguran($("#page3").val(), $("#rows3").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagridsuratteguran(pagesudah, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGridSuratTeguran/' + pagesudah + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid3").html(aa.gridsudah);
+            $("#rows3").val(aa.rowssudah);
+            $("#page3").val(aa.pagesudah);
+            $("#total_data3").html(": " + aa.countsudah);
+            $("#total_halaman3").html(": " + aa.total_halamansudah);
+            $("#paginatore3").html(aa.paginatoresudah);
+            $("#awaldata3").html(aa.awaldatasudah);
+            $("#akhirdata3").html(aa.akhirdatasudah);
+        });
+    }
+
+
+    function bukaCetakSuratTeguran(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi3").val(aa.idtransaksi);
+            $("#namawp3").val(aa.namawp);
+            $("#alamatwp3").val(aa.alamatwp);
+            $("#tglketetapan").val(aa.tglketetapan);
+        });
+        $('#modalCetakSuratTeguran').modal('show');
+    }
+    
+    function bukaCetakSuratPaksa(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi3paksa").val(aa.idtransaksi);
+            $("#namawp3paksa").val(aa.namawp);
+            $("#alamatwp3paksa").val(aa.alamatwp);
+            $("#tglketetapanpaksa").val(aa.tglketetapan);
+        });
+        $('#modalCetakSuratPaksa').modal('show');
+    }
+    
+    function tutupCetakSuratPaksa() {
+        $('#modalCetakSuratPaksa').modal('hide');
+    }
+
+    function cetaksuratpaksa() {
+        window.open('<?= $this->url() ?>/cetaksuratpaksa?idtransaksi=' + $("#idtransaksi3paksa").val() + "&ttd0=" + $("#ttd0paksa").val());
+    }
+
+    function tutupCetakSuratTeguran() {
+        $('#modalCetakSuratTeguran').modal('hide');
+    }
+
+    function cetaksuratteguran() {
+        window.open('<?= $this->url() ?>/cetaksuratteguran?idtransaksi=' + $("#idtransaksi3").val() + "&ttd0=" + $("#ttd0teguran").val());
+    }
+
+</script>
+<style type="text/css">
+    .combooperatorsudahc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+	.tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tableDaftar tr:hover {
+        background: #edf968; 
+    }
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+    .highlight_row {
+        background: #eee;
+    }
+</style>

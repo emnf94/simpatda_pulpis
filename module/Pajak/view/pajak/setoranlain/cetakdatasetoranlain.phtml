@@ -1,0 +1,267 @@
+<?php
+    if (($jniscetak == 1)) {
+        include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+        $mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 10, 10, 1, 1, 1, '');
+    } else {
+        header("Content-type: application/vnd-ms-excel");
+        header("Content-Disposition: attachment; filename=cetakdatasetoranlain".$tglbayar0."sd".$tglbayar1.".xls");
+    }
+    
+$html = '';    
+$html .= '
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+            
+            .font_sepuluh {
+                font-size: 10pt;
+            }
+            
+            .font_sebelas {
+                font-size: 11pt;
+            }
+        </style>
+    </head>
+    <body>';
+
+                    
+
+        $html .= '
+        
+                    <table style="border-spacing: 0; width: 100%" class="font-sepuluh">
+                        <tr>
+                            <td colspan="7">
+                                <center>
+                                    <b style="font-size: 20px;">PEMERINTAH '.strtoupper($ar_pemda->s_namakabkota).'
+                                            <br>
+                                            '.$ar_pemda->s_namainstansi.'</b>
+                                            <br>
+                                            '.$ar_pemda->s_alamatinstansi.' Telp/Fax '.$ar_pemda->s_notelinstansi.', '.$ar_pemda->s_namaibukotakabkota.'
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" >
+                                <center>
+                                    <br><b style="font-size: 20px;">DAFTAR PEMBAYARAN</b>
+                                    <br>
+                                    '.$tglbayar0.' s/d '.$tglbayar1.'
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000;text-align: center">
+                                <b>No.</b>
+                            </td>
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;">
+                                <b>No STS</b>
+                            </td>
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;">
+                                <b>Nama Dinas</b>
+                            </td>
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;">
+                                <b>Tanggal <br>Setor</b>
+                            </td>
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;">
+                                <b>Kode Rekening</b>
+                            </td>
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;">
+                                <b>Nama Rekening</b>
+                            </td>
+                            
+                            <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; text-align: center;" >
+                                <b>Jumlah Setor</b>
+                            </td>
+                            
+                        </tr>';
+                      
+                        $counter = 1;
+                        $clast_rek = ""; 
+                        foreach ($data as $k => $v) {
+                            
+                            
+                            if ($clast_rek <> $v['s_idsetoranlain']) {
+
+
+                                $html .= '<tr>
+                                            <td colspan="7" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>NO STS : '.$v['no_sts'].' , Nama Dinas : ' . $v['s_namadinas'] . '</b></td>
+
+                                        </tr>';
+
+                                $clast_rek = $v['s_idsetoranlain'];
+                                $clast_rek_name = $v['s_namakorek'];
+                                //$counter = 1;
+                            }
+        
+                            if(empty($v['tgl_setoranlain'])) {
+                                $tgl_setoranlain = '';
+                            } else {
+                                $tgl_setoranlain = date('d-m-Y', strtotime($v['tgl_setoranlain']));
+                            }
+                            
+                            if (empty($v['jml_setorandetail'])) {
+                                $jml_setorandetail = '';
+                            } else {
+                                $jml_setorandetail = number_format($v['jml_setorandetail'], 0, ',', '.');
+                            }
+                            
+                            
+                            
+                            if($v['s_sub3korek'] == '00'){
+                                         
+                                if($v['s_sub2korek'] == '00'){
+                                    if($v['s_sub1korek'] == '00'){
+                                       $korek = $v['s_tipekorek'].'.'.$v['s_kelompokkorek'].'.'.$v['s_jeniskorek'].'.'.$v['s_objekkorek'].'.'.$v['s_rinciankorek'];
+                                    }else{
+                                        $korek = $v['s_tipekorek'].'.'.$v['s_kelompokkorek'].'.'.$v['s_jeniskorek'].'.'.$v['s_objekkorek'].'.'.$v['s_rinciankorek'].'.'.$v['s_sub1korek'];
+                                    }
+                                }else{
+                                   $korek = $v['s_tipekorek'].'.'.$v['s_kelompokkorek'].'.'.$v['s_jeniskorek'].'.'.$v['s_objekkorek'].'.'.$v['s_rinciankorek'].'.'.$v['s_sub1korek'].'.'.$v['s_sub2korek'];
+                                }
+                            }else{
+                                $korek = $v['s_tipekorek'].'.'.$v['s_kelompokkorek'].'.'.$v['s_jeniskorek'].'.'.$v['s_objekkorek'].'.'.$v['s_rinciankorek'].'.'.$v['s_sub1korek'].'.'.$v['s_sub2korek'].'.'.$v['s_sub3korek'];
+                            }
+                            
+                           $html .= '
+                            <tr>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 20px;  text-align: center; ">
+                                    '.$counter.'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 100px; text-align: center">
+                                    '.$v['no_sts'].'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 150px;">
+                                    '.$v['s_namadinas'].'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 90px; text-align: center">
+                                    '.$tgl_setoranlain.'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 100px; text-align: center">
+                                    '.$korek.'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 150px;">
+                                    '.$v['s_namakorek'].'
+                                </td>
+                                <td style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; width: 70px; text-align: center">
+                                    '.$jml_setorandetail.'
+                                </td>
+                                
+                            </tr>';
+                            
+                            $counter++;
+                        }
+       $html .= '
+                    <tr>
+                        <td colspan="7">
+                            &nbsp;
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td colspan="7">
+                            <table>
+                                <tr>
+                                    <td style="width: 700px; text-align: center; padding-top: 10px">
+                                        &nbsp;
+                                    </td>
+                                    <td style="width: 700px; text-align: center; padding-top: 10px">
+                                        '.strtoupper(strtolower($ar_pemda->s_ttdkabkot)).', '.date('d-m-Y').'
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        Mengetahui
+                                    </td>
+                                    <td style="text-align: center">
+                                        Diperksa Oleh,
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style=" text-align: center">
+                                        '.strtoupper($ar_mengetahui->s_jabatanpej).'
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        '.$ar_mengetahui->s_namapej.'
+                                    </td>
+                                    <td style="text-align: center">
+                                        '.strtoupper($ar_diperiksa->s_jabatanpej).'
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        '.$ar_diperiksa->s_namapej.'
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center">
+                                        NIP. '.$ar_mengetahui->s_nippej.'
+                                    </td>
+                                    <td style="text-align: center">
+                                        NIP. '.$ar_diperiksa->s_nippej.'
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+               </table>';
+
+        
+        $html .= '
+       
+    </body>
+</html>';
+        
+if (($jniscetak == 1)) {
+    $mpdf->WriteHTML($html);
+$mpdf->Output("cetakdatasetoranlain".$tglbayar0."sd".$tglbayar1.".pdf", "I");
+} else {
+    echo $html;
+}
+       
+
+
+       
+?>       
+               

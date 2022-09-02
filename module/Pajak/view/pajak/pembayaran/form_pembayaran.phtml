@@ -1,0 +1,272 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pembayaran');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    Pembayaran Pokok & Denda
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Tanggal Pendaftaran</label>
+                            <div class="col-md-2">
+                                : <?= $datapenetapan['t_tgldaftar'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama</label>
+                            <div class="col-md-4">
+                                : <?= $datapenetapan['t_nama'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat</label>
+                            <div class="col-md-10">
+                                : <?= $datapenetapan['t_alamat'] ?>
+                                ,Desa/Kel. <?= $datapenetapan['s_namakel'] ?>
+                                ,Kec. <?= $datapenetapan['s_namakec'] ?>
+                                ,Kab. <?= $datapenetapan['t_kabupaten'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">NIOP</label>
+                            <div class="col-sm-4">
+                                : <?= $datapenetapan['t_nop'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama</label>
+                            <div class="col-sm-4">
+                                : <?= $datapenetapan['t_namaobjek'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Alamat</label>
+                            <div class="col-sm-10">
+                                : <?= $datapenetapan['t_alamatobjek'] ?>
+                                ,Desa/Kel. <?= $datapenetapan['s_namakelobjek'] ?>
+                                ,Kec. <?= $datapenetapan['s_namakecobjek'] ?>
+                                ,Kab. <?= $datapenetapan['t_kabupatenobjek'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Transaksi</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Tgl. Pendataaan</label>
+                            <div class="col-sm-4">
+                                : <?= date('d-m-Y', strtotime($datapenetapan['t_tglpendataan'])) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">No. Urut</label>
+                            <div class="col-sm-4">
+                                : <?= $nomor_urut = (!empty($datapenetapan['t_nourut'])) ? $datapenetapan['t_nourut'] : $datapenetapan['t_noskpdjab']; ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Masa Pajak</label>
+                            <div class="col-sm-4">
+                                : <?= date('d-m-Y', strtotime($datapenetapan['t_masaawal'])) ?> s/d <?= date('d-m-Y', strtotime($datapenetapan['t_masaakhir'])) ?>
+                            </div>
+                        </div>
+                        <?php if ($datapenetapan['t_jenisobjek'] == 4 || $datapenetapan['t_jenisobjek'] == 8) { ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tgl. Penetapan</label>
+                                <div class="col-sm-4">
+                                    : <?= date('d-m-Y', strtotime($datapenetapan['t_tglpenetapan'])) ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Kode Rekening</label>
+                            <div class="col-sm-4">
+                                : <?= $datapenetapan['korek'] ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama Rekening</label>
+                            <div class="col-sm-4">
+                                : <?= $datapenetapan['s_namakorek'] ?>
+                            </div>
+                        </div>
+                        <?php if ($datapenetapan['t_jenisobjek'] == 4) { ?>
+
+                        <?php } elseif ($datapenetapan['t_jenisobjek'] == 8) { ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Volume</label>
+                                <div class="col-sm-2">
+                                    : <?= number_format($datapenetapan['t_volume'], 0, ',', '.') ?>
+                                </div>
+                                <label class="col-sm-2">Tarif</label>
+                                <div class="col-sm-1">
+                                    : <?= $datapenetapan['t_tarifpajak'] ?>%
+                                </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Dasar Pengenaan</label>
+                                <div class="col-sm-2">
+                                    : <?= number_format($datapenetapan['t_dasarpengenaan'], 0, ',', '.') ?>
+                                </div>
+                                <label class="col-sm-2">Tarif</label>
+                                <div class="col-sm-1">
+                                    : <?= $datapenetapan['t_tarifpajak'] ?>%
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pembayaran</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Jatuh Tempo</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="hidden" value="<?= substr($datapenetapan['t_npwpd'], 0, 1) ?>" name="t_jenispungutan" id="t_jenispungutan">
+                                    <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                    <input type="text" class="form-control" name="t_tgljatuhtempo" id="t_tgljatuhtempo" readonly="true" value="<?= date('d-m-Y', strtotime($datapenetapan['t_tgljatuhtempo'])) ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Pembayaran</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpembayaran")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Via Pembayaran</label>
+                            <div class="col-md-4">
+                                <?= $this->formSelect($form->get("t_viapembayaran")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Pokok Pajak (Rp.)</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Denda</label>
+                            <div class="col-md-4">
+                                <?= $this->formSelect($form->get("t_jenisketetapandenda")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jml. Bulan Denda</label>
+                            <div class="col-md-2">
+                                <?= $this->formText($form->get("t_jmlhbulandendapembayaran")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Denda (Rp.)</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <?= $this->formText($form->get("t_jmlhdendapembayaran")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jumlah Pembayaran</label>
+                            <div class="col-md-4">
+                                <?= $this->formText($form->get("t_jmlhpembayaran")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Pembayaransubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        cekkorek();
+
+
+    });
+
+    function cekkorek() {
+
+        $.post('<?= $this->url() ?>/cekkorek', {
+            t_idtransaksi: $("#t_idtransaksi").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            if (aa.t_idkorek == 34 || aa.t_idkorek == '34') {
+                $('#t_jenisketetapandenda').html(aa.opsi);
+            }
+
+
+        });
+
+    }
+
+    function hitungpembayaran() {
+        $.post('<?= $this->url() ?>/hitungpembayaran', {
+            t_idtransaksi: $("#t_idtransaksi").val(),
+            t_jmlhpajak: $("#t_jmlhpajak").val(),
+            t_jmlhdendapembayaran: $("#t_jmlhdendapembayaran").val(),
+            t_tglpembayaran: $("#t_tglpembayaran").val(),
+            t_tgljatuhtempo: $("#t_tgljatuhtempo").val(),
+            t_jenisketetapandenda: $("#t_jenisketetapandenda").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpembayaran').val(aa.t_jmlhpembayaran);
+            $('#t_jmlhbulandendapembayaran').val(aa.t_jmlhbulandendapembayaran);
+            $('#t_jmlhdendapembayaran').val(aa.t_jmlhdendapembayaran);
+        });
+    }
+</script>

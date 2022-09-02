@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <style type="text/css">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="printarea">            
+            <h2 style="text-align: center">DAFTAR TIPE USAHA</h2>
+            <table width="100%" style="font-size: 12px">
+                <tr style="background:#ccc;">
+                    <th style="width: 5%; text-align: center">
+                        NO.
+                    </th>
+                    <th style="text-align: center">
+                        KODE USAHA
+                    </th>
+                    <th style="text-align: center">
+                        NAMA USAHA
+                    </th>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($this->datatipeusaha as $k => $v) {
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $counter ?>
+                        </td>
+                        <td>
+                            <?= str_pad($v['s_kodeusaha'], 2, "0", STR_PAD_LEFT); ?>
+                        </td>
+                        <td>
+                            <?= $v['s_namausaha']; ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </table>
+        </div>
+    </body>
+</html>

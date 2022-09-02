@@ -1,0 +1,259 @@
+<div class="tab-pane active" id="tab1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <label class="col-md-1 control-label">Jenis Pajak</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-sm" id="s_idjenis1">
+                        <?php foreach ($dataobjek as $v) { ?>
+                            <?php if ($v['s_idjenis'] != 4) { ?>
+                                <option value="<?= $v['s_idjenis'] ?>"><?= $v['s_namajenis'] ?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+        </div>  
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <label class="col-md-1 control-label">Bulan Pajak</label>
+                <div class="col-md-3">
+                    <select id="bulanmasapajak" class="form-control input-sm">
+                        <option value="">Silahkan Pilih</option>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">Mei</option>
+                        <option value="06">Juni</option>
+                        <option value="07">Juli</option>
+                        <option value="08">Agustus</option>
+                        <option value="09">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">Nopember</option>
+                        <option value="12">Desember</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <label class="col-md-1 control-label">Tahun Pajak</label>
+                <div class="col-md-3">
+                    <input type="text" id="tahunmasapajak" class="form-control input-sm" maxlength="4" value="<?= date('Y') ?>" placeholder="yyyy" onkeypress="return numbersonly(this, event);">
+                </div>
+                <div class="col-sm-7">
+                    <button type="button" class="btn btn-warning btn-sm" onclick="cariblmlapor()"><span class="glyph-icon icon-search"></span> CARI</button>
+                    <a href='javascript:void(0)' class='btn btn-blue-alt btn-sm' onclick="inputteguranmasal()"><span class='glyph-icon icon-pencil'></span> INPUT TEGURAN</a>
+                    <!--<a href='javascript:void(0)' class='btn btn-success btn-xs' onclick="inputsmsbroadcasting()"><span class='glyph-icon icon-mail-forward'></span> SMS BROADCASTING</a>-->
+                    <a href='javascript:void(0)' class='btn btn-success btn-sm' onclick="cetakdaftarblmlapor('excel')"><span class='glyph-icon icon-print'></span> EXPORT TO EXCEL</a>
+                    <a href='javascript:void(0)' class='btn btn-danger btn-sm' onclick="cetakdaftarblmlapor('pdf')"><span class='glyph-icon icon-print'></span> EXPORT TO PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="jumlahdata"></div>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div style="overflow: auto">
+            <div class="scroll-columns">
+                <table class="table table-condensed table-bordered cf tableBelumLapor" id="table-patient-time" style="font-size: 11px; color: black;">
+                    <thead class="cf" style="background-color: blue">
+                        <tr class="bg-blue">
+                            <th style="background-color: #00BCA4; color: white; text-align: center">No.</th>         
+                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                <input type="checkbox" id="selectAll_1" >
+                            </th>
+                            <th style="background-color: #00BCA4; color: white; text-align: center">WP</th> 
+                            <th style="background-color: #00BCA4; color: white; text-align: center">OP</th>   
+                            <th style="background-color: #00BCA4; color: white; text-align: center">Alamat Objek</th>   
+                            <th style="background-color: #00BCA4; color: white; text-align: center">No. Telp.</th>   
+                            <th style="background-color: #00BCA4; color: white; text-align: center">No. HP.</th>   
+                            <th style="background-color: #00BCA4; color: white; text-align: center">Jumlah Teguran</th>   
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><input type="text" id="t_npwpdwp_cari_1" class="form-control input-sm" onkeyup="cariblmlapor()"></td>
+                            <td><input type="text" id="t_nop_cari_1" class="form-control input-sm" onkeyup="cariblmlapor()"></td>
+                            <td><input type="text" id="t_alamatlengkapobjek_cari_1" class="form-control input-sm" onkeyup="cariblmlapor()"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="body_grid1">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AlertTeguran" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Isilah "Bulan" dan "Tahun" Terlebih Dahulu.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AlertCetakTeguran" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Centang Minimal 1 Baris Data.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function cariblmlapor() {
+        if ($("#bulanmasapajak").val() == '' || $("#tahunmasapajak").val() == '') {
+            $('#AlertTeguran').modal('show');
+        } else {
+            calldatagrid1();
+        }
+    }
+
+    function calldatagrid1(direction) {
+        datagridbelumlapor(direction);
+    }
+
+    function datagridbelumlapor(direction) {
+        $.post('<?= $this->url() ?>/dataGridBelumLapor/' + null + '/' + null + '/' + null + '/' + direction, {
+            s_idjenis: $('#s_idjenis1').val(),
+            bulanmasapajak: $('#bulanmasapajak').val(),
+            tahunmasapajak: $('#tahunmasapajak').val(),
+            t_npwpdwp: $('#t_npwpdwp_cari_1').val(),
+            t_nop: $('#t_nop_cari_1').val(),
+            t_alamatlengkapobjek: $('#t_alamatlengkapobjek_cari_1').val()
+        }, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid1").html(aa.gridbelumlapor);
+            $("#jumlahdata").html(aa.jumlah);
+        });
+    }
+
+    function inputteguranmasal() {
+        var checkValues = $('input[name=idobjekdbelumlapor]:checked').map(function ()
+        {
+            return $(this).val();
+        }).get();
+        if (checkValues == '') {
+            $('#AlertCetakTeguran').modal('show');
+        } else {
+            window.open('<?= $this->url() ?>/form_pageinputteguran?idobjekbelumlapor=' + checkValues + "&bulanmasapajak=" + $("#bulanmasapajak").val() + "&tahunmasapajak=" + $("#tahunmasapajak").val() + "&s_idjenis=" + $("#s_idjenis1").val());
+        }
+    }
+
+    function inputsmsbroadcasting() {
+        var checkValues = $('input[name=idobjekdbelumlapor]:checked').map(function ()
+        {
+            return $(this).val();
+        }).get();
+        if (checkValues == '') {
+            $('#AlertCetakTeguran').modal('show');
+        } else {
+            window.open('<?= $this->url() ?>/form_pageketall?idobjekbelumlapor=' + checkValues + "&bulanmasapajak=" + $("#bulanmasapajak").val() + "&tahunmasapajak=" + $("#tahunmasapajak").val() + "&s_idjenis=" + $("#s_idjenis1").val());
+        }
+    }
+
+    function cetakdaftarblmlapor(a) {
+        var checkValues = $('input[name=idobjekdbelumlapor]:checked').map(function ()
+        {
+            return $(this).val();
+        }).get();
+        if (checkValues == '') {
+            $('#AlertCetakTeguran').modal('show');
+        } else {
+            window.open('<?= $this->url() ?>/cetakdaftarblmlapor?idobjekbelumlapor=' + checkValues
+                    + "&bulanmasapajak=" + $("#bulanmasapajak").val()
+                    + "&tahunmasapajak=" + $("#tahunmasapajak").val()
+                    + "&s_idjenis=" + $("#s_idjenis1").val()
+                    + "&file_format=" + a
+                    );
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#selectAll_1').click(function (event) {
+            if (this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function () {
+                    this.checked = true;
+                }).change();
+            } else {
+                $(':checkbox').each(function () {
+                    this.checked = false;
+                }).change();
+            }
+        });
+
+        $('.record_table tr').click(function (event) {
+            if (event.target.type !== 'checkbox') {
+                $(':checkbox', this).trigger('click');
+            }
+        });
+
+        $("input[type='checkbox']").change(function (e) {
+            if ($(this).is(":checked")) {
+                $(this).closest('tr').addClass("highlight_row");
+            } else {
+                $(this).closest('tr').removeClass("highlight_row");
+            }
+        });
+    });
+</script>
+
+<style type="text/css">
+    .combooperatorteguranc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+    .tableBelumLapor {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tableBelumLapor tr:hover {
+        background: #C6E746;
+    }
+    .tableBelumLapor td {
+        border: 1px solid #eee;
+    }
+    .highlight_row {
+        background: #eee;
+    }
+
+    @keyframes blinker {  
+        50% { opacity: 0; }
+    }
+</style>

@@ -1,0 +1,270 @@
+<div class="tab-pane" id="tab2">
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocarisudah0" onchange="calldatagridsudahditetapkan()">
+                <option value="">Pilih Pencarian</option>
+                <option value="t_nama">Nama</option>
+                <option value="t_alamatpasar">Alamat Pasar</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcarisudah0" id="kolomcarisudah0" onkeyup="calldatagridsudahditetapkan()">
+                <div class="input-group-btn combooperatorsudah0c">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperatorsudah0" onchange="calldatagridsudahditetapkan()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosortingsudah0" onchange="calldatagridsudahditetapkan()">
+                    <option value="">Pilih Urutan</option>
+                    <option value="t_nama">Nama</option>
+                    <option value="t_alamatpasar">Alamat Pasar</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortascsudah0" name="sortere" onclick="calldatagridsudahditetapkan()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdescsudah0" name="sortere" onclick="calldatagridsudahditetapkan()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div class="remove-columns">
+            <table class="table table-condensed table-bordered cf" style="font-size: 12px;">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No. Urut
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Alamat Pasar
+                        </th>      
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jenis Tempat Usaha
+                        </th>      
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Tgl. Penetapan Denda
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jumlah Bulan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jumlah Denda
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            #
+                        </th>       
+                    </tr>
+                </thead>
+                <tbody id="body_gridsudah0">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="9" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rowssudah0" class="form-control" style="width: 30%" onchange="calldatagridsudahditetapkan(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatoresudah0"></div>
+                                        <input type="hidden" id="pagesudah0" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b><span id="awaldatasudah0"></span>-<span id="awaldatasudah0"></span>/<span id="total_datasudah0"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSTRD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK STRD</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pembayaran
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksi0" id="idtransaksi0">
+                                <input type="text" class="form-control" name="tglpembayaran" id="tglpembayaran" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="namawp" id="namawp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="alamatwp" id="alamatwp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-6">
+                                <select name="ttd0" id="ttd0" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakstrd()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSTRD()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        calldatagridsudahditetapkan();
+    });
+
+    function calldatagridsudahditetapkan(direction) {
+        if ($("#combocarisudah0").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocarisudah0").val()
+        if ($("#kolomcarisudah0").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcarisudah0").val()
+        if ($("#combosortingsudah0").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosortingsudah0").val()
+        if (document.getElementById("sortascsudah0").checked)
+            par4 = $("#sortascsudah0").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdescsudah0").checked)
+            par5 = $("#sortdescsudah0").val()
+        else
+            par5 = undefined;
+        if ($("#combooperatorsudah0").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperatorsudah0").val()
+        datagridsudahditetapkan($("#pagesudah0").val(), $("#rowssudah0").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagridsudahditetapkan(pagesudah0, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGridSudah/' + pagesudah0 + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_gridsudah0").html(aa.gridsudah0);
+            $("#rowssudah0").val(aa.rowssudah0);
+            $("#pagesudah0").val(aa.pagesudah0);
+            $("#total_datasudah0").html(": " + aa.countsudah0);
+            $("#total_halamansudah0").html(": " + aa.total_halamansudah0);
+            $("#paginatoresudah0").html(aa.paginatoresudah0);
+            $("#awaldatasudah0").html(aa.awaldatasudah0);
+            $("#awaldatasudah0").html(aa.awaldatasudah0);
+        });
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function () {
+            calldatagridsudahditetapkan();
+        }, 1000);
+    }
+
+    function bukaCetakSTRD(a) {
+        $.post('<?= $this->url() ?>/dataPembayaran', {idtransaksi0: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi0").val(aa.idtransaksi0);
+            $("#namawp").val(aa.namawp);
+            $("#alamatwp").val(aa.alamatwp);
+            $("#tglpembayaran").val(aa.tglpembayaran);
+        });
+        $('#modalCetakSTRD').modal('show');
+    }
+
+    function tutupCetakSTRD() {
+        $('#modalCetakSTRD').modal('hide');
+    }
+
+    function cetakstrd() {
+        window.open('<?= $this->url() ?>/cetakstrd?idtransaksi0=' + $("#idtransaksi0").val() + "&ttd0=" + $("#ttd0").val());
+    }
+
+</script>
+<style type="text/css">
+    .combooperatorsudah0c select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+</style>

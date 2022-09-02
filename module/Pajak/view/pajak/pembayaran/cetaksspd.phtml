@@ -1,0 +1,559 @@
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 10pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }
+
+            .kotak_kecil {
+                float: left;
+                width: 20px;
+                height: 20px;
+                margin: 5px;
+                border: 1px solid rgba(0, 0, 0, .2);
+            }
+            table{font-family: Arial;}
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+        ?>
+        <table class="border_atas border_bawah border_kanan border_kiri font_sembilan" style="width: 100%">
+            <tr>
+                <td>
+                    <?php $gambar = $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo;
+                    ?> 
+                    <img src="<?= $gambar ?>" style="width:50px; padding: 10px"  />
+                </td>
+                <td>
+                    <span style="font-size:14px;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?></span>
+                    <br>
+                    <b style="font-size:18px;"><?= strtoupper($ar_pemda->s_namainstansi) ?></b>
+                    <br>
+                    <?= $ar_pemda->s_alamatinstansi ?> <?= $ar_pemda->s_namaibukotakabkota ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>
+                </td>
+                <td style="text-align: center" class="border_kiri font_delapan">
+                    <b style="font-size:22px;">SSPD</b><br>
+                    (SURAT SETORAN PAJAK DAERAH)<br>
+                    Tahun : <?= $data['t_periodepajak']; ?> / No. SSPD : <?= $data['t_nopembayaran']; ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_sembilan" style="width: 100%;">
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; width: 20%; padding-top: 10px;">
+                    NPWPD
+                </td>
+                <td style="padding:0;border-spacing:0px; padding-top: 10px;">
+                    : <?= $data['t_npwpd'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; width: 20%;">
+                    Nama
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_nama'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+                    Alamat
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_alamat'] . ", KEL. " . $data['s_namakel'] . ", KEC. " . $data['s_namakec'] . ", KAB. " . $data['t_kabupaten'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+                    NIOP
+                </td>
+                <td class="border_kanan" style="padding:0;border-spacing:0px;">
+                    : <?= $data['t_nop'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+                    Nama Objek
+                </td>
+                <td class="border_kanan" style="padding:0; border-spacing:0px;">
+                    : <?= $data['t_namaobjek'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; padding-bottom: 10px;">
+                    Alamat Objek
+                </td>
+                <td class="border_kanan" style="padding:0; border-spacing:0px; padding-bottom: 10px;">
+                    : <?= $data['t_alamatobjek'] . ", KEL. " . $data['s_namakelobjek'] . ", KEC. " . $data['s_namakecobjek'] . ", KAB. " . $data['t_kabupatenobjek'] ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; width: 30%;">
+                    Menyetorkan berdasarkan *) :
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px; width: 2%">
+                    <?= (substr($data['t_kodebayar'], 6, 2) == '02') ? '&nbsp;v' : '' ?>
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; SKPD
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px; width: 2%">
+                    
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; STPD
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px; width: 2%">
+
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; Lain-lain
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; SKPDT
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+                    <?= (substr($data['t_kodebayar'], 6, 2) == '01') ? '&nbsp;v' : '' ?>
+                </td>
+                <td style="padding:0;border-spacing:0px;" colspan="3">
+                    &nbsp; SPTPD
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+                    <?= (substr($data['t_kodebayar'], 6, 2) == '04') ? '&nbsp;v' : '' ?>
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; SKPDKB
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+
+                </td>
+                <td style="padding:0;border-spacing:0px;" colspan="3">
+                    &nbsp; SK Pembetulan
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px;">
+
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+
+                </td>
+                <td style="padding:0;border-spacing:0px;">
+                    &nbsp; SKPDKBT
+                </td>
+                <td class="border_atas border_bawah border_kanan border_kiri" style="padding:0;border-spacing:0px;">
+
+                </td>
+                <td style="padding:0;border-spacing:0px;" colspan="3">
+                    &nbsp; SK Keberatan
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0; border-spacing:0px; padding-left: 15px; padding-top: 15px" colspan="3">
+                    Masa Pajak : <?= date('d-m-Y', strtotime($data['t_masaawal'])) ?> S/D <?= date('d-m-Y', strtotime($data['t_masaakhir'])) ?>
+                </td>
+                <td style="padding:0;border-spacing:0px; padding-top: 15px" colspan="2">
+                    Tahun : <?= $data['t_periodepajak']; ?>
+                </td>
+                <td style="padding:0;border-spacing:0px; padding-top: 15px" colspan="2">
+                    No. SPT/SKPD : <?= (!empty($data['t_nopenetapan'])) ? $data['t_nourut'].'/'.$data['t_nopenetapan'] : $data['t_nourut']; ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_delapan" style="width: 100%;">
+            <tr style="text-align: center">
+                <td class="border_kanan border_kiri" style="padding-top: 10px;">
+                    <table style="margin-left: 15px; margin-right: 15px; padding-top: 10px; border: 1px solid black; border-collapse: collapse; width: 100%; margin-bottom: 10px">
+                        <tr>
+                            <td style="width: 5%; border: 1px solid black; border-collapse: collapse; text-align: center">
+                                NO.
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                KODE REKENING
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                URAIAN
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: center">
+                                JUMLAH (Rp)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; border: 1px solid black; border-collapse: collapse; height: 200px; vertical-align: top">
+                                1.
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; vertical-align: top">
+                                <?= $data['korek'] ?>
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; vertical-align: top">
+                                <b>- <?= $data['s_namajenis'] ?>
+                                <br>
+                                &nbsp;&nbsp; - <?= $data['s_namakorek'] ?></b> <br><br>
+
+
+                                <?php if ($data['s_jenisobjek'] == 9){ 
+
+                                 if ((int)$datawalet['t_jenissarang1']==1){
+                                     $sarang1='Mangkok = ';
+                                 }elseif ((int)$datawalet['t_jenissarang1']==2){
+                                     $sarang1='Sudut = ';
+                                }elseif ((int)$datawalet['t_jenissarang1']==3){
+                                     $sarang1='Sudut = ';
+                                 }
+
+                                  if ((int)$datawalet['t_jenissarang2']==1){
+                                     $sarang2='Mangkok = ';
+                                 }elseif ((int)$datawalet['t_jenissarang2']==2){
+                                     $sarang2='Sudut = ';
+                                }elseif ((int)$datawalet['t_jenissarang2']==3){
+                                     $sarang2='Sudut = ';
+                                 }
+
+                                if ((int)$datawalet['t_jenissarang3']==1){
+                                     $sarang3='Mangkok = ';
+                                }elseif((int)$datawalet['t_jenissarang3']==2){
+                                     $sarang3='Sudut = ';
+                                }elseif ((int)$datawalet['t_jenissarang3']==3){
+                                     $sarang3='Sudut = ';
+                                }
+                                $kg1=' Kg';$kg2=' Kg';$kg3=' Kg';
+                                if ((float)$datawalet['t_nilaiperolehan1']<=0) {
+                                   $datawalet['t_nilaiperolehan1']="";
+                                   $kg1='';
+                                }
+                                if ((float)$datawalet['t_nilaiperolehan2']<= 0) {
+                                   $datawalet['t_nilaiperolehan2']="";
+                                   $kg2='';
+                                }
+                                if ((float)$datawalet['t_nilaiperolehan3']<= 0) {
+                                   $datawalet['t_nilaiperolehan3']="";
+                                   $kg3='';
+                                }
+
+
+                                echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$sarang1.$datawalet['t_nilaiperolehan1'].$kg1.'<br>';
+                                echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$sarang2.$datawalet['t_nilaiperolehan2'].$kg2.'<br>';
+                                echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$sarang3.$datawalet['t_nilaiperolehan3'].$kg3.'<br>';
+                                }
+
+                                 ?>
+
+                                <?php
+                                if($data['s_jenisobjek'] == 4){
+
+                                    if ($datareklame['t_tipewaktu']=='2'||$data['datareklame']==3) {
+                                        $t_tipewaktu="Bulan";
+                                    }elseif ($datareklame['t_tipewaktu']=='3'||$datareklame['t_tipewaktu']==3) {
+                                       $t_tipewaktu="Hari";
+                                    }else{
+                                    $t_tipewaktu="";
+                                    }
+
+                                    if (empty($datareklame['t_kompensasi'])) {
+                                       $datareklame['t_kompensasi']=0;
+                                    }
+
+                                    $koderek = (int) substr($data['korek'], 9, 2);
+                                    ?>
+                                    &nbsp; Jenis Reklame : <?= $ar_jenisreklame['s_namareklamejenis'] ?><br>
+                                    &nbsp; Judul/Naskah : <?= $datareklame['t_naskah'] ?><br>
+                                    &nbsp; Lokasi : <?= $datareklame['t_lokasi'] ?><br>
+                                    &nbsp; Range Ukuran Media : <?=$dataukuran['s_keteranganukuran']?><br>
+                                    &nbsp; Jumlah Reklame : <?=$datareklame['t_jumlah'] ?><br>
+                                    &nbsp; Jangka Waktu : <?= $datareklame['t_jangkawaktu'].' '.$t_tipewaktu ?><br>
+                                    &nbsp; Kompensasi : Rp <?=number_format($datareklame['t_kompensasi'], 0, ',', '.');?><br>
+                                    &nbsp; Parameter : <?= $datareklame['t_parameter']." x ".$datareklame['t_tarifpajak']."%"." - ".number_format($datareklame['t_kompensasi'], 0, ',', '.');?><br>
+                                    &nbsp; Jumlah Pajak &nbsp;&nbsp;: Rp. <?= number_format($data['t_jmlhpajak'], 0, ',', '.'); ?>
+                               <!-- <?= $atribut ?>-->
+                                
+                                <?php }elseif($data['s_jenisobjek'] == 8){?>
+                                    
+                                  <table style="vertical-align: top;font-size: 11px">
+
+                                         <tr>
+                                            
+                                            <td>
+                                                Total biaya 
+                                            </td>
+                                            <td>
+                                                : Rp <?= number_format($detailair['t_totalbiaya'], 0, ",", ".") ?>,-
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Debit Air
+                                            </td>
+                                            <td>
+                                                : <?= number_format($detailair['t_debitair'], 0, ",", ".") ?> m<sup>3</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                VPA
+                                            </td>
+                                            <td>
+                                                : <?= number_format($detailair['t_volume'], 0, ",", ".") ?> m<sup>3</sup>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Parameter Lain
+                                            </td>
+                                            <td>
+                                                <?php if ($detailair['t_kualitasair']==1||$detailair['t_kualitasair']=='1'){
+                                                    $kualitas = "Kualitas Jelek";
+                                                }elseif($detailair['t_kualitasair']==4||$detailair['t_kualitasair']=='4'){
+                                                    $kualitas ="Kualitas Baik Tidak Ada Alternatif";
+                                                }else{
+                                                    $kualitas ="Kualitas Baik Memiliki Alternatif";
+                                                }
+
+                                                if($detailair['t_peruntukan']==1||$detailair['t_peruntukan']=='1'){
+                                                    $peruntukan = "Non Niaga";
+                                                }elseif($detailair['t_peruntukan']==2||$detailair['t_peruntukan']=='2'){
+                                                    $peruntukan = "Niaga Kecil";
+                                                }elseif($detailair['t_peruntukan']==3||$detailair['t_peruntukan']=='3'){
+                                                    $peruntukan = "Niaga Besar";
+                                                }elseif($detailair['t_peruntukan']==4||$detailair['t_peruntukan']=='4'){
+                                                    $peruntukan = "Industri Kecil";
+                                                }else{
+                                                    $peruntukan = "Industri Besar";
+                                                } 
+
+                                                 if (empty($detailair['t_kompensasi'])) {
+                                                     $detailair['t_kompensasi']=0;
+                                                 }
+
+                                                ?>
+                                                : <?=$kualitas.", ".$peruntukan?>
+
+
+                                            
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                               Total NPA
+                                            </td>
+                                            <td>
+                                                : <?= number_format($detailair['t_npa'], 0, ",", ".") ?> m<sup>3</sup>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                               Kompensasi
+                                            </td>
+                                            <td>
+                                                : Rp. <?= number_format($detailair['t_kompensasi'], 0, ",", ".") ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Perhitungan 
+                                            </td>
+                                            <td>
+                                                : (Total NPA x Tarif(<?=$detailair['t_tarifdasarkorek']?> %) - Kompensasi)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                               Jumlah Pajak 
+                                            </td>
+                                            <td>
+                                                : Rp. <?= number_format($detailair['t_jmlhpajak'], 0, ',', '.'); ?>,-
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <?php } ?>
+
+                                
+
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right; vertical-align: top">
+                                <?= number_format($data['t_jmlhpembayaran'], 2, ',', '.'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; border: 1px solid black; border-collapse: collapse" colspan="3">
+                                Jumlah Setoran Pajak
+                            </td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right">
+                                <?= number_format($data['t_jmlhpembayaran'], 2, ',', '.'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; border-collapse: collapse" colspan="4">
+                                Dengan Huruf : <i># <?= terbilang($data['t_jmlhpembayaran']); ?> Rupiah #</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_delapan" style="width: 100%">
+            <tr>
+                <td class="border_kanan" style="width: 33%; padding-top: 10px; text-align: center; padding-bottom: 10px;">
+                    Ruang untuk Teraan<br>
+                    Kas Register / Tanda Tangan
+                    <br>
+                    Petugas Penerima
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    (..................................)
+                    <!-- <?=$ar_ttd0->s_namapej?> -->
+                    <br>
+
+                    <!-- NIP. <?= $ar_ttd0->s_nippej ?> -->
+                </td>
+                <td class="border_kanan" style="width: 33%; padding-top: 10px; text-align: center; padding-bottom: 10px;">
+                    Diterima Oleh,<br>
+                    Petugas Tempat Pembayaran<br>
+                    Tanggal : <?=date('d-m-Y', strtotime($data['t_tglpembayaran']))?><br>
+                    Bend. Penerimaan / Pembantu Bend. Penerimaan
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    
+                    <?php
+                    if($data['t_viapembayaran'] == 1){
+                        echo $ar_ttd0->s_namapej.'<br>';
+                    echo 'NIP. '.$ar_ttd0->s_nippej;
+                        // echo 'MUHAMMAD<br>NIP. 19740703 2007 01 0 018';
+                    }else{
+                        echo 'Bank KALTENG'; 
+                    }
+                    ?> 
+                </td>
+                <td style="text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                    <?= $ar_pemda->s_namaibukotakabkota ?>, <?= date('d-m-Y', strtotime($data['t_tglpembayaran'])); ?><br>
+                    Penyetor,<br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    ( ............................. )
+                </td>
+            </tr>
+        </table>
+        <p style="font-size: 9px">  Beri tanda V pada kotak sesuai dengan ketetapan yang dimiliki</p>
+    </body>
+</html>

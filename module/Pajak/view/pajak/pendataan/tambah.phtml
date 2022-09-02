@@ -1,0 +1,15 @@
+
+<?php
+$judul = '<span style="font-size: 28px;"><b>DAFTAR WAJIB PAJAK ' . strtoupper($jenisobjek['s_namajenis']) . '</b></span>';
+$link = '<a href="' . $this->url('pendataan') . '/'.$jenisobjek['s_idjenis'].'"class="btn btn-danger btn-sm btn-flat">
+                        <i class="fa fa-undo"></i>&nbsp;&nbsp;Kembali
+                    </a> ';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<div class="tab-content">
+    <?= $this->partial('grid_daftarwp.phtml'); ?>
+    
+</div>
+<?= $this->MenuHelper()->headeratas_end(); ?>             

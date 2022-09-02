@@ -1,0 +1,323 @@
+<?php
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/barcodecoy/qrlib.php');
+
+$PNG_TEMP_DIR = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' .
+        $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' .
+        $data['t_idtransaksi'] . '/';
+
+$PNG_WEB_DIR = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' .
+        $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' .
+        $data['t_idtransaksi'] . '/';
+
+if (!file_exists($PNG_TEMP_DIR)) {
+    mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/', 0777, true);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/', 0777);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/', 0777);
+    chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/', 0777);
+}
+
+$errorCorrectionLevel = 'L';
+$matrixPointSize = 3;
+$barcode = $data['t_kodebayar'];
+
+$filename = $PNG_TEMP_DIR . '' . $data['t_idjenisobjek'] . '_' . $data['t_periodepajak'] . '_' . $data['t_idtransaksi'] . '_' . md5($barcode . '|' . $errorCorrectionLevel . '|' . $matrixPointSize) . '.png';
+QRcode::png($barcode, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+$tampilbarcode = '<img width="70" src="' . $_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_periodepajak'] . '/' . $data['t_idtransaksi'] . '/' . basename($filename) . '" />';
+
+if(empty($datadetailsampah['t_idtransaksi'])){
+    echo '<h1>RETRIBUSI SAMPAH BELUM DILAKUKAN PENGINPUTAN TRANSAKSI.</h1>';
+}elseif(empty($datadetailsampah['t_tglpembayaran'])){
+    echo '<h1>RETRIBUSI SAMPAH BELUM DILAKUKAN PEMBAYARAN.</h1>';
+}else{
+
+?>
+
+
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 10pt;
+            }    
+            table{
+                font-family:sans-serif;
+            }
+            .halaman{
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+            @page{
+                margin: 25px;
+                header: html_MyCustomHeader;
+                footer: html_MyCustomFooter;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $masaawal_date = explode("-", $data['t_masaawal']);
+        $masaakhir_date = explode("-", $data['t_masaakhir']);
+        
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglpenetapan = date('d', strtotime($data['t_tglpenetapan'])) . " " . $abulan[date('m', strtotime($data['t_tglpenetapan']))] . " " . date('Y', strtotime($data['t_tglpenetapan']));
+        ?>
+
+        <div class="halaman" style="border:3px double #000;padding: 75px 80px 85px 80px;background: url(<?=$this->basePath().'/public/img/bingkai.png'?>);">
+            <table cellpadding="4" cellspacing="4" class="" style="font-size:10pt;width: 100%;border-bottom: 3px double #000;">
+                <tr>
+                    <td style="width: 10%;">
+                        <img src="<?= $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>" style="width:80px;"  />
+                    </td>
+                    <td style="text-align:center;vertical-align: top;">
+                        <b style="font-size:16pt;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?></b>
+                        <br>
+                        <b style="font-size:22pt;"><?= strtoupper($ar_pemda->s_namainstansi) ?></b>
+                        <br>
+                        <?= $ar_pemda->s_alamatinstansi ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?> <?= $ar_pemda->s_namaibukotakabkota ?>
+                    </td>
+                </tr>
+            </table>
+            <table cellpadding="2" cellspacing="2" width="100%" style="margin-top:10px;">
+                <tr>
+                    <th colspan="4" style="font-size:12pt;padding-bottom: 10px;">
+                        <?php
+                        if($datadetail['t_jenisbangunan'] == 4){
+                            $judul_header = '<p>HAK PAKAI PEMANFAATAN TANAH / LAHAN PEMERINTAH<br>
+                        DI AREAL PASAR SENTRAL FAIDOMA DARFUAR BIAK</p>';
+                            $paragraf_satu = '<P>Memberikan Hak untuk Pemanfaatan lahan untuk mendirikan bangunan Toko / Kios yang berlokasi di Kompleks Pasar Sentral Faidama Darfuar Biak,
+                            untuk disewakan kepada:</P>';
+                        }elseif($datadetail['t_jenisbangunan'] == 5){
+                            $judul_header = '<p>HAK PAKAI MENEMPATKAN KIOS DAN PERTOKOAN<br>
+                                MILIK PEMERINTAH DAERAH KABUPATEN '.strtoupper($ar_pemda->s_namakabkota).'<br>
+                        DI AREAL PASAR SENTRAL FAIDOMA DARFUAR BIAK</p>';
+                            $paragraf_satu = '<P>Memberikan Hak untuk Menempati Kios dan Pertokoan di Kompleks Pasar Sentral Faidama Darfuar Biak,
+                            untuk disewakan kepada:</P>';
+                        }
+                        
+                        
+                        echo $judul_header;
+                        ?>
+                        
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center;padding-bottom: 10px;">NOMOR : 503/<?=$data['t_nourut']?></td>
+                </tr>
+                <tr>
+                    <th colspan="4" style="font-size:18pt;padding-bottom: 10px;">
+                        <p>KEPALA <?= strtoupper($ar_pemda->s_namainstansi) ?></p>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:justify;padding-bottom: 10px;">
+                        <?=$paragraf_satu?>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="5%">1.</td>
+                    <td width="35%">Nama</td>
+                    <td width="2%">:</td>
+                    <td ><?=$data['t_nama']?></td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>NPWRD</td>
+                    <td>:</td>
+                    <td><?=$data['t_npwpd']?></td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>Luas Kios</td>
+                    <td>:</td>
+                    <td><?=$datadetail['t_panjang'].' x '.$datadetail['t_lebar'].' M'?></td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>Retribusi Sewa Kios Perbulan</td>
+                    <td>:</td>
+                    <td>Rp. <?=number_format(($data['t_jmlhpajak']/$datadetail['t_jmlhbln']), 0, ',', '.').',- /bulan ( '.$datadetail['t_luas'].' M2 x Rp. '.number_format($datadetail['t_tarifdasar'], 0, ',', '.').',- )'?></td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>Retribusi Persampahan</td>
+                    <td>:</td>
+                    <td>Rp. <?=number_format(($datadetailsampah['t_jmlhpajak']/$datadetailsampah['t_jmlhbln']), 0, ',', '.').',- /'.$datadetailsampah['s_satuan']?></td>
+                </tr>
+                <tr>
+                    <td>6.</td>
+                    <td>Nama Usaha</td>
+                    <td>:</td>
+                    <td><?=$data['t_namaobjek']?></td>
+                </tr>
+                <tr>
+                    <td>7.</td>
+                    <td>Masa Berlaku</td>
+                    <td>:</td>
+                    <td><?=$masaawal_date[2].' '.$abulan[$masaawal_date[1]].' '.$masaawal_date[0].''
+                        . ' s/d '.$masaakhir_date[2].' '.$abulan[$masaakhir_date[1]].' '.$masaakhir_date[0]?></td>
+                </tr>
+                <tr>
+                    <td>8.</td>
+                    <td>Keterangan</td>
+                    <td>:</td>
+                    <td><?=$datadetail['t_keteranganpasar']?></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:justify;padding-top: 10px;padding-bottom: 20px;">
+                        <P>
+                            Hak Pakai ini diberikan untuk dipergunakan sebagaimana mestinya dengan memenuhi semua ketentuan dan kewajiban,
+                            larangan serta dan sanksi dan ketentuan lain yang telah diatur dalam perundang - undangan yang berlaku.
+                        </P>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;margin-bottom:48px;">
+                <tr>
+                    <td style="width: 40%; padding: 10px; padding-left: 15px;vertical-align:bottom;">
+
+                    </td>
+                    <td style="text-align: center; padding-top: 10px">
+                        <table style="border-bottom:1px solid #000;">
+                            <tr>
+                                <td align="left">Dikeluarkan di</td>
+                                <td>:</td>
+                                <td align="left"><?= $ar_pemda->s_namaibukotakabkota ?></td>
+                            </tr>
+                            <tr>
+                                <td align="left">Pada Tanggal</td>
+                                <td>:</td>
+                                <td align="left"><?= $t_tglpenetapan ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 40%; padding: 10px; padding-left: 15px;vertical-align:bottom;">
+
+                    </th>
+                    <th style="text-align: center; padding-top: 15px">
+                        <?= strtoupper($ar_ttd0->s_jabatanpej) ?><br>
+                        KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota) ?><br>
+                        <br><br><br><br><br>
+                        <?= $ar_ttd0->s_namapej ?><br>
+                        <?= strtoupper($ar_ttd0->s_pangkatpej) ?><br>
+                        NIP. <?= $ar_ttd0->s_nippej ?>
+                    </th>
+                </tr>
+            </table>
+        </div>
+<!--    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+            <tbody>
+                <tr>
+                        <td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>
+                    <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%"></td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>-->
+</body>
+</html>
+
+<?php } ?>

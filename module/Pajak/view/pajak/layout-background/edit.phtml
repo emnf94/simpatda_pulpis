@@ -1,0 +1,40 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+
+
+<?php
+$judul = '<span style="font-size: 24px;"><b>FORM BACKGROUND [EDIT]</b></span>';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<?= $this->form()->openTag($frm) ?>
+<div class="col-sm-12">
+    <label class="col-sm-4 control-label">FILE BACKGROUND</label>
+    <div class="col-md-4">
+        <?= $this->formHidden($frm->get('id_bg')) ?>  
+        <?= $this->formRow($frm->get('t_file_bg')) ?>
+        <img src="<?= $this->basePath().$data->file_bg; ?>" style="width: 300px;"/>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-4 control-label">STATUS BACKGROUND</label>
+    <div class="col-md-3">
+        <?= $this->formSelect($frm->get("status_bg")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-4 control-label"></label>
+    <div class="col-md-4">
+        <?= $this->formInput($frm->get('simpan')) ?> 
+        <a href="<?= $this->url('background') ?>" class="btn btn-warning btn-sm">Kembali</a>
+    </div>
+</div>
+<?= $this->form()->closeTag($frm) ?>
+<?= $this->MenuHelper()->headeratas_end(); ?> 

@@ -1,0 +1,174 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pembayaranskpdt');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper" style="font-size: 12px">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div>
+                <h3 style="color: blue">
+                    Pemeriksaan SKPDT &nbsp; -- <b style="color: red"> NO SPTPD : <?= $datatransaksi['t_nourut'] . " / " . $datatransaksi['t_periodepajak']; ?></b> --
+                </h3>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($form) ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal Pendaftaran</label>
+                                <div class="col-md-2">
+                                    : <?= $datatransaksi['t_tgldaftar'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-md-4">
+                                    : <?= $datatransaksi['t_nama'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-md-10">
+                                    : <?= $datatransaksi['t_alamat'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakel'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakec'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupaten'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">NIOP</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nop'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_namaobjek'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-sm-10">
+                                    : <?= $datatransaksi['t_alamatobjek'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakelobjek'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakecobjek'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupatenobjek'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Transaksi</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tgl. Pendataaan</label>
+                                <div class="col-sm-4">
+                                    : <?= date('d-m-Y', strtotime($datatransaksi['t_tglpendataan'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">No. SPTPD</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nourut']; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Masa Pajak</label>
+                                <div class="col-sm-4">
+                                    : <?= date('d-m-Y', strtotime($datatransaksi['t_masaawal'])) ?> s/d <?= date('d-m-Y', strtotime($datatransaksi['t_masaakhir'])) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pad10B">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data SKPDT</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">No. SKPDT</label>
+                                <div class="col-md-2">
+                                    : <?= $datatransaksi['t_noskpdt']; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Periode SKPDT</label>
+                                <div class="col-md-1">
+                                    : <?= $datatransaksi['t_periodeskpdt']; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Kode Rekening</label>
+                                <div class="col-md-10">
+                                    : <?= $datatransaksi['korek']; ?> / <?= $datatransaksi['s_namakorek']; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-warning">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Form Pembayaran SKPDT</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tgl. Bayar</label>
+                                <div class="col-md-4">
+                                    <?= $this->formHidden($form->get("t_idskpdt")) ?>
+                                    <?= $this->formText($form->get("t_tglbayarskpdt")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Via Bayar</label>
+                                <div class="col-md-4">
+                                    <?= $this->formSelect($form->get("t_viabayarskpdt")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Total</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_jmlhbayarskpdt")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-default" id="tombolsimpan">
+                            <?= $this->formInput($form->get('Pembayaransubmit')) ?> 
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

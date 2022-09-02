@@ -1,0 +1,91 @@
+<div class="tab-pane" id="tab2">
+    <div class="example-box-wrapper" style="font-size: 11px">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Cetak Daftar Setoran
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetak" id="tglcetak"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Pembayaran
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglbayar0" id="tglbayar0"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                            <label class="col-md-1 control-label" style="text-align: center">s/d</label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglbayar1" id="tglbayar1"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-5">
+                                <select name="jenispajak" id="jenispajak" class="form-control">
+                                    <option value="">Semua Pajak</option>
+                                    <?php foreach ($dataobjek as $row) { ?>
+                                        <option value="<?= $row['s_idjenis'] ?>"><?= $row['s_namajenis'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class='col-md-12'> 
+                            <label class="col-md-3 control-label">
+
+                            </label>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpembayaran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpembayaranexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                            </div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function cetakpembayaran() {
+        window.open('<?= $this->url() ?>/cetakpembayaran?tglcetak=' + $("#tglcetak").val() + "&tglbayar0=" + $("#tglbayar0").val() + "&tglbayar1=" + $("#tglbayar1").val());
+    }
+
+    // function cetakpembayaran() {
+    //     window.open('<?= $this->url() ?>/cetakpembayaran?tglcetak=' + $("#tglcetak").val() + "&tglbayar0=" + $("#tglbayar0").val() + "&tglbayar1=" + $("#tglbayar1").val() + "&jenispajak=" + $("#jenispajak").val());
+    // }
+    
+    function cetakpembayaranexcel() {
+           window.open('<?= $this->url() ?>/cetakpembayaran?tglcetak=' + $("#tglcetak").val() + "&tglbayar0=" + $("#tglbayar0").val() + "&tglbayar1=" + $("#tglbayar1").val()+'&formatcetak=exel');
+    } 
+</script>

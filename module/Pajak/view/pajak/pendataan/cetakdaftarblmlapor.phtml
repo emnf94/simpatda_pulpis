@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <style type="text/css" media="print">
+            table, th, td {
+                border: 0.5px solid black;
+                border-collapse: collapse;
+            }
+            .font_empatbelas {
+                font-size: 14pt;
+            }    
+            @page {
+                /* ensure you append the header/footer name with 'html_' */
+                header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+                footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        ?>
+        <table width="100%" style="font-family:sans-serif">
+            <tr>
+                <td width="10%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="60"></td>
+                <td style="text-align:center; padding-right: 10%;border: 1px solid #fff;">
+                    <span style="font-size:12pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                    <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                    <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> <?= $notelp ?> <?= $ar_pemda->s_namaibukotakabkota ?> Kode Pos <?= $ar_pemda->s_kodepos ?></span>
+                </td>
+            </tr>
+        </table>
+        <hr style="line-height: 1px; color: black">
+        <h3 style="text-align: center;font-family:sans-serif;">DAFTAR WAJIB <?= strtoupper($datajenispajak['s_namajenis']) ?> YANG BELUM MELAPORKAN SPTPD<br>Masa Pajak <?= $abulan[$bulan] ?>  Tahun <?= $tahun ?></h3>
+        <p style="font-size: 10pt; line-height: 5px;font-family:sans-serif;"> 
+            Tanggal Cetak : <?= date('d-m-Y') ?>
+        </p>
+        <table cellpadding="4" cellspacing="4" width="100%" style="font-family: sans-serif;">
+            <tr style="background:#ccc;">
+                <th style="text-align: center">No.</th>
+                <th style="text-align: center">NPWPD</th>
+                <th style="text-align: center">Nama WP</th>
+                <th style="text-align: center">NIOP</th>
+                <th style="text-align: center">Nama OP</th>
+                <th style="text-align: center">Alamat OP</th>
+                <th style="text-align: center">No. Telp.</th>
+                <th style="text-align: center">No. HP.</th>
+            </tr>
+            <?php
+            $counter = 1;
+            foreach ($data as $k => $v) {
+                ?>
+                <tr>
+                    <td style="text-align: center"><?= $counter ?></td>
+                    <td><?= $v['t_npwpdwp'] ?></td>
+                    <td><?= $v['t_namawp'] ?></td>
+                    <td><?= $v['t_nop'] ?></td>
+                    <td><?= $v['t_namaobjek'] ?></td>
+                    <td><?= $v['t_alamatlengkapobjek'] ?></td>
+                    <td><?= $v['t_notelpobjek'] ?></td>
+                    <td><?= $v['t_nohpobjek'] ?></td>
+                </tr>
+                <?php
+                $counter++;
+            }
+            ?>
+        </table>
+    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family: serif;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 12px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+</body>
+</html>

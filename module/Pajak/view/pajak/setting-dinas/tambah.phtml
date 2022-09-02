@@ -1,0 +1,66 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+
+
+<?php
+$judul = 'FORM DINAS [TAMBAH]';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<?= $this->form()->openTag($frm) ?>    
+<div class="col-sm-12">
+    <label class="col-sm-1 control-label">Kode</label>
+    <div class="col-md-4">
+        <?= $this->formHidden($frm->get('s_iddinas')) ?>  
+        <?= $this->formRow($frm->get('s_kodedinas')) ?> 
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-1 control-label">Nama</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('s_namadinas')) ?> 
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-1 control-label">Jalan</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('jalan_dinas')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-1 control-label">Kecamatan</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('s_idkec')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-1 control-label">Kelurahan</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('s_idkel')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-md-4">
+        <?= $this->formInput($frm->get('simpan')) ?> 
+        <a href="<?= $this->url('setting_dinas') ?>" class="btn btn-warning btn-sm">Kembali</a>
+    </div>
+</div>
+<?= $this->form()->closeTag($frm) ?>  
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+<script>
+function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {s_idkec: $('#s_idkec').val()}, function (data) {
+            var aa = JSON.parse(data);
+            $("#s_idkel").html(aa.res);
+            $("#keckelluar").html(aa.keckelluar);
+        });
+    }
+</script>

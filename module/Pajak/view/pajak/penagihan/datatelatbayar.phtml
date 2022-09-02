@@ -1,0 +1,446 @@
+<?php
+$judul = '<span style="font-size: 28px;"><b>DATA TELAT BAYAR MELEWATI JATUH TEMPO</b></span>';
+$link = '<a href="#" onclick="opencetak_telatbayar()" class="btn bg-green btn-sm btn-flat">
+                        <i class="fa fa-print"></i> Cetak Data Telat Bayar
+                    </a>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<table id="datatelatbayar" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>NPWPD</th>
+            <th>NAMA PEMILIK</th>            
+            <th>NAMA BADAN</th>      
+            <th>NAMA OBJEK</th>       
+            <th>MASA PAJAK</th>  
+            <th>PERIODE</th>            
+            <th>PAJAK TERHUTANG</th>      
+            <th>TGL JATUH TEMPO</th> 
+            <th>TGL BAYAR</th> 
+            <th>Perintah</th>
+            <th>Jenis Ketetapan</th>  
+            <th>Jenis Pajak</th>  
+            <th>KODE REKENING</th>  
+            <th>NAMA REKENING</th>  
+            <th>JML HARI TELAT</th>  
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>   
+    <th></th> 
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+<?php
+    $idtabel = '#datatelatbayar';
+    $url = $this->url().'/dataGridTelatbayar';
+    $jmlkolom = 15;
+    $seleksi_kolom = "'0','10'"; //iki data sort di disabel
+    $pencarian_bawah = 1;
+    
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+
+    
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+
+<div class="modal fade" id="modalFormpenetapanSTPD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0073b7; color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-print"></i> FORM PENETAPAN STPD</h4></center>
+            </div>
+
+            <div class="panel-body">
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idtransaksi3" id="idtransaksi3">
+                                <input type="text" class="form-control" name="namawp3" id="namawp3" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwp3" id="alamatwp3" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Masa Pajak
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_masaawal" id="t_masaawal" data-date-format="dd-mm-yy" type="text" readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-1">s/d</div>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_masaakhir" id="t_masaakhir" data-date-format="dd-mm-yy" type="text" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Jatuh Tempo
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_tgljatuhtempo" id="t_tgljatuhtempo" data-date-format="dd-mm-yy" type="text" readonly="true">
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Pembayaran
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_tglpembayaran" id="t_tglpembayaran" data-date-format="dd-mm-yy" type="text" readonly="true">
+                                </div>
+                               
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jumlah Bayar
+                            </label>
+                            <div class="col-md-4">
+                                <input style="text-align: right;" type="text" class="form-control" name="t_jmlhpembayaran" id="t_jmlhpembayaran" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Ketetapan
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" name="t_tgldendapembayaran" id="t_tgldendapembayaran" data-date-format="dd-mm-yy" type="text" value="<?= date('d-m-Y'); ?>">
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Bulan Telat
+                            </label>
+                            <div class="col-md-4">
+                                <input style="text-align: right;" type="text" class="form-control" name="t_jmlhbulandendapembayaran" id="t_jmlhbulandendapembayaran" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jumlah Denda
+                            </label>
+                            <div class="col-md-4">
+                                <input style="text-align: right;" type="text" class="form-control" name="t_jmlhdendapembayaran" id="t_jmlhdendapembayaran" readonly="true">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="submitketetapandenda()"><i class="fa fa-save"></i> SIMPAN</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupFormpenetapanstpd()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalCetak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-gradient" style="color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b>CETAK DAFTAR TELAT BAYAR</b></h4></center>
+            </div>
+            <div class='panel-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="tgl0_telatbayar" id="tgl0_telatbayar"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy">
+                                </div>
+                            </div>
+                            <div class="col-md-1">s/d</div>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="tgl1_telatbayar" id="tgl1_telatbayar"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 form-horizontal">
+                            <label class='col-md-3 control-label'>
+                                Jenis Pajak
+                            </label>
+                            <div class='col-md-6'>
+                                <select class='form-control' name='t_jenispajak' id='t_jenispajak'>
+                                    <option value="">Silahkan Pilih</option>
+                                    <?php foreach ($this->MenuHelper()->getDatajenispajak() as $row) { ?>
+                                        <option value='<?= $row['s_idjenis'] ?>'><?= $row['s_namajenis'] ?></option>
+                                    <?php }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Kecamatan
+                            </label>
+                            <div class="col-md-6">
+                                <select name="kec_telatbayar" id="kec_telatbayar" onchange="comboKelurahanCamatTelatbayar()" class="form-control">
+                                    <option value="">Silahkan Pilih</option>
+                                    <?php foreach ($ar_kecamatan as $row) { ?>
+                                        <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Kelurahan/Desa
+                            </label>
+                            <div class="col-md-6">
+                                <select name="kel_telatbayar" id="kel_telatbayar" class="form-control">
+                                    <option value="">Silahkan Pilih</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" name="tglcetak_telatbayar" id="tglcetak_telatbayar"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd0_telatbayar" id="ttd0_telatbayar" class="form-control">
+<?php foreach ($ar_pejabat as $row) { ?>
+                                            <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+<?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Diperiksa Oleh
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd1_telatbayar" id="ttd1_telatbayar" class="form-control">
+<?php foreach ($ar_pejabat as $row) { ?>
+                                            <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+<?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <div class="col-sm-6">
+                        <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakdaftartelatbayarpdf()"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                        <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakdaftartelatbayarxls()"><i class="fa fa-file-excel-o"></i> EXCEL</a>
+                    </div>
+                    <div>
+                        <button class='btn btn-danger btn-sm' onclick='tutupcetak_telatbayar()'><i class='fa fa-close'></i> Tutup</button>
+                    </div>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    fr_tanggal("#tgl0_telatbayar");
+    fr_tanggal("#tgl1_telatbayar");
+    fr_tanggal("#tglcetak_telatbayar");
+    
+    function comboKelurahanCamatTelatbayar() {
+        $.post('<?= $this->url('pembukuan') ?>/comboKelurahanCamat', {t_kecamatan: $('#kec_telatbayar').val()}, function (data) {
+            $("#kel_telatbayar").html(data);
+        });
+    }
+    
+    function opencetak_telatbayar() {
+        $('#modalCetak').modal('show');
+    }
+    
+    function tutupcetak_telatbayar() {
+        $('#modalCetak').modal('hide');
+    }
+    
+    function cetakdaftartelatbayarpdf() {
+        window.open('<?= $this->url() ?>/cetakdaftartelatbayar?tglcetak=' + $("#tglcetak_telatbayar").val() + "&t_jenisobjek=" + $("#t_jenispajak").val() + "&jniscetak=1" + "&tgl0=" + $("#tgl0_telatbayar").val() + "&tgl1=" + $("#tgl1_telatbayar").val() + "&t_kecamatanobjek=" + $("#kec_telatbayar").val() + "&t_kelurahanobjek=" + $("#kel_telatbayar").val() + "&ttd0=" + $("#ttd0_telatbayar").val() + "&ttd1=" + $("#ttd1_telatbayar").val());
+    }
+    function cetakdaftartelatbayarxls() {
+        window.open('<?= $this->url() ?>/cetakdaftartelatbayar?tglcetak=' + $("#tglcetak_telatbayar").val() + "&t_jenisobjek=" + $("#t_jenispajak").val() + "&jniscetak=2" + "&tgl0=" + $("#tgl0_telatbayar").val() + "&tgl1=" + $("#tgl1_telatbayar").val() + "&t_kecamatanobjek=" + $("#kec_telatbayar").val() + "&t_kelurahanobjek=" + $("#kel_telatbayar").val() + "&ttd0=" + $("#ttd0_telatbayar").val() + "&ttd1=" + $("#ttd1_telatbayar").val());
+    }
+
+    fr_tanggal("#t_tgldendapembayaran");
+
+    function bukaCetakSTPD(a) {
+        $.post('<?= $this->url() ?>/cekjmltelat', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi3").val(aa.idtransaksi);
+            $("#namawp3").val(aa.namawp);
+            $("#alamatwp3").val(aa.alamatwp);
+            $("#t_masaawal").val(aa.t_masaawal);
+            $("#t_masaakhir").val(aa.t_masaakhir);
+            $("#t_jmlhpembayaran").val(aa.t_jmlhpembayaran);
+            $("#t_tgljatuhtempo").val(aa.t_tgljatuhtempo);
+            $("#t_tglpembayaran").val(aa.t_tglpembayaran);
+            $("#t_jmlhbulandendapembayaran").val(aa.t_jmlhbulandendapembayaran);
+            $("#t_jmlhdendapembayaran").val(aa.t_jmlhdendapembayaran);
+        });
+        $('#modalFormpenetapanSTPD').modal('show');
+    }
+    
+    function tutupFormpenetapanstpd() {
+        $('#modalFormpenetapanSTPD').modal('hide');
+    }
+
+    function submitketetapandenda() {
+        $.post('<?= $this->url() ?>/simpanketetapanstpd', {t_idtransaksi: $("#idtransaksi3").val(), t_tgldendapembayaran: $("#t_tgldendapembayaran").val() }, function (data) {
+            var aa = JSON.parse(data);
+            
+            if(aa.success == 1){
+                //if(confirm("Data Berhasil Di Simpan !")) {
+                    alert('DATA BERHASIL DI TETAPKAN');
+                    window.location.replace("<?= $this->url() ?>");
+                //}
+                dTable.ajax.reload();
+            }else{
+                
+            }
+            setTimeout(function () {
+                dTable.ajax.reload();
+            }, 1000);
+        });
+        
+    }
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'namawp') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenisketetapan') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->getDatajenisketetapan() as $key => $row) {
+                                        echo '<option value="' . $row['s_idsurat'] . '">' . $row['s_namasingkatsurat'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenispajak') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->getDatajenispajak() as $key => $row) {
+                                        echo '<option value="' . $row['s_idjenis'] . '">' . $row['s_namajenissingkat'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+           
+
+        });
+    }
+</script>
+

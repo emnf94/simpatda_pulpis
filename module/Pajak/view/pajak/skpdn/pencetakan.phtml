@@ -1,0 +1,176 @@
+<div class="tab-pane" id="tab2">
+    <div class="example-box-wrapper" style="font-size: 11px">
+        <div class="panel-group" id="accordion">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Cetak Data SKPDN
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetak" id="tglcetak"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Tanggal Pendaftaran
+                            </label>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tgldaftar0" id="tgldaftar0"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-1">S/D</div>
+                            <div class="col-md-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tgldaftar1" id="tgldaftar1"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kecamatan WP
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kecamatan" id="t_kecamatan" onchange="comboKelurahanCamat()" class="form-control">
+                                    <option value="">Silahkan Pilih</option>
+                                    <?php foreach ($ar_kecamatan as $row) { ?>
+                                        <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-2 control-label">
+                                Kelurahan WP
+                            </label>
+                            <div class="col-md-5">
+                                <select name="t_kelurahan" id="t_kelurahan" class="form-control">
+                                    <option value="">Silahkan Pilih</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class='col-md-2 control-label'>
+                                Pilih Kolom
+                            </label>
+                            <script type='text/javascript'>
+                                /* Multiselect inputs */
+                                $(function () {
+                                    "use strict";
+                                    $(".multi-select").multiSelect();
+                                    $(".ms-container").append("<i class='glyph-icon icon-exchange'></i>");
+                                });
+                            </script>
+                            <div class='col-md-9'>
+                                <select multiple class='multi-select' name='' id='pilihanselect'>
+                                    <?php
+                                    foreach ($descPendaftaran as $row) {
+                                        switch ($row['field']) {
+                                            case "t_tgldaftar": $datarow = "Tgl. Daftar";
+                                                break;
+                                            case "t_npwpd": $datarow = "NPWPD";
+                                                break;
+                                            case "t_nama": $datarow = "Nama";
+                                                break;
+                                            case "t_nik": $datarow = "NIK";
+                                                break;
+                                            case "t_alamat_lengkap": $datarow = "Alamat";
+                                                break;
+                                            case "t_notelp": $datarow = "No. Telp.";
+                                                break;
+                                            case "t_kodepos": $datarow = "Kode Pos";
+                                                break;
+                                            case "t_email": $datarow = "Email";
+                                                break;
+                                            default:
+                                                $datarow = "";
+                                        }
+                                        if ($datarow == '') {
+                                            
+                                        } else {
+                                            echo "<option value='" . $row['field'] . "'>" . $datarow . "</option>";
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='col-md-12'> 
+                            <label class="col-md-2 control-label">
+                                
+                            </label>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpendaftaran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakpendaftaranexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                            </div>
+                        </div>          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {t_kecamatan: $('#t_kecamatan').val()}, function (data) {
+            $("#t_kelurahan").html(data);
+        });
+    }
+
+    function comboKelurahanCamatOp() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {t_kecamatan: $('#t_kecamatanop').val()}, function (data) {
+            $("#t_kelurahanop").html(data);
+        });
+    }
+
+    // Cetak Pendaftaran WP
+    function cetakpendaftaran() {
+        window.open('<?= $this->url() ?>/cetakpendaftaran?tglcetak=' + $("#tglcetak").val() + "&tgldaftar0=" + $("#tgldaftar0").val() + "&tgldaftar1=" + $("#tgldaftar1").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&t_kelurahan=" + $("#t_kelurahan").val() + "&pilihanselect=" + $("#pilihanselect").val());
+    }
+
+    function cetakpendaftaranexcel() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranexcel?tglcetak=' + $("#tglcetak").val() + "&tgldaftar0=" + $("#tgldaftar0").val() + "&tgldaftar1=" + $("#tgldaftar1").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&t_kelurahan=" + $("#t_kelurahan").val() + "&pilihanselect=" + $("#pilihanselect").val());
+    }
+
+    // Cetak Pendaftaran OP
+    function cetakpendaftaranop() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranop?tglcetakop=' + $("#tglcetakop").val() + "&tgldaftar0op=" + $("#tgldaftar0op").val() + "&tgldaftar1op=" + $("#tgldaftar1op").val() + "&t_kecamatanop=" + $("#t_kecamatanop").val() + "&t_kelurahanop=" + $("#t_kelurahanop").val() + "&pilihanselectop=" + $("#pilihanselectop").val());
+    }
+
+    function cetakpendaftaranopexcel() {
+        window.open('<?= $this->url() ?>/cetakpendaftaranopexcel?tglcetakop=' + $("#tglcetakop").val() + "&tgldaftar0op=" + $("#tgldaftar0op").val() + "&tgldaftar1op=" + $("#tgldaftar1op").val() + "&t_kecamatanop=" + $("#t_kecamatanop").val() + "&t_kelurahanop=" + $("#t_kelurahanop").val() + "&pilihanselectop=" + $("#pilihanselectop").val());
+    }
+
+    function bukaCetakKartuData(a) {
+        $.post('<?= $this->url() ?>/dataWP', {t_idwp: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idwpkartudata").val(aa.idwp);
+            $("#namawpkartudata").val(aa.namawp);
+            $("#alamatwpkartudata").val(aa.alamatwp);
+            $("#objekpajak").html(aa.objekpajak);
+        });
+        $('#modalCetakKartuData').modal('show');
+    }
+</script>

@@ -1,0 +1,49 @@
+
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Setting Tarif Kelompok Jalan Reklame
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <form id="formreklame" method="post" action="<?= $this->url() ?>">
+                                <table class="table table-bordered table-condensed table-striped">
+
+                                    <tr>
+                                        <th style="background-color: #00BCA4; color: white; text-align: center;">Kelompok Jalan</th>
+                                        <th style="background-color: #00BCA4; color: white; text-align: center;">Harga Dasar Lokasi (Rp.)</th>
+                                        <th style="background-color: #00BCA4; color: white; text-align: center;">Skor Lokasi</th>
+                                    </tr>
+                                    <?php
+                                    foreach ($data as $row):
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['s_namakelompokjalan'] ?><input type="hidden" name="s_idkelompokjalan[]" value="<?= $row['s_idkelompokjalan'] ?>" /></td>
+                                            <td><input type="text" name="s_hargadasarlokasi[]" class="form-control text-right" value="<?= $row['s_hargadasarlokasi'] ?>" onkeypress="return numbersonly(this.value, event);"/> </td>
+                                            <td><input type="text" name="s_skorlokasi[]" class="form-control text-right" value="<?= $row['s_skorlokasi'] ?>" onkeypress="return numbersonly(this.value, event);"/></td>
+                                        </tr>
+                                        <?php
+                                    endforeach;
+                                    ?>
+
+                                </table>
+                                <div class="col-sm-12">
+                                    <input type="submit" value="Update" class="btn btn-primary btn-sm form-control" />
+                                    <a href="<?= $this->url('main') ?>" class="btn btn-warning btn-sm form-control">Kembali</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

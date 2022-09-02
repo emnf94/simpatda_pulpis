@@ -1,0 +1,838 @@
+<?php
+
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '1024M');
+if($data_get['jnscetak'] == 1){
+
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+$mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 10, 5, 1, 1, 1, '');
+//$mpdf = new mPDF('utf-8', array(215.9,279.4), 7, 7, 7, 7, 7, 1, '');
+
+$numbering = '<htmlpageheader name="MyHeader1">
+
+            </htmlpageheader>
+
+            <htmlpageheader name="MyHeader2">
+
+            </htmlpageheader>
+
+            <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>
+
+            <htmlpagefooter name="MyFooter2">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>';
+
+}else{
+    header("Content-type: application/vnd-ms-excel");
+
+    header("Content-Disposition: attachment; filename=cetakrekapitulasi" . $data_get['tgl0']."_sd_".$data_get['tgl1'].".xls");
+    
+    $numbering = "";
+}
+if(!empty($data_get['jenisobjek'])){
+$jenisobjek = $this->MenuHelper()->cekjenispajak($data_get['jenisobjek']);
+$namaobjeknya = strtoupper($jenisobjek['s_namajenis']);
+}else{
+    $namaobjeknya = '';
+}
+
+if(!empty($kec_realisasi)){
+    $cekkecamatan = $this->MenuHelper()->cekkecamatan($kec_realisasi);
+    $namakec = "<br> KECAMATAN ".$cekkecamatan['s_namakec'];
+}else{
+    $namakec = "";
+}
+
+if(!empty($kel_realisasi)){
+    $cekkelurahan = $this->MenuHelper()->cekkelurahan($kel_realisasi);
+    $namakel = "KELURAHAN ".$cekkelurahan['s_namakel'];
+}else{
+    $namakel = "";
+}
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        <style type="text/css">            
+            @page {
+                size: auto;
+                odd-header-name: html_MyHeader1;
+                odd-footer-name: html_MyFooter1;
+              }
+              @page chapter2 {
+                  odd-header-name: html_MyHeader2;
+                  odd-footer-name: html_MyFooter2;
+              }
+              @page noheader {
+                  odd-header-name: _blank;
+                  odd-footer-name: _blank;
+              }
+              div.chapter2 {
+                  page-break-before: always;
+                  page: chapter2;
+              }
+              div.noheader {
+                  page-break-before: always;
+                  page: noheader;
+              }
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            
+
+        </style>
+    </head>
+    <body>
+            
+            '.$numbering.'
+
+            <table width="100%" style="border-spacing:0px;">
+                <tr>
+                    <td colspan="14">
+                        <center>
+                        <b style="font-size: 18px;">REKAPITULASI '.  $namaobjeknya.'
+                        '.$namakec.' '.$namakel.'
+                        <br>TANGGAL PENDATAAN '.$data_get['tgl0'].' s/d '.$data_get['tgl1'].' </b>
+                        </center>    
+                    </td>
+                </tr>
+                 <tr>
+                    <td colspan="14">&nbsp;</td>
+                </tr>      
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" >
+                       <center><b> NO</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> NPWPD</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> NAMA WAJIB PAJAK</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>ALAMAT</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JENIS KETETAPAN</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>NO SPTPD</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>REKENING</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> MASA PAJAK</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> DASAR PENGENAAN PAJAK (DPP)</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK TERHUTANG</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK KURANG ATAU LEBIH BAYAR</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> SANKSI ADMINISTRASI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH PAJAK YANG DIBAYAR</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> KETERANGAN</b></center>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>1</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 2</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>3</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 4</b></center>
+                    </td >
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>5</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 6</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>7</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>8</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 9</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 10</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 11</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>12</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>13</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>14</b></center>
+                    </td>
+                    
+                </tr>';
+                
+                
+                $totalkeseluruhan = 0;
+                $no = 1;
+                $clast_rek_kel = '';
+                $clast_rek = '';
+                $totalsubkel = 0;
+                $totalsubkec = 0;
+                
+                $totaldasarpengenaan = 0;
+                $totalpajakterutang = 0;
+                $totalkekurangan = 0;
+                $totaldenda = 0;
+                $totalpembayaran = 0;
+                
+                
+                $totalsubkel_dsrpengenaan = 0;
+                $totalsubkel_terhutang = 0;
+                $totalsubkel_krglbh = 0;
+                $totalsubkel_sanksi = 0;
+                $totalsubkel_dbyr = 0;
+                
+                $totalsubkec_dsrpngenaan = 0;
+                $totalsubkec_trhutang = 0;
+                $totalsubkec_krglbh = 0;
+                $totalsubkec_sanksi = 0;
+                $totalsubkec_dbyr = 0;
+                
+                
+                $totalsubtgl_dsrpengenaan = 0;
+                $totalsubtgl_terhutang = 0;
+                $totalsubtgl_krglbh = 0;
+                $totalsubtgl_sanksi = 0;
+                $totalsubtgl_dbyr = 0;
+                
+                $last_tanggalpendataan = '';
+                $last_tanggalpendataan_name = '';
+                
+                $last_berdasarrekening = '';
+                $last_berdasarrekening_name = '';
+                
+                $totalsubrek_dsrpengenaan = 0;
+                $totalsubrek_terhutang = 0;
+                $totalsubrek_krglbh = 0;
+                $totalsubrek_sanksi = 0;
+                $totalsubrek_dbyr = 0;
+                
+                foreach ($data as $k => $v) {
+                    
+                    
+if($v['t_bidangusaha'] == 2){
+    $namawp = $v['t_nama_badan'];
+    $alamatwp = '';
+    if(!empty($v['t_jalan_badan'])){
+        $alamatwp .= $v['t_jalan_badan'];
+    }
+    if(!empty($v['t_rt_badan'])){
+        $alamatwp .= ' RT '.$v['t_rt_badan'];
+    }
+    if(!empty($v['t_rw_badan'])){
+        $alamatwp .= ' RW '.$v['t_rw_badan'];
+    }
+    if(!empty($v['s_namakelbadan'])){
+        $alamatwp .= ' Kel. '.$v['s_namakelbadan'];
+    }
+    if(!empty($v['s_namakecbadan'])){
+        $alamatwp .= ' Kec. '.$v['s_namakecbadan'];
+    }
+    if(!empty($v['t_kabupaten_badan'])){
+        $alamatwp .= ' Kab. '.$v['t_kabupaten_badan'];
+    }
+}else{
+    $namawp = $v['t_nama'];
+    $alamatwp = '';
+    if(!empty($v['t_alamat'])){
+        $alamatwp .= $v['t_alamat'];
+    }
+    if(!empty($v['t_rt'])){
+        $alamatwp .= ' RT '.$v['t_rt'];
+    }
+    if(!empty($v['t_rw'])){
+        $alamatwp .= ' RW '.$v['t_rw'];
+    }
+    if(!empty($v['s_namakel'])){
+        $alamatwp .= ' Kel. '.$v['s_namakel'];
+    }
+    if(!empty($v['s_namakec'])){
+        $alamatwp .= ' Kec. '.$v['s_namakec'];
+    }
+    if(!empty($v['t_kabupaten'])){
+        $alamatwp .= ' Kab. '.$v['t_kabupaten'];
+    }
+}
+
+if(!empty($v['t_jmlhpembayaran'])){
+    if($v['t_jenispajak'] == 6){
+        $jmlhpembayaran = number_format($v['t_pajak'], 2, ",", ".");
+        $belumbayar = 0;
+        $belumbayartotalnya = 0;
+    }else{
+        $jmlhpembayaran = number_format($v['t_jmlhpembayaran'], 2, ",", ".");
+        $belumbayar = 0;
+        $belumbayartotalnya = 0;
+    }
+}else{
+    if($v['t_jenispajak'] == 6){
+        $jmlhpembayaran = 0;
+        $belumbayar = number_format($v['t_pajak'], 2, ",", ".");
+        $belumbayartotalnya = $v['t_pajak'];
+    }else{
+    
+        $jmlhpembayaran = 0;
+        $belumbayar = number_format($v['t_jmlhpajak'], 2, ",", ".");
+        $belumbayartotalnya = $v['t_jmlhpajak'];
+    
+    }
+}
+
+                if ($data_get['urutkan'] == 1) {
+                    if ($last_tanggalpendataan <> $v['t_tglpendataan']) {
+
+                        if ($last_tanggalpendataan <> '') {
+
+                             $html .= '<tr>
+                                            <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;" align="right"><b>JUMLAH '. strtoupper($last_tanggalpendataan_name) .'</b>&nbsp;</td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_terhutang, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_krglbh, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_sanksi, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>   
+                              </tr>'; 
+
+                             $totalsubtgl_dsrpengenaan = 0;
+                             $totalsubtgl_terhutang = 0;
+                             $totalsubtgl_krglbh = 0;
+                             $totalsubtgl_sanksi = 0;
+                             $totalsubtgl_dbyr = 0;
+                        }
+
+
+                        $html .= '<tr>
+                                                <td colspan="14" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>TANGGAL PENDATAAN : ' . date('d-m-Y', strtotime($v['t_tglpendataan'])) . '</b></td>
+
+                                            </tr>';
+
+                        $last_tanggalpendataan = $v['t_tglpendataan'];
+                        $last_tanggalpendataan_name = date('d-m-Y', strtotime($v['t_tglpendataan']));
+                        //$counter = 1;
+                    }
+                }
+
+
+                if($data_get['urutkan'] == 2){    
+                    if ($clast_rek_kel <> $v['t_kelurahan_objek']) {
+                        if ($clast_rek_kel <> '') {
+                            $html .= '<tr>
+                                            <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Jumlah se-kelurahan '. strtoupper($clast_rek_name_kel) .'</td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_terhutang, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_krglbh, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_sanksi, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>
+
+
+                                </tr>';
+                            $totalSetoran_sub_kel = 0;
+                            $totalsubkel = 0;
+                            
+                            $totalsubkel_dsrpengenaan = 0;
+                            $totalsubkel_terhutang = 0;
+                            $totalsubkel_krglbh = 0;
+                            $totalsubkel_sanksi = 0;
+                            $totalsubkel_dbyr = 0;
+                            
+                        }
+                        if ($clast_rek <> $v['t_kecamatan_objek']) {
+                            if ($clast_rek <> '') {
+                                $html .= '<tr>
+
+                                           <td colspan="8" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b><i>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</i></b></td>
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_dsrpngenaan, 2, ',', '.') . '</b></td>
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_trhutang, 2, ',', '.') . '</b></td>
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_krglbh, 2, ',', '.') . '</b></td>
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_sanksi, 2, ',', '.') . '</b></td>
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_dbyr, 2, ',', '.') . '</b></td>
+                                                
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">&nbsp;</td>
+
+
+                                        </tr>';
+                                $totalSetoran_sub = 0;
+                                $totalsubkec = 0;
+                                
+                                $totalsubkec_dsrpngenaan = 0;
+                                $totalsubkec_trhutang = 0;
+                                $totalsubkec_krglbh = 0;
+                                $totalsubkec_sanksi = 0;
+                                $totalsubkec_dbyr = 0;
+                                
+                            }
+                            $html .= '<tr>
+                                        <td colspan="14" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Kecamatan : <b> '. $v['s_namakecobjek'] .'</td>
+
+                                        </tr>';
+                            $clast_rek = $v['t_kecamatan_objek'];
+                            $clast_rek_name = $v['s_namakecobjek'];
+                            $counter = 1;
+                        }
+
+
+
+                        $html .= '<tr>
+                                <td class="border_atas border_bawah border_kiri">&nbsp;</td>
+                                <td colspan="13" class="border_atas border_bawah border_kanan">Kelurahan : <b> '. $v['s_namakelobjek'] .'</td>
+
+                                </tr>';
+                        $clast_rek_kel = $v['t_kelurahan_objek'];
+                        $clast_rek_name_kel = $v['s_namakelobjek'];
+                        $counter = 1;
+                    }
+                }
+                
+                
+                if ($data_get['urutkan'] == 3) {
+                    if($v['t_jenispajak'] == 6){
+                        $koderek = $v['koderek_minerba'];
+                        $s_namakorek = $v['s_namakorek_minerba'];
+                    }else{
+                        $koderek = $v['koderek'];
+                        $s_namakorek = $v['s_namakorek'];
+                    }
+                    
+                    if ($last_berdasarrekening <> $koderek) {
+
+                        if ($last_berdasarrekening <> '') {
+
+                             $html .= '<tr>
+                                            <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;" align="right"><b>JUMLAH '. strtoupper($last_berdasarrekening_name) .'</b>&nbsp;</td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_terhutang, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_krglbh, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_sanksi, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>   
+                              </tr>'; 
+
+                             $totalsubrek_dsrpengenaan = 0;
+                             $totalsubrek_terhutang = 0;
+                             $totalsubrek_krglbh = 0;
+                             $totalsubrek_sanksi = 0;
+                             $totalsubrek_dbyr = 0;
+                        }
+
+
+                        $html .= '<tr>
+                                                <td colspan="14" align="left" style="border-bottom: 1px solid #000;border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><b>REKENING : ' . $s_namakorek . '</b></td>
+
+                                            </tr>';
+
+                        $last_berdasarrekening = $koderek;
+                        $last_berdasarrekening_name = $s_namakorek;
+                        //$counter = 1;
+                    }
+                }
+                    
+                    $html .= '
+                        <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 20px;">
+                        <center>'.$no.'</center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;">
+                        <center>'.$v['t_npwpd'].'</center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 160px;">
+                        '.$namawp.'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" >
+                        '.$alamatwp.'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>'.$v['s_namasingkatsurat'].'</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>'.$v['t_nourut'].'</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; vertical-align: top;">';
+                    $detailrekening = '';
+                    if ($data_get['urutkan'] == 3) {
+                        if($v['t_jenispajak'] == 6){
+                            $detailrekening .= $v['koderek_minerba'].' <br>
+                            '.$v['s_namakorek_minerba'];
+                        }else{
+                            $detailrekening .= $v['koderek'].' <br>
+                            '.$v['s_namakorek'];
+                        }
+                        
+                    }else{
+                    
+                    
+                    if($v['t_jenispajak'] == 6){
+                        
+                        if(!empty($data_get['s_idkorek'])){
+                            $detailrekening .= $v['koderek_minerba'].' <br>
+                            '.$v['s_namakorek_minerba'];
+                        }else{
+                        
+                            $datadetailminerba = $this->MenuHelper()->detailminerba($v['t_idtransaksi']);
+
+                            if(count($datadetailminerba) > 0){
+                                $detailrekening .= '<table style="border-spacing: 0px;">
+                                        <tr>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Kode Rekening</td>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Nama Rekening</td>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Jumlah</td>    
+                                                        </tr> 
+                                        ';
+                                foreach ($datadetailminerba as $key => $detminerba) {
+                                    $detailrekening .= '<tr>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">'.$detminerba['koderek'].'</td>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">'.$detminerba['s_namakorek'] .'</td>
+                                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">'.number_format($detminerba['t_pajak'], 2, ",", ".") .'</td>    
+                                                        </tr>    
+                                            ';
+
+                                }
+                                $detailrekening .= '</table>';
+                            }
+                        }
+                        
+                    }else{
+                        $detailrekening .= $v['koderek'].' <br>
+                            '.$v['s_namakorek'];
+                    }
+                    
+                    }
+                    
+                    $html .= '
+                        '.$detailrekening.'
+                        
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" >
+                        ' . date('d-m-Y', strtotime($v['t_masaawal'])) . ' S/D ' . date('d-m-Y', strtotime($v['t_masaakhir'])) . '
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['t_dasarpengenaan'], 2, ",", ".") . '
+                    
+                    
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                    ';
+                    
+                    if($v['t_jenispajak'] == 6){
+                        $jmlpajakterhutang = number_format($v['t_pajak'], 2, ",", ".");
+                    }else{
+                        $jmlpajakterhutang = number_format($v['t_jmlhpajak'], 2, ",", ".");
+                    }
+                    $html .= ' '.$jmlpajakterhutang.'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.$belumbayar.'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['t_jmlhdendapembayaran'], 2, ",", ".").'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.$jmlhpembayaran.'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;">
+                        ';
+                    if(!empty($v['s_idskpd'])){
+                        $nama_skpd = 'DARI SKPD';
+                    }else{
+                        $nama_skpd = 'DARI WP';
+                    }
+                    $html .= ' '.$nama_skpd.'
+                    </td>
+                   
+                </tr>';
+                    
+                    if($v['t_jenispajak'] == 6){
+                        $totalsubkel_dsrpengenaan += $v['t_dasarpengenaan'];
+                        $totalsubkel_terhutang += $v['t_pajak'];
+                        $totalsubkel_krglbh += $belumbayartotalnya;
+                        $totalsubkel_sanksi += $v['t_jmlhdendapembayaran'];
+                        $totalsubkel_dbyr += $v['t_pajak'];
+
+                        $totalsubkec_dsrpngenaan += $v['t_dasarpengenaan'];
+                        $totalsubkec_trhutang += $v['t_pajak'];
+                        $totalsubkec_krglbh += $belumbayartotalnya;
+                        $totalsubkec_sanksi += $v['t_jmlhdendapembayaran'];
+                        $totalsubkec_dbyr += $v['t_pajak'];
+
+                        $totaldasarpengenaan += $v['t_dasarpengenaan'];
+                        $totalpajakterutang += $v['t_pajak'];
+                        $totalkekurangan += $belumbayartotalnya;
+                        $totaldenda += $v['t_jmlhdendapembayaran'];
+                        $totalpembayaran += $v['t_pajak'];
+
+
+                        $totalsubtgl_dsrpengenaan += $v['t_dasarpengenaan'];
+                        $totalsubtgl_terhutang += $v['t_pajak'];
+                        $totalsubtgl_krglbh += $belumbayartotalnya;
+                        $totalsubtgl_sanksi += $v['t_jmlhdendapembayaran'];
+                        $totalsubtgl_dbyr += $v['t_pajak'];
+
+
+                        $totalsubrek_dsrpengenaan += $v['t_dasarpengenaan'];
+                        $totalsubrek_terhutang += $v['t_pajak'];
+                        $totalsubrek_krglbh += $belumbayartotalnya;
+                        $totalsubrek_sanksi += $v['t_jmlhdendapembayaran'];
+                        $totalsubrek_dbyr += $v['t_pajak'];
+                    }else{
+                    
+                    $totalsubkel_dsrpengenaan += $v['t_dasarpengenaan'];
+                    $totalsubkel_terhutang += $v['t_jmlhpajak'];
+                    $totalsubkel_krglbh += $belumbayartotalnya;
+                    $totalsubkel_sanksi += $v['t_jmlhdendapembayaran'];
+                    $totalsubkel_dbyr += $v['t_jmlhpembayaran'];
+                    
+                    $totalsubkec_dsrpngenaan += $v['t_dasarpengenaan'];
+                    $totalsubkec_trhutang += $v['t_jmlhpajak'];
+                    $totalsubkec_krglbh += $belumbayartotalnya;
+                    $totalsubkec_sanksi += $v['t_jmlhdendapembayaran'];
+                    $totalsubkec_dbyr += $v['t_jmlhpembayaran'];
+                    
+                    $totaldasarpengenaan += $v['t_dasarpengenaan'];
+                    $totalpajakterutang += $v['t_jmlhpajak'];
+                    $totalkekurangan += $belumbayartotalnya;
+                    $totaldenda += $v['t_jmlhdendapembayaran'];
+                    $totalpembayaran += $v['t_jmlhpembayaran'];
+                    
+                    
+                    $totalsubtgl_dsrpengenaan += $v['t_dasarpengenaan'];
+                    $totalsubtgl_terhutang += $v['t_jmlhpajak'];
+                    $totalsubtgl_krglbh += $belumbayartotalnya;
+                    $totalsubtgl_sanksi += $v['t_jmlhdendapembayaran'];
+                    $totalsubtgl_dbyr += $v['t_jmlhpembayaran'];
+                    
+                    
+                    $totalsubrek_dsrpengenaan += $v['t_dasarpengenaan'];
+                    $totalsubrek_terhutang += $v['t_jmlhpajak'];
+                    $totalsubrek_krglbh += $belumbayartotalnya;
+                    $totalsubrek_sanksi += $v['t_jmlhdendapembayaran'];
+                    $totalsubrek_dbyr += $v['t_jmlhpembayaran'];
+                    
+                    }
+                    
+                    $no++;
+                }
+               
+                    if($data_get['urutkan'] == 1){
+                        if ($last_tanggalpendataan <> '') {
+
+                             $html .= '<tr>
+                                            <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;" align="right"><b>JUMLAH '. strtoupper($last_tanggalpendataan_name) .'</b>&nbsp;</td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_terhutang, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_krglbh, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_sanksi, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubtgl_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>   
+                              </tr>'; 
+
+                             $totalsubtgl_dsrpengenaan = 0;
+                             $totalsubtgl_terhutang = 0;
+                             $totalsubtgl_krglbh = 0;
+                             $totalsubtgl_sanksi = 0;
+                             $totalsubtgl_dbyr = 0;
+                        }
+                    }    
+                
+                if($data_get['urutkan'] == 2){     
+                    if ($clast_rek_kel <> '') {
+                        $html .= '<tr>
+                                        <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Jumlah se-kelurahan '. strtoupper($clast_rek_name_kel) .'</td>
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_terhutang, 2, ',', '.') . '</i></b></td>
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_krglbh, 2, ',', '.') . '</i></b></td>
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_sanksi, 2, ',', '.') . '</i></b></td>
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubkel_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                        <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>
+
+
+                            </tr>';
+                        $totalSetoran_sub_kel = 0;
+                        $totalsubkel = 0;
+
+                        $totalsubkel_dsrpengenaan = 0;
+                        $totalsubkel_terhutang = 0;
+                        $totalsubkel_krglbh = 0;
+                        $totalsubkel_sanksi = 0;
+                        $totalsubkel_dbyr = 0;
+
+                    }
+
+                    if ($clast_rek <> '') {
+                        $html .= '<tr>
+
+                                   <td colspan="8" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b><i>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</i></b></td>
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_dsrpngenaan, 2, ',', '.') . '</b></td>
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_trhutang, 2, ',', '.') . '</b></td>
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_krglbh, 2, ',', '.') . '</b></td>
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_sanksi, 2, ',', '.') . '</b></td>
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right"><b>'. number_format($totalsubkec_dbyr, 2, ',', '.') . '</b></td>
+
+                                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">&nbsp;</td>
+
+
+                                </tr>';
+                        $totalSetoran_sub = 0;
+                        $totalsubkec = 0;
+
+                        $totalsubkec_dsrpngenaan = 0;
+                        $totalsubkec_trhutang = 0;
+                        $totalsubkec_krglbh = 0;
+                        $totalsubkec_sanksi = 0;
+                        $totalsubkec_dbyr = 0;
+
+                    }
+                }    
+                
+                if($data_get['urutkan'] == 3){
+                    if ($last_berdasarrekening <> '') {
+
+                             $html .= '<tr>
+                                            <td colspan="8" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;" align="right"><b>JUMLAH '. strtoupper($last_berdasarrekening_name) .'</b>&nbsp;</td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_dsrpengenaan, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_terhutang, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_krglbh, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_sanksi, 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($totalsubrek_dbyr, 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">&nbsp;</td>   
+                              </tr>'; 
+
+                             $totalsubrek_dsrpengenaan = 0;
+                             $totalsubrek_terhutang = 0;
+                             $totalsubrek_krglbh = 0;
+                             $totalsubrek_sanksi = 0;
+                             $totalsubrek_dbyr = 0;
+                        }
+                }        
+                
+                $html .= '
+                        <tr>
+                    <td colspan="8" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH TOTAL</b></center>
+                    </td>
+                    
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        <b>'.number_format($totaldasarpengenaan, 2, ",", ".").'</b>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        <b>'.number_format($totalpajakterutang, 2, ",", ".").'</b>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        <b>'.number_format($totalkekurangan, 2, ",", ".").'</b>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        <b>'.number_format($totaldenda, 2, ",", ".").'</b>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        <b>'.number_format($totalpembayaran, 2, ",", ".").'</b>
+                    </td >
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="14">
+                    &nbsp;
+                    </td>
+                </tr>    
+                 <tr>
+                    <td colspan="8">
+                        &nbsp;
+                    </td>
+                    <td colspan="6">';
+                        if(!empty($data_get['ttd_realisasi'])){
+                            $namapejabat = $this->MenuHelper()->getnamapejabat($data_get['ttd_realisasi']);
+                            $html .= '
+                                <center>'.$ar_pemda->s_ttdkabkot.', '.$data_get['tglcetak'].'
+                                    <br><b>'.$namapejabat['s_jabatanpej'].'
+                                    
+                                    <br><br><br><br>
+                                    <u>&nbsp;&nbsp;&nbsp;'.$namapejabat['s_namapej'].'&nbsp;&nbsp;&nbsp;</u></b>
+                                        <br>'.$namapejabat['s_nippej'].'
+                                    </center>';
+                        }
+                $html .= '    
+                    </td>
+                </tr>    
+            </table>
+        </div>
+    </body>
+</html>
+';
+if ($data_get['jnscetak'] == 1) {
+
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakrekapitulasi" . $data_get['tgl0']."_sd_".$data_get['tgl1'].".pdf", "I");
+}else{
+    echo $html;    
+}
+?>    

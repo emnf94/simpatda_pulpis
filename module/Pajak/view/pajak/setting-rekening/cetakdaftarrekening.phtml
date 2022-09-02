@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <style type="text/css">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }   
+            @page{
+                /* ensure you append the header/footer name with 'html_' */
+                header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+                footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+            } 
+        </style>
+    </head>
+    <body style="font-size: 8pt">
+        <div class="printarea">            
+            <h2 style="text-align: center">DAFTAR KODE REKENING</h2>
+            <table width="100%" class="font_sepuluh" style="font-family: sans-serif;">
+                <tr style="">
+                    <th style="width: 5%;background-color: greenyellow;text-align: center;">
+                        No.
+                    </th>
+                    <th style="background-color: greenyellow;text-align: center;">
+                        Kode Rekening
+                    </th>
+                    <th style="background-color: greenyellow;text-align: center;">
+                        Nama Rekening
+                    </th>
+                    <th style="background-color: greenyellow;text-align: center;">
+                        Presentase (%)
+                    </th>
+                    <th style="background-color: greenyellow;text-align: center;">
+                        Tanggal Awal Berlaku
+                    </th>
+                    <th style="background-color: greenyellow;text-align: center;">
+                        Tanggal Akhir Berlaku
+                    </th>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($datarekening as $v) {
+                    
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $counter ?>
+                        </td>
+
+                        <?php
+                        if ($v['s_rinciankorek'] == '00') {
+                            echo '<td style="background-color: black;color:#fff; text-align:left;border:1px solid #fff;">'.$v['korek'].'</td>
+                                  <td style="background-color: black;color:#fff; text-align:left;border:1px solid #fff;">'.$v['s_namakorek'].'</td>';
+                        }else{
+                            echo '<td style="text-align:left">'.$v['korek'].'</td>';
+                            if($v['s_sub1korek'] != ''){
+                                echo '<td style="text-align:left"> - '.$v['s_namakorek'].'</td>';
+                            }else{
+                                echo '<td style="text-align:left">'.$v['s_namakorek'].'</td>';
+                            }
+                        }    
+                        ?>
+                        <td style="text-align: center;">
+                            <?= $v['s_persentarifkorek'] ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= date('d-m-Y', strtotime($v['s_tglawalkorek'])); ?>
+                        </td>
+                        <?php
+                        if ($v['s_tglakhirkorek'] < date('Y-m-d')) {
+                            echo '<td style="text-align: center;color:red;font-weight:bold;">'.date('d-m-Y', strtotime($v['s_tglakhirkorek'])).'</td>';
+                        }else{
+                            echo '<td style="text-align: center;">'.date('d-m-Y', strtotime($v['s_tglakhirkorek'])).'</td>';
+                        }    
+                        ?>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </table>
+        </div>
+        <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+                <tbody>
+                    <tr>
+                            <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                        <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                        <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </htmlpagefooter>
+    </body>
+</html>
+

@@ -1,0 +1,277 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pembatalan');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Pembatalan</h3>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-success">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data WP & OP</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Bayar</label>
+                            <div class="col-md-4">
+                                <?= $this->formHidden($form->get("t_idketetapan")) ?>
+                                <?= $this->formhidden($form->get("t_jenispajak")) ?>
+                                <?= $this->formHidden($form->get("t_jenisketetapan")) ?>
+                                <input type="text" class="form-control" id="t_kodebayar">
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" id="cariketetapan" class="btn btn-warning btn-xs"><span class="glyph-icon icon-search-minus"></span> Cari Ketetapan</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NPWP</label>
+                            <div class="col-md-4">
+                                <input type="text" id="t_npwpdwp" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama WP</label>
+                            <div class="col-md-4">
+                                <input type="text" id="t_namawp" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Alamat WP</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="t_alamat_lengkap" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NOP</label>
+                            <div class="col-md-4">
+                                <input type="text" id="t_nop" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama OP</label>
+                            <div class="col-md-4">
+                                <input type="text" id="t_namaobjek" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Alamat OP</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="t_alamatlengkapobjek" readonly=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-success">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Ketetapan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Ketetapan</label>
+                            <div class="col-md-2">
+                                <input type="text" id="t_namaketetapan" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">No. Ketetapan</label>
+                            <div class="col-md-2">
+                                <input type="text" id="t_nopenetapan" class="form-control" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Ketetapan</label>
+                            <div class="col-md-2">
+                                <input type="text" id="t_tglpenetapan" class="form-control" readonly="">
+                            </div>
+                            <label class="col-sm-2 control-label">Tgl. Jatuh Tempo</label>
+                            <div class="col-md-2">
+                                <input type="text" id="t_tgljatuhtempo" class="form-control" readonly="" style="background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jumlah Ketetapan</label>
+                            <div class="col-md-4">
+                                <input type="text" id="t_jmlhpajak" class="form-control" readonly="" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pembatalan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Pembatalan</label>
+                            <div class="col-md-2">
+                                <?= $this->formText($form->get("t_tglpembatalan")) ?>
+                            </div>
+                            <label class="col-sm-2 control-label">Jam Pembatalan</label>
+                            <div class="col-md-2">
+                                <?= $this->formText($form->get("t_jampembatalan")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Disposisi</label>
+                            <div class="col-md-4">
+                                <?= $this->formSelect($form->get("t_disposisi")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Petugas Lapangan</label>
+                            <div class="col-md-4">
+                                <?= $this->formSelect($form->get("t_petugaslapangan")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Alasan</label>
+                            <div class="col-md-6">
+                                <?= $this->formTextarea($form->get("t_alasan")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('submit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Isi "Kode Bayar" Terlebih Dahulu.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalPembayaran" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Data sudah dibayarkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalPembatalan" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Data sudah dibatalkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalTidakAdaData" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs" style="width: 300px">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyph-icon icon-warning"></span><b> Peringatan</b></h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">Data tidak ditemukan.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyph-icon icon-close"></span> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#t_tglpembatalan').change(function() {
+        $.post('<?= $this->url() ?>/formattgl', {
+            tgl: $('#t_tglpembatalan').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_tglpembatalan").val(aa.tgl);
+        });
+    });
+    $('#t_jampembatalan').change(function() {
+        $.post('<?= $this->url() ?>/formatjam', {
+            jam: $('#t_jampembatalan').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_jampembatalan").val(aa.jam);
+        });
+    });
+    $('#cariketetapan').click(function() {
+        if ($("#t_kodebayar").val() == '') {
+            $('#myModal').modal('show');
+        } else {
+            cariKetetapan();
+        }
+    });
+
+    function cariKetetapan() {
+        $.post('<?= $this->url() ?>/cariKetetapan', {
+            t_kodebayar: $("#t_kodebayar").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            if (aa.status === 3) {
+                $('#t_idketetapan').val(aa.t_idketetapan);
+                $('#t_jenispajak').val(aa.t_jenispajak);
+                $('#t_jenisketetapan').val(aa.t_jenisketetapan);
+                $('#t_namawp').val(aa.t_namawp);
+                $('#t_npwpdwp').val(aa.t_npwpdwp);
+                $('#t_alamat_lengkap').val(aa.t_alamat_lengkap);
+                $('#t_namaobjek').val(aa.t_namaobjek);
+                $('#t_nop').val(aa.t_nop);
+                $('#t_alamatlengkapobjek').val(aa.t_alamatlengkapobjek);
+                $('#t_namaketetapan').val(aa.t_namaketetapan);
+                $('#t_nopenetapan').val(aa.t_nopenetapan);
+                $('#t_tglpenetapan').val(aa.t_tglpenetapan);
+                $('#t_tgljatuhtempo').val(aa.t_tgljatuhtempo);
+                $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            } else if (aa.status === 1) {
+                $('#myModalPembatalan').modal('show');
+            } else if (aa.status === 2) {
+                $('#myModalPembayaran').modal('show');
+            } else if (aa.status === 0) {
+                $('#myModalTidakAdaData').modal('show');
+            }
+        });
+    }
+</script>

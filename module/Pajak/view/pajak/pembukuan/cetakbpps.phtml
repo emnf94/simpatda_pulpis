@@ -1,0 +1,123 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $via = [0 => 'BKP & BANK', 1 => 'BKP', 2 => 'BANK'];
+        ?>
+        <div>
+            <table width="100%" style="font-family:sans-serif">
+                <tr>
+                    <td width="7%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="60"></td>
+                    <td style="text-align:center; padding-right: 7%;border: 1px solid #fff;">
+                        <span style="font-size:14pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:16pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> <?= $notelp ?> <?= $ar_pemda->s_namaibukotakabkota ?> Kode Pos <?= $ar_pemda->s_kodepos ?></span>
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            <h3 style="text-align: center; text-decoration: underline;">BUKU BESAR PEMBANTU VIA:<?= $via[(int) $viapembayaran] ?></h3>
+            <h4 style="text-align:center;">TAHUN ANGGARAN: <?= date('Y', strtotime($tgl1)) ?></h4>
+
+            <p style="font-style: italic;"><?= $tgl1 ?> s/d <?= $tgl2 ?></p>
+            <table width="100%" cellpadding="4" cellspacing="4" style="border-collapse: collapse;border-top:4px double black; table-layout: fixed; border-spacing: 0; text-align: center;font-family:arial;" border="0" class="table_bpps">
+                <tr style="text-align: center;background:#ccc;">
+                    <th style="border: 1px solid black; border-bottom: 1px solid black;">
+                    No.</th>
+                    <th style="border: 1px solid black; text-align: center;">Nama Rekening</th>
+                    <th style="border: 1px solid black; text-align: center;">Tgl. Pembayaran</th>
+                    <th style="border: 1px solid black; text-align: center;">Nama OPD/Instansi</th>
+                    <th style="border: 1px solid black; text-align: center;">Keterangan</th>
+                    <!-- <th style="border: 1px solid black; text-align: center;">NPWPD</th> -->
+                     
+                    <th style="border: 1px solid black; text-align: center;">Jumlah</th>
+                </tr>
+
+                <?php
+                $denda = 0; 
+                
+                $no_parent = 1;
+                $total_parent = 0;
+                foreach ($parent_korek['namakorek'] as $col_parent => $row_parent):
+                    ?>
+                    <tr>
+                        <td style="border: 1px solid black;border-bottom: 1px solid black;" align="left"><?= $no_parent ?></td>
+                        <td style="border: 1px solid black;border-bottom: 1px solid black;" align="left" colspan="6"><b><?= $row_parent ?></b></td>
+                    </tr>
+
+                    <?php
+                    $no_child = 1;
+                    $total_child = 0;
+                    $totalpembayaran = $row['t_jmlhpembayaran'] + $row['t_jmlhbayardenda'];
+                    
+                    foreach ($data as $row):
+                        
+                        if ($row['s_jenisobjek'] == $parent_korek['jeniskorek'][$col_parent]):
+                            
+                            ?>
+                            <tr>
+                                <td style="border: 1px solid black;border-bottom: 1px solid black;text-align: left;"><?= $no_parent . '.' . $no_child ?></td>
+                                <td style="border: 1px solid black; text-align: left;" ><?= $row['korek'] ?> || <?= $row['korek_child'] ?></td>
+                                 <td style="border: 1px solid black;" ><?=date('d-m-Y', strtotime($row['t_tglpembayaran'])) ?></td>
+                                <td style="border: 1px solid black; text-align: left;">
+                                    
+                                    <?= $row['t_namasatker'] ?>     
+                                </td>
+                                <td style="border: 1px  solid black; text-align: left;" ><?=$row['t_keterangan'] ?></td>
+                                <!-- <td style="border: 1px solid black;" ><?= $row['t_npwpd'] ?></td> -->
+                               
+                                
+                                <td style="border: 1px solid black; text-align: right;"><?= number_format($row['t_jmlhpembayaran'] + $row['t_jmlhbayardenda'], 0, ',', '.') ?></td>
+                            </tr>
+
+                            <?php
+                            $no_child++;
+                            $total_child += $row['t_jmlhpembayaran'] + $row['t_jmlhbayardenda'] ;
+                        endif;
+                    endforeach;
+                    ?>
+                    <tr>
+                        <td colspan="5" align="center" style="border: 1px solid black;border-bottom: 1px solid black;"><b>Jumlah <?= $row_parent ?></b></td>
+                        <td align="right" style="border: 1px solid black;"><b><?= number_format($total_child, 0, ',', '.') ?></b></td>
+                    </tr>
+
+                    <?php
+                    $total_parent += $total_child;
+                    $no_parent++;
+                endforeach;
+                ?>
+                <tr style="border: 1px solid black">
+                    <td colspan="5" style="text-align: right;border: 1px"><b>Jumlah Total</b></td>
+                    <td style="text-align: right;border: 1px solid black"><b><?= number_format($total_parent, 0, ',', '.') ?></b></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+
+<style type="text/css" media="print">
+    /*    table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }*/
+    div.chapter2 {
+        page-break-before: always;
+        page: chapter2;
+    }
+    div.noheader {
+        page-break-before: always;
+        page: noheader;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+    @page {
+        margin: 30px 40px 50px 30px;
+        /* ensure you append the header/footer name with 'html_' */
+        header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+        footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+    }
+</style>
+

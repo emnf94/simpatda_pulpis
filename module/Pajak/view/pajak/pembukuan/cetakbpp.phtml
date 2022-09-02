@@ -1,0 +1,172 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $bulan_text = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
+        ?>
+        <div>
+            <div>
+                <div>
+                    <p style="text-align: center; font-size: 10pt; font-weight: BOLD;">
+                        KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">
+                        <?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 1px">
+                        <?= strtoupper($ar_pemda->s_alamatinstansi); ?>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <h4 style="text-align: center">BUKU PENERIMAAN DAN PENYETORAN<br>Bulan <?= $bulan_text[$bulan - 1] ?> Tahun <?= $tahun ?></h4>
+
+            <table width="100%" class="font_sembilan data" style="text-align: center">
+                <tr>
+                    <td rowspan="2"><b>NO</b></td>
+                    <td colspan="5"><b>PENERIMAAN</b></td>
+                    <td colspan="3"><b>PENYETORAN</b></td>
+                    <td rowspan="2"><b>KETERANGAN</b></td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Tanggal</b>
+                    </td>
+
+                    <td>
+                        <b>Kode Bayar</b>
+                    </td>
+                    <td>
+                        <b> Kode Rekening </b>
+                    </td>
+                    <td>
+                        <b> Uraian </b>
+                    </td>
+                    <td>
+                        <b>Jumlah</b>
+                    </td>
+                    <td>
+                        <b>Tanggal</b>
+                    </td>
+                    <td>
+                        <b>No.STS</b>
+                    </td>
+                    <td>
+                        <b>Jumlah</b>
+                    </td>
+
+                </tr>
+                <?php
+                $total_penerimaan = 0;
+                $total_penyetoran = 0;
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    ?>
+                    <tr>
+                        <td><?= $counter++ ?></td>
+                        <td style="text-align: center">
+                            <?= date('d/m/Y', strtotime($v['tglbayar'])) ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= $v['nobukti'] ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= $v['korek'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['uraian'] ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['penerimaan'], 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= ($v['tglsetor'] != NULL) ? date('d/m/Y', strtotime($v['tglsetor'])) : '-' ?>
+                        </td>
+                        <td style="text-align: center">
+                            <?= $v['nosts'] ?>
+                        </td>
+                        <td style="text-align: right">
+                            <?= number_format($v['penyetoran'], 0, ',', '.') ?>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                    $total_penerimaan += $v['penerimaan'];
+                    $total_penyetoran += $v['penyetoran'];
+                }
+                ?>
+                    <tr>
+                        <td colspan="5"><b>Jumlah</b></td>
+                        <td style="text-align: right;"><b><?=  number_format($total_penerimaan,0,',','.')?></b></td>
+                        <td colspan="2"></td>
+                        <td style="text-align: right;"><b><?=  number_format($total_penyetoran,0,',','.')?></b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><b>Selisih (Penerimaan - Penyetoran)</b></td>
+                        <td style="text-align: right;"><b><?=  number_format($total_penerimaan-$total_penyetoran,0,',','.')?></b></td>
+                        <td colspan="2"></td>
+                        <td style="text-align: right;"></td>
+                        <td></td>
+                    </tr>
+                    
+            </table>
+            <div>
+                <div style="float:left; width: 35%; text-align: center">
+                    <div>&nbsp;</div>
+                    <div>Mengetahui</div>
+                    <div><?= $ar_mengetahui->s_jabatanpej ?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?= $ar_mengetahui->s_namapej ?></div>
+                    <div><?= $ar_mengetahui->s_nippej ?></div>
+                </div>
+                <div style="float:right;width: 35%; text-align: center;" >
+                    <div><?= $ar_pemda->s_namaibukotakabkota ?>, <?= date('d-m-Y') ?></div>
+                    <div style="text-align:center;">Diperiksa Oleh</div>
+                    <div><?= $ar_diperiksa->s_jabatanpej ?></div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div style="text-decoration:underline;"><?= $ar_diperiksa->s_namapej ?></div>
+                    <div><?= $ar_diperiksa->s_nippej ?></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    /*    .font_sembilan table, .font_sembilan table > th, .font_sembilan table > td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }*/
+    .font_sembilan{
+        font-size: 9pt;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+    .data, .data tr, .data td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    body {
+        font-size: 9pt;
+    }
+</style>
+
+

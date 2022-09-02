@@ -1,0 +1,412 @@
+
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 24px;"><b>DAFTAR PELAPORAN WAJIB PAJAK<br>(HOTEL, RESTORAN, PARKIR, PPJ)</b></span>';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+<div class="col-md-12" id="hidden_div" style="display: none;">
+    <form method="post" action="<?= $this->url('penagihan');?>/wpbelumlapor" id="demo-form" class="form-horizontal pad15L pad15R pad15T" data-parsley-validate="data-parsley-validate" enctype="multipart/form-data">    
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary" style="border: 1px solid #0073b7;">
+                    <div class="box-header" style="background-color: #337ab7;">
+                        <center><h3 class="box-title" style="color: white;font-size: 18px;">CETAK SURAT TEGURAN UNTUK MELAPORKAN SPTPD</h3></center>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NPWPD</label>
+                            <div class="col-sm-4">
+                                <input name="t_npwpd" id="t_npwpd" class="form-control" readonly="readonly" value="" type="text">                        </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NAMA WAJIB PAJAK</label>
+                            <div class="col-sm-4">
+                                <input name="t_nama" id="t_nama" class="form-control" readonly="readonly" value="" type="text">                        </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NAMA OBJEK PAJAK</label>
+                            <div class="col-sm-4">
+                                <input name="t_namaobjek" id="t_namaobjek" class="form-control" readonly="readonly" value="" type="text">                        </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">ALAMAT OBJEK PAJAK</label>
+                            <div class="col-sm-4">
+                                <textarea class="form-control" id="t_alamatwpobjek" name="t_alamatwpobjek">     </textarea>                       
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_idobjek" id="t_idobjek" type="hidden">                            
+                                    <input name="t_jenispajak" id="t_jenispajak" type="hidden">
+                                    <input name="t_periodepajak" id="t_periodepajak" class="form-control" value="" type="text">                            
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_masaawal" id="t_masaawal" class="form-control" required="required" value="" type="text" readonly="readonly">                            </div>
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input name="t_masaakhir" id="t_masaakhir" class="form-control" required="required" value="" type="text" readonly="readonly">                            </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <input name="t_idkorek" id="t_idkorek" value="10" type="hidden">                            
+                                <input name="t_korek" id="t_korek" class="form-control" required="required" readonly="readonly" value="" type="text">                        </div>
+                            <!--<div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()" title="cari"><span class="fa fa-search"></span></button></div>-->
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-4">
+                                <input name="t_namakorek" id="t_namakorek" class="form-control" required="required" readonly="readonly" value="" type="text">                        </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl Cetak</label>
+                            <div class="col-sm-2">
+                                <input name="tglcetak_st" id="tglcetak_st" class="form-control" required="required" value="<?= date('d-m-Y');?>" type="text" >                   
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                                <label class="col-md-2 control-label">
+                                    Penandatangan
+                                </label>
+                                <div class="col-md-4">
+                                    <select id="ttd0_st" class="form-control">
+                                        <?php foreach ($ar_pejabat as $row) { ?>
+                                            <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                    </div>
+                    <script type="text/javascript">
+                        fr_tanggal("#tglcetak_st");
+
+                        function cetaksuratteguran() {
+                            window.open('<?= $this->url() ?>/cetakstlapor?idobjekwp=' + $("#t_idobjek").val() + "&ttd0=" + $("#ttd0_st").val() + "&masaawal=" + $("#t_masaawal").val() + "&masaakhir=" + $("#t_masaakhir").val() + "&tglcetak=" + $("#tglcetak_st").val());
+                        }
+                    </script>
+                    <div class='modal-footer'>
+                        <div class='col-sm-12'> 
+                            <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaksuratteguran()"><i class="fa fa-file-pdf-o"></i> CETAK PDF</a>
+                            <button class='btn btn-primary btn-sm' onclick='tutupFormskpdjabatan()'><i class='fa fa-close'></i> Tutup</button>
+                        </div>              
+                    </div> 
+                    
+                </div>
+            </div>
+        </div></form>
+</div>
+
+<style>
+    .pencarianperiode {
+
+        width: 100px;
+        height: 37px;
+        padding: 10px 16px;
+        font-size: 15pt;
+        line-height: 1.1;
+        color: #555;
+        background-color: #FFF;
+        background-image: none;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    }
+</style>
+<?php
+if (!empty($_GET['cariperiode'])) {
+    $tahuncari = $_GET['cariperiode'];
+} else {
+    $tahuncari = date('Y');
+}
+?>
+<div class="col-sm-12">
+    <center>Periode Pajak : &nbsp;
+
+        <input name="cari_periode_pajak" id="cari_periode_pajak" class="pencarianperiode" value="<?= $tahuncari; ?>" type="text">  
+        <button onclick="loadDatatable()" class="btn btn-success" title="CARI DATA"><i class="fa fa-search"></i> CARI DATA</button>
+    </center>
+</div>
+
+<table id="datawpbelumlapor" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">NO</th>
+            <th>NPWPD</th>     
+            <th>NAMA BADAN</th>  
+            <th>NAMA PEMILIK</th>  
+            <th>NAMA OBJEK</th> 
+            <th>JENIS PAJAK</th> 
+            <th>KODE REKENING</th>  
+            <th>NAMA REKENING</th> 
+            <th>JAN</th>         
+            <th>FEB</th>       
+            <th>MAR</th>         
+            <th>APR</th>       
+            <th>MEI</th>    
+            <th>JUN</th>
+            <th>JUL</th>         
+            <th>AGT</th>       
+            <th>SEP</th>    
+            <th>OKT</th>
+            <th>NOV</th>    
+            <th>DES</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <th></th>  
+    <th></th>
+    <th></th>  
+    <th></th> 
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+
+<style type="text/css">
+    .dataTables_filter {
+        display: none;
+    }
+</style> 
+
+<script type="text/javascript">
+    fr_tahun("#cari_periode_pajak");
+
+    function loadDatatable() {
+        var tahuncari = $("#cari_periode_pajak").val();
+        window.location = "<?= $this->url('penagihan'); ?>/wpbelumlapor?cariperiode=" + tahuncari;
+    }
+
+    function tutupFormskpdjabatan() {
+        document.getElementById('hidden_div').style.display = "none";
+        
+        $("#t_jenisobjekpajak").val("");
+        $("#t_idobjek").val("");
+        $("#t_jenispajak").val("");
+        $("#t_nourut").val("");
+        $("#t_periodepajak").val("");
+
+        $("#t_tglpendataan").val("");
+        $("#t_masaawal").val("");
+        $("#t_masaakhir").val("");
+        $("#t_tarifkenaikan").val("");
+
+        $("#t_idkorek").val("");
+        $("#t_korek").val("");
+        $("#t_namakorek").val("");
+        $("#t_tarifpajak").val("");
+
+        //$('#modalObjekPajak').modal('hide');
+    }
+
+    function pilihwpbelumlapornya(a, bln, thn) {
+        $.post('<?= $this->url() ?>/pilihwpbelumlapor', {t_idobjek: a, bulan: bln, tahun: thn}, function (data) {
+            $('#modalObjekPajak').modal('show');
+            var aa = JSON.parse(data);
+            
+            $("#t_npwpd").val(aa.t_npwpd);
+            $("#t_nama").val(aa.t_nama);
+            $("#t_namaobjek").val(aa.t_namaobjek);
+            $("#t_alamatwpobjek").val(aa.t_alamatwpobjek);
+            
+            
+            $("#t_jenisobjekpajak").val(aa.t_jenisobjekpajak);
+            $("#t_idobjek").val(aa.t_idobjek);
+            $("#t_jenispajak").val(aa.t_jenispajak);
+            $("#t_nourut").val(aa.t_nourut);
+            $("#t_periodepajak").val(aa.t_periodepajak);
+            
+            $("#t_tglpendataan").val(aa.t_tglpendataan);
+            $("#t_masaawal").val(aa.t_masaawal);
+            $("#t_masaakhir").val(aa.t_masaakhir);
+            $("#t_tarifkenaikan").val(aa.t_tarifkenaikan);
+            
+            $("#t_idkorek").val(aa.t_idkorek);
+            $("#t_korek").val(aa.t_korek);
+            $("#t_namakorek").val(aa.t_namakorek);
+            $("#t_tarifpajak").val(aa.t_tarifpajak);
+            
+            $("#t_dasarpengenaan").val(0);
+
+
+            document.getElementById('hidden_div').style.display = "block";
+
+            $('input#t_dasarpengenaan').focus();
+            
+            hitungpajak();
+        });
+    }
+    
+    function hitungpajak() {
+            $.post('<?= $this->url('pendataan') ?>/hitungpajak', {t_dasarpengenaan: $("#t_dasarpengenaan").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+                var aa = JSON.parse(data);
+                $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+                $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+                $('#t_tarifpajak').val(aa.t_tarifpajak);
+            });
+        }
+
+</script>    
+
+<?php
+$idtabel = '#datawpbelumlapor';
+$url = $this->url('penagihan') . '/dataGridwpbelumlapor/' . $tahuncari;
+$jmlkolom = 19;
+$seleksi_kolom = "'0'"; //iki data sort di disabel
+$pencarian_bawah = 1;
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null); ?>
+
+<script type="text/javascript">
+
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tanggalsptpd").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            $("#tanggalbayar").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'tanggalsptpd') {
+                $(this).html('<input type="text" style="width:100px;" id="tanggalsptpd" placeholder="tgl sptpd" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jan') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'feb') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'mar') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'apr') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'mei') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jun') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jul') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'agt') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'sep') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'okt') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'nov') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'des') {
+                $(this).html('<select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">Sudah</option><option value="2">Belum</option></select>');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'tanggalbayar') {
+                $(this).html('<input type="text" style="width:100px;" id="tanggalbayar" placeholder="tgl bayar" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'masapajak') {
+                $(this).html('');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenispajak') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+foreach ($this->MenuHelper()->getDatajenispajak() as $key => $row) {
+    echo '<option value="' . $row['s_idjenis'] . '">' . $row['s_namajenissingkat'] . '</option>';
+}
+?></select></center>');
+            }
+
+        });
+    }
+
+</script>
+
+
+

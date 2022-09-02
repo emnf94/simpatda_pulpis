@@ -1,0 +1,23 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-family:monospace;font-size:12pt;font-weight: bold;">
+                    PENDAFTARAN <a href="<?= $this->url() ?>/form_tambah" class="btn btn-sm btn-warning" title=""><i class="glyph-icon icon-plus"></i> Tambah</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">DAFTAR DATA WP</a></li>
+                    <li><a href="#tab2" data-toggle="tab">DAFTAR DATA OBJEK</a></li>
+                    <li><a href="#tab3" data-toggle="tab">CETAK PENDAFTARAN WP/OP</a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_pendaftaran.phtml'); ?>
+                    <?= $this->partial('grid_objek.phtml'); ?>
+                    <?= $this->partial('pencetakan.phtml'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

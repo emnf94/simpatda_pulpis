@@ -1,0 +1,69 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    MAP OP
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="col-sm-12">
+                        <div id="map"></div>
+                    </div>
+                </div>
+                <div class="example-box-wrapper" style="font-size: 11px">
+                    <div class="col-sm-12">
+                        <label class="col-sm-3">
+                            NPWPD
+                        </label>
+                        <div class="col-sm-9">
+                            : <?= $data['t_npwpdwp'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-3">
+                            Nama Objek
+                        </label>
+                        <div class="col-sm-9">
+                            : <?= $data['t_namaobjek'] ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-3">
+                            Alamat Objek
+                        </label>
+                        <div class="col-sm-9">
+                            : <?= $data['t_alamatlengkapobjek'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+</style>
+<!--Single Marker-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIcfDt4yUMeAiGKDTNyIufrBMuif-efms&callback=initMap"></script>
+<script type="text/javascript">
+    function initMap() {
+        var uluru = {
+            lat: <?= $data['t_latitudeobjek'] ?>,
+            lng: <?= $data['t_longitudeobjek'] ?>
+        };
+        //            var uluru = {lat: -7.7159552, lng: 109.0261417};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+    }
+</script>

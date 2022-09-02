@@ -1,0 +1,193 @@
+<div class="tab-pane" id="tab4">
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocari3" onchange="calldatagrid3()">
+                <option value="t_kodebayarskpdt">KODE BAYAR</option>
+                <option value="t_namaobjek">Nama OP</option>
+                <option value="t_nourut">No. SPTPD</option>
+                <option value="t_nama">Nama WP</option>
+                <option value="t_npwpd">NPWPD</option>
+                <option value="t_nop">NIOP</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari3" id="kolomcari3" onkeyup="calldatagrid3()">
+                <div class="input-group-btn combooperator3belumc">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator3" onchange="calldatagrid3()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosorting3" onchange="calldatagrid3()">
+                    <option value="">Pilih Urutan</option>
+                    <option value="t_kodebayarskpdt">KODE BAYAR</option>
+                    <option value="t_namaobjek">Nama OP</option>
+                    <option value="t_nourut">No. SPTPD</option>
+                    <option value="t_nama">Nama WP</option>
+                    <option value="t_npwpd">NPWPD</option>
+                    <option value="t_nop">NIOP</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortasc3" name="sortere3" onclick="calldatagrid3()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdesc3" name="sortere3" onclick="calldatagrid3()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div class="scroll-columns">
+            <table class="table table-condensed table-bordered cf" style="font-size: 11px; color:black">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No. SKPDT
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            NPWPD
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama
+                        </th>         
+<!--                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            NIOP
+                        </th>       -->
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama OP
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Masa Pajak
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Tgl. Pembayaran
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Dasar Pengenaan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Pajak
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jenis Pajak
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Status
+                        </th>  
+                    </tr>
+                </thead>
+                <tbody id="body_grid3">
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-3 text-left">
+                    <span>
+                        <select id="rows3" class="form-control" style="width: 30%" onchange="calldatagrid3(1)">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="col-sm-6" style="text-align: center">
+                    <center>
+                        <div id="paginatore3"></div>
+                        <input type="hidden" id="page3" value="1">
+                    </center>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <span>
+                        <p>
+                            <b style="font-size: 13px; color: orangered">
+                                <span id="awaldata3"></span> s/d <span id="akhirdata3"></span> Dari <span id="total_data3"></span> Data
+                            </b>
+                        </p>  
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        calldatagrid3();
+    });
+
+    function calldatagrid3(direction) {
+        if ($("#combocari3").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari3").val()
+        if ($("#kolomcari3").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari3").val()
+        if ($("#combosorting3").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting3").val()
+        if (document.getElementById("sortasc3").checked)
+            par4 = $("#sortasc3").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc3").checked)
+            par5 = $("#sortdesc3").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator3").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator3").val()
+        datagridketetapanangsuranskpdt($("#page3").val(), $("#rows3").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagridketetapanangsuranskpdt(page, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGridKetetapanAngsuranSkpdt/' + page + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid3").html(aa.gridbelum);
+            $("#rows3").val(aa.rowsbelum);
+            $("#page3").val(aa.pagebelum);
+            $("#total_data3").html(": " + aa.countbelum);
+            $("#total_halaman3").html(": " + aa.total_halamanbelum);
+            $("#paginatore3").html(aa.paginatorebelum);
+            $("#awaldata3").html(aa.awaldatabelum);
+            $("#akhirdata3").html(aa.akhirdatabelum);
+        });
+    }
+</script>
+<style type="text/css">
+    .combooperator3belumc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+</style>

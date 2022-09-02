@@ -1,0 +1,486 @@
+<?php
+
+ini_set("max_execution_time", 5000);
+
+if($data_get['jnscetak'] == 1){
+
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+$mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 15, 5, 5, 1, 1, '');
+//$mpdf = new mPDF('utf-8', array(215.9,279.4), 7, 7, 7, 7, 7, 1, '');
+
+$numbering = '<htmlpageheader name="MyHeader1">
+
+            </htmlpageheader>
+
+            <htmlpageheader name="MyHeader2">
+
+            </htmlpageheader>
+
+            <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>
+
+            <htmlpagefooter name="MyFooter2">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>';
+
+}else{
+    header("Content-type: application/vnd-ms-excel");
+
+    header("Content-Disposition: attachment; filename=cetakrealisasijan-des-" . $data_get['tgl0']."s/d".$data_get['tgl1'].".xls");
+    
+    $numbering = "";
+}
+
+
+
+if(!empty($data_get['t_kecamatan_objek'])){
+    $cekkecamatan = $this->MenuHelper()->cekkecamatan($data_get['t_kecamatan_objek']);
+    $namakec = "<br> KECAMATAN ".$cekkecamatan['s_namakec'];
+}else{
+    $namakec = "";
+}
+
+if(!empty($data_get['t_kelurahan_objek'])){
+    $cekkelurahan = $this->MenuHelper()->cekkelurahan($data_get['t_kelurahan_objek']);
+    $namakel = "KELURAHAN ".$cekkelurahan['s_namakel'];
+}else{
+    $namakel = "";
+}
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        <style type="text/css">            
+            @page {
+                size: auto;
+                odd-header-name: html_MyHeader1;
+                odd-footer-name: html_MyFooter1;
+              }
+              @page chapter2 {
+                  odd-header-name: html_MyHeader2;
+                  odd-footer-name: html_MyFooter2;
+              }
+              @page noheader {
+                  odd-header-name: _blank;
+                  odd-footer-name: _blank;
+              }
+              div.chapter2 {
+                  page-break-before: always;
+                  page: chapter2;
+              }
+              div.noheader {
+                  page-break-before: always;
+                  page: noheader;
+              }
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            
+
+        </style>
+    </head>
+    <body>
+            
+            '.$numbering.'
+
+            <table width="100%" style="border-spacing:0px;">
+                <tr>
+                    <td colspan="13">
+                        <center>
+                        <b style="font-size: 18px;">REALISASI PENERIMAAN PAJAK DAERAH
+                        '.$namakec.' '.$namakel.'
+                        <br>TANGGAL SETOR '.$data_get['tgl0']." s/d ".$data_get['tgl1'].' </b>
+                        </center>    
+                    </td>
+                </tr>
+                 <tr>
+                    <td colspan="13">&nbsp;</td>
+                </tr>      
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" >
+                       <center><b> NO</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> KECAMATAN</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> KELURAHAN</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>PAJAK HOTEL</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK RESTORAN</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK HIBURAN</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK REKLAME</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK PPJ</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK MINERBA</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>PAJAK PARKIR</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> PAJAK AIR TANAH</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> PAJAK WALET</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>1</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 2</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>3</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 4</b></center>
+                    </td >
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>5</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 6</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>7</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>8</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 9</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 10</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 11</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 12</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>13</b></center>
+                    </td>
+                    
+                    
+                </tr>';
+                
+                $totalhotel = 0;
+                $totalrestoran = 0;
+                $totalhiburan = 0;
+                $totalreklame = 0;
+                $totalppj = 0;
+                $totalminerba = 0;
+                $totalparkir = 0;
+                $totalairtanah = 0;
+                $totalwalet = 0;
+                
+                $totalkeseluruhan = 0;
+                $no = 1;
+                $clast_rek_kel = '';
+                $clast_rek = '';
+                $totalsubkel = 0;
+                $totalsubkec = 0;
+                
+                
+                $totalsubkec_1 = 0;
+                $totalsubkec_2 = 0;
+                $totalsubkec_3 = 0;
+                $totalsubkec_4 = 0;
+                $totalsubkec_5 = 0;
+                $totalsubkec_6 = 0;
+                $totalsubkec_7 = 0;
+                $totalsubkec_8 = 0;
+                $totalsubkec_9 = 0;
+                
+                
+                foreach ($data as $k => $v) {
+                    if($v['t_bidangusaha'] == 2){
+                        $namawp = strtoupper($v['t_nama_badan']);
+                    }else{
+                        $namawp = strtoupper($v['t_nama']);
+                    }
+                    
+                    
+                        if ($clast_rek <> $v['t_kecamatan_objek']) {
+                            if ($clast_rek <> '') {
+                                $html .= '<tr>
+
+                                           <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</b></td>
+                                           <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_1, 2, ',', '.') . '</td>       
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_2, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_3, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_4, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_5, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_6, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_7, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_8, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_9, 2, ',', '.') . '</td> 
+
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">'. number_format($totalsubkec, 2, ',', '.') . '</td>
+
+
+                                        </tr>';
+                                
+                                $totalsubkec_1 = 0;
+                                $totalsubkec_2 = 0;
+                                $totalsubkec_3 = 0;
+                                $totalsubkec_4 = 0;
+                                $totalsubkec_5 = 0;
+                                $totalsubkec_6 = 0;
+                                $totalsubkec_7 = 0;
+                                $totalsubkec_8 = 0;
+                                $totalsubkec_9 = 0;
+                                
+                                
+                                $totalSetoran_sub = 0;
+                                $totalsubkec = 0;
+                            }
+                            $html .= '<tr>
+                                        <td colspan="13" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Kecamatan : <b> '. $v['s_namakec'] .'</td>
+
+                                        </tr>';
+                            $clast_rek = $v['t_kecamatan_objek'];
+                            $clast_rek_name = $v['s_namakec'];
+                            $counter = 1;
+                        }
+
+
+
+                        
+                    
+                    
+                    $html .= '
+                        <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 20px;">
+                        <center>'.$no.'</center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;">
+                        '.$v['s_namakec'].'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 160px;">
+                        '.$v['s_namakel'].'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_hotel'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_restoran'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_hiburan'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_reklame'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_ppj'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_minerba'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_parkir'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_airtanah'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                         '.number_format($v['jml_byrpajak_walet'], 2, ',', '.').'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_hotel'] + $v['jml_byrpajak_restoran'] + $v['jml_byrpajak_hiburan'] + $v['jml_byrpajak_reklame'] + $v['jml_byrpajak_ppj'] + $v['jml_byrpajak_minerba'] + $v['jml_byrpajak_parkir'] + $v['jml_byrpajak_airtanah'] + $v['jml_byrpajak_walet'] , 2, ',', '.').'
+                    </td>
+                </tr>';
+                    
+                  
+                    $totalhotel += $v['jml_byrpajak_hotel'];
+                    $totalrestoran += $v['jml_byrpajak_restoran'];
+                    $totalhiburan += $v['jml_byrpajak_hiburan'];
+                    $totalreklame += $v['jml_byrpajak_reklame'];
+                    $totalppj += $v['jml_byrpajak_ppj'];
+                    $totalminerba += $v['jml_byrpajak_minerba'];
+                    $totalparkir += $v['jml_byrpajak_parkir'];
+                    $totalairtanah += $v['jml_byrpajak_airtanah'];
+                    $totalwalet += $v['jml_byrpajak_walet'];
+                    
+                    $totalkeseluruhan += $v['jml_byrpajak_hotel'] + $v['jml_byrpajak_restoran'] + $v['jml_byrpajak_hiburan'] + $v['jml_byrpajak_reklame'] + $v['jml_byrpajak_ppj'] + $v['jml_byrpajak_minerba'] + $v['jml_byrpajak_parkir'] + $v['jml_byrpajak_airtanah'] + $v['jml_byrpajak_walet']   ;
+                    
+                    $totalsubkec_1 += $v['jml_byrpajak_hotel'];
+                    $totalsubkec_2 += $v['jml_byrpajak_restoran'];
+                    $totalsubkec_3 += $v['jml_byrpajak_hiburan'];
+                    $totalsubkec_4 += $v['jml_byrpajak_reklame'];
+                    $totalsubkec_5 += $v['jml_byrpajak_ppj'];
+                    $totalsubkec_6 += $v['jml_byrpajak_minerba'];
+                    $totalsubkec_7 += $v['jml_byrpajak_parkir'];
+                    $totalsubkec_8 += $v['jml_byrpajak_airtanah'];
+                    $totalsubkec_9 += $v['jml_byrpajak_walet'];
+                    
+                    $totalsubkec += $v['jml_byrpajak_hotel'] + $v['jml_byrpajak_restoran'] + $v['jml_byrpajak_hiburan'] + $v['jml_byrpajak_reklame'] + $v['jml_byrpajak_ppj'] + $v['jml_byrpajak_minerba'] + $v['jml_byrpajak_parkir'] + $v['jml_byrpajak_airtanah'] + $v['jml_byrpajak_walet']  ;
+                    
+                    $no++;
+                }
+               
+                
+                
+
+                if ($clast_rek <> '') {
+                    $html .= '<tr>
+
+                               <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</b></td>
+                               <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_1, 2, ',', '.') . '</td>       
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_2, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_3, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_4, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_5, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_6, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_7, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_8, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_9, 2, ',', '.') . '</td>
+                                
+                                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">'. number_format($totalsubkec, 2, ',', '.') . '</td>
+
+
+                            </tr>';
+
+                    $totalsubkec_1 = 0;
+                    $totalsubkec_2 = 0;
+                    $totalsubkec_3 = 0;
+                    $totalsubkec_4 = 0;
+                    $totalsubkec_5 = 0;
+                    $totalsubkec_6 = 0;
+                    $totalsubkec_7 = 0;
+                    $totalsubkec_8 = 0;
+                    $totalsubkec_9 = 0;
+                    
+
+                    $totalSetoran_sub = 0;
+                    $totalsubkec = 0;
+                }
+                
+                $html .= '
+                        <tr>
+                    <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH TOTAL</b></center>
+                    </td>
+                    
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalhotel, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalrestoran, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalhiburan, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalreklame, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalppj, 2, ',', '.').'
+                    </td >
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalminerba, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalparkir, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalairtanah, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                         '.number_format($totalwalet, 2, ',', '.').'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalkeseluruhan, 2, ',', '.').'
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="13">
+                    &nbsp;
+                    </td>
+                </tr>    
+                 <tr>
+                    <td colspan="7">
+                        &nbsp;
+                    </td>
+                    <td colspan="6">';
+                        if(!empty($data_get['ttd0'])){
+                            $namapejabat = $this->MenuHelper()->getnamapejabat($data_get['ttd0']);
+                            $html .= '
+                                <center>'.$ar_pemda->s_ttdkabkot.', '.$data_get['tglcetak'].'
+                                    <br><b>'.$namapejabat['s_jabatanpej'].'
+                                    
+                                    <br><br><br><br>
+                                    <u>&nbsp;&nbsp;&nbsp;'.$namapejabat['s_namapej'].'&nbsp;&nbsp;&nbsp;</u></b>
+                                        <br>'.$namapejabat['s_nippej'].'
+                                    </center>';
+                        }
+                $html .= '    
+                    </td>
+                </tr>    
+            </table>
+        </div>
+    </body>
+</html>
+';
+if ($data_get['jnscetak'] == 1) {
+
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakrealisasijan-des-" . $data_get['tgl0']."s/d".$data_get['tgl1'] . ".pdf", "I");
+}else{
+    echo $html;    
+}
+?>    

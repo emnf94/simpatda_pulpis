@@ -1,0 +1,144 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglcetak = date('d', strtotime($tglcetak)) . " " . $abulan[date('m', strtotime($tglcetak))] . " " . date('Y', strtotime($tglcetak));        
+        ?>
+        <div>
+            <table width="100%">
+                <tr>
+                    <td width="10%" style="text-align:center;"><img src="<?= $ar_pemda->s_logo ?>" width="50"></td>
+                    <td style="text-align:center; padding-right: 10%;">
+                        <span style="font-size:13pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:15pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:10pt;"><?= $ar_pemda->s_alamatinstansi; ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;font-family:sans-serif;">
+                    <h2>DAFTAR SALDO AKHIR PIUTANG PAJAK<BR>TAHUN <?=date('Y', strtotime($tglcetak))?></h2>
+                    
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" cellpadding="3" class="font_sembilan" style="text-align: center">
+                <tr>
+                    <th class="" width="5%" colspan="9" style="text-align:left;">
+                        JENIS PAJAK : <?=strtoupper($ar_jenis['s_namajenis'])?>
+                    </th>
+                </tr>
+                <tr style="background:#ccc;">
+                    <th class="" width="5%">
+                        NO
+                    </th>
+                    <th>
+                        NAMA
+                    </th>
+                    <th>
+                        N.P.W.P
+                    </th>
+                    <th>
+                        NO. KETETAPAN
+                    </th>
+                    <th>
+                        TGL. KETETAPAN
+                    </th>
+                    <th>
+                        KODE REKENING
+                    </th>
+                    <th>
+                        NAMA REKENING
+                    </th>
+                    <th>
+                        NILAI
+                    </th>
+                    <th>
+                        MASA PAJAK
+                    </th>
+                </tr>
+                <?php 
+                $counter = 1;
+                foreach ($data as $key => $v){ 
+                    if($v['t_jenispajak'] == 4 || $v['t_jenispajak'] == 8){
+                        $no_urut = str_pad($v['t_nopenetapan'], 5, "0", STR_PAD_LEFT).'/SKPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = date('d-m-Y', strtotime($v['t_tglpendataan']));
+                    }else{
+                        $no_urut = str_pad($v['t_nourut'], 5, "0", STR_PAD_LEFT).'/SPTPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = date('d-m-Y', strtotime($v['t_tglpendataan']));
+                    }
+                    ?>
+                <tr>
+                    <td><?=$counter++?></td>
+                    <td align="left"><?=$v['t_namawp']?></td>
+                    <td><?=$v['t_npwpdwp']?></td>
+                    <td><?=$no_urut?></td>
+                    <td><?=$tgl_pajak?></td>
+                    <td align="left"><?=$v['korek']?></td>
+                    <td align="left"><?=$v['s_namakorek']?></td>
+                    <td style="text-align:right;"><?=number_format($v['t_jmlhpajak'], 2, ',', '.')?></td>
+                    <td><?=date('d-m-Y', strtotime($v['t_masaawal'])) .' s.d. '. date('d-m-Y', strtotime($v['t_masaakhir']))?></td>
+                </tr>
+                <?php 
+                    $totalpiutang += $v['t_jmlhpajak'];
+                } ?>
+                
+                <tr>
+                    <th style="text-align:center;" colspan="7">JUMLAH</th>
+                    <th style="text-align:right;"><?=number_format($totalpiutang, 2, ',', '.')?></th>
+                    <th></th>
+                </tr>
+            </table>
+            <table width="100%" style="font-family:sans-serif;" class="font_sembilan">
+                <tr>
+                    <td style="width:30%;text-align:center;border:1px solid #fff;">
+                        Mengetahui,<br>
+                        <b><?=strtoupper($ar_mengetahui->s_jabatanpej)?>
+                        <br><br><br><br>
+                        <u><?=$ar_mengetahui->s_namapej?></u>
+                        <br>
+                        NIP. <?=$ar_mengetahui->s_nippej?></b>
+                    </td>
+                    <td style="border:1px solid #fff;"></td>
+                    <td style="width:30%;text-align:center;border:1px solid #fff;">
+                        <?= $ar_pemda->s_namaibukotakabkota. ', ' .$t_tglcetak ?>
+                        <br><br>
+                        <b><?=strtoupper($ar_diperiksa->s_jabatanpej)?>
+                        <br><br><br><br>
+                        <u><?=$ar_diperiksa->s_namapej?></u>
+                        <br>
+                        NIP. <?=$ar_diperiksa->s_nippej?></b>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+                <tbody>
+                    <tr>
+                            <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                        <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                        <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </htmlpagefooter>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        font-family: sans-serif;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+    @page{
+                /* ensure you append the header/footer name with 'html_' */
+                header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+                footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+            }
+</style>

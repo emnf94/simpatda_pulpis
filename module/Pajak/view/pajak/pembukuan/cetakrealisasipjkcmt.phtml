@@ -1,0 +1,547 @@
+<?php
+
+ini_set("max_execution_time", 5000);
+
+if($data_get['jnscetak'] == 1){
+
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+$mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 15, 5, 5, 1, 1, '');
+//$mpdf = new mPDF('utf-8', array(215.9,279.4), 7, 7, 7, 7, 7, 1, '');
+
+$numbering = '<htmlpageheader name="MyHeader1">
+
+            </htmlpageheader>
+
+            <htmlpageheader name="MyHeader2">
+
+            </htmlpageheader>
+
+            <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>
+
+            <htmlpagefooter name="MyFooter2">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>';
+
+}else{
+    header("Content-type: application/vnd-ms-excel");
+
+    header("Content-Disposition: attachment; filename=cetakrealisasijan-des-" . $data_get['tgl0']."s/d".$data_get['tgl1'].".xls");
+    
+    $numbering = "";
+}
+
+$jenisobjek = $this->MenuHelper()->cekjenispajak($data_get['t_jenispajak']);
+
+
+if(!empty($data_get['t_kecamatan_objek'])){
+    $cekkecamatan = $this->MenuHelper()->cekkecamatan($data_get['t_kecamatan_objek']);
+    $namakec = "<br> KECAMATAN ".$cekkecamatan['s_namakec'];
+}else{
+    $namakec = "";
+}
+
+if(!empty($data_get['t_kelurahan_objek'])){
+    $cekkelurahan = $this->MenuHelper()->cekkelurahan($data_get['t_kelurahan_objek']);
+    $namakel = "KELURAHAN ".$cekkelurahan['s_namakel'];
+}else{
+    $namakel = "";
+}
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        <style type="text/css">            
+            @page {
+                size: auto;
+                odd-header-name: html_MyHeader1;
+                odd-footer-name: html_MyFooter1;
+              }
+              @page chapter2 {
+                  odd-header-name: html_MyHeader2;
+                  odd-footer-name: html_MyFooter2;
+              }
+              @page noheader {
+                  odd-header-name: _blank;
+                  odd-footer-name: _blank;
+              }
+              div.chapter2 {
+                  page-break-before: always;
+                  page: chapter2;
+              }
+              div.noheader {
+                  page-break-before: always;
+                  page: noheader;
+              }
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            
+
+        </style>
+    </head>
+    <body>
+            
+            '.$numbering.'
+
+            <table width="100%" style="border-spacing:0px;">
+                <tr>
+                    <td colspan="16">
+                        <center>
+                        <b style="font-size: 18px;">REALISASI PENERIMAAN PAJAK DAERAH
+                        <br>'.strtoupper($jenisobjek['s_namajenis']).'
+                        '.$namakec.' '.$namakel.'
+                        <br>TANGGAL SETOR '.$data_get['tgl0']." s/d ".$data_get['tgl1'].' </b>
+                        </center>    
+                    </td>
+                </tr>
+                 <tr>
+                    <td colspan="16">&nbsp;</td>
+                </tr>      
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" >
+                       <center><b> NO</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> KECAMATAN</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> KELURAHAN</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JANUARI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>FEBRUARI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>MARET</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> APRIL</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> MEI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> JUNI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> JULI</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> AGUSTUS</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> SEPTEMBER</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> OKTOBER</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> NOVEMBER</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b> DESEMBER</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>1</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 2</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>3</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 4</b></center>
+                    </td >
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>5</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 6</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>7</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>8</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 9</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 10</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 11</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 12</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>13</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                      <center><b> 14</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b> 15</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                       <center><b>16</b></center>
+                    </td>
+                    
+                    
+                </tr>';
+                
+                $totaljanuari = 0;
+                $totalfebruari = 0;
+                $totalmaret = 0;
+                $totalapril = 0;
+                $totalmei = 0;
+                $totaljuni = 0;
+                $totaljuli = 0;
+                $totalagustus = 0;
+                $totalseptember = 0;
+                $totaloktober = 0;
+                $totalnovember = 0;
+                $totaldesember = 0;
+                
+                $totalkeseluruhan = 0;
+                $no = 1;
+                $clast_rek_kel = '';
+                $clast_rek = '';
+                $totalsubkel = 0;
+                $totalsubkec = 0;
+                
+                
+                $totalsubkec_1 = 0;
+                $totalsubkec_2 = 0;
+                $totalsubkec_3 = 0;
+                $totalsubkec_4 = 0;
+                $totalsubkec_5 = 0;
+                $totalsubkec_6 = 0;
+                $totalsubkec_7 = 0;
+                $totalsubkec_8 = 0;
+                $totalsubkec_9 = 0;
+                $totalsubkec_10 = 0;
+                $totalsubkec_11 = 0;
+                $totalsubkec_12 = 0;
+                
+                foreach ($data as $k => $v) {
+                    /*if($v['t_bidangusaha'] == 2){
+                        $namawp = strtoupper($v['t_nama_badan']);
+                    }else{
+                        $namawp = strtoupper($v['t_nama']);
+                    }*/
+                    
+                    
+                        if ($clast_rek <> $v['t_kecamatan_objek']) {
+                            if ($clast_rek <> '') {
+                                $html .= '<tr>
+
+                                           <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</b></td>
+                                           <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_1, 2, ',', '.') . '</td>       
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_2, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_3, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_4, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_5, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_6, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_7, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_8, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_9, 2, ',', '.') . '</td> 
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_10, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_11, 2, ',', '.') . '</td>
+                                            <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_12, 2, ',', '.') . '</td>        
+
+                                            <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">'. number_format($totalsubkec, 2, ',', '.') . '</td>
+
+
+                                        </tr>';
+                                
+                                $totalsubkec_1 = 0;
+                                $totalsubkec_2 = 0;
+                                $totalsubkec_3 = 0;
+                                $totalsubkec_4 = 0;
+                                $totalsubkec_5 = 0;
+                                $totalsubkec_6 = 0;
+                                $totalsubkec_7 = 0;
+                                $totalsubkec_8 = 0;
+                                $totalsubkec_9 = 0;
+                                $totalsubkec_10 = 0;
+                                $totalsubkec_11 = 0;
+                                $totalsubkec_12 = 0;
+                                
+                                
+                                $totalSetoran_sub = 0;
+                                $totalsubkec = 0;
+                            }
+                            $html .= '<tr>
+                                        <td colspan="16" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Kecamatan : <b> '. $v['s_namakec'] .'</td>
+
+                                        </tr>';
+                            $clast_rek = $v['t_kecamatan_objek'];
+                            $clast_rek_name = $v['s_namakec'];
+                            $counter = 1;
+                        }
+
+
+
+                        
+                    
+                    
+                    $html .= '
+                        <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 20px;">
+                        <center>'.$no.'</center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;">
+                        '.$v['s_namakec'].'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 160px;">
+                        '.$v['s_namakel'].'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_januari'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_februari'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_maret'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_april'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_mei'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_juni'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_juli'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_agustus'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                         '.number_format($v['jml_byrpajak_september'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                         '.number_format($v['jml_byrpajak_oktober'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                         '.number_format($v['jml_byrpajak_november'], 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                         '.number_format($v['jml_byrpajak_desember'], 2, ',', '.').'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; width: 100px;" align="right">
+                        '.number_format($v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september']+$v['jml_byrpajak_oktober']+$v['jml_byrpajak_november']+$v['jml_byrpajak_desember'] , 2, ',', '.').'
+                    </td>
+                </tr>';
+                    
+                  
+                    $totaljanuari += $v['jml_byrpajak_januari'];
+                    $totalfebruari += $v['jml_byrpajak_februari'];
+                    $totalmaret += $v['jml_byrpajak_maret'];
+                    $totalapril += $v['jml_byrpajak_april'];
+                    $totalmei += $v['jml_byrpajak_mei'];
+                    $totaljuni += $v['jml_byrpajak_juni'];
+                    $totaljuli += $v['jml_byrpajak_juli'];
+                    $totalagustus += $v['jml_byrpajak_agustus'];
+                    $totalseptember += $v['jml_byrpajak_september'];
+                    $totaloktober += $v['jml_byrpajak_oktober'];
+                    $totalnovember += $v['jml_byrpajak_november'];
+                    $totaldesember += $v['jml_byrpajak_desember'];
+                    
+                    $totalkeseluruhan += $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september']+$v['jml_byrpajak_oktober']+$v['jml_byrpajak_november']+$v['jml_byrpajak_desember']   ;
+                    
+                    $totalsubkec_1 += $v['jml_byrpajak_januari'];
+                    $totalsubkec_2 += $v['jml_byrpajak_februari'];
+                    $totalsubkec_3 += $v['jml_byrpajak_maret'];
+                    $totalsubkec_4 += $v['jml_byrpajak_april'];
+                    $totalsubkec_5 += $v['jml_byrpajak_mei'];
+                    $totalsubkec_6 += $v['jml_byrpajak_juni'];
+                    $totalsubkec_7 += $v['jml_byrpajak_juli'];
+                    $totalsubkec_8 += $v['jml_byrpajak_agustus'];
+                    $totalsubkec_9 += $v['jml_byrpajak_september'];
+                    $totalsubkec_10 += $v['jml_byrpajak_oktober'];
+                    $totalsubkec_11 += $v['jml_byrpajak_november'];
+                    $totalsubkec_12 += $v['jml_byrpajak_desember'];
+                    
+                    $totalsubkec += $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september']+$v['jml_byrpajak_oktober']+$v['jml_byrpajak_november']+$v['jml_byrpajak_desember']  ;
+                    
+                    $no++;
+                }
+               
+                
+                
+
+                if ($clast_rek <> '') {
+                    $html .= '<tr>
+
+                               <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</b></td>
+                               <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_1, 2, ',', '.') . '</td>       
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_2, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_3, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_4, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_5, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_6, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_7, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_8, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_9, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_10, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_11, 2, ',', '.') . '</td>
+                                <td style="border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right">'. number_format($totalsubkec_12, 2, ',', '.') . '</td>    
+                                
+                                <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">'. number_format($totalsubkec, 2, ',', '.') . '</td>
+
+
+                            </tr>';
+
+                    $totalsubkec_1 = 0;
+                    $totalsubkec_2 = 0;
+                    $totalsubkec_3 = 0;
+                    $totalsubkec_4 = 0;
+                    $totalsubkec_5 = 0;
+                    $totalsubkec_6 = 0;
+                    $totalsubkec_7 = 0;
+                    $totalsubkec_8 = 0;
+                    $totalsubkec_9 = 0;
+                    $totalsubkec_10 = 0;
+                    $totalsubkec_11 = 0;
+                    $totalsubkec_12 = 0;
+                    
+
+                    $totalSetoran_sub = 0;
+                    $totalsubkec = 0;
+                }
+                
+                $html .= '
+                        <tr>
+                    <td colspan="3" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>JUMLAH TOTAL</b></center>
+                    </td>
+                    
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totaljanuari, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalfebruari, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalmaret, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalapril, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalmei, 2, ',', '.').'
+                    </td >
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totaljuni, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totaljuli, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalagustus, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                         '.number_format($totalseptember, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                         '.number_format($totaloktober, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                         '.number_format($totalnovember, 2, ',', '.').'
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                         '.number_format($totaldesember, 2, ',', '.').'
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                        '.number_format($totalkeseluruhan, 2, ',', '.').'
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="16">
+                    &nbsp;
+                    </td>
+                </tr>    
+                 <tr>
+                    <td colspan="8">
+                        &nbsp;
+                    </td>
+                    <td colspan="8">';
+                        if(!empty($data_get['ttd0'])){
+                            $namapejabat = $this->MenuHelper()->getnamapejabat($data_get['ttd0']);
+                            $html .= '
+                                <center>'.$ar_pemda->s_ttdkabkot.', '.$data_get['tglcetak'].'
+                                    <br><b>'.$namapejabat['s_jabatanpej'].'
+                                    
+                                    <br><br><br><br>
+                                    <u>&nbsp;&nbsp;&nbsp;'.$namapejabat['s_namapej'].'&nbsp;&nbsp;&nbsp;</u></b>
+                                        <br>'.$namapejabat['s_nippej'].'
+                                    </center>';
+                        }
+                $html .= '    
+                    </td>
+                </tr>    
+            </table>
+        </div>
+    </body>
+</html>
+';
+if ($data_get['jnscetak'] == 1) {
+
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakrealisasijan-des-" . $data_get['tgl0']."s/d".$data_get['tgl1'] . ".pdf", "I");
+}else{
+    echo $html;    
+}
+?>    

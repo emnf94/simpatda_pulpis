@@ -1,0 +1,231 @@
+
+
+<?php
+$judul = 'FORM SET DEFAULT WP OPD';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<form method="post" action="<?= $this->url('setting_user') ?>/setdefaultwpopd" class="form-horizontal pad15L pad15R pad15T" data-parsley-validate="data-parsley-validate">
+<div class="col-md-12" id="divwp" style="display: block;">
+    <label class="col-md-2">
+        Wajib Pajak
+    </label>
+    <div class="col-md-3">
+        <input name="s_wp" id="s_wp" class="form-control" value="<?= $data['t_idwp']; ?>" type="hidden">   
+        <div class="form-group "><input name="t_npwpd" id="t_npwpd" class="form-control" placeholder="NPWPD" value="<?= $data['t_npwpd']; ?>" type="text"></div>
+   
+    </div>
+    <div class="col-md-3">
+        <div class="form-group "><input name="t_nama_wp" id="t_nama_wp" class="form-control" placeholder="NAMA WP" value="<?= $data['t_nama']; ?>" type="text"></div>
+   
+    </div>
+    <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalWP()" title="cari"><span class="fa fa-search"></span></button></div>
+</div>
+<div align="right">
+    <input name="simpan" class="btn btn-primary" value="Simpan" type="submit">  
+    <a href="<?= $this->url('setting_user') ?>/defaultwpopd" class="btn btn-danger">Kembali</a>
+</div>                    
+</form>
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+
+
+<div class="modal fade" id="ModalCariWP" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA WAJIB PAJAK SELF</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuawpbelum" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">NO</th>
+            <th>NPWPD</th>            
+            <th>NAMA BADAN</th>      
+            <th>NAMA PEMILIK</th>  
+            <th>ALAMAT PEMILIK</th> 
+            <th>TGL DAFTAR</th>   
+            <th>KECAMATAN WP</th>
+            <th>KELURAHAN WP</th>
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <th></th>    
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+
+
+<script type="text/javascript">
+    
+    
+    function tutupmodalWP() {
+        $('#ModalCariWP').modal('hide');
+    }
+    
+    function bukamodalWP() {
+        $('#ModalCariWP').modal('show');
+    }
+    
+    
+    //=================================== datagrid WP dan datagrid pejabat
+    
+    
+var dTabledatasemuawp;
+var dTabledatasemuapejabat;        
+       
+     // #Example adalah id pada table 
+        $(document).ready(function () {
+            
+            dTabledatasemuawp = $('#datasemuawpbelum').DataTable({
+                "bProcessing": true,
+                "bServerSide": true,
+                "bJQueryUI": false,
+                //"responsive": true,
+                "sAjaxSource": "<?= $this->url('setting_user').'/dataGridwpbelumdaftar'.$wpnya ?>", // Load Data
+                "sServerMethod": "POST",
+                "iDisplayLength": 10,
+                "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                "aaSorting": [[0, "asc"]],
+                "bPaginate": true,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bInfo": true,
+                "bAutoWidth": false,
+                //"scrollY":        "400px",
+                "scrollX": true,
+                //"scrollCollapse": true,
+
+                "oLanguage": {
+                    "sEmptyTable": "No incompleted albums found!", //when empty
+                    "sSearch": "<span>Pencarian:</span> _INPUT_", //search
+                    "sLengthMenu": "<span>Tampilkan data:</span> _MENU_", //label
+                    "sZeroRecords": "<center>Tidak ada data</center>",
+                    "sEmptyTable": "<center>Tidak ada data</center>",
+                            "sInfo": "Halaman _PAGE_ dari _PAGES_ dari _TOTAL_ data",
+                    "sInfoEmpty": "Tidak ada data",
+                    "sProcessing": "<img src='<?= $this->basePath(); ?>/public/img/gif/loader.gif'>", //<img src='path/to/ajax-loader.gif'>
+                    "sLoadingRecords": "Loading...",
+                    "sInfoFiltered": "(Pencarian Dari _MAX_ total data)",
+                    "oPaginate": {"sFirst": "First", "sLast": "Last", "sNext": ">>", "sPrevious": "<<"} //pagination
+                },
+                "columnDefs": [
+                    {"targets": ['0', '8'], "orderable": false, "searchable": false}
+                ]
+            });
+
+            //=========================== buat pencarian dibawah aktif
+            $('th', dTabledatasemuawp.table().footer()).each(function () {
+                $("#tgl_daftar_cari").datepicker({
+                    format: 'dd-mm-yyyy',
+                    language: 'id'
+                });
+
+                var title = $('th').eq($(this).index()).text();
+                //$(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                    $(this).html('<center>cari:</center>');
+                } else {
+                    $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+                }
+                
+                
+
+            });
+            
+            
+            
+            
+
+            // Apply the search
+            dTabledatasemuawp.columns().eq(0).each(function (colIdx) {
+                $('input', dTabledatasemuawp.column(colIdx).footer()).on('keyup change', function () {
+                    dTabledatasemuawp
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                });
+
+            });
+
+            dTabledatasemuawp.columns().eq(0).each(function (colIdx) {
+                $('select', dTabledatasemuawp.column(colIdx).footer()).on('keyup change', function () {
+                    dTabledatasemuawp
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                });
+
+            });
+
+            $('.dataTable').removeClass('display').addClass('table table-striped table-bordered');
+            //=========================== end buat pencarian dibawah aktif
+
+
+            $('#datasemuawp').removeClass('display').addClass('table table-striped table-bordered');
+            
+            $('#ModalCariWP').on('shown.bs.modal', function (e) {
+                    dTabledatasemuawp.columns.adjust();
+                    
+                    
+             });
+             
+             
+             
+             
+             
+
+        });
+    
+    //=================================== end datagrid WP dan datagrid pejabat
+    
+    function pilihWajibPajak(a) {
+        $.post('<?= $this->url() ?>/pilihwajibpajak', {t_idwp: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#s_wp').val(aa.t_idwp);
+            $('#t_npwpd').val(aa.t_npwpd);
+            $('#t_nama_wp').val(aa.t_nama_wp);
+            $('#s_nama').val(aa.t_nama_wp);
+           
+            jQuery('#ModalCariWP').modal('hide');
+
+        });
+    }
+    
+    
+    
+</script>

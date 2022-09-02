@@ -1,0 +1,149 @@
+<div class="tab-pane" id="tab4">
+    <div class="example-box-wrapper">
+        <div class="row" style="overflow: auto">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            No. SKPDLB
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            NPWPD
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Nama
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            NIOP
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Nama OP
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Jenis Pajak
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Masa Pajak
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Kode Bayar
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Pajak
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Denda
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            Tunggakan
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;">
+                            #
+                        </th>  
+                    </tr>
+                    <tr class="bg-default">
+                        <td></td>
+                        <td><input type="text" id="t_nourut_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td><input type="text" id="t_npwpd_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td><input type="text" id="t_nama_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td><input type="text" id="t_niop_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td><input type="text" id="t_namaobjek_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td><input type="text" id="t_jenispajak_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td></td>
+                        <td><input type="text" id="t_kodebayar_cari_3" class="form-control input-sm" onkeyup="calldatagrid3()"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><select id="t_statusbayar_cari_3" class="form-control input-sm" onchange="calldatagrid3()">
+                                <option value="">-ALL-</option>
+                                <option value="1">LUNAS</option>
+                                <option value="2">BELUM</option>
+                            </select></td>
+                    </tr>
+                </thead>
+                <tbody id="body_grid3">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="13" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rows3" class="form-control" style="width: 30%" onchange="calldatagrid3(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatore3"></div>
+                                        <input type="hidden" id="page3" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b style="font-size: 13px; color: orangered"><span id="awaldata3"></span> s/d <span id="akhirdata3"></span> Dari <span id="total_data3"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        calldatagrid3();
+    });
+
+    function calldatagrid3(direction) {
+        datagridskpdlb($("#page3").val(), $("#rows3").val(), direction);
+    }
+
+    function datagridskpdlb(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridSkpdlb/' + page + '/' + row + '/' + direction,{
+            t_nourut: $('#t_nourut_cari_3').val(),
+            t_npwpd: $('#t_npwpd_cari_3').val(),
+            t_nama: $('#t_nama_cari_3').val(),
+            t_niop: $('#t_niop_cari_3').val(),
+            t_namaobjek: $('#t_namaobjek_cari_3').val(),
+            t_jenispajak: $('#t_jenispajak_cari_3').val(),
+            t_kodebayar: $('#t_kodebayar_cari_3').val(),
+            t_statusbayar: $('#t_statusbayar_cari_3').val()
+        }, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_grid3").html(aa.grid);
+            $("#rows3").val(aa.rows);
+            $("#page3").val(aa.page);
+            $("#total_data3").html(": " + aa.count);
+            $("#total_halaman3").html(": " + aa.total_halaman);
+            $("#paginatore3").html(aa.paginatore);
+            $("#awaldata3").html(aa.awaldata);
+            $("#akhirdata3").html(aa.akhirdata);
+        });
+    }
+
+</script>
+<style type="text/css">
+    .combooperatorskpdlbc select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+</style>

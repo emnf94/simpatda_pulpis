@@ -1,0 +1,319 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    KPP PRATAMA <a href="javascript:void(0)" onclick="bukaCetakData()" class="btn btn-danger btn-xs pull-right"><span class="glyph-icon icon-print"></span> Cetak Data</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <select class="form-control input-sm" id="combocari" onchange="calldatagrid()">
+                            <option value="">Pilih Pencarian</option>
+                            <option value="t_nourut">No. SPTPD</option>
+                            <option value="t_npwpd">NPWPD</option>
+                            <option value="t_nama">NAMA WP</option>
+                            <option value="t_nop">NIOP</option>
+                            <option value="t_namaobjek">NAMA OP</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group input-group-sm">
+                            <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcari" id="kolomcari" onkeyup="calldatagrid()">
+                            <div class="input-group-btn combooperatorc">
+                                <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperator" onchange="calldatagrid()" style="text-align: left;">
+                                    <option value="">Pilih</option>
+                                    <option value="carisama">=</option>
+                                    <option value="carilike">%</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2">
+                        <span class="hiddene">
+                            <select class="form-control input-sm" id="combosorting" onchange="calldatagrid()">
+                                <option value="">Pilih Urutan</option>
+                                <option value="t_nourut">No. SPTPD</option>
+                                <option value="t_npwpd">NPWPD</option>
+                                <option value="t_nama">NAMA WP</option>
+                                <option value="t_nop">NIOP</option>
+                                <option value="t_namaobjek">NAMA OP</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span class="hiddene">
+                            <div class="form-inline">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="ASC" id="sortasc" name="sortere" onclick="calldatagrid()">
+                                        Terkecil
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" checked="" value="DESC" id="sortdesc" name="sortere" onclick="calldatagrid()">
+                                        Terbesar
+                                    </label>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="example-box-wrapper">
+                    <div class="remove-columns">
+                        <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                            <thead class="cf" style="background-color: blue">
+                                <tr class="bg-blue">
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        No.
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        No. SPTPD
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        NPWPD
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama WP
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        NIOP
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama OP
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Tgl. Pendataan
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Masa Pajak
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Jumlah Pajak
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Status Bayar
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="body_grid">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10" class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-3 text-left">
+                                                <span class="hiddene">
+                                                    <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid(1)">
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-6" style="text-align: center">
+                                                <center>
+                                                    <div id="paginatore"></div>
+                                                    <input type="hidden" id="page" value="1">
+                                                </center>
+                                            </div>
+                                            <div class="col-sm-3 text-right">
+                                                <span class="hiddene">
+                                                    <p>
+                                                        <b style="font-size: 13px; color: orangered"><span id="awaldata"></span> s/d <span id="akhirdata"></span> Dari <span id="total_data"></span> Data</b>
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDetailPendataan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>DETAIL PENDATAAN PAJAK</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div id="pendataanpajak"></div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <button class='btn btn-danger btn-xs' onclick='tutupDetailPendataan()'>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK DATA</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                Tanggal Cetak
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="bootstrap-datepicker form-control" readonly="true" value="<?= date('d-m-Y') ?>" name="tglcetak" id="tglcetak">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <div class='col-md-3'>
+                                Jenis Pajak
+                            </div>
+                            <div class='col-md-9'>
+                                <select multiple class='multi-select' name='' id='jenispajak'>
+                                    <?php
+                                    foreach ($dataobjek as $row) {
+                                        if ($row['s_jenispungutan'] == 'Pajak') {
+                                            echo "<option value='" . $row['s_idjenis'] . "'>" . $row['s_idjenis'] . " || " . $row['s_namajenissingkat'] . "</option>";
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                Kecamatan Objek
+                            </div>
+                            <div class="col-sm-9">
+                                <select name="t_kecamatan" id="t_kecamatan" class="form-control">
+                                    <option value="">Silahkan Pilih</option>
+                                    <?php foreach ($ar_kecamatan as $row) { ?>
+                                        <option value="<?= $row['s_idkec'] ?>"><?= str_pad($row['s_kodekec'], 2, "0", STR_PAD_LEFT) ?> || <?= $row['s_namakec'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-xs btn-danger" title="" onclick="cetakdata()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-xs' onclick='tutupcetakdata()'>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        calldatagrid();
+    });
+
+    function calldatagrid(direction) {
+        if ($("#combocari").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocari").val()
+        if ($("#kolomcari").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcari").val()
+        if ($("#combosorting").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosorting").val()
+        if (document.getElementById("sortasc").checked)
+            par4 = $("#sortasc").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdesc").checked)
+            par5 = $("#sortdesc").val()
+        else
+            par5 = undefined;
+        if ($("#combooperator").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperator").val()
+        datagrid($("#page").val(), $("#rows").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagrid(page, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGrid/' + page + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function(data) {
+            var aa = JSON.parse(data)
+            $("#body_grid").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+            $("#paginatore").html(aa.paginatore);
+            $("#awaldata").html(aa.awaldata);
+            $("#akhirdata").html(aa.akhirdata);
+        });
+    }
+
+    function bukaDetailPendataan(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {
+            idtransaksi: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#pendataanpajak").html(aa.datapendataan);
+        });
+        $('#modalDetailPendataan').modal('show');
+    }
+
+    function tutupDetailPendataan() {
+        $('#modalDetailPendataan').modal('hide');
+    }
+
+    function bukaCetakData() {
+        $('#modalCetakData').modal('show');
+    }
+
+    function tutupCetakData() {
+        $('#modalCetakData').modal('hide');
+    }
+
+    function cetakdata() {
+        window.open('<?= $this->url() ?>/cetakdata?tglcetak=' + $("#tglcetak").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&jenispajak=" + $("#jenispajak").val());
+    }
+
+    /* Multiselect inputs */
+    $(function() {
+        "use strict";
+        $(".multi-select").multiSelect();
+        $(".ms-container").append("<i class='glyph-icon icon-exchange'></i>");
+    });
+</script>
+<style type="text/css">
+    .combooperatorc select {
+        border: 0 !important;
+        /*Removes border*/
+        -webkit-appearance: none;
+        /*Removes default chrome and safari style*/
+        -moz-appearance: none;
+        /* Removes Default Firefox style*/
+        appearance: none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px;
+        /* Removes default arrow from firefox*/
+        color: #FFF;
+    }
+</style>

@@ -1,0 +1,128 @@
+<style type="text/css">
+  blink,
+  .blink {
+    -webkit-animation: blink 1s step-end infinite;
+    -moz-animation: blink 1s step-end infinite;
+    -o-animation: blink 1s step-end infinite;
+    animation: blink 1s step-end infinite;
+  }
+
+  @-webkit-keyframes blink {
+    67% {
+      opacity: 0
+    }
+  }
+
+  @-moz-keyframes blink {
+    67% {
+      opacity: 0
+    }
+  }
+
+  @-o-keyframes blink {
+    67% {
+      opacity: 0
+    }
+  }
+
+  @keyframes blink {
+    67% {
+      opacity: 0
+    }
+  }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+  <div id="page-content" style="background-color: #DFF0D8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Data Pelaporan Pajak
+      </div>
+
+      <div class="panel-body">
+
+        <div class="card">
+          <div class="row">
+            <div class="col-sm-6">
+
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">NPWPD</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= $datapendaftaran['t_npwpd']; ?>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">Nama WP</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= $datapendaftaran['t_nama']; ?>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">Nama Objek</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= $datapendaftaran['t_namaobjek']; ?>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">Masa Pajak</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= date('d-m-Y', strtotime($datapendaftaran['t_masaawal'])); ?> s/d <?= date('d-m-Y', strtotime($datapendaftaran['t_masaakhir'])); ?>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">Tanggal Pendataan</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= date('d-m-Y', strtotime($datapendaftaran['t_tgldaftar'])) ?>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <label class="col-sm-5 control-label">Jumlah Pajak</label>
+                <div class="col-sm-1">:</div>
+                <div class="col-sm-6">
+                  <?= number_format($datapendaftaran['t_jmlhpajak'], 0, ',', '.') ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <hr>
+      <div class="card" style="padding-left: 2%;padding-right: 2%">
+        <h5>Data File yang diupload Wajib Pajak</h5>
+        <input type="hidden" name="t_idtransaksi" id="t_idtransaksi" value="<?= $t_idtransaksi ?>">
+        <div id="datafile"></div>
+
+      </div>
+      <br>
+      <i style="padding-left: 3%"><b>Catatan : Untuk Melihat / Mengunduh klik <span style="color: blue">[nama file]</span> pada tabel</b></i>
+      <br>
+      <br>
+    </div>
+
+    <script type="text/javascript">
+      $(function() {
+        dataupload();
+      });
+
+      function dataupload() {
+        $.post('<?= $this->url() ?>/datagridupload', {
+          t_idtransaksi: $('#t_idtransaksi').val()
+        }, function(data) {
+          var aa = JSON.parse(data);
+          $('#datafile').html(aa.s)
+        });
+      }
+    </script>
+
+  </div>
+</div>
+</div>

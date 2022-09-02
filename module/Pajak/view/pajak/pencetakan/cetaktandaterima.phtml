@@ -1,0 +1,206 @@
+<style type="text/css">
+    .kotak{
+        border: 1px black solid;
+    }
+</style>
+<?php
+ini_set("max_execution_time", 500);
+$data_pemda = $this->data_pemda;
+?>
+<div style="page-break-after: always;width: 100%;" class="kotak">
+    <table>
+        <tr>
+            <td width="60px">
+                <?php $gambar = "/var/www/html/simantaponline/" . $data_pemda->s_logo; ?>        
+                <img width="50" title="LOGO <?= $data_pemda->s_namakabkota; ?>" align="left" src="<?= $gambar ?>"/>
+            </td>
+            <td>
+                <b>PEMERINTAH <?= strtoupper($data_pemda->s_namakabkota); ?></b><br>
+                <?= $data_pemda->s_namainstansi ?><br>
+                <?= $data_pemda->s_alamatinstansi ?> Telp. <?= $data_pemda->s_notelinstansi ?><br>
+                <b><?= strtoupper($data_pemda->s_namaibukotakabkota) ?> - <?= $data_pemda->s_kodepos ?></b>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <center>
+        TANDA TERIMA<br>
+        <u>DOKUMEN PERMOHONAN IZIN <?= strtoupper($datapermohonan['deskripsiijin']); ?></u>
+    </center>
+    <br>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td colspan="2">
+                Yang bertanda tangan di bawah ini :
+            </td>
+        </tr>
+        <tr>
+            <td width="150px">
+                Nama
+            </td>
+            <td>
+                :
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Npp
+            </td>
+            <td>
+                :
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Jabatan
+            </td>
+            <td>
+                :
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td colspan="2">
+                Telah menerima dokumen / berkas permohonan izin  <?= ucwords($datapermohonan['deskripsiijin']); ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="150px">
+                Pemohon
+            </td>
+            <td>
+                : <?= $datapermohonan['nama_pemohon'] ?> 
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Alamat
+            </td>
+            <td>
+                : <?= $datapermohonan['alamat'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Kelurahan
+            </td>
+            <td>
+                : <?= $datapermohonan['deskripsikelurahan'] . ", Kec. " . $datapermohonan['deskripsikecamatan'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Kecamatan
+            </td>
+            <td>
+                : <?= $datapermohonan['deskripsikecamatan'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Kota
+            </td>
+            <td>
+                : <?= $datapermohonan['deskripsikota'] ?>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table width="100%" style="border-spacing: 0px;">
+        <tr>
+            <td colspan="4">
+                <i><b>Copy berkas terlampir</b></i>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Yang Menyerahkan,
+            </td>
+            <td colspan="2">
+                Yang Menerima
+            </td>
+        </tr>
+        <tr>
+            <td width="150px">
+                Nama
+            </td>
+            <td>
+                : <?= $datapermohonan['penanggung_jawab'] ?> 
+            </td>   
+            <td width="150px">
+                Nama
+            </td>
+            <td>
+                : 
+            </td>   
+        </tr>
+        <tr>
+            <td>
+                Jabatan
+            </td>
+            <td>
+                : <?= $datapermohonan['jbt_penanggung_jawab'] ?>
+            </td>
+            <td>
+                NIP/NPP
+            </td>
+            <td>
+                : <?= $datapermohonan['jbt_penanggung_jawab'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                No. Telp./HP
+            </td>
+            <td class="border_bawah">
+                : <?= $datapermohonan["alamat_penanggung_jawab"] ?>
+            </td>
+            <td>
+                Jabatan
+            </td>
+            <td class="border_bawah">
+                : 
+            </td>
+        </tr>
+    </table>
+    <br>
+    <p>Check List *)</p>
+    <table style="border: 1px solid black; border-collapse: collapse; margin-left: 10px; margin-bottom: 10px">
+        <tr>
+            <td width="10px" style="border: 1px solid black; border-collapse: collapse;">
+                No. 
+            </td>
+            <td width="570px" style="border: 1px solid black; border-collapse: collapse;">
+                Jenis Kelengkapan Dokumen
+            </td>
+            <td style="border: 1px solid black; border-collapse: collapse;">
+                Lengkap
+            </td>
+        </tr>
+        <?php
+        $i = 1;
+        foreach ($datakelengkapan_dokumen as $row) {
+            ?>
+            <tr>
+                <td style="border: 1px solid black; border-collapse: collapse; text-align: center;">
+                    <?= $i++; ?>
+                </td>
+                <td style="border: 1px solid black; border-collapse: collapse;">
+                    <?= $row['deskripsidokumen'] ?>
+                </td>
+                <td style="border: 1px solid black; border-collapse: collapse;">
+                    <?php
+                    if ($row['status'] == "Y") {
+                        $status = "Ya";
+                    }else{
+                        $status = "";
+                    }
+                    ?>
+                    <?= $status ?>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+</div>

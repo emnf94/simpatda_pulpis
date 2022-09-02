@@ -1,0 +1,522 @@
+<div class="tab-pane active" id="tab1">
+    <div class="example-box-wrapper">
+        <div class="row" style="overflow: auto">
+            <table class="table table-condensed table-bordered cf tableDaftar" style="font-size: 11px; color:black; width: 100%;">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center; vertical-align: middle;width:5%; ">
+                            No.
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Tgl. Daftar
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            NPWPD/RD
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:15%;">
+                            Nama WP
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:15%;">
+                            Alamat
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kelurahan
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kecamatan
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            Kabupaten
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:5%;">
+                            Jumlah Objek
+                        </th>
+                        <th style="background-color: #00BCA4; color: white; text-align: center;vertical-align: middle;width:10%;">
+                            #
+                        </th>
+                    </tr>
+                    <tr class="bg-default">
+                        <td></td>
+                        <td><input type="text" id="t_tgldaftar_cari_0" class="form-control input-sm" onchange="calldatagrid()"></td>
+                        <td><input type="text" id="t_npwpd_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td><input type="text" id="t_nama_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td><input type="text" id="t_alamat_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td><input type="text" id="t_kelurahan_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td><input type="text" id="t_kecamatan_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td><input type="text" id="t_kabupaten_cari_0" class="form-control input-sm" onkeyup="calldatagrid()"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="body_grid">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="11" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rows" class="form-control" style="width: 30%" onchange="calldatagrid(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatore"></div>
+                                        <input type="hidden" id="page" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b style="font-size: 13px; color: orangered"><span id="awaldata"></span> s/d <span id="akhirdata"></span> Dari <span id="total_data"></span> Data</b>
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSuratpernyataan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SURAT PERNYATAAN KESANGGUPAN & PENUNJUKAN WP</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <!-- <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Periode
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idwpsuratpernyataan" id="idwpsuratpernyataan">
+                                <input type="text" class="form-control" name="periodesuratpernyataan" id="periodesuratpernyataan"  value="<?= date('Y') ?>" data-date-format="yy">
+                            </div>
+                        </div> -->
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="namawpsuratpernyataan" id="namawpsuratpernyataan" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpsuratpernyataan" id="alamatwpsuratpernyataan" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Objek
+                            </label>
+                            <div class="col-md-9">
+                                <select name="jenisobjeksuratpernyataan" id="jenisobjeksuratpernyataan" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-9">
+                                <select name="mengetahuisuratpernyataan" id="mengetahuisuratpernyataan" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Diperiksa Oleh
+                            </label>
+                            <div class="col-md-9">
+                                <select name="diperiksasuratpernyataan" id="diperiksasuratpernyataan" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Format Cetak
+                            </label>
+                            <div class="col-md-4">
+                                <select name="formatcetaksurat" id="formatcetaksurat" class="form-control">
+                                    <option value="pdf">PDF</option>
+                                    <option value="word">Ms. WORD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <button class="btn btn-sm btn-info" title="" onclick="cetaksuratpernyataan()" target="_blink"><i class="glyph-icon icon-print"></i> PERNYATAAN</button>
+                    <button class="btn btn-sm btn-primary" title="" onclick="cetaksuratpenunjukan()" target="_blink"><i class="glyph-icon icon-print"></i> PENUNJUKAN</button>
+                    <button class='btn btn-danger btn-sm' onclick='tutupCetakSuratpernyataan()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakPengukuhan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SURAT PENGUKUHAN WP</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                NPWPD / WR
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idwppengukuhan" id="idwppengukuhan">
+                                <input type="text" class="form-control" name="npwpdwppengukuhan" id="npwpdwppengukuhan" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP / WR
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawppengukuhan" id="namawppengukuhan" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP / WR
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwppengukuhan" id="alamatwppengukuhan" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Objek
+                            </label>
+                            <div class="col-md-9">
+                                <select name="jenisobjekpengukuhan" id="jenisobjekpengukuhan" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Mengetahui
+                            </label>
+                            <div class="col-md-9">
+                                <select name="mengetahuipengukuhan" id="mengetahuipengukuhan" class="form-control">
+                                    <?php foreach ($ar_pejabat as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Format Cetak
+                            </label>
+                            <div class="col-md-4">
+                                <select name="formatcetakpengukuhan" id="formatcetakpengukuhan" class="form-control">
+                                    <option value="pdf">PDF</option>
+                                    <option value="word">Ms. WORD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-sm btn-info" title="" onclick="cetaksuratpengukuhan()"><i class="glyph-icon icon-print"></i> CETAK</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakPengukuhan()'><i class='glyph-icon icon-close'></i> TUTUP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCetakRekapData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK REKAP DATA TUNGGAKAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Periode
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idwprekapdata" id="idwprekapdata">
+                                <input type="text" class="form-control" name="perioderekapdata" id="perioderekapdata" value="<?= date('Y') ?>" data-date-format="yy">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawprekapdata" id="namawprekapdata" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwprekapdata" id="alamatwprekapdata" readonly=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakrekapdata()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakRekapData()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalKeteranganHapus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-exclamation-triangle'></span> PERHATIAN!!!</b></h4>
+            </div>
+            <div class='modal-body' style="text-align:center;font-size:12pt;">
+                <strong>Penghapusan Wajib Pajak tidak dapat dilakukan!<br>dikarenakan Objek sudah dilakukan transaksi pajak</strong>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12' style="text-align:center;">
+                    <button class='btn btn-danger btn-sm' onclick='tutupAlert()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalAlertKosong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b><span class='glyph-icon icon-exclamation-triangle'></span> PERHATIAN!!!</b></h4>
+            </div>
+            <div class='modal-body' style="text-align:center;font-size:12pt;">
+                <strong>Silahkan Pilih Objek Pajak / Retribusi !!</strong>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12' style="text-align:center;">
+                    <button class='btn btn-danger btn-sm' onclick='tutupAlertKosong()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .combooperatorc select {
+        border: 0 !important;
+        /*Removes border*/
+        -webkit-appearance: none;
+        /*Removes default chrome and safari style*/
+        -moz-appearance: none;
+        /* Removes Default Firefox style*/
+        appearance: none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px;
+        /* Removes default arrow from firefox*/
+        color: #FFF;
+    }
+
+    .tableDaftar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tableDaftar tr:hover {
+        background: #edf968;
+    }
+
+    .tableDaftar td {
+        border: 1px solid #eee;
+    }
+
+    .highlight_row {
+        background: #eee;
+    }
+</style>
+<script type="text/javascript">
+    $(function() {
+        $('#t_tgldaftar_cari_0').daterangepicker({
+            format: 'DD-MM-YYYY'
+        }, function() {
+            calldatagrid();
+        });
+    });
+
+    $(function() {
+        calldatagrid();
+    });
+
+    function calldatagrid(direction) {
+        datagrid($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function datagrid(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGrid/' + page + '/' + row + '/' + direction, {
+            t_tgldaftar: $('#t_tgldaftar_cari_0').val(),
+            t_npwpd: $('#t_npwpd_cari_0').val(),
+            t_nama: $('#t_nama_cari_0').val(),
+            t_alamat: $('#t_alamat_cari_0').val(),
+            t_kelurahan: $('#t_kelurahan_cari_0').val(),
+            t_kecamatan: $('#t_kecamatan_cari_0').val(),
+            t_kabupaten: $('#t_kabupaten_cari_0').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#body_grid").html(aa.griddaftar);
+            $("#rows").val(aa.rowsdaftar);
+            $("#page").val(aa.pagedaftar);
+            $("#total_data").html(": " + aa.countdaftar);
+            $("#total_halaman").html(": " + aa.total_halamandaftar);
+            $("#paginatore").html(aa.paginatoredaftar);
+            $("#awaldata").html(aa.akhirdatadaftar);
+            $("#akhirdata").html(aa.awaldatadaftar);
+        });
+    }
+
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function() {
+            calldatagrid();
+        }, 500);
+    }
+
+    function bukaCetakSuratpernyataan(a) {
+        $.post('<?= $this->url() ?>/dataWPobjek', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idwpsuratpernyataan").val(aa.idwp);
+            $("#namawpsuratpernyataan").val(aa.namawp);
+            $("#alamatwpsuratpernyataan").val(aa.alamatwp);
+            $("#jenisobjeksuratpernyataan").html(aa.objekpajak);
+        });
+        $('#modalCetakSuratpernyataan').modal('show');
+    }
+
+    function tutupCetakSuratpernyataan() {
+        $('#modalCetakSuratpernyataan').modal('hide');
+    }
+
+    function cetaksuratpernyataan() {
+        window.open('<?= $this->url() ?>/cetaksuratpernyataan?idwp=' + $("#idwpsuratpernyataan").val() +
+            "&jenisobjek=" + $("#jenisobjeksuratpernyataan").val() +
+            "&mengetahui=" + $("#mengetahuisuratpernyataan").val() +
+            "&diperiksa=" + $("#diperiksasuratpernyataan").val() +
+            "&formatcetak=" + $("#formatcetaksurat").val());
+    }
+
+    function cetaksuratpenunjukan() {
+        window.open('<?= $this->url() ?>/cetaksuratpenunjukan?idwp=' + $("#idwpsuratpernyataan").val() +
+            "&jenisobjek=" + $("#jenisobjeksuratpernyataan").val() +
+            "&mengetahui=" + $("#mengetahuisuratpernyataan").val() +
+            "&diperiksa=" + $("#diperiksasuratpernyataan").val() +
+            "&formatcetak=" + $("#formatcetaksurat").val());
+    }
+
+    function bukaCetakPengukuhan(a) {
+        $.post('<?= $this->url() ?>/dataWP', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idwppengukuhan").val(aa.idwp);
+            $("#npwpdwppengukuhan").val(aa.npwpdwp);
+            $("#namawppengukuhan").val(aa.namawp);
+            $("#alamatwppengukuhan").val(aa.alamatwp);
+            $("#jenisobjekpengukuhan").html(aa.objekpajak);
+        });
+        $('#modalCetakPengukuhan').modal('show');
+
+    }
+
+    function tutupCetakPengukuhan() {
+        $('#modalCetakPengukuhan').modal('hide');
+    }
+
+    function cetaksuratpengukuhan() {
+        window.open('<?= $this->url() ?>/cetaksuratpengukuhan?t_idwp=' + $("#idwppengukuhan").val() +
+            "&jenisobjek=" + $("#jenisobjekpengukuhan").val() +
+            "&mengetahui=" + $("#mengetahuipengukuhan").val() +
+            "&formatcetak=" + $("#formatcetakpengukuhan").val());
+    }
+
+    function bukaCetakRekapData(a) {
+        $.post('<?= $this->url() ?>/dataWP', {
+            t_idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idwprekapdata").val(aa.idwp);
+            $("#namawprekapdata").val(aa.namawp);
+            $("#alamatwprekapdata").val(aa.alamatwp);
+        });
+        $('#modalCetakRekapData').modal('show');
+    }
+
+    function tutupCetakRekapData() {
+        $('#modalCetakRekapData').modal('hide');
+    }
+
+    function cetakrekapdata() {
+        window.open('<?= $this->url() ?>/cetakrekapdata?perioderekapdata=' + $("#perioderekapdata").val() + "&idwprekapdata=" + $("#idwprekapdata").val());
+    }
+
+
+    function bukaAlert() {
+        $('#modalKeteranganHapus').modal('show');
+    }
+
+    function tutupAlert() {
+        $('#modalKeteranganHapus').modal('hide');
+    }
+
+    function bukaAlertKosong() {
+        $('#modalAlertKosong').modal('show');
+    }
+
+    function tutupAlertKosong() {
+        $('#modalAlertKosong').modal('hide');
+    }
+</script>

@@ -1,0 +1,56 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/edit?s_idberjalan=' . $idberjalan);
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Setting Tarif Reklame Berjalan
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Jenis Kendaraan</label>
+                                <div class="col-md-3">
+                                    <?= $this->formHidden($frm->get('s_idberjalan')) ?>  
+                                    <?= $this->formRow($frm->get('s_jeniskendaraan')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Masa Reklame</label>
+                                <div class="col-md-3">
+                                    <?= $this->formRow($frm->get('s_masareklame')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">NSR per m<sup>2</sup></label>
+                                <div class="col-md-3">
+                                    <?= $this->formRow($frm->get('s_nsrberjalan')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_reklame_berjalan') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

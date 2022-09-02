@@ -1,0 +1,56 @@
+<style>
+    #nop {
+        font-size: 2px;
+    }
+</style>
+
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    CEK TUNGGAKAN PBB
+                </h4>
+
+
+
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <label class="col-sm-2" style="left : 20px;">
+                            NOP
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="input-mask form-control" data-inputmask="'mask': '99.99.999.999.999.9999.9'" name="nop" id="nop" style=" font-weight: bold;font-size: 11pt;">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-md btn-warning" onclick="cariTunggakanNop()"><i class='glyph-icon icon-search'></i> CARI</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tunggakanpbb"></div>
+    </div>
+</div>
+
+
+<div class="modalloading"></div>
+
+<script type="text/javascript">
+    $("#nop").inputmask();
+
+    function cariTunggakanNop() {
+        body = $("body");
+        body.addClass("loading");
+        $.post('<?= $this->url() ?>/cariTunggakanNop', {
+            nop: $('#nop').val()
+        }, function(data) {
+            body.removeClass("loading");
+            var aa = JSON.parse(data);
+            $("#tunggakanpbb").html(aa.datatunggakanpbb);
+        });
+    }
+</script>

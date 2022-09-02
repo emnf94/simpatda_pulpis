@@ -1,0 +1,147 @@
+<?php
+if ($formatcetak == 'word') {
+    header("Content-type: application/vnd-ms-word");
+    header("Content-Disposition: attachment; filename=cetaksuratpernyataan.doc");
+}
+
+if($data['t_jenisobjek'] == 1 || $data['t_jenisobjek'] == 2 || $data['t_jenisobjek'] == 3 || $data['t_jenisobjek'] == 5 || $data['t_jenisobjek'] == 6 || $data['t_jenisobjek'] == 7 || $data['t_jenisobjek'] == 9){
+	$jns_pemungutan = "SELF ASSESMENT";
+}else{
+	$jns_pemungutan = "OFFICIAL ASSESMENT";
+}
+?>
+<html>
+    <head>
+        <style type="text/css">
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+			body {
+				font-family: sans-serif;
+			}
+        </style>
+    </head>
+    <body>
+        <h3 style="text-align:center;">SURAT PERNYATAAN<BR>
+        KESANGGUPAN MEMBAYAR <?= strtoupper($data['s_namajenis'])?></h3>
+
+        <p style="font-size:12px;margin:20px 40px 10px 40px;">
+        Yang bertanda tangan dibawah ini : 
+        </p>
+        <table cellpadding="2" cellspacing="2" style="font-size:12px;margin:20px 40px 10px 40px;width:100%;" border="1">
+            <tr style="height:10px;">
+                <td width="25%">Nama</td>
+                <td width="5%" align="center">:</td>
+                <td><?=$data['t_namawp']?></td>
+            </tr>
+            <tr>
+                <td>No. KTP</td>
+                <td align="center">:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Tempat, Tgl Lahir</td>
+                <td align="center">:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Pekerjaan</td>
+                <td align="center">:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Alamat</td>
+                <td align="center">:</td>
+                <td><?=$data['t_alamatobjek']?></td>
+            </tr>
+            <tr>
+                <td>Jenis Kelamin</td>
+                <td align="center">:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>NPWPD</td>
+                <td align="center">:</td>
+                <td><?=$data['t_npwpdwp']?></td>
+            </tr>
+            <tr>
+                <td>Nama Usaha</td>
+                <td align="center">:</td>
+                <td><?=$data['t_namaobjek']?></td>
+            </tr>
+            <tr>
+                <td>Sistem Pemungutan Pajak</td>
+                <td align="center">:</td>
+                <td><?= $jns_pemungutan ?></td>
+            </tr>
+        </table>
+
+        <p style="font-size:12px;margin:20px 40px 10px 40px;text-align:justify;line-height:20px;">
+        Dengan ini menyatakan, bahwa sehubungan dengan permohonan Izin PANTI PIJAT saya yang terletak di 
+        <?=$data['t_alamatlengkapobjek']?>.<br>
+        Saya sanggup membayar <?=strtoupper($data['s_namajenis'])?> yang telah ditetapkan oleh <?=$ar_pemda->s_namainstansi.' kabupaten '.$ar_pemda->s_namakabkota?> 
+        sebesar Rp. 800.000,- / bulan dari pendapatan. 
+        Pembayaran akan dimulai pada bulan JANUARI  tahun 2019. Saya akan membayar tepat waktu sebelum 
+        tanggal 10 masa pajak bulan berjalan dan apabila lewat dari tanggal tersebut saya siap dikenakan 
+        sanksi 2% / bulan. Jika dalam melaksanakan usaha tersebut tidak membayar <?=strtoupper($data['s_namajenis'])?>, 
+        saya sanggup untuk menghentikan dan atau menutup kegiatan usaha saya tersebut.
+        <br><br>
+        Demikian surat pernyataan ini dibuat dengan sungguh – sungguh tanpa ada paksaan dari pihak manapun.
+        </p>
+
+        <table style="font-size:12px;margin:20px 40px 10px 40px;width:100%;">
+            <tr>
+                <td width="60%"></td>
+                <td width="40%" align="center"><?=$ar_pemda->s_namaibukotakabkota .', '. date('d-m-Y')?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align:center;">Yang Membuat Pernyataan
+                <br><br><br><br><br><br>
+                <?=strtoupper($data['t_namawp'])?>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+

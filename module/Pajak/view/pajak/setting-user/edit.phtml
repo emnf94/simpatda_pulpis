@@ -1,0 +1,170 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    SETTING PENGGUNA
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <?= $this->form()->openTag($frm) ?>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Username
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formHidden($frm->get('s_iduser')) ?>
+                            <?= $this->formRow($frm->get('s_username')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Password
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_password')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Ulangi Password
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('t_pass2')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Tipe Pengguna
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_akses')) ?>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12" id="divwp" style="display: <?= $displaywp ?>">
+                        <label class="col-md-2">
+                            Wajib Pajak
+                        </label>
+                        <div class="col-md-6">
+                            <?= $this->formRow($frm->get('s_wp')) ?>   
+                        </div>
+                    </div>                   
+                    <div id="dataobjek" style="display: <?= $displaywp ?>"></div>-->
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Nama
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_nama')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            Jabatan
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_jabatan')) ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-2">
+                            NIP
+                        </label>
+                        <div class="col-md-3">
+                            <?= $this->formRow($frm->get('s_nip')) ?>
+                        </div>
+                    </div>
+
+                    <div align="right">
+                        <?= $this->formInput($frm->get('simpan')) ?> <a href="<?= $this->url('setting_user') ?>" class="btn btn-danger">Kembali</a>
+                    </div>
+                    <?= $this->form()->closeTag($frm) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        cariobjekwp(<?= $idwp ?>);
+    });
+
+    function cariobjekwp(a) {
+        $.post('<?= $this->url() ?>/cariobjekwp', {
+            idwp: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#dataobjek").html(aa.dataobjek);
+        });
+    }
+
+    function bukamodalRekening(jenisobj, idobj) {
+        calldataGridRekening(jenisobj, idobj);
+        $('#modalRekening').modal('show');
+    }
+
+    function calldataGridRekening(jenisobj, idobj) {
+        dataGridRekening($("#page").val(), $("#rows").val(), jenisobj, idobj);
+    }
+
+    function dataGridRekening(page, row, jenisobj, idobj) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + page + '/' + row + '/' + 1 + '?t_jenisobjek=' + jenisobj + "&t_idobjek=" + idobj, function(data) {
+            var aa = JSON.parse(data);
+            $("#listrekening").html(aa.grid);
+        });
+    }
+
+    function pilihRekening(a, b) {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: a,
+            t_idobjek: b
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek' + b).val(aa.t_idkorek);
+            $('#t_korek' + b).val(aa.t_korek);
+            $('#modalRekening').modal('hide');
+        });
+    }
+</script>

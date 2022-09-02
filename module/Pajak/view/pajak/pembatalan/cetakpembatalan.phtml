@@ -1,0 +1,259 @@
+<html>
+    <head>
+        <style type="text/css">            
+            .border_atas {
+                border-top: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kiri {
+                border-left: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_kanan {
+                border-right: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .border_bawah {
+                border-bottom: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_lima {
+                font-size: 5pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                font-size: 10pt;
+            }
+
+            .font_duabelas {
+                font-size: 12pt;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        ini_set("max_execution_time", 500);
+        if (!function_exists('kekata')) {
+
+            function kekata($x) {
+                $x = abs($x);
+                $angka = array("", "Satu", "Dua", "Tiga", "Empat", "Lima",
+                    "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $temp = "";
+                if ($x < 12) {
+                    $temp = " " . $angka[$x];
+                } else if ($x < 20) {
+                    $temp = kekata($x - 10) . " Belas";
+                } else if ($x < 100) {
+                    $temp = kekata($x / 10) . " Puluh" . kekata($x % 10);
+                } else if ($x < 200) {
+                    $temp = " Seratus" . kekata($x - 100);
+                } else if ($x < 1000) {
+                    $temp = kekata($x / 100) . " Ratus" . kekata($x % 100);
+                } else if ($x < 2000) {
+                    $temp = " Seribu" . kekata($x - 1000);
+                } else if ($x < 1000000) {
+                    $temp = kekata($x / 1000) . " Ribu" . kekata($x % 1000);
+                } else if ($x < 1000000000) {
+                    $temp = kekata($x / 1000000) . " Juta" . kekata($x % 1000000);
+                } else if ($x < 1000000000000) {
+                    $temp = kekata($x / 1000000000) . " Milyar" . kekata(fmod($x, 1000000000));
+                } else if ($x < 1000000000000000) {
+                    $temp = kekata($x / 1000000000000) . " Trilyun" . kekata(fmod($x, 1000000000000));
+                }
+                return $temp;
+            }
+
+        }
+
+        function terbilang($x, $style = 4) {
+            if ($x < 0) {
+                $hasil = "MINUS " . trim(kekata($x));
+            } else {
+                $hasil = trim(kekata($x));
+            }
+            switch ($style) {
+                case 1:
+                    $hasil = strtoupper($hasil);
+                    break;
+                case 2:
+                    $hasil = strtolower($hasil);
+                    break;
+                case 3:
+                    $hasil = ucwords($hasil);
+                    break;
+                default:
+                    $hasil = ucfirst($hasil);
+                    break;
+            }
+            return $hasil;
+        }
+
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglpendataan = date('d', strtotime($data['t_tglketetapanpembatalan'])) . " " . $abulan[date('m', strtotime($data['t_tglketetapanpembatalan']))] . " " . date('Y', strtotime($data['t_tglketetapanpembatalan']));
+        ?>
+        <table class="border_atas border_bawah border_kanan border_kiri font_sepuluh" style="width: 100%">
+            <tr>
+                <td style="width: 10%; padding-top: 7px;padding-bottom: 7px; padding-left: 10px">
+                    <img src="<?= $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath() . "/" . $ar_pemda->s_logo; ?>" style="width:40px;"  />
+                </td>
+                <td style="width: 80%; padding-top: 7px;padding-bottom: 7px;">
+                    PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota) ?>
+                    <br>
+                    <?= $ar_pemda->s_namainstansi ?>
+                    <br>
+                    <?= $ar_pemda->s_alamatinstansi ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?>
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sepuluh" style="width: 100%;">
+            <tr>
+                <td class="border_kiri border_kanan" style="border-spacing:0px; padding-top: 20px; padding-bottom: 20px; text-align: center">
+                    <b>
+                        SURAT PERJANJIAN ANGSURAN
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td class="border_kanan border_kiri" style="border-spacing:0px; padding-top: 10px; padding-left: 10px;">
+                    <table>
+                        <tr>
+                            <td colspan="3">
+                                Yang bertanda tangan dibawah ini :
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; vertical-align: top">Nama</td>
+                            <td style="width: 2%; vertical-align: top">:</td>
+                            <td><?= $data['t_namawp'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">NPWPD</td>
+                            <td style="vertical-align: top">:</td>
+                            <td><?= $data['t_npwpdwp'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">Alamat</td>
+                            <td style="vertical-align: top">:</td>
+                            <td><?= $data['t_alamat_lengkapwp'] ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                Bertindak atas nama :
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">Nama</td>
+                            <td style="vertical-align: top">:</td>
+                            <td><?= $data['t_namaobjek'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">NOP</td>
+                            <td style="vertical-align: top">:</td>
+                            <td><?= $data['t_nop'] ?></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">Alamat</td>
+                            <td style="vertical-align: top">:</td>
+                            <td><?= $data['t_alamatlengkapobjek'] ?></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_sepuluh" style="width: 100%;">
+            <tr>
+                <td style="width: 5%; padding-left: 10px; padding-top: 10px; vertical-align: top">1.</td>
+                <td style="padding-top: 10px" colspan="4">
+                    Dengan ini menyatakan, telah menyampaikan permohonan pembatalan pembayaran hutang pajak pada tanggal <?= date('d-m-Y', strtotime($data['t_tglketetapanpembatalan'])) ?>
+                    sebanyak <?= $data['t_jumlahkalipembatalan'] ?>
+                    kali pembatalan. Terhadap Surat Ketetapan Pajak yang telah diterima:
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 10px">
+
+                </td>
+                <td style="width: 20%">
+                    a. <?= $data['s_namasingkatsurat'] ?>
+                </td>
+                <td style="width: 20%">
+                    No. <?= $data['t_nopenetapan'] ?>
+                </td>
+                <td style="width: 20%">
+                    tgl. <?= date('d-m-Y', strtotime($data['t_tglpenetapan'])) ?>
+                </td>
+                <td style="width: 20%">
+                    Rp. <?= number_format($data['t_jmlhpajak'], 0, ',', '.') ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 10px; padding-top: 20px">
+
+                </td>
+                <td colspan="4" style="padding-top: 20px">
+                    Pembayaran pembatalan
+                </td>
+            </tr>
+        </table>
+        <table class="border_kanan border_kiri font_sepuluh" style="width: 100%;">
+            <?= $detail_pembatalan ?>
+        </table>
+        <table class="border_kanan border_kiri font_sepuluh" style="width: 100%;">
+            <tr>
+                <td style="width: 5%; padding-left: 10px; padding-top: 10px; vertical-align: top; padding-bottom: 20px">2.</td>
+                <td style="padding-top: 10px; padding-bottom: 20px" colspan="4">
+                    Jika pernyataan pembayaran pada sub 1 diatas tidak saya penuhi, maka penagihan dilakukan dengan Surat Paksa. tanpa pemberitahun lebih dahulu.
+                </td>
+            </tr>
+        </table>
+        <table class="border_bawah border_kanan border_kiri font_sepuluh" style="width: 100%;">
+            <tr>
+                <td style="width: 50%; text-align: center">
+                    Mengetahui dan menyetujui<br>
+                    Kepala <?= $ar_pemda->s_namasingkatinstansi ?>
+                </td>
+                <td style="text-align: center">
+                    ...................... , <?= $t_tglpendataan ?> <br>
+                    Yang berjanji,
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    <br><br><br><br><br>
+                </td>
+                <td style="text-align: center">
+                    <br><br><br><br><br>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center; padding-bottom: 10px">
+                    <?= strtoupper($ar_ttd->s_namapej); ?>
+                    <br>
+                    NIP . <?= $ar_ttd->s_nippej; ?>
+                </td>
+                <td style="text-align: center; padding-bottom: 10px">
+                    (.........................................)
+                    <br>
+                    .
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

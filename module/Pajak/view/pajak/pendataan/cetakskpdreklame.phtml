@@ -1,0 +1,552 @@
+<?php
+
+/*if($_SERVER['HTTP_HOST'] == 'satriapajak.banyumaskab.go.id'){
+        $linklokal = "https://".$_SERVER['HTTP_HOST']."".$this->basePath()."/";
+        //$linklokal = $_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . "/";
+}else{
+        //$linklokal = "http://localhost/".$this->basePath()."/";
+        $linklokal = $_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . "/";
+}*/
+
+$linklokal = $_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . "/";
+
+ini_set("max_execution_time", 500);
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+$mpdf = new mPDF('utf-8', 'Letter', 0, '', 10, 10, 15, 1, 1, 1, '');
+
+$abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+$t_tglpenetapan = date('d', strtotime($data['t_tglpenetapan'])) . " " . $abulan[date('m', strtotime($data['t_tglpenetapan']))] . " " . date('Y', strtotime($data['t_tglpenetapan']));
+ 
+$fontheader = 'font-size: 14px;';
+$fontnormal = 'font-size: 12.5px;';
+
+
+
+
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/barcodecoy/qrlib.php');
+
+$filename = $PNG_TEMP_DIR . 'test.png';
+
+	
+
+
+if (empty($data['t_kodebayar'])) {
+    $noreg = '';
+    $tampilbarcode = '';
+    $tampilttdwp = '';
+} else {
+    $noreg = 'ID Billing : ' . $data['t_kodebayar'];
+    
+
+
+    $PNG_TEMP_DIR = $linklokal . 'public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'].'/' . $data['t_idtransaksi'] . '/';
+
+    //html PNG location prefix
+    $PNG_WEB_DIR = $linklokal. 'public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'].'/' . $data['t_idtransaksi'] . '/';
+
+
+//ofcourse we need rights to create temp dir
+    if (!file_exists($PNG_TEMP_DIR)) {
+        //mkdir($PNG_TEMP_DIR);
+        mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'].'/' . $data['t_idtransaksi'] . '/', 0777, true);
+        chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'], 0777);
+        chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'], 0777);
+        chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'].'/' . $data['t_idtransaksi'] . '/', 0777);
+    }
+
+
+
+    //processing form input
+    //remember to sanitize user input in real-life solution !!!
+    $errorCorrectionLevel = 'L';
+    $matrixPointSize = 3;
+    $barcode = $data['t_kodebayar'];
+
+    $filename = $PNG_TEMP_DIR . '' . $data['t_idjenisobjek'] . '_' . $data['t_periodepajak'] . '_' . $data['t_idtransaksi'] . '_' . md5($barcode . '|' . $errorCorrectionLevel . '|' . $matrixPointSize) . '.png';
+    QRcode::png($barcode, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    $tampilbarcode = '<img src="' . $linklokal . 'public/img_barcode/' . $data['t_idjenisobjek'] . '/'.$data['t_periodepajak'].'/' . $data['t_idtransaksi'] . '/' . basename($filename) . '" />';
+
+
+    //$barcode2 = $data['t_npwpd'] . '-' . $data['t_nama'];
+    //$filename2 = $PNG_TEMP_DIR . '' . $data['t_idjenisobjek'] . '_' . $data['t_idtransaksi'] . '_' . md5($barcode2 . '|' . $errorCorrectionLevel . '|' . $matrixPointSize) . '.png';
+    //QRcode::png($barcode2, $filename2, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    //$tampilttdwp = '<img src="' . $this->basePath() . '/public/img_barcode/' . $data['t_idjenisobjek'] . '/' . $data['t_idtransaksi'] . '/' . $data['t_idtransaksi'] . '/' . basename($filename2) . '" />';
+}      
+
+$html = '';
+$html .= '
+<html>
+    <head>
+        <style type="text/css">            
+            
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .font_lima {
+                    font-size: 5pt;
+            }
+
+            .font_tujuh {
+                    font-size: 7pt;
+            }  
+
+            .font_delapan {
+                    font-size: 9pt;
+            }    
+
+            .font_sembilan {
+                    font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                    font-size: 10pt;
+            }
+
+            .font_duabelas {
+                    font-size: 12pt;
+            }
+
+            .divTableRow {
+                            display: table-row;
+            }
+            .divTableCell, .divTableHead {
+                            border: 1px solid #000;
+                            display: table-cell;
+                            padding: 3px 10px;
+            }
+        </style>
+    </head>
+    <body>';
+
+$alamatobjek = '';
+if (!empty($data['t_alamatobjek'])) {
+    $alamatobjek .= ucfirst(strtolower($data['t_alamatobjek']));
+}
+if ((!empty($data['t_rtobjek'])) || (($data['t_rtobjek'] == '   '))) {
+    $alamatobjek .= ' RT ' . $data['t_rtobjek'];
+}
+if (!empty($data['t_rwobjek'])) {
+    $alamatobjek .= ' RW ' . $data['t_rwobjek'];
+}
+if (!empty($data['s_namakelobjek'])) {
+    $alamatobjek .= ' Kel. ' . ucfirst(strtolower($data['s_namakelobjek']));
+}
+if (!empty($data['s_namakecobjek'])) {
+    $alamatobjek .= ' Kec. ' . ucfirst(strtolower($data['s_namakecobjek']));
+}
+if (!empty($data['t_kabupatenobjek'])) {
+    $alamatobjek .= ' Kab. ' . ucfirst(strtolower($data['t_kabupatenobjek']));
+}
+
+if($data['t_bidangusaha'] == 2){
+    $namawp = $data['t_nama_badan'];
+    $alamatwp = '';
+    if(!empty($data['t_jalan_badan'])){
+        $alamatwp .= $data['t_jalan_badan'];
+    }
+    if(!empty($data['t_rt_badan'])){
+        $alamatwp .= ' RT '.$data['t_rt_badan'];
+    }
+    if(!empty($data['t_rw_badan'])){
+        $alamatwp .= ' RW '.$data['t_rw_badan'];
+    }
+    if(!empty($data['s_namakelbadan'])){
+        $alamatwp .= ' Kel. '.$data['s_namakelbadan'];
+    }
+    if(!empty($data['s_namakecbadan'])){
+        $alamatwp .= ' Kec. '.$data['s_namakecbadan'];
+    }
+    if(!empty($data['t_kabupaten_badan'])){
+        $alamatwp .= ' Kab. '.$data['t_kabupaten_badan'];
+    }
+}else{
+    $namawp = $data['t_nama'];
+    $alamatwp = '';
+    if(!empty($data['t_alamat'])){
+        $alamatwp .= $data['t_alamat'];
+    }
+    if(!empty($data['t_rt'])){
+        $alamatwp .= ' RT '.$data['t_rt'];
+    }
+    if(!empty($data['t_rw'])){
+        $alamatwp .= ' RW '.$data['t_rw'];
+    }
+    if(!empty($data['s_namakel'])){
+        $alamatwp .= ' Kel. '.$data['s_namakel'];
+    }
+    if(!empty($data['s_namakec'])){
+        $alamatwp .= ' Kec. '.$data['s_namakec'];
+    }
+    if(!empty($data['t_kabupaten'])){
+        $alamatwp .= ' Kab. '.$data['t_kabupaten'];
+    }
+}
+
+$html .= '<table class="border_bawah border_kanan border_kiri border_atas font_sepuluh" style="width: 100%;">
+            <tr>
+                <td class="border_atas border_kanan border_bawah border_kiri" style="width: 900px;" >
+                    <table align="center">
+                        <tr>
+                            <td style="vertical-align: center; width: 100px">
+                                <center>
+                                <img src="' . $linklokal . "" . $ar_pemda->s_logo . '" style="width:60px; height: 65px; "  />
+                               </center>     
+                            </td>
+                            <td style="width: 450px; font-size: 13px;">
+                                <center>
+                                    <b style="font-size: 14px;">PEMERINTAH ' . strtoupper($ar_pemda->s_namakabkota) . '</b>
+                                    <br><b >' . $ar_pemda->s_namainstansi . '</b>
+                                    <br>' . $ar_pemda->s_alamatinstansi . ' Telp/Fax ' . $ar_pemda->s_notelinstansi . ', ' . $ar_pemda->s_namaibukotakabkota . '
+                                    <br>Kode Pos ' . $ar_pemda->s_kodepos . '
+                                </center>
+                            </td>
+                        </tr>
+                    </table>    
+                </td>
+               
+                <td style="width: 150px;" class="border_atas border_kanan border_bawah border_kiri">
+                    <center>
+                        Kode Bayar<br>
+                        '.$tampilbarcode.'<br>
+                         
+                        ' . $data['t_kodebayar'] . '
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 10px; padding-bottom: 10px; " class="border_kanan border_kiri border_bawah border_atas">
+                    <center><b style="font-size: 15px;">SURAT KETETAPAN PAJAK DAERAH (SKPD)<br>
+                    PAJAK REKLAME</b>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 5px; padding-bottom: 5px; " class="border_kanan border_kiri border_bawah border_atas">
+                    <table>
+                        <tr>
+                            <td style="width: 140px; vertical-align: top;">Nomor SKPD</td>
+                            <td style="width: 10px; vertical-align: top;">:</td>
+                            <td style="width: 330px; vertical-align: top;">'.$data['t_nopenetapan'].'</td>
+                            <td style="width: 10px; vertical-align: top;">&nbsp;</td>    
+                            <td style="width: 110px; vertical-align: top;">Masa Pajak</td>
+                            <td style="width: 10px; vertical-align: top;">:</td>
+                            <td style="width: 200px; vertical-align: top;">' . date('d-m-Y', strtotime($data['t_masaawal'])) . ' S/D ' . date('d-m-Y', strtotime($data['t_masaakhir'])) . '</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">Nama Wajib Pajak</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">'.$namawp.'</td>
+                            <td style="width: 10px; vertical-align: top;">&nbsp;</td>        
+                            <td style="vertical-align: top;">Tahun Pajak</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">'.$data['t_periodepajak'].'  </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">NPWPD</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">'.$data['t_npwpd'].'</td>
+                            <td style="width: 10px; vertical-align: top;">&nbsp;</td>        
+                            <td style="vertical-align: top;">Tgl. Jatuh Tempo</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">' . date('d-m-Y', strtotime($data['t_tgljatuhtempo'])) . '  </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">Alamat Wajib Pajak</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">'.$alamatwp.'</td>
+                            <td style="width: 10px; vertical-align: top;">&nbsp;</td>        
+                            <td style="vertical-align: top;">No. SK DPMPPTSP</td>
+                            <td style="vertical-align: top;">:</td>
+                            <td style="vertical-align: top;">' .$data['t_nosk_dpmpptsp'] . '  </td>
+                        </tr>
+                        
+                    </table>
+                </td>
+            </tr>';
+                    if($data_get['detailreklame'] == 1){
+            $html .= '
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 10px; padding-bottom: 10px; " class="border_kanan border_kiri border_bawah border_atas">
+                    
+                    <table style="border-spacing: 0px;">
+                        <tr>
+                            <td rowspan="2" style="width: 10px;" class="border_kanan border_kiri border_bawah border_atas"><center><b>No.</b></center></td>
+                            <td rowspan="2" style="width: 150px;" class="border_kanan border_kiri border_bawah border_atas"><center><b>Jenis Reklame</b></center></td>
+                            <td rowspan="2" style="width: 200px;" class="border_kanan border_kiri border_bawah border_atas"><center><b>Lokasi Pemasangan</b></center></td>
+                            <td class="border_kanan border_kiri border_bawah border_atas" colspan="2"><center><b>Ukuran (M)</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Jml<br>Muka</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Jml<br>Rklm</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>NJOPR / Satuan</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Nilai Strategis</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>NJOPR</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>NSPR</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>NSR</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Tarif<br>Pajak</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Jangka<br>Waktu<br>'.$detailreklame['byms_tipewaktu'].'</b></center></td>
+                            <td rowspan="2" class="border_kanan border_kiri border_bawah border_atas"><center><b>Jumlah<br>Pajak</b></center></td>   
+                            
+                        </tr>
+                        <tr>
+                            <td class="border_kanan border_kiri border_bawah border_atas"><center><b>P</b></center></td>
+                            <td class="border_kanan border_kiri border_bawah border_atas"><center><b>L</b></center></td>
+                        </tr>
+                        ';
+
+                        
+
+                        $datadetailreklame = $this->MenuHelper()->cek_byms_reklame_detail($data['t_idtransaksi']);
+                        
+                        $no = 1;
+                        foreach ($datadetailreklame as $key => $detailreklame) {
+                                
+                            $html .= '
+                                    <tr>
+                                       <td class="border_kanan border_kiri border_bawah border_atas">'.$no.'.</td>
+                                       <td class="border_kanan border_kiri border_bawah border_atas">'.$detailreklame['koderek'].' <br>'.$detailreklame['s_namakorek'].'</td>
+                                       <td class="border_kanan border_kiri border_bawah border_atas">Nama Naskah : '.$detailreklame['byms_naskah_reklame'].'<br>Lokasi : '.$detailreklame['byms_nama_jlnreklame'].'</td>
+                                       <td class="border_kanan border_kiri border_bawah border_atas"><center>'.$detailreklame['byms_panjang'].'</center></td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas"><center>'.$detailreklame['byms_lebar'].'</center></td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas"><center>'.$detailreklame['byms_jumlah_muka'].'</center></td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas"><center>'.$detailreklame['byms_jumlah_reklame'].'</center></td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.number_format($detailreklame['byms_njopr_satuan'], 0, ',', '.').'</td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas"><center>'.($detailreklame['byms_nilai_zona_reklame']*100).' %</center></td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.number_format($detailreklame['byms_njopr'], 0, ',', '.').'</td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.number_format($detailreklame['byms_nspr'], 0, ',', '.').'</td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.number_format($detailreklame['byms_nsr'], 0, ',', '.').' </td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.$detailreklame['byms_tarifpajak'].' %</td>
+                                        <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.$detailreklame['byms_jangkawaktu'].'</td>
+                                          
+                                       <!--<td class="border_kanan border_kiri border_bawah border_atas">
+                                            
+
+                                            <table>
+                                                <tr>
+                                                    <td style="width: 60px;">NJOPR</td>
+                                                    <td style="width: 10px;">=</td>
+                                                    <td>'.$detailreklame['byms_panjang'].' (P) x '.$detailreklame['byms_lebar'].' (L) x '
+                                    . '                 '.$detailreklame['byms_jumlah_muka'].' (Jml Muka) x '.$detailreklame['byms_jumlah_reklame'].' (Jml. Reklame) x
+                                                        '.$detailreklame['byms_njopr_satuan'].' (Njopr Satuan) 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td ></td>
+                                                    <td >=</td>
+                                                    <td>'.number_format($detailreklame['byms_njopr'], 0, ',', '.').' 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td >NSPR</td>
+                                                    <td >=</td>
+                                                    <td>'.($detailreklame['byms_nilai_zona_reklame']*100).' (Nilai Strategis) x '.number_format($detailreklame['byms_njopr'], 0, ',', '.').' (NJOPR)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td >NSR</td>
+                                                    <td >=</td>
+                                                    <td>'.$detailreklame['byms_njopr'].' (NJOPR) +  '.number_format($detailreklame['byms_nspr'], 0, ',', '.').' (NSPR)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td ></td>
+                                                    <td >=</td>
+                                                    <td>'.number_format($detailreklame['byms_nsr'], 0, ',', '.').' 
+                                                    </td>
+                                                </tr>
+                                            </table>    
+                                                       
+                                           </td>-->
+                                       <td class="border_kanan border_kiri border_bawah border_atas" align="right">'.number_format($detailreklame['byms_jmlhpajak'], 0, ',', '.').'</td>
+
+                                   </tr>';
+                            $no++;
+                        }
+                        $html .= '
+                         <tr>
+                            <td colspan="8" class="border_kanan border_atas"><center><b>&nbsp;</b></center></td>
+                            <td colspan="6" class="border_kanan border_kiri border_bawah border_atas"><b>Pajak Reklame Terutang</b></td>
+                            <td class="border_kanan border_kiri border_bawah border_atas" align="right"><b>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</b></td>
+                            
+                         </tr>
+                         <tr>
+                            <td colspan="8" class="border_kanan"><center><b>&nbsp;</b></center></td>
+                            <td colspan="6" class="border_kanan border_kiri border_bawah border_atas"><b>Jumlah Sanksi  : a. Bunga
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b. Kenaikan
+                            </b></td>
+                            <td class="border_kanan border_kiri border_bawah border_atas" align="right"><b>&nbsp;</b></td>
+                            
+                         </tr>
+                         <tr>
+                            <td colspan="8" class="border_kanan"><center><b>&nbsp;</b></center></td>
+                            <td colspan="6" class="border_kanan border_kiri border_bawah border_atas"><b>Jumlah Keseluruhan</b></td>
+                            <td class="border_kanan border_kiri border_bawah border_atas" align="right"><b>'.number_format($data['t_jmlhpajak'], 0, ',', '.').'</b></td>
+                            
+                         </tr>
+                    </table> 
+                        
+                     
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; " class="border_kanan border_kiri border_bawah border_atas">
+                   <b style="font-size: 17px;"> Terbilang : <i>'.$this->MenuHelper()->terbilang($data['t_jmlhpajak']).' Rupiah </i></b>
+                </td>
+            </tr>';
+                 }else{
+                        $html .= '
+            <tr>
+                <td colspan="3" style="vertical-align: top; ' . $fontnormal . '" class="border_kanan border_kiri border_bawah">
+                    <br>
+                    <table style="border-spacing: 0; ' . $fontnormal . '" align="center">
+                        <tr>
+                            <td style="vertical-align: center; width: 20px;" class="border_kanan border_kiri border_bawah border_atas"><center>No</center></td>
+                            <td style="vertical-align: center; width: 160px;" class="border_kanan border_bawah border_atas"><center>Rekening</center></td>
+                            <td style="vertical-align: center; width: 690px;" class="border_kanan border_bawah border_atas"><center>Uraian</center></td>
+                            <td colspan="2" style="vertical-align: center;" class="border_kanan border_bawah border_atas"><center>Jumlah</center></td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="vertical-align: top;" class="border_kiri border_kanan border_bawah"><center>1</center></td>
+                            <td style="vertical-align: top;" class="border_kanan border_bawah"><center>'.$data['korek'].'</center></td>
+                            <td style="vertical-align: top;" class="border_kanan border_bawah">
+                                '.$data['s_namakorek'].'
+                            </td>
+                            <td style="vertical-align: center;" class="border_bawah">&nbsp;Rp. </td>
+                            <td style="vertical-align: top;" class="border_kanan border_bawah" align="right">'.number_format($data['t_jmlhpajak'], 0, ",", ".").'</td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="vertical-align: center;">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_kanan">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan">&nbsp;&nbsp;&nbsp;Jumlah Ketetapan Pokok Pajak</td>
+                            <td style="vertical-align: center;" class="border_bawah">&nbsp;Rp. </td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan" align="right">'.number_format($data['t_jmlhpajak'], 0, ",", ".").'</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: center;" >&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_kanan">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan">&nbsp;&nbsp;&nbsp;Jenis Sanksi :
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Bunga
+                            </td>
+                            <td style="vertical-align: center;" class="border_bawah">&nbsp;Rp. </td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan" align="right">-</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: center;">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_kanan">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b. Kenaikan
+                            </td>
+                            <td style="vertical-align: center;" class="border_bawah">&nbsp;Rp. </td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan" align="right">-</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: center;">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_kanan">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan">&nbsp;&nbsp;&nbsp;<b>Jumlah Keseluruhan</b>
+                            </td>
+                            <td style="vertical-align: center;" class="border_bawah">&nbsp;Rp. </td>
+                            <td style="vertical-align: center;" class="border_bawah border_kanan" align="right">'.number_format($data['t_jmlhpajak'], 0, ",", ".").'</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="vertical-align: center;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: center;">&nbsp;</td>
+                            <td style="vertical-align: center;" class="border_kanan">&nbsp;&nbsp;&nbsp;<b>Terbilang</b>
+                            </td>
+                            <td colspan="3" style="vertical-align: center;" class="border_bawah border_kanan border_atas">&nbsp;&nbsp;<i><b>'.$this->MenuHelper()->terbilang($data['t_jmlhpajak']).'<b></i></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>                
+                                ';
+                    }    
+                        
+                   $html .= '       
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 10px; padding-bottom: 10px; " class="border_kanan border_kiri border_bawah border_atas">
+                    <table>
+                        <tr>
+                            <td colspan="2" style="vertical-align: top;"><u>Perhatian</u> :</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 10px; vertical-align: top;">1.</td>
+                            <td style="width: 500px; vertical-align: top;">Pembayaran setelah tanggal jatuh tempo dikenakan sanksi administrasi berupa bunga 2% sebulan.</td>
+
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">2.</td>
+                            <td style="vertical-align: top;">Pembayaran atas pajak terutang pada Bank yang ditetapkan oleh Bupati dengan menggunakan Surat Setoran Pajak.</td>
+                        </tr>
+
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 10px; padding-bottom: 10px; " class="border_kanan border_kiri border_bawah border_atas">
+                    <table>
+                        <tr>
+                            
+                            <td style="width: 500px;">
+                                &nbsp;
+                            </td>
+                            <td>'.ucwords(strtolower($ar_pemda->s_ttdkabkot)).', '.$t_tglpenetapan.'
+                                '; 
+                        if(!empty($data_get['ttd0'])){
+                            $ar_mengetahui = $this->MenuHelper()->getnamapejabat($data_get['ttd0']);
+                            $html .= '  
+                            <center>'.strtoupper($ar_mengetahui['s_jabatanpej']).'<br>
+                                        ' . ucwords(strtolower($ar_pemda->s_namakabkota)) . '
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <b><u>&nbsp;&nbsp;'.$ar_mengetahui['s_namapej'].'&nbsp;&nbsp;</u></b><br>
+                                                    '.$ar_mengetahui['s_pangkatpej'].'<br>
+                                                    NIP. '.$ar_mengetahui['s_nippej'].' </center>
+                            ';
+                        }else{
+                           
+                        }
+                        $html .= ' 
+                                </td>
+                        </tr>
+                        
+                    </table>
+                </td>
+            </tr>
+         </table>';
+
+$html .= '
+
+    </body>
+</html>';
+
+//echo $html;
+$mpdf->WriteHTML($html);
+$mpdf->Output("cetakskpdairtanah-" . $data['t_nourut'] . ".pdf", "I");
+?>                

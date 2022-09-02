@@ -1,0 +1,655 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pageair');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class="glyph-icon icon-pencil"></i>
+                    Pendataan <?= $datapendaftaran['s_namajenis'] ?><b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 center-div">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:center; background:black; border-radius: 25px; color: orange; padding: 5px 15px 5px 15px; font-size: 16px; font-weight:bolder">NPWPD : <?= $datapendaftaran['t_npwpd'] ?> / NIOP : <?= $datapendaftaran['t_nop'] ?></span>
+                        </div>
+                    </div>
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-md-6">
+
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data WP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIK</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nik'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nama'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamat_lengkap'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data OP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIOP</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nop'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_namaobjek'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamatobjek'] ?>
+                                            ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                                            ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                                            ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                                            ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                                            ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Histori Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="datatransaksi"></div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pendataan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nomor Urut</label>
+                            <div class="col-sm-2">
+                                <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                                <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                <?= $this->formHidden($form->get("t_idair")) ?>
+                                <?= $this->formHidden($form->get("t_idobjek")) ?>
+                                <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                <?= $this->formText($form->get("t_nourut")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_periodepajak")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpendataan")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaawal")) ?>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaakhir")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Penetapan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("t_idkorek")) ?>
+                                <?= $this->formText($form->get("t_korek")) ?>
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()"><span class="glyph-icon icon-search"></span></button></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_namakorek")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Lama Waktu (hari)</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_lamawaktu")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Debit Air/sumur(/hari)</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_debitair")) ?>
+                            </div>
+                            <label class="col-sm-1">M<sup>3</sup></label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kualitas Air</label>
+                            <div class="col-sm-4">
+                                <?= $this->formSelect($form->get("t_kualitasair")) ?>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Peruntukan</label>
+                            <div class="col-sm-2">
+                                <?= $this->formSelect($form->get("t_peruntukan")) ?>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Biaya (Rp)</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_totalbiaya")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Volume Air (M<sup>3</sup>)</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_volume")) ?>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Perhitungan</label>
+                            <div class="col-sm-10">
+                                <table class='table table-bordered table-striped table-condensed cf' style='font-size : 11px'>
+                                    <thead class='cf'>
+                                        <tr>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>
+                                                Range Volume (m<sup>3</sup>)
+                                            </th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>
+                                                Volume
+                                            </th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>
+                                                FNA
+                                            </th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>
+                                                HAB/HDA
+                                            </th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>
+                                                NPA
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td style='text-align:center'>
+                                                0-50
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_volume1")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_fna1")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_hda1")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_npa1")) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='text-align:center'>
+                                                51-500
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_volume2")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_fna2")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_hda2")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_npa2")) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='text-align:center'>
+                                                501-1.000
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_volume3")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_fna3")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_hda3")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_npa3")) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='text-align:center'>
+                                                1.001-2.500
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_volume4")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_fna4")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_hda4")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_npa4")) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='text-align:center'>
+                                                > 2.500
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_volume5")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_fna5")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_hda5")) ?>
+                                            </td>
+                                            <td>
+                                                <?= $this->formText($form->get("t_npa5")) ?>
+                                            </td>
+                                        </tr>
+
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NPA</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_npa")) ?>
+                            </div>
+                            <label class="col-sm-1 control-label">Tarif (%)</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_tarifpajak")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Pajak Awal (Rp.)</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_jmlhpajakasli")) ?>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Kompensasi (Rp.)</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_kompensasi")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Pajak (Rp.)</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Penetapan</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Pendataansubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <input type="hidden" id="t_jenisobjek" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif (Rp.)
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="korek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_namakorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_persentarifkorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridRekening(1);
+                                            return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridRekening(2);
+                                            return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        // selisihtanggal();
+        hitungpajakair();
+
+    });
+
+    $('#t_masaawal').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+    $('#t_masaakhir').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+
+    // function selisihtanggal() {
+    //     $.post('<?= $this->url() ?>/selisihtanggal', {t_masaawal: $("#t_masaawal").val(),t_masaakhir:$("#t_masaakhir").val()}, function (data) {
+    //         var aa = JSON.parse(data);
+    //         $('#t_lamawaktu').val(aa.t_lamawaktu);
+    //           });
+    //     }
+
+    function calldataGridRekening(direction) {
+        dataGridRekening($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function dataGridRekening(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + null + '/' + page + '/' + row + '/' + direction + '?korek=' + $("#korek").val() + "&s_namakorek=" + $("#s_namakorek").val() + "&s_persentarifkorek=" + $("#s_persentarifkorek").val() + "&t_jenisobjek=" + $("#t_jenisobjek").val(), function(data) {
+            var aa = JSON.parse(data);
+            $("#listrekening").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+        });
+    }
+
+    function bukamodalRekening() {
+        calldataGridRekening();
+        $('#modalRekening').modal('show');
+    }
+
+    function pilihRekening(a) {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $('#t_tarifdasarkorek').val(aa.t_tarifdasarkorek);
+            $('#t_hargadasarair').val(aa.t_tarifdasarkorek);
+            $('#modalRekening').modal('hide');
+        });
+        hitungpajakair();
+    }
+
+
+
+    function hitungpajakair() {
+        var params = {
+            t_volume: $("#t_volume").val(),
+            t_tarifpajak: $("#t_tarifpajak").val(),
+            t_totalbiaya: $("#t_totalbiaya").val(),
+            t_kualitasair: $("#t_kualitasair").val(),
+            t_peruntukan: $("#t_peruntukan").val(),
+            t_peruntukanair: $("#t_peruntukanair").val(),
+
+            t_lamawaktu: $("#t_lamawaktu").val(),
+            t_debitair: $("#t_debitair").val(),
+            t_kompensasi: $("#t_kompensasi").val(),
+
+
+        };
+        $.post('<?= $this->url() ?>/hitungpajakair', params, function(data) {
+            var aa = JSON.parse(data);
+
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            // $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+            $('#t_npa').val(aa.t_totalnpa);
+            $('#t_volume1').val(aa.t_volume1);
+            $('#t_volume2').val(aa.t_volume2);
+            $('#t_volume3').val(aa.t_volume3);
+            $('#t_volume4').val(aa.t_volume4);
+            $('#t_volume5').val(aa.t_volume5);
+            //fna
+            $('#t_fna1').val(aa.t_fna1);
+            $('#t_fna2').val(aa.t_fna2);
+            $('#t_fna3').val(aa.t_fna3);
+            $('#t_fna4').val(aa.t_fna4);
+            $('#t_fna5').val(aa.t_fna5);
+            //hda
+            $('#t_hda1').val(aa.t_hda1);
+            $('#t_hda2').val(aa.t_hda2);
+            $('#t_hda3').val(aa.t_hda3);
+            $('#t_hda4').val(aa.t_hda4);
+            $('#t_hda5').val(aa.t_hda5);
+            //npa
+            $('#t_npa1').val(aa.t_npa1);
+            $('#t_npa2').val(aa.t_npa2);
+            $('#t_npa3').val(aa.t_npa3);
+            $('#t_npa4').val(aa.t_npa4);
+            $('#t_npa5').val(aa.t_npa5);
+
+        });
+    }
+    $(function() {
+        CariPendataanByObjek();
+    });
+
+    function CariPendataanByObjek() {
+        $.post('<?= $this->url() ?>/CariPendataanAirByObjek', {
+            idobjek: $("#t_idobjek").val(),
+            periodepajak: $("#t_periodepajak").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+    }
+
+    function pilihskpdjabatan(a) {
+        $.post('<?= $this->url() ?>/pilihskpdjabatan', {
+            parameter: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_tglpendataan").val(aa.t_tglpendataan);
+            $("#t_masaawal").val(aa.t_masaawal);
+            $("#t_masaakhir").val(aa.t_masaakhir);
+            $("#t_tarifkenaikan").val(aa.t_tarifkenaikan);
+        });
+        document.getElementById("kenaikan").style.display = "block";
+        setTimeout(function() {
+            hitungpajakair();
+        }, 1000);
+    }
+
+    function nonskpdjabatan() {
+        document.getElementById("kenaikan").style.display = "none";
+        $("#t_tarifkenaikan").val(0);
+        hitungpajakair();
+    }
+
+
+    function CariTarifpipa() {
+        $.post('<?= $this->url() ?>/CariTarifpipa', {
+            t_idkorek: $("#t_idkorek").val(),
+            t_kodekelompok: $("#t_kodekelompok").val(),
+            t_jmlhsumur: $("#t_jmlhsumur").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_volume").val(aa.t_volume);
+        });
+    }
+</script>

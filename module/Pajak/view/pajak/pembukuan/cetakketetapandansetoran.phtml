@@ -1,0 +1,1607 @@
+<?php
+
+ini_set("max_execution_time", 5000);
+ini_set('memory_limit', '1024M');
+
+if($data_get['jnscetak'] == 1){
+
+include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+$mpdf = new mPDF('utf-8', 'Legal-L', 0, '', 10, 10, 5, 5, 1, 1, '');
+$numbering = '<htmlpageheader name="MyHeader1">
+
+            </htmlpageheader>
+
+            <htmlpageheader name="MyHeader2">
+
+            </htmlpageheader>
+
+            <htmlpagefooter name="MyFooter1">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>
+
+            <htmlpagefooter name="MyFooter2">
+            <table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt;
+                color: #000000; font-weight: bold; font-style: italic;"><tr>
+                <td width="33%"><span style="font-weight: bold; font-style: italic;"></span></td>
+                <td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right; "></td>
+                </tr></table>
+            </htmlpagefooter>';
+
+}else{
+    header("Content-type: application/vnd-ms-excel");
+
+    header("Content-Disposition: attachment; filename=cetakrekapitulasi_ketetapandansetoran.xls");
+    
+    $numbering = "";
+}
+
+//$jenisobjek = $this->MenuHelper()->cekjenispajak($jenisobjek);
+
+if(!empty($kec_realisasi)){
+    $cekkecamatan = $this->MenuHelper()->cekkecamatan($kec_realisasi);
+    $namakec = "<br> KECAMATAN ".$cekkecamatan['s_namakec'];
+}else{
+    $namakec = "";
+}
+
+if(!empty($kel_realisasi)){
+    $cekkelurahan = $this->MenuHelper()->cekkelurahan($kel_realisasi);
+    $namakel = "KELURAHAN ".$cekkelurahan['s_namakel'];
+}else{
+    $namakel = "";
+}
+
+$html = '';
+$html .= '
+
+<html>
+    <head>
+        <style type="text/css">            
+            @page {
+                size: auto;
+                odd-header-name: html_MyHeader1;
+                odd-footer-name: html_MyFooter1;
+              }
+              @page chapter2 {
+                  odd-header-name: html_MyHeader2;
+                  odd-footer-name: html_MyFooter2;
+              }
+              @page noheader {
+                  odd-header-name: _blank;
+                  odd-footer-name: _blank;
+              }
+              div.chapter2 {
+                  page-break-before: always;
+                  page: chapter2;
+              }
+              div.noheader {
+                  page-break-before: always;
+                  page: noheader;
+              }
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            
+
+        </style>
+    </head>
+    <body>
+        '.$numbering.'
+        <div>
+            
+            <table width="100%" class="font_sembilan" style="border-spacing:0px;">
+                <tr>
+                    <td colspan="29">
+                        <center>
+                            <b>
+                                PEMERINTAH '.strtoupper($ar_pemda->s_namakabkota).', '.strtoupper($ar_pemda->s_namaprov).'
+                                    <br>
+                                '.strtoupper($ar_pemda->s_namainstansi).' ('.strtoupper($ar_pemda->s_namasingkatinstansi).')
+                                <br>
+                                '.strtoupper($ar_pemda->s_alamatinstansi).' Telp/Fax '.$ar_pemda->s_notelinstansi.', '.$ar_pemda->s_namaibukotakabkota.' '.$ar_pemda->s_kodepos.'
+                            </b>
+                            
+                        </center>
+                    </td>
+                </tr>    
+                <tr>
+                    <td colspan="29">
+                        <center>
+                            <b>
+                               <h4 style="text-align: center">DAFTAR KETETAPAN DAN SETORAN</h4>
+                            </b>
+                            <br>
+                            Tanggal Pendataan &nbsp;: '.date('d-m-Y', strtotime($data_get['tglpendataan0_rekapsetor'])).' s/d '.date('d-m-Y', strtotime($data_get['tglpendataan1_rekapsetor'])).'
+                        </center>
+                    </td>
+                </tr>    
+                <tr>
+                    <td rowspan="4" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>NO.</b></center>
+                    </td>
+                    <td rowspan="4" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>WAJIB PAJAK</b></center>
+                    </td>
+                    <td rowspan="4" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>NAMA OBJEK</b></center>
+                    </td>
+                    <td colspan="24" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>MASA PAJAK</b></center>
+                    </td>
+                    <td rowspan="4" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>TOTAL (Rp.)</b></center>
+                    </td>
+                    <td rowspan="4" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Piutang (Rp.)</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Januari</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Februari</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Maret</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>April</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Mei</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Juni</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Juli</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Agustus</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>September</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Oktober</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Nopember</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Desember</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Ketetapan</b></center>
+                    </td>
+                    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Denda</b></center>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    <td colspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                        <center><b>Bayar</b></center>
+                    </td>
+                    
+                   
+                </tr>
+                ';
+                
+                $counter = 1;
+                
+                $subtotal_1_pokok_ketetapan = 0;
+                    $subtotal_2_pokok_ketetapan = 0;
+                    $subtotal_3_pokok_ketetapan = 0;
+                    $subtotal_4_pokok_ketetapan = 0;
+                    $subtotal_5_pokok_ketetapan = 0;
+                    $subtotal_6_pokok_ketetapan = 0;
+                    $subtotal_7_pokok_ketetapan = 0;
+                    $subtotal_8_pokok_ketetapan = 0;
+                    $subtotal_9_pokok_ketetapan = 0;
+                    $subtotal_10_pokok_ketetapan = 0;
+                    $subtotal_11_pokok_ketetapan = 0;
+                    $subtotal_12_pokok_ketetapan = 0;
+                    
+                    
+                    $subtotal_1_denda_ketetapan = 0;
+                    $subtotal_2_denda_ketetapan = 0;
+                    $subtotal_3_denda_ketetapan = 0;
+                    $subtotal_4_denda_ketetapan = 0;
+                    $subtotal_5_denda_ketetapan = 0;
+                    $subtotal_6_denda_ketetapan = 0;
+                    $subtotal_7_denda_ketetapan = 0;
+                    $subtotal_8_denda_ketetapan = 0;
+                    $subtotal_9_denda_ketetapan = 0;
+                    $subtotal_10_denda_ketetapan = 0;
+                    $subtotal_11_denda_ketetapan = 0;
+                    $subtotal_12_denda_ketetapan = 0;
+                    
+                    
+                    $subtotal_1_bayar_pokok = 0;
+                    $subtotal_2_bayar_pokok = 0;
+                    $subtotal_3_bayar_pokok = 0;
+                    $subtotal_4_bayar_pokok = 0;
+                    $subtotal_5_bayar_pokok = 0;
+                    $subtotal_6_bayar_pokok = 0;
+                    $subtotal_7_bayar_pokok = 0;
+                    $subtotal_8_bayar_pokok = 0;
+                    $subtotal_9_bayar_pokok = 0;
+                    $subtotal_10_bayar_pokok = 0;
+                    $subtotal_11_bayar_pokok = 0;
+                    $subtotal_12_bayar_pokok = 0;
+                    
+                    $subtotal_1_bayar_denda = 0;
+                    $subtotal_2_bayar_denda = 0;
+                    $subtotal_3_bayar_denda = 0;
+                    $subtotal_4_bayar_denda = 0;
+                    $subtotal_5_bayar_denda = 0;
+                    $subtotal_6_bayar_denda = 0;
+                    $subtotal_7_bayar_denda = 0;
+                    $subtotal_8_bayar_denda = 0;
+                    $subtotal_9_bayar_denda = 0;
+                    $subtotal_10_bayar_denda = 0;
+                    $subtotal_11_bayar_denda = 0;
+                    $subtotal_12_bayar_denda = 0;
+                    
+                    
+                    //========= kecamatan
+                    
+                    $subtotal_1_pokok_ketetapan_kec = 0;
+                                $subtotal_2_pokok_ketetapan_kec = 0;
+                                $subtotal_3_pokok_ketetapan_kec = 0;
+                                $subtotal_4_pokok_ketetapan_kec = 0;
+                                $subtotal_5_pokok_ketetapan_kec = 0;
+                                $subtotal_6_pokok_ketetapan_kec = 0;
+                                $subtotal_7_pokok_ketetapan_kec = 0;
+                                $subtotal_8_pokok_ketetapan_kec = 0;
+                                $subtotal_9_pokok_ketetapan_kec = 0;
+                                $subtotal_10_pokok_ketetapan_kec = 0;
+                                $subtotal_11_pokok_ketetapan_kec = 0;
+                                $subtotal_12_pokok_ketetapan_kec = 0;
+                                
+
+                                $subtotal_1_denda_ketetapan_kec = 0;
+                                $subtotal_2_denda_ketetapan_kec = 0;
+                                $subtotal_3_denda_ketetapan_kec = 0;
+                                $subtotal_4_denda_ketetapan_kec = 0;
+                                $subtotal_5_denda_ketetapan_kec = 0;
+                                $subtotal_6_denda_ketetapan_kec = 0;
+                                $subtotal_7_denda_ketetapan_kec = 0;
+                                $subtotal_8_denda_ketetapan_kec = 0;
+                                $subtotal_9_denda_ketetapan_kec = 0;
+                                $subtotal_10_denda_ketetapan_kec = 0;
+                                $subtotal_11_denda_ketetapan_kec = 0;
+                                $subtotal_12_denda_ketetapan_kec = 0;
+
+
+                                $subtotal_1_bayar_pokok_kec = 0;
+                                $subtotal_2_bayar_pokok_kec = 0;
+                                $subtotal_3_bayar_pokok_kec = 0;
+                                $subtotal_4_bayar_pokok_kec = 0;
+                                $subtotal_5_bayar_pokok_kec = 0;
+                                $subtotal_6_bayar_pokok_kec = 0;
+                                $subtotal_7_bayar_pokok_kec = 0;
+                                $subtotal_8_bayar_pokok_kec = 0;
+                                $subtotal_9_bayar_pokok_kec = 0;
+                                $subtotal_10_bayar_pokok_kec = 0;
+                                $subtotal_11_bayar_pokok_kec = 0;
+                                $subtotal_12_bayar_pokok_kec = 0;
+
+                                $subtotal_1_bayar_denda_kec = 0;
+                                $subtotal_2_bayar_denda_kec = 0;
+                                $subtotal_3_bayar_denda_kec = 0;
+                                $subtotal_4_bayar_denda_kec = 0;
+                                $subtotal_5_bayar_denda_kec = 0;
+                                $subtotal_6_bayar_denda_kec = 0;
+                                $subtotal_7_bayar_denda_kec = 0;
+                                $subtotal_8_bayar_denda_kec = 0;
+                                $subtotal_9_bayar_denda_kec = 0;
+                                $subtotal_10_bayar_denda_kec = 0;
+                                $subtotal_11_bayar_denda_kec = 0;
+                                $subtotal_12_bayar_denda_kec = 0;
+                    
+                    //========= end kecamatan
+                    
+                    
+                    //======================================= total keseluruhan
+                    
+                    $total_1_pokok_ketetapan = 0;
+                    $total_2_pokok_ketetapan = 0;
+                    $total_3_pokok_ketetapan = 0;
+                    $total_4_pokok_ketetapan = 0;
+                    $total_5_pokok_ketetapan = 0;
+                    $total_6_pokok_ketetapan = 0;
+                    $total_7_pokok_ketetapan = 0;
+                    $total_8_pokok_ketetapan = 0;
+                    $total_9_pokok_ketetapan = 0;
+                    $total_10_pokok_ketetapan = 0;
+                    $total_11_pokok_ketetapan = 0;
+                    $total_12_pokok_ketetapan = 0;
+                    
+                    
+                    $total_1_denda_ketetapan = 0;
+                    $total_2_denda_ketetapan = 0;
+                    $total_3_denda_ketetapan = 0;
+                    $total_4_denda_ketetapan = 0;
+                    $total_5_denda_ketetapan = 0;
+                    $total_6_denda_ketetapan = 0;
+                    $total_7_denda_ketetapan = 0;
+                    $total_8_denda_ketetapan = 0;
+                    $total_9_denda_ketetapan = 0;
+                    $total_10_denda_ketetapan = 0;
+                    $total_11_denda_ketetapan = 0;
+                    $total_12_denda_ketetapan = 0;
+                    
+                    
+                    $total_1_bayar_pokok = 0;
+                    $total_2_bayar_pokok = 0;
+                    $total_3_bayar_pokok = 0;
+                    $total_4_bayar_pokok = 0;
+                    $total_5_bayar_pokok = 0;
+                    $total_6_bayar_pokok = 0;
+                    $total_7_bayar_pokok = 0;
+                    $total_8_bayar_pokok = 0;
+                    $total_9_bayar_pokok = 0;
+                    $total_10_bayar_pokok = 0;
+                    $total_11_bayar_pokok = 0;
+                    $total_12_bayar_pokok = 0;
+                    
+                    $total_1_bayar_denda = 0;
+                    $total_2_bayar_denda = 0;
+                    $total_3_bayar_denda = 0;
+                    $total_4_bayar_denda = 0;
+                    $total_5_bayar_denda = 0;
+                    $total_6_bayar_denda = 0;
+                    $total_7_bayar_denda = 0;
+                    $total_8_bayar_denda = 0;
+                    $total_9_bayar_denda = 0;
+                    $total_10_bayar_denda = 0;
+                    $total_11_bayar_denda = 0;
+                    $total_12_bayar_denda = 0;
+                    
+                    $total_data_subkel_ketetapan = 0;
+                    $total_data_subkel_denda = 0;
+                    $total_bayar_subkel_ketetapan = 0;
+                    $total_bayar_subkel_denda = 0;
+                    
+                    $total_data_subkec_ketetapan = 0;
+                    $total_data_subkec_denda = 0;
+                    $total_bayar_subkec_ketetapan = 0;
+                    $total_bayar_subkec_denda = 0;
+                    
+                    $total_data_keseluruhan_ketetapan = 0;
+                    $total_data_keseluruhan_denda = 0;
+                    $total_bayar_keseluruhan_ketetapan = 0;
+                    $total_bayar_keseluruhan_denda = 0;
+                    
+                    
+                    //======================================= end total keseluruhan
+                
+                foreach ($this->data as $k => $v) {
+                    if ($clast_rek_kel <> $v['t_kelurahan_objek']) {
+                        
+                        $total_data = $v['jml_ketetapan_januari'] + $v['jml_ketetapan_februari'] + $v['jml_ketetapan_maret'] + $v['jml_ketetapan_april'] + $v['jml_ketetapan_mei'] + $v['jml_ketetapan_juni'] + $v['jml_ketetapan_juli'] + $v['jml_ketetapan_agustus'] + $v['jml_ketetapan_september'] + $v['jml_ketetapan_oktober'] + $v['jml_ketetapan_november'] + $v['jml_ketetapan_desember']
+                                         + $v['jml_denda_januari'] + $v['jml_denda_februari'] + $v['jml_denda_maret'] + $v['jml_denda_april']  + $v['jml_denda_mei'] + $v['jml_denda_juni'] + $v['jml_denda_juli'] + $v['jml_denda_agustus'] + $v['jml_denda_september'] + $v['jml_denda_oktober'] + $v['jml_denda_november'] + $v['jml_denda_desember']
+                                    ;
+                        $total_bayar = $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september'] + $v['jml_byrpajak_oktober'] + $v['jml_byrpajak_november'] + $v['jml_byrpajak_desember']
+                                      + $v['jml_byrdenda_januari'] + $v['jml_byrdenda_februari'] + $v['jml_byrdenda_maret'] + $v['jml_byrdenda_april'] + $v['jml_byrdenda_mei'] + $v['jml_byrdenda_juni'] + $v['jml_byrdenda_juli'] + $v['jml_byrdenda_agustus'] + $v['jml_byrdenda_september'] + $v['jml_byrdenda_oktober'] + $v['jml_byrdenda_november'] + $v['jml_byrdenda_desember']  
+                                    ;
+                        
+                        
+                        if ($clast_rek_kel <> '') {
+                            $html .= '<tr>
+                                            <td colspan="3" rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Jumlah se-kelurahan '. strtoupper($clast_rek_name_kel) .'</td>
+                                            
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_denda_ketetapan , 2, ',', '.') . '</i></b></td>   
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format(($total_data_subkel_ketetapan + $total_data_subkel_denda) , 2, ',', '.') . '</b></td>  
+                                            <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format(($total_data_subkel_ketetapan + $total_data_subkel_denda) - ($total_bayar_subkel_ketetapan + $total_bayar_subkel_denda) , 2, ',', '.') . '</b></td>      
+                                    </tr>       
+                                             
+                                    <tr>
+                                            
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_denda , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_denda , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_pokok , 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_denda , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_subkel_ketetapan + $total_bayar_subkel_denda , 2, ',', '.') . '</b></td>     
+                                </tr>';
+                            $subtotal_1_pokok_ketetapan = 0;
+                            $subtotal_2_pokok_ketetapan = 0;
+                            $subtotal_3_pokok_ketetapan = 0;
+                            $subtotal_4_pokok_ketetapan = 0;
+                            $subtotal_5_pokok_ketetapan = 0;
+                            $subtotal_6_pokok_ketetapan = 0;
+                            $subtotal_7_pokok_ketetapan = 0;
+                            $subtotal_8_pokok_ketetapan = 0;
+                            $subtotal_9_pokok_ketetapan = 0;
+                            $subtotal_10_pokok_ketetapan = 0;
+                            $subtotal_11_pokok_ketetapan = 0;
+                            $subtotal_12_pokok_ketetapan = 0;
+
+                            $subtotal_1_denda_ketetapan = 0;
+                            $subtotal_2_denda_ketetapan = 0;
+                            $subtotal_3_denda_ketetapan = 0;
+                            $subtotal_4_denda_ketetapan = 0;
+                            $subtotal_5_denda_ketetapan = 0;
+                            $subtotal_6_denda_ketetapan = 0;
+                            $subtotal_7_denda_ketetapan = 0;
+                            $subtotal_8_denda_ketetapan = 0;
+                            $subtotal_9_denda_ketetapan = 0;
+                            $subtotal_10_denda_ketetapan = 0;
+                            $subtotal_11_denda_ketetapan = 0;
+                            $subtotal_12_denda_ketetapan = 0;
+
+
+                            $subtotal_1_bayar_pokok = 0;
+                            $subtotal_2_bayar_pokok = 0;
+                            $subtotal_3_bayar_pokok = 0;
+                            $subtotal_4_bayar_pokok = 0;
+                            $subtotal_5_bayar_pokok = 0;
+                            $subtotal_6_bayar_pokok = 0;
+                            $subtotal_7_bayar_pokok = 0;
+                            $subtotal_8_bayar_pokok = 0;
+                            $subtotal_9_bayar_pokok = 0;
+                            $subtotal_10_bayar_pokok = 0;
+                            $subtotal_11_bayar_pokok = 0;
+                            $subtotal_12_bayar_pokok = 0;
+
+                            $subtotal_1_bayar_denda = 0;
+                            $subtotal_2_bayar_denda = 0;
+                            $subtotal_3_bayar_denda = 0;
+                            $subtotal_4_bayar_denda = 0;
+                            $subtotal_5_bayar_denda = 0;
+                            $subtotal_6_bayar_denda = 0;
+                            $subtotal_7_bayar_denda = 0;
+                            $subtotal_8_bayar_denda = 0;
+                            $subtotal_9_bayar_denda = 0;
+                            $subtotal_10_bayar_denda = 0;
+                            $subtotal_11_bayar_denda = 0;
+                            $subtotal_12_bayar_denda = 0;
+                            
+                            $total_data_subkel_ketetapan = 0;
+                            $total_data_subkel_denda = 0;
+                            $total_bayar_subkel_ketetapan = 0;
+                            $total_bayar_subkel_denda = 0;
+                    
+                            
+                        }
+                        if ($clast_rek <> $v['t_kecamatan_objek']) {
+                            if ($clast_rek <> '') {
+                                $html .= '<tr>
+
+                                           <td colspan="3" rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b><i>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>     
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_data_subkec_ketetapan , 2, ',', '.') . '</b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_data_subkec_denda , 2, ',', '.') . '</b></td> 
+
+                                    </tr>       
+                                             
+                                    <tr>
+                                            
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_denda_kec , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_denda_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_denda_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_denda_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_pokok_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_denda_kec , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_pokok_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_denda_kec , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_subkec_ketetapan , 2, ',', '.') . '</b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_subkec_denda , 2, ',', '.') . '</b></td> 
+                                               
+                                        </tr>';
+                                $subtotal_1_pokok_ketetapan_kec = 0;
+                                $subtotal_2_pokok_ketetapan_kec = 0;
+                                $subtotal_3_pokok_ketetapan_kec = 0;
+                                $subtotal_4_pokok_ketetapan_kec = 0;
+                                $subtotal_5_pokok_ketetapan_kec = 0;
+                                $subtotal_6_pokok_ketetapan_kec = 0;
+                                $subtotal_7_pokok_ketetapan_kec = 0;
+                                $subtotal_8_pokok_ketetapan_kec = 0;
+                                $subtotal_9_pokok_ketetapan_kec = 0;
+                                $subtotal_10_pokok_ketetapan_kec = 0;
+                                $subtotal_11_pokok_ketetapan_kec = 0;
+                                $subtotal_12_pokok_ketetapan_kec = 0;
+
+                                $subtotal_1_denda_ketetapan_kec = 0;
+                                $subtotal_2_denda_ketetapan_kec = 0;
+                                $subtotal_3_denda_ketetapan_kec = 0;
+                                $subtotal_4_denda_ketetapan_kec = 0;
+                                $subtotal_5_denda_ketetapan_kec = 0;
+                                $subtotal_6_denda_ketetapan_kec = 0;
+                                $subtotal_7_denda_ketetapan_kec = 0;
+                                $subtotal_8_denda_ketetapan_kec = 0;
+                                $subtotal_9_denda_ketetapan_kec = 0;
+                                $subtotal_10_denda_ketetapan_kec = 0;
+                                $subtotal_11_denda_ketetapan_kec = 0;
+                                $subtotal_12_denda_ketetapan_kec = 0;
+
+
+                                $subtotal_1_bayar_pokok_kec = 0;
+                                $subtotal_2_bayar_pokok_kec = 0;
+                                $subtotal_3_bayar_pokok_kec = 0;
+                                $subtotal_4_bayar_pokok_kec = 0;
+                                $subtotal_5_bayar_pokok_kec = 0;
+                                $subtotal_6_bayar_pokok_kec = 0;
+                                $subtotal_7_bayar_pokok_kec = 0;
+                                $subtotal_8_bayar_pokok_kec = 0;
+                                $subtotal_9_bayar_pokok_kec = 0;
+                                $subtotal_10_bayar_pokok_kec = 0;
+                                $subtotal_11_bayar_pokok_kec = 0;
+                                $subtotal_12_bayar_pokok_kec = 0;
+
+                                $subtotal_1_bayar_denda_kec = 0;
+                                $subtotal_2_bayar_denda_kec = 0;
+                                $subtotal_3_bayar_denda_kec = 0;
+                                $subtotal_4_bayar_denda_kec = 0;
+                                $subtotal_5_bayar_denda_kec = 0;
+                                $subtotal_6_bayar_denda_kec = 0;
+                                $subtotal_7_bayar_denda_kec = 0;
+                                $subtotal_8_bayar_denda_kec = 0;
+                                $subtotal_9_bayar_denda_kec = 0;
+                                $subtotal_10_bayar_denda_kec = 0;
+                                $subtotal_11_bayar_denda_kec = 0;
+                                $subtotal_12_bayar_denda_kec = 0;
+                                
+
+                                $total_data_subkec_ketetapan = 0;
+                                $total_data_subkec_denda = 0;
+                                $total_bayar_subkec_ketetapan = 0;
+                                $total_bayar_subkec_denda = 0;
+                                
+                            }
+                            $html .= '<tr>
+                                        <td colspan="29" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">Kecamatan : <b> '. $v['s_namakec_objek'] .'</td>
+
+                                        </tr>';
+                            $clast_rek = $v['t_kecamatan_objek'];
+                            $clast_rek_name = $v['s_namakec_objek'];
+                            $counter = 1;
+                        }
+
+
+
+                        $html .= '<tr>
+                                
+                                <td colspan="29" style="border-bottom: 1px solid #000;border-right: 1px solid #000; border-top: 1px solid #000; border-left: 1px solid #000;">Kelurahan : <b> '. $v['s_namakel_objek'] .'</td>
+
+                                </tr>';
+                        $clast_rek_kel = $v['t_kelurahan_objek'];
+                        $clast_rek_name_kel = $v['s_namakel_objek'];
+                        $counter = 1;
+                    }
+                    
+                    
+                    
+                    
+                    $html .= '
+                    <tr>
+                        <td rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                            '.$counter.'
+                        </td>
+                        <td rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                            '.$v['t_nama'].' <br>
+                            '.$v['t_npwpd'].'
+                        </td>
+                        <td rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;">
+                            '.$v['t_namaobjek'].'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_januari'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_januari'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_februari'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_februari'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_maret'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_maret'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_april'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_april'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_mei'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_mei'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_juni'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_juni'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_juli'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_juli'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_agustus'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_agustus'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_september'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_september'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_oktober'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_oktober'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_november'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_november'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_ketetapan_desember'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_denda_desember'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($total_data, 2, ',', '.').'
+                        </td>
+                        <td rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($total_data - $total_bayar, 2, ',', '.').'
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_januari'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_januari'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_februari'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_februari'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_maret'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_maret'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_april'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_april'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_mei'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_mei'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_juni'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_juni'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_juli'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_juli'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_agustus'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_agustus'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_september'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_september'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_oktober'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_oktober'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_november'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_november'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrpajak_desember'], 2, ',', '.').'
+                        </td>
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($v['jml_byrdenda_desember'], 2, ',', '.').'
+                        </td>
+                        
+                        <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="right">
+                            '.number_format($total_bayar, 2, ',', '.').'
+                        </td>
+                    </tr>';
+                            
+                    
+                    $subtotal_1_pokok_ketetapan += $v['jml_ketetapan_januari'];
+                    $subtotal_2_pokok_ketetapan += $v['jml_ketetapan_februari'];
+                    $subtotal_3_pokok_ketetapan += $v['jml_ketetapan_maret'];
+                    $subtotal_4_pokok_ketetapan += $v['jml_ketetapan_april'];
+                    $subtotal_5_pokok_ketetapan += $v['jml_ketetapan_mei'];
+                    $subtotal_6_pokok_ketetapan += $v['jml_ketetapan_juni'];
+                    $subtotal_7_pokok_ketetapan += $v['jml_ketetapan_juli'];
+                    $subtotal_8_pokok_ketetapan += $v['jml_ketetapan_agustus'];
+                    $subtotal_9_pokok_ketetapan += $v['jml_ketetapan_september'];
+                    $subtotal_10_pokok_ketetapan += $v['jml_ketetapan_oktober'];
+                    $subtotal_11_pokok_ketetapan += $v['jml_ketetapan_november'];
+                    $subtotal_12_pokok_ketetapan += $v['jml_ketetapan_desember'];
+                    
+                    $subtotal_1_denda_ketetapan += $v['jml_denda_januari'];
+                    $subtotal_2_denda_ketetapan += $v['jml_denda_februari'];
+                    $subtotal_3_denda_ketetapan += $v['jml_denda_maret'];
+                    $subtotal_4_denda_ketetapan += $v['jml_denda_april'];
+                    $subtotal_5_denda_ketetapan += $v['jml_denda_mei'];
+                    $subtotal_6_denda_ketetapan += $v['jml_denda_juni'];
+                    $subtotal_7_denda_ketetapan += $v['jml_denda_juli'];
+                    $subtotal_8_denda_ketetapan += $v['jml_denda_agustus'];
+                    $subtotal_9_denda_ketetapan += $v['jml_denda_september'];
+                    $subtotal_10_denda_ketetapan += $v['jml_denda_oktober'];
+                    $subtotal_11_denda_ketetapan += $v['jml_denda_november'];
+                    $subtotal_12_denda_ketetapan += $v['jml_denda_desember'];
+                    
+                    
+                    $subtotal_1_bayar_pokok += $v['jml_byrpajak_januari'];
+                    $subtotal_2_bayar_pokok += $v['jml_byrpajak_februari'];
+                    $subtotal_3_bayar_pokok += $v['jml_byrpajak_maret'];
+                    $subtotal_4_bayar_pokok += $v['jml_byrpajak_april'];
+                    $subtotal_5_bayar_pokok += $v['jml_byrpajak_mei'];
+                    $subtotal_6_bayar_pokok += $v['jml_byrpajak_juni'];
+                    $subtotal_7_bayar_pokok += $v['jml_byrpajak_juli'];
+                    $subtotal_8_bayar_pokok += $v['jml_byrpajak_agustus'];
+                    $subtotal_9_bayar_pokok += $v['jml_byrpajak_september'];
+                    $subtotal_10_bayar_pokok += $v['jml_byrpajak_oktober'];
+                    $subtotal_11_bayar_pokok += $v['jml_byrpajak_november'];
+                    $subtotal_12_bayar_pokok += $v['jml_byrpajak_desember'];
+                    
+                    $subtotal_1_bayar_denda += $v['jml_byrdenda_januari'];
+                    $subtotal_2_bayar_denda += $v['jml_byrdenda_februari'];
+                    $subtotal_3_bayar_denda += $v['jml_byrdenda_maret'];
+                    $subtotal_4_bayar_denda += $v['jml_byrdenda_april'];
+                    $subtotal_5_bayar_denda += $v['jml_byrdenda_mei'];
+                    $subtotal_6_bayar_denda += $v['jml_byrdenda_juni'];
+                    $subtotal_7_bayar_denda += $v['jml_byrdenda_juli'];
+                    $subtotal_8_bayar_denda += $v['jml_byrdenda_agustus'];
+                    $subtotal_9_bayar_denda += $v['jml_byrdenda_september'];
+                    $subtotal_10_bayar_denda += $v['jml_byrdenda_oktober'];
+                    $subtotal_11_bayar_denda += $v['jml_byrdenda_november'];
+                    $subtotal_12_bayar_denda += $v['jml_byrdenda_desember'];
+                    
+                    //========== total sub kecamatan
+                    
+                    $subtotal_1_pokok_ketetapan_kec += $v['jml_ketetapan_januari'];
+                    $subtotal_2_pokok_ketetapan_kec += $v['jml_ketetapan_februari'];
+                    $subtotal_3_pokok_ketetapan_kec += $v['jml_ketetapan_maret'];
+                    $subtotal_4_pokok_ketetapan_kec += $v['jml_ketetapan_april'];
+                    $subtotal_5_pokok_ketetapan_kec += $v['jml_ketetapan_mei'];
+                    $subtotal_6_pokok_ketetapan_kec += $v['jml_ketetapan_juni'];
+                    $subtotal_7_pokok_ketetapan_kec += $v['jml_ketetapan_juli'];
+                    $subtotal_8_pokok_ketetapan_kec += $v['jml_ketetapan_agustus'];
+                    $subtotal_9_pokok_ketetapan_kec += $v['jml_ketetapan_september'];
+                    $subtotal_10_pokok_ketetapan_kec += $v['jml_ketetapan_oktober'];
+                    $subtotal_11_pokok_ketetapan_kec += $v['jml_ketetapan_november'];
+                    $subtotal_12_pokok_ketetapan_kec += $v['jml_ketetapan_desember'];
+                    
+                    $subtotal_1_denda_ketetapan_kec += $v['jml_denda_januari'];
+                    $subtotal_2_denda_ketetapan_kec += $v['jml_denda_februari'];
+                    $subtotal_3_denda_ketetapan_kec += $v['jml_denda_maret'];
+                    $subtotal_4_denda_ketetapan_kec += $v['jml_denda_april'];
+                    $subtotal_5_denda_ketetapan_kec += $v['jml_denda_mei'];
+                    $subtotal_6_denda_ketetapan_kec += $v['jml_denda_juni'];
+                    $subtotal_7_denda_ketetapan_kec += $v['jml_denda_juli'];
+                    $subtotal_8_denda_ketetapan_kec += $v['jml_denda_agustus'];
+                    $subtotal_9_denda_ketetapan_kec += $v['jml_denda_september'];
+                    $subtotal_10_denda_ketetapan_kec += $v['jml_denda_oktober'];
+                    $subtotal_11_denda_ketetapan_kec += $v['jml_denda_november'];
+                    $subtotal_12_denda_ketetapan_kec += $v['jml_denda_desember'];
+                    
+                    
+                    $subtotal_1_bayar_pokok_kec += $v['jml_byrpajak_januari'];
+                    $subtotal_2_bayar_pokok_kec += $v['jml_byrpajak_februari'];
+                    $subtotal_3_bayar_pokok_kec += $v['jml_byrpajak_maret'];
+                    $subtotal_4_bayar_pokok_kec += $v['jml_byrpajak_april'];
+                    $subtotal_5_bayar_pokok_kec += $v['jml_byrpajak_mei'];
+                    $subtotal_6_bayar_pokok_kec += $v['jml_byrpajak_juni'];
+                    $subtotal_7_bayar_pokok_kec += $v['jml_byrpajak_juli'];
+                    $subtotal_8_bayar_pokok_kec += $v['jml_byrpajak_agustus'];
+                    $subtotal_9_bayar_pokok_kec += $v['jml_byrpajak_september'];
+                    $subtotal_10_bayar_pokok_kec += $v['jml_byrpajak_oktober'];
+                    $subtotal_11_bayar_pokok_kec += $v['jml_byrpajak_november'];
+                    $subtotal_12_bayar_pokok_kec += $v['jml_byrpajak_desember'];
+                    
+                    $subtotal_1_bayar_denda_kec += $v['jml_byrdenda_januari'];
+                    $subtotal_2_bayar_denda_kec += $v['jml_byrdenda_februari'];
+                    $subtotal_3_bayar_denda_kec += $v['jml_byrdenda_maret'];
+                    $subtotal_4_bayar_denda_kec += $v['jml_byrdenda_april'];
+                    $subtotal_5_bayar_denda_kec += $v['jml_byrdenda_mei'];
+                    $subtotal_6_bayar_denda_kec += $v['jml_byrdenda_juni'];
+                    $subtotal_7_bayar_denda_kec += $v['jml_byrdenda_juli'];
+                    $subtotal_8_bayar_denda_kec += $v['jml_byrdenda_agustus'];
+                    $subtotal_9_bayar_denda_kec += $v['jml_byrdenda_september'];
+                    $subtotal_10_bayar_denda_kec += $v['jml_byrdenda_oktober'];
+                    $subtotal_11_bayar_denda_kec += $v['jml_byrdenda_november'];
+                    $subtotal_12_bayar_denda_kec += $v['jml_byrdenda_desember'];
+                    
+                    //========= end total sub kecamatan
+                    
+                    //======================================= total keseluruhan
+                    
+                    $total_1_pokok_ketetapan += $v['jml_ketetapan_januari'];
+                    $total_2_pokok_ketetapan += $v['jml_ketetapan_februari'];
+                    $total_3_pokok_ketetapan += $v['jml_ketetapan_maret'];
+                    $total_4_pokok_ketetapan += $v['jml_ketetapan_april'];
+                    $total_5_pokok_ketetapan += $v['jml_ketetapan_mei'];
+                    $total_6_pokok_ketetapan += $v['jml_ketetapan_juni'];
+                    $total_7_pokok_ketetapan += $v['jml_ketetapan_juli'];
+                    $total_8_pokok_ketetapan += $v['jml_ketetapan_agustus'];
+                    $total_9_pokok_ketetapan += $v['jml_ketetapan_september'];
+                    $total_10_pokok_ketetapan += $v['jml_ketetapan_oktober'];
+                    $total_11_pokok_ketetapan += $v['jml_ketetapan_november'];
+                    $total_12_pokok_ketetapan += $v['jml_ketetapan_desember'];
+                    
+                    $total_1_denda_ketetapan += $v['jml_denda_januari'];
+                    $total_2_denda_ketetapan += $v['jml_denda_februari'];
+                    $total_3_denda_ketetapan += $v['jml_denda_maret'];
+                    $total_4_denda_ketetapan += $v['jml_denda_april'];
+                    $total_5_denda_ketetapan += $v['jml_denda_mei'];
+                    $total_6_denda_ketetapan += $v['jml_denda_juni'];
+                    $total_7_denda_ketetapan += $v['jml_denda_juli'];
+                    $total_8_denda_ketetapan += $v['jml_denda_agustus'];
+                    $total_9_denda_ketetapan += $v['jml_denda_september'];
+                    $total_10_denda_ketetapan += $v['jml_denda_oktober'];
+                    $total_11_denda_ketetapan += $v['jml_denda_november'];
+                    $total_12_denda_ketetapan += $v['jml_denda_desember'];
+                    
+                    
+                    $total_1_bayar_pokok += $v['jml_byrpajak_januari'];
+                    $total_2_bayar_pokok += $v['jml_byrpajak_februari'];
+                    $total_3_bayar_pokok += $v['jml_byrpajak_maret'];
+                    $total_4_bayar_pokok += $v['jml_byrpajak_april'];
+                    $total_5_bayar_pokok += $v['jml_byrpajak_mei'];
+                    $total_6_bayar_pokok += $v['jml_byrpajak_juni'];
+                    $total_7_bayar_pokok += $v['jml_byrpajak_juli'];
+                    $total_8_bayar_pokok += $v['jml_byrpajak_agustus'];
+                    $total_9_bayar_pokok += $v['jml_byrpajak_september'];
+                    $total_10_bayar_pokok += $v['jml_byrpajak_oktober'];
+                    $total_11_bayar_pokok += $v['jml_byrpajak_november'];
+                    $total_12_bayar_pokok += $v['jml_byrpajak_desember'];
+                    
+                    $total_1_bayar_denda += $v['jml_byrdenda_januari'];
+                    $total_2_bayar_denda += $v['jml_byrdenda_februari'];
+                    $total_3_bayar_denda += $v['jml_byrdenda_maret'];
+                    $total_4_bayar_denda += $v['jml_byrdenda_april'];
+                    $total_5_bayar_denda += $v['jml_byrdenda_mei'];
+                    $total_6_bayar_denda += $v['jml_byrdenda_juni'];
+                    $total_7_bayar_denda += $v['jml_byrdenda_juli'];
+                    $total_8_bayar_denda += $v['jml_byrdenda_agustus'];
+                    $total_9_bayar_denda += $v['jml_byrdenda_september'];
+                    $total_10_bayar_denda += $v['jml_byrdenda_oktober'];
+                    $total_11_bayar_denda += $v['jml_byrdenda_november'];
+                    $total_12_bayar_denda += $v['jml_byrdenda_desember'];
+                    
+                    //======================================= end total keseluruhan
+                    
+                    $total_data_subkel_ketetapan += $v['jml_ketetapan_januari'] + $v['jml_ketetapan_februari'] + $v['jml_ketetapan_maret'] + $v['jml_ketetapan_april'] + $v['jml_ketetapan_mei'] + $v['jml_ketetapan_juni'] + $v['jml_ketetapan_juli'] + $v['jml_ketetapan_agustus'] + $v['jml_ketetapan_september'] + $v['jml_ketetapan_oktober'] + $v['jml_ketetapan_november'] + $v['jml_ketetapan_desember'];
+                    $total_data_subkel_denda += $v['jml_denda_januari'] + $v['jml_denda_februari'] + $v['jml_denda_maret'] + $v['jml_denda_april']  + $v['jml_denda_mei'] + $v['jml_denda_juni'] + $v['jml_denda_juli'] + $v['jml_denda_agustus'] + $v['jml_denda_september'] + $v['jml_denda_oktober'] + $v['jml_denda_november'] + $v['jml_denda_desember'];
+                    $total_bayar_subkel_ketetapan += $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september'] + $v['jml_byrpajak_oktober'] + $v['jml_byrpajak_november'] + $v['jml_byrpajak_desember'];
+                    $total_bayar_subkel_denda += $v['jml_byrdenda_januari'] + $v['jml_byrdenda_februari'] + $v['jml_byrdenda_maret'] + $v['jml_byrdenda_april'] + $v['jml_byrdenda_mei'] + $v['jml_byrdenda_juni'] + $v['jml_byrdenda_juli'] + $v['jml_byrdenda_agustus'] + $v['jml_byrdenda_september'] + $v['jml_byrdenda_oktober'] + $v['jml_byrdenda_november'] + $v['jml_byrdenda_desember']  ;
+                    
+                    $total_data_subkec_ketetapan += $v['jml_ketetapan_januari'] + $v['jml_ketetapan_februari'] + $v['jml_ketetapan_maret'] + $v['jml_ketetapan_april'] + $v['jml_ketetapan_mei'] + $v['jml_ketetapan_juni'] + $v['jml_ketetapan_juli'] + $v['jml_ketetapan_agustus'] + $v['jml_ketetapan_september'] + $v['jml_ketetapan_oktober'] + $v['jml_ketetapan_november'] + $v['jml_ketetapan_desember'];
+                    $total_data_subkec_denda += $v['jml_denda_januari'] + $v['jml_denda_februari'] + $v['jml_denda_maret'] + $v['jml_denda_april']  + $v['jml_denda_mei'] + $v['jml_denda_juni'] + $v['jml_denda_juli'] + $v['jml_denda_agustus'] + $v['jml_denda_september'] + $v['jml_denda_oktober'] + $v['jml_denda_november'] + $v['jml_denda_desember'];
+                    $total_bayar_subkec_ketetapan += $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september'] + $v['jml_byrpajak_oktober'] + $v['jml_byrpajak_november'] + $v['jml_byrpajak_desember'];
+                    $total_bayar_subkec_denda += $v['jml_byrdenda_januari'] + $v['jml_byrdenda_februari'] + $v['jml_byrdenda_maret'] + $v['jml_byrdenda_april'] + $v['jml_byrdenda_mei'] + $v['jml_byrdenda_juni'] + $v['jml_byrdenda_juli'] + $v['jml_byrdenda_agustus'] + $v['jml_byrdenda_september'] + $v['jml_byrdenda_oktober'] + $v['jml_byrdenda_november'] + $v['jml_byrdenda_desember']  ;
+                    
+                    $total_data_keseluruhan_ketetapan += $v['jml_ketetapan_januari'] + $v['jml_ketetapan_februari'] + $v['jml_ketetapan_maret'] + $v['jml_ketetapan_april'] + $v['jml_ketetapan_mei'] + $v['jml_ketetapan_juni'] + $v['jml_ketetapan_juli'] + $v['jml_ketetapan_agustus'] + $v['jml_ketetapan_september'] + $v['jml_ketetapan_oktober'] + $v['jml_ketetapan_november'] + $v['jml_ketetapan_desember'];
+                    $total_data_keseluruhan_denda += $v['jml_denda_januari'] + $v['jml_denda_februari'] + $v['jml_denda_maret'] + $v['jml_denda_april']  + $v['jml_denda_mei'] + $v['jml_denda_juni'] + $v['jml_denda_juli'] + $v['jml_denda_agustus'] + $v['jml_denda_september'] + $v['jml_denda_oktober'] + $v['jml_denda_november'] + $v['jml_denda_desember'];
+                    $total_bayar_keseluruhan_ketetapan += $v['jml_byrpajak_januari'] + $v['jml_byrpajak_februari'] + $v['jml_byrpajak_maret'] + $v['jml_byrpajak_april'] + $v['jml_byrpajak_mei'] + $v['jml_byrpajak_juni'] + $v['jml_byrpajak_juli'] + $v['jml_byrpajak_agustus'] + $v['jml_byrpajak_september'] + $v['jml_byrpajak_oktober'] + $v['jml_byrpajak_november'] + $v['jml_byrpajak_desember'];
+                    $total_bayar_keseluruhan_denda += $v['jml_byrdenda_januari'] + $v['jml_byrdenda_februari'] + $v['jml_byrdenda_maret'] + $v['jml_byrdenda_april'] + $v['jml_byrdenda_mei'] + $v['jml_byrdenda_juni'] + $v['jml_byrdenda_juli'] + $v['jml_byrdenda_agustus'] + $v['jml_byrdenda_september'] + $v['jml_byrdenda_oktober'] + $v['jml_byrdenda_november'] + $v['jml_byrdenda_desember']  ;
+                    
+                    
+                    $counter++;
+                }
+                
+                if ($clast_rek_kel <> '') {
+                            $html .= '<tr>
+                                            <td colspan="3" rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;">Jumlah se-kelurahan '. strtoupper($clast_rek_name_kel) .'</td>
+                                            
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_denda_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_data_subkel_ketetapan + $total_data_subkel_denda, 2, ',', '.') . '</b></td>  
+                                            <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format(($total_data_subkel_ketetapan + $total_data_subkel_denda) - ($total_bayar_subkel_ketetapan + $total_bayar_subkel_denda) , 2, ',', '.') . '</b></td> 
+                                    </tr>       
+                                             
+                                    <tr>
+                                            
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_denda , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_denda , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_pokok , 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_denda , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_subkel_ketetapan + $total_bayar_subkel_denda , 2, ',', '.') . '</b></td>  
+                                </tr>';
+                            $subtotal_1_pokok_ketetapan = 0;
+                            $subtotal_2_pokok_ketetapan = 0;
+                            $subtotal_3_pokok_ketetapan = 0;
+                            $subtotal_4_pokok_ketetapan = 0;
+                            $subtotal_5_pokok_ketetapan = 0;
+                            $subtotal_6_pokok_ketetapan = 0;
+                            $subtotal_7_pokok_ketetapan = 0;
+                            $subtotal_8_pokok_ketetapan = 0;
+                            $subtotal_9_pokok_ketetapan = 0;
+                            $subtotal_10_pokok_ketetapan = 0;
+                            $subtotal_11_pokok_ketetapan = 0;
+                            $subtotal_12_pokok_ketetapan = 0;
+
+                            $subtotal_1_denda_ketetapan = 0;
+                            $subtotal_2_denda_ketetapan = 0;
+                            $subtotal_3_denda_ketetapan = 0;
+                            $subtotal_4_denda_ketetapan = 0;
+                            $subtotal_5_denda_ketetapan = 0;
+                            $subtotal_6_denda_ketetapan = 0;
+                            $subtotal_7_denda_ketetapan = 0;
+                            $subtotal_8_denda_ketetapan = 0;
+                            $subtotal_9_denda_ketetapan = 0;
+                            $subtotal_10_denda_ketetapan = 0;
+                            $subtotal_11_denda_ketetapan = 0;
+                            $subtotal_12_denda_ketetapan = 0;
+
+
+                            $subtotal_1_bayar_pokok = 0;
+                            $subtotal_2_bayar_pokok = 0;
+                            $subtotal_3_bayar_pokok = 0;
+                            $subtotal_4_bayar_pokok = 0;
+                            $subtotal_5_bayar_pokok = 0;
+                            $subtotal_6_bayar_pokok = 0;
+                            $subtotal_7_bayar_pokok = 0;
+                            $subtotal_8_bayar_pokok = 0;
+                            $subtotal_9_bayar_pokok = 0;
+                            $subtotal_10_bayar_pokok = 0;
+                            $subtotal_11_bayar_pokok = 0;
+                            $subtotal_12_bayar_pokok = 0;
+
+                            $subtotal_1_bayar_denda = 0;
+                            $subtotal_2_bayar_denda = 0;
+                            $subtotal_3_bayar_denda = 0;
+                            $subtotal_4_bayar_denda = 0;
+                            $subtotal_5_bayar_denda = 0;
+                            $subtotal_6_bayar_denda = 0;
+                            $subtotal_7_bayar_denda = 0;
+                            $subtotal_8_bayar_denda = 0;
+                            $subtotal_9_bayar_denda = 0;
+                            $subtotal_10_bayar_denda = 0;
+                            $subtotal_11_bayar_denda = 0;
+                            $subtotal_12_bayar_denda = 0;
+                            
+                            $total_data_subkel_ketetapan = 0;
+                            $total_data_subkel_denda = 0;
+                            $total_bayar_subkel_ketetapan = 0;
+                            $total_bayar_subkel_denda = 0;
+                            
+                        }
+                
+                if ($clast_rek <> '') {
+                                $html .= '<tr>
+
+                                           <td colspan="3" rowspan="2" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000;" align="center"><b><i>JUMLAH SE-KECAMATAN '. strtoupper($clast_rek_name) .'</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_pokok_ketetapan_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_denda_ketetapan_kec , 2, ',', '.') . '</i></b></td>     
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_data_subkec_ketetapan + $total_data_subkec_denda , 2, ',', '.') . '</b></td>  
+                                            <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format(($total_data_subkec_ketetapan + $total_data_subkec_denda) - ($total_bayar_subkec_ketetapan + $total_bayar_subkec_denda) , 2, ',', '.') . '</b></td> 
+                                    </tr>       
+                                             
+                                    <tr>
+                                            
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_1_bayar_denda_kec , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_2_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_3_bayar_denda_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_4_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_5_bayar_denda_kec , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_6_bayar_denda_kec , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_7_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_8_bayar_denda_kec , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_pokok_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_9_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_10_bayar_denda_kec , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_pokok_kec , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_11_bayar_denda_kec , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_pokok_kec , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($subtotal_12_bayar_denda_kec , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_subkec_ketetapan + $total_bayar_subkec_denda , 2, ',', '.') . '</b></td>  
+                                        </tr>';
+                                $subtotal_1_pokok_ketetapan_kec = 0;
+                                $subtotal_2_pokok_ketetapan_kec = 0;
+                                $subtotal_3_pokok_ketetapan_kec = 0;
+                                $subtotal_4_pokok_ketetapan_kec = 0;
+                                $subtotal_5_pokok_ketetapan_kec = 0;
+                                $subtotal_6_pokok_ketetapan_kec = 0;
+                                $subtotal_7_pokok_ketetapan_kec = 0;
+                                $subtotal_8_pokok_ketetapan_kec = 0;
+                                $subtotal_9_pokok_ketetapan_kec = 0;
+                                $subtotal_10_pokok_ketetapan_kec = 0;
+                                $subtotal_11_pokok_ketetapan_kec = 0;
+                                $subtotal_12_pokok_ketetapan_kec = 0;
+
+                                $subtotal_1_denda_ketetapan_kec = 0;
+                                $subtotal_2_denda_ketetapan_kec = 0;
+                                $subtotal_3_denda_ketetapan_kec = 0;
+                                $subtotal_4_denda_ketetapan_kec = 0;
+                                $subtotal_5_denda_ketetapan_kec = 0;
+                                $subtotal_6_denda_ketetapan_kec = 0;
+                                $subtotal_7_denda_ketetapan_kec = 0;
+                                $subtotal_8_denda_ketetapan_kec = 0;
+                                $subtotal_9_denda_ketetapan_kec = 0;
+                                $subtotal_10_denda_ketetapan_kec = 0;
+                                $subtotal_11_denda_ketetapan_kec = 0;
+                                $subtotal_12_denda_ketetapan_kec = 0;
+
+
+                                $subtotal_1_bayar_pokok_kec = 0;
+                                $subtotal_2_bayar_pokok_kec = 0;
+                                $subtotal_3_bayar_pokok_kec = 0;
+                                $subtotal_4_bayar_pokok_kec = 0;
+                                $subtotal_5_bayar_pokok_kec = 0;
+                                $subtotal_6_bayar_pokok_kec = 0;
+                                $subtotal_7_bayar_pokok_kec = 0;
+                                $subtotal_8_bayar_pokok_kec = 0;
+                                $subtotal_9_bayar_pokok_kec = 0;
+                                $subtotal_10_bayar_pokok_kec = 0;
+                                $subtotal_11_bayar_pokok_kec = 0;
+                                $subtotal_12_bayar_pokok_kec = 0;
+
+                                $subtotal_1_bayar_denda_kec = 0;
+                                $subtotal_2_bayar_denda_kec = 0;
+                                $subtotal_3_bayar_denda_kec = 0;
+                                $subtotal_4_bayar_denda_kec = 0;
+                                $subtotal_5_bayar_denda_kec = 0;
+                                $subtotal_6_bayar_denda_kec = 0;
+                                $subtotal_7_bayar_denda_kec = 0;
+                                $subtotal_8_bayar_denda_kec = 0;
+                                $subtotal_9_bayar_denda_kec = 0;
+                                $subtotal_10_bayar_denda_kec = 0;
+                                $subtotal_11_bayar_denda_kec = 0;
+                                $subtotal_12_bayar_denda_kec = 0;
+                                
+                                $total_data_subkec_ketetapan = 0;
+                                $total_data_subkec_denda = 0;
+                                $total_bayar_subkec_ketetapan = 0;
+                                $total_bayar_subkec_denda = 0;
+                                
+                            }
+                            $total_data_subkec_ketetapan = 0;
+                            $total_data_subkec_denda = 0;
+                            $total_bayar_subkec_ketetapan = 0;
+                            $total_bayar_subkec_denda = 0;
+                        
+                $html .= '
+                    
+                            <tr>
+                                            <td colspan="3" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH TOTAL KETETAPAN</b></center></td>
+                                            
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_1_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_1_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_2_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_2_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_3_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_3_denda_ketetapan , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_4_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_4_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_5_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_5_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_6_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_6_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_7_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_7_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_8_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_8_denda_ketetapan , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_9_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_9_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_10_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_10_denda_ketetapan , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_11_pokok_ketetapan , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_11_denda_ketetapan , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_12_pokok_ketetapan , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_12_denda_ketetapan , 2, ',', '.') . '</i></b></td>     
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_data_keseluruhan_ketetapan + $total_data_keseluruhan_denda , 2, ',', '.') . '</b></td>  
+                                            <td rowspan="2" style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format(($total_data_keseluruhan_ketetapan + $total_data_keseluruhan_denda) - ($total_bayar_keseluruhan_ketetapan + $total_bayar_keseluruhan_denda) , 2, ',', '.') . '</b></td> 
+                                    </tr>       
+                                             
+                                    <tr>
+                                            <td colspan="3" style="border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; vertical-align:middle;"><center><b>JUMLAH TOTAL BAYAR</b></center></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_1_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_1_bayar_denda , 2, ',', '.') . '</i></b></td> 
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_2_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_2_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_3_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_3_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_4_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_4_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_5_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_5_bayar_denda , 2, ',', '.') . '</i></b></td>    
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_6_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_6_bayar_denda , 2, ',', '.') . '</i></b></td>
+                                                
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_7_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_7_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_8_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_8_bayar_denda , 2, ',', '.') . '</i></b></td>      
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_9_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_9_bayar_denda , 2, ',', '.') . '</i></b></td>  
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_10_bayar_pokok , 2, ',', '.') . '</i></b></td>
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_10_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_11_bayar_pokok , 2, ',', '.') . '</i></b></td> 
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_11_bayar_denda , 2, ',', '.') . '</i></b></td>     
+
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_12_bayar_pokok , 2, ',', '.') . '</i></b></td>  
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b><i>'. number_format($total_12_bayar_denda , 2, ',', '.') . '</i></b></td>  
+                                     
+                                            <td style="border-bottom: 1px solid #000;border-right: 1px solid #000; vertical-align:right;" align="right"><b>'. number_format($total_bayar_keseluruhan_ketetapan + $total_bayar_keseluruhan_denda , 2, ',', '.') . '</b></td>     
+                                </tr>
+
+            </table>
+        </div>
+    </body>
+</html>';
+                
+ if ($data_get['jnscetak'] == 1) {
+     //echo $html;  
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakrekapitulasi_ketetapandansetoran.pdf", "I");
+}else{
+    echo $html;    
+}
+?>                 

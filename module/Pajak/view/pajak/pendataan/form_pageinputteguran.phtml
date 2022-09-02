@@ -1,0 +1,328 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pageinputteguran');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <b style="font-family: monospace;">Input Surat Teguran</b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label" style="text-align: left">Masa Pajak</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("t_bulanpajak")->setValue($bulanpajak)) ?>
+                                <?= $this->formText($form->get("t_masapajak")->setValue($masapajak)) ?>
+                            </div>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_tahunpajak")->setValue($tahunpajak)) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label" style="text-align: left">Jenis Pajak</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_jenispajak")->setValue($jenispajak)) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label" style="text-align: left">Tanggal Teguran</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_tglteguran")) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="example-box-wrapper">
+                        <div style="overflow: auto">
+                            <div class="scroll-columns">
+                                <table class="table table-condensed table-bordered cf tableBelumLapor" id="table-patient-time" style="font-size: 11px; color: black;">
+                                    <thead class="cf" style="background-color: blue">
+                                        <tr class="bg-blue">
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                No.
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                NPWPD
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                Nama
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                NIOP
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                Nama Objek
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                Alamat Objek
+                                            </th>
+                                            <th style="background-color: #00BCA4; color: white; text-align: center">
+                                                No. Teguran
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <?php
+                                    $i = 1;
+                                    $noteguran = $noteguran;
+                                    foreach ($datamauditegur as $row) {
+                                    ?>
+                                        <tr>
+                                            <td style="text-align:center"><?= $i++ ?></td>
+                                            <td style="text-align:center"><?= $row['t_npwpd'] ?></td>
+                                            <td><?= $row['t_nama'] ?></td>
+                                            <td style="text-align:center"><?= $row['t_nop'] ?></td>
+                                            <td><?= $row['t_namaobjek'] ?></td>
+                                            <td><?= $row['t_alamatlengkapobjek'] ?></td>
+                                            <td>
+                                                <input type="hidden" class="form-control" name="t_idobjekteguran[]" value="<?= $row['t_idobjek'] ?>">
+                                                <input type="text" class="form-control" name="t_noteguran[]" value="<?= $noteguran++ ?>" readonly="true">
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Teguransubmit')) ?>
+                    </div>
+                    <?= $this->form()->closeTag($form) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //    $(function () {
+    //        document.getElementById("t_masaawal").focus();
+    //        CariPendataanByObjek();
+    //    });
+
+    $('#t_tglteguran').change(function() {
+        $.post('<?= $this->url() ?>/formattgl', {
+            tgl: $('#t_tglteguran').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_tglteguran").val(aa.tgl);
+        });
+    });
+
+    $('#t_masaawal').change(function() {
+        $.post('<?= $this->url() ?>/hitungtgl', {
+            t_masaawal: $('#t_masaawal').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_masaakhir").val(aa.t_masaakhir);
+            $("#t_masaawal").val(aa.t_masaawal);
+        });
+    });
+
+    $('#t_masaakhir').change(function() {
+        $.post('<?= $this->url() ?>/formattgl', {
+            tgl: $('#t_masaakhir').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_masaakhir").val(aa.tgl);
+        });
+    });
+
+    $('#t_idkorek').change(function() {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: $('#t_idkorek').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+        });
+    });
+
+    function hitungpajak() {
+        $.post('<?= $this->url() ?>/hitungpajak', {
+            t_dasarpengenaan: $("#t_dasarpengenaan").val(),
+            t_tarifpajak: $("#t_tarifpajak").val(),
+            t_tarifkenaikan: $("#t_tarifkenaikan").val(),
+            t_jmlhkenaikan: $("#t_jmlhkenaikan").val(),
+            t_jenispajak: $("#t_jenispajak").val(),
+            t_idkorek: $("#t_idkorek").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+        });
+    }
+
+    function CariPendataanByObjek() {
+        $.post('<?= $this->url() ?>/CariPendataanByObjek', {
+            idobjek: $("#t_idobjek").val(),
+            periodepajak: $("#t_periodepajak").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+    }
+
+    function pilihskpdjabatan(a) {
+        $.post('<?= $this->url() ?>/pilihskpdjabatan', {
+            parameter: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_tglpendataan").val(aa.t_tglpendataan);
+            $("#t_masaawal").val(aa.t_masaawal);
+            $("#t_masaakhir").val(aa.t_masaakhir);
+            $("#t_tarifkenaikan").val(aa.t_tarifkenaikan);
+        });
+        document.getElementById("kenaikan").style.display = "block";
+        setTimeout(function() {
+            hitungpajak();
+        }, 1000);
+    }
+
+    function nonskpdjabatan() {
+        document.getElementById("kenaikan").style.display = "none";
+        $("#t_tarifkenaikan").val(0);
+        hitungpajak();
+    }
+</script>
+<div class="modal fade" id="modalCetakSuratTeguran" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SuratTeguran</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" id="idjenispajak">
+                                <input type="hidden" id="idobjekwp">
+                                <input type="text" class="form-control" id="jenispajak" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="namawp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Masa Pajak
+                            </label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="masaawal" readonly="">
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="masaakhir" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="alamatwp">
+
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select id="ttd0" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'>
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaksuratteguran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSuratTeguran()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function bukaCetakSuratTeguran(a, b) {
+        $.post('<?= $this->url() ?>/dataSuratTeguran', {
+            parameter: a,
+            idobjekwp: b
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#idobjekwp").val(aa.idobjekwp);
+            $("#namawp").val(aa.namawp);
+            $("#alamatwp").val(aa.alamatwp);
+            $("#jenispajak").val(aa.jenispajak);
+            $("#idjenispajak").val(aa.idjenispajak);
+            $("#masaawal").val(aa.t_masaawal);
+            $("#masaakhir").val(aa.t_masaakhir);
+        });
+        $('#modalCetakSuratTeguran').modal('show');
+    }
+
+    function tutupCetakSuratTeguran() {
+        $('#modalCetakSuratTeguran').modal('hide');
+    }
+
+    function cetaksuratteguran() {
+        window.open('<?= $this->url() ?>/cetaksuratteguran?idobjekwp=' + $("#idobjekwp").val() + "&ttd0=" + $("#ttd0").val() + "&masaawal=" + $("#masaawal").val() + "&masaakhir=" + $("#masaakhir").val());
+    }
+</script>

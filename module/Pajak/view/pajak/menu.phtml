@@ -1,0 +1,74 @@
+<style type="text/css">
+    .bg-gradient-8 {
+        background: radial-gradient(circle at 1.98% 20.98%, #00BCA4, transparent 100%), radial-gradient(circle at 98.02% 20.98%, #182848, transparent 100%), radial-gradient(circle at 50% 50%, #0cc285, #0cc285 100%);
+        background-color: rgba(0, 0, 0, 0);
+
+    }
+
+    #sidebar-menu>li>a {
+
+        border: #898b8f solid 1px;
+
+    }
+</style>
+
+<div id="page-header" class="bg-facebook">
+    <div id="mobile-navigation">
+        <button id="nav-toggle" class="collapsed" data-toggle="collapse" data-target="#page-sidebar"><span></span>
+            <a href="<?= $this->url('main') ?>" class="logo-content-small" title="SIMPATDA"></a>
+        </button>
+    </div>
+    <div id="header-logo" class="logo-bg pad5A">
+        <img src="<?= $this->basePath() . '/public/upload/simpatda.PNG' ?>" alt="" width="70%">
+        <a id="close-sidebar" href="#" title="Close sidebar">
+            <i class="glyph-icon icon-angle-left"></i>
+        </a>
+    </div>
+    <div id="header-nav-left">
+        <div class="user-account-btn dropdown">
+            <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown">
+                <img width="28" src="<?= $this->basePath() . '/public/upload/icon-user.png' ?>" alt="Profile image">
+                <span class="font-size-11">
+                    <?php $userName = explode(' ', @$datauser['s_nama']); ?>
+                    <?= $userName[0] ?>
+                </span>
+                <i class="glyph-icon icon-angle-down"></i>
+            </a>
+            <div class="dropdown-menu float-left">
+                <div class="box-sm">
+                    <div class="login-box clearfix">
+                        <div class="user-img">
+                            <a href="#" title="" class="change-img">Change photo</a>
+                            <img src="<?= $this->basePath() . '/public/upload/icon-user.png' ?>" alt="">
+                        </div>
+                        <div class="user-info">
+                            <span>
+                                <?= $datauser['s_nama']; ?>
+                                <i><?= $datauser['s_namauserrole']; ?></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="pad5A button-pane button-pane-alt text-center">
+                        <a href="<?= $this->url('setting_user') . '/ubahpassback' ?>" class="btn display-block font-normal btn-warning">
+                            <i class="glyph-icon icon-key"></i>
+                            Password
+                        </a>
+                        <a href="<?= $this->url('sign_in') . '/logout' ?>" class="btn display-block font-normal btn-danger">
+                            <i class="glyph-icon icon-power-off"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header-nav-right">
+        <a class="header-btn" id="logout-btn" href="<?= $this->url('setting_user') . '/ubahpassback' ?>" title="Ganti Password">
+            <i class="glyph-icon icon-key"></i>
+        </a>
+        <a class="header-btn" id="logout-btn" href="<?= $this->url('sign_in') . '/logout' ?>" title="Logout">
+            <i class="glyph-icon icon-power-off"></i>
+        </a>
+    </div>
+</div>

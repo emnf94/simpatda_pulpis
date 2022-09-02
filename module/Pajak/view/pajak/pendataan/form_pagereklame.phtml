@@ -1,0 +1,1004 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pagereklame');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class="glyph-icon icon-pencil"></i>
+                    Pendataan <?= $datapendaftaran['s_namajenis'] ?><b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 center-div">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:center; background:black; border-radius: 25px; color: orange; padding: 5px 15px 5px 15px; font-size: 16px; font-weight:bolder">NPWPD : <?= $datapendaftaran['t_npwpd'] ?> / NIOP : <?= $datapendaftaran['t_nop'] ?></span>
+                        </div>
+                    </div>
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-md-6">
+
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data WP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIK</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nik'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nama'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamat_lengkap'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data OP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIOP</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nop'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_namaobjek'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamatobjek'] ?>
+                                            ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                                            ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                                            ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                                            ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                                            ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Histori Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="datatransaksi"></div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pendataan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_periodepajak")) ?>
+                                    <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                                    <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                    <?= $this->formHidden($form->get("t_iddetailreklame")) ?>
+                                    <?= $this->formHidden($form->get("t_idobjek")) ?>
+                                    <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpendataan")) ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Penetapan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tipe Waktu</label>
+                            <div class="col-sm-6">
+                                <div class="input-prepend input-group">
+                                    <?= $this->formSelect($form->get("t_tipewaktu")) ?>
+                                    <?= $this->formHidden($form->get("t_jangkawaktu")) ?>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Pajak</label>
+                            <div class="col-sm-6">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaawal")) ?>
+                                    <span class="input-group-addon" style="background-color: #EEEEEE"><b>s/d</b></span>
+                                    <?= $this->formText($form->get("t_masaakhir")) ?>
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("t_idkorek")) ?>
+                                <?= $this->formText($form->get("t_korek")) ?>
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()"><span class="glyph-icon icon-search"></span></button></div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-sm btn-danger" onclick="clearform()"><span class="glyph-icon icon-remove">Clear Form</span></button></div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-6">
+                                <?= $this->formText($form->get("t_namakorek")) ?>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Naskah</label>
+                            <div class="col-sm-6">
+                                <?= $this->formTextarea($form->get("t_naskah")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="divLokasiReklame">
+                            <label class="col-sm-2 control-label">Nilai Strategis</label>
+                            <div class="col-sm-2">
+                                <?= $this->formSelect($form->get("t_kelasjalan")) ?>
+                            </div>
+                            <!-- <label class="col-sm-1 control-label">Lokasi</label>
+                            <div class="col-sm-3">
+                                <?= $this->formSelect($form->get("t_idlokasi")) ?>
+                            </div> -->
+                            <div class="col-sm-1">
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                        <span class="btn btn-sm btn-info" id="btnInfoKawasan" al><i class="glyph-icon icon-file"></i> Klasifikasi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" id="divrekomendasi">
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Detail Lokasi</label>
+                            <div class="col-sm-6">
+                                <?= $this->formTextarea($form->get("t_lokasi")) ?>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jumlah</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_jumlah")) ?>
+                            </div>
+                            <label class="col-sm-2 control-label">Kategori</label>
+                            <div class="col-sm-3">
+                                <?= $this->formSelect($form->get("t_jenisreklameusaha")) ?>
+                            </div>
+                        </div>
+
+                        <?= $this->formHidden($form->get("t_idkeberatan")) ?>
+                    </div>
+                    <div align="right" style="margin-bottom:5px;">
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box box-danger">
+
+                                <div class="box-body">
+                                    <input type="hidden" id="idl" value="1">
+                                    <div id="add_Detail"></div>
+
+                                </div>
+                                <div align="right" class="box-header with-border">
+                                    <span class="btn btn-sm btn-success" id="tambahDetail" al><i class="glyph-icon icon-plus-square-o"></i> TAMBAH JENIS REKLAME</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div align="right" style="margin-bottom:5px;">
+                        <hr>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Total Pajak</label>
+                        <div class="col-sm-4">
+                            <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                            <span id="error_t_jmlhpajak" style="color : red; display:none;"></span>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-md btn-purple" onclick="hitungTotalJumlahPajakReklame()">
+                                <i class="glyph-icon icon-calculator"></i> HITUNG
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="bg-default" id="tombolsimpan">
+                        <?= $this->formInput($form->get('Pendataansubmit')) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+                </div>
+                <div class='modal-body'>
+                    <input type="hidden" id="t_jenisobjek" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                    <div>
+                        <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                            <thead class="cf">
+                                <tr class="bg-blue">
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Kode Rekening
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Nama Rekening
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Pilihan
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" id="korek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="s_namakorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                    </td>
+
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="listrekening">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                            <div class="col-sm-3">
+                                                <a href="#" onclick="calldataGridRekening(1);
+                                                    return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                                <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                                <a href="#" onclick="calldataGridRekening(2);
+                                                    return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                            </div>
+                                            <div class="col-sm-5 text-right">
+                                                <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalKawasan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><b>Klasifikasi Nilai Strategis Jalan</b></h4>
+                </div>
+                <div class='modal-body'>
+                    <div>
+                        <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                            <thead class="cf">
+
+                                <tr>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        Utama
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        A
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        B
+                                    </th>
+                                    <th style="background-color: #00BCA4; color: white; text-align: center">
+                                        C
+                                    </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>- Jl. Tinggang Menteng (Kecamatan Kahayan Hilir)<br>
+                                        - Jl. Trans Kalimantan Km. 10 (Kecamatan Kahayan Hilir)<br>
+
+                                    </td>
+                                    <td>
+                                        - Jln. Pemda<br>
+                                        - Jln. Pananjung Tarung<br>
+
+
+                                    </td>
+                                    <td>
+                                        - Jln. Darung Bawan<br>
+                                        - Jln. Masyuni Layar<br>
+                                        - Jln. Rey 2<br>
+                                        - Jln. Hasanudin;<br>
+                                        - Jln. Tajakan Antang<br>
+                                        - Kelurahan Kalawa<br>
+
+                                    </td>
+                                    <td>- Diluar Kecamatan Kahayan Hilir</td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#tambahDetail").click(function() {
+            if ($("#t_korek").val() == '') {
+                alert('Silahkan Pilih Kode Rekening Terlebih dahulu!');
+
+
+            } else if ($("#t_jenisreklameusaha").val() == '') {
+                alert('Silahkan Pilih Kategori Terlebih dahulu!');
+            } else if ($("#t_kelasjalan").val() == '') {
+                alert('Silahkan Pilih Nilai Strategis!');
+            } else if ($("#t_tipewaktu").val() == '') {
+                alert('Silahkan Pilih Tipe Waktu!');
+            } else {
+                var idl = document.getElementById("idl").value;
+                comboJenisReklame(idl);
+                $("#add_Detail").append(
+
+                    '<div style="border-bottom: 1px solid red; margin-bottom: 10px;" id="detailnode' + idl + '">' +
+                    '<div class="col-sm-12">' +
+                    '<label class="col-sm-2 control-label">Jenis Reklame</label>' +
+                    '<div class="col-sm-6">' +
+                    '<select onchange="ukuranmedia(' + idl + ');caritarifreklame(' + idl + ')" name="t_jenisreklame[]" id="t_jenisreklame' + idl + '" class="form-control" required="true">' +
+                    '<option value="">Silahkan Pilih</option>' +
+                    '</select>' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-sm-12" style="display:none;" id="divluas' + idl + '">' +
+                    '<label class="col-sm-2 control-label">Panjang (m)</label>' +
+                    '<div class="col-sm-1">' +
+                    '<input type="text" onchange="hitungpajakreklame(' + idl + ')" onkeypress="return hanyaAngka(event)" name="t_panjang[]" id="t_panjang' + idl + '" class="form-control text-right" required="true" value="0">' +
+                    '</div>' +
+                    '<label class="col-sm-1 control-label">Lebar (m)</label>' +
+                    '<div class="col-sm-1">' +
+                    '<input type="text" onchange="hitungpajakreklame(' + idl + ')" onkeypress="return hanyaAngka(event)" name="t_lebar[]" id="t_lebar' + idl + '" class="form-control text-right" required="true" value="0">' +
+                    '</div>' +
+                    '<label class="col-sm-1 control-label">Sisi</label>' +
+                    '<div class="col-sm-1">' +
+                    '<input type="text" onchange="hitungpajakreklame(' + idl + ')" onkeypress="return hanyaAngka(event)" name="t_sisi[]" id="t_sisi' + idl + '" class="form-control text-right" required="true" value="0">' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-sm-12" style="display:none;" id="divtinggi' + idl + '">' +
+                    '<label class="col-sm-2 control-label">Tinggi (m)</label>' +
+                    '<div class="col-sm-1">' +
+                    '<input type="text" onchange="hitungpajakreklame(' + idl + ')" onkeypress="return hanyaAngka(event)" name="t_tinggi[]" id="t_tinggi' + idl + '" class="form-control text-right" required="true" value="0">' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-sm-12" style="display:none;" id="divfolio' + idl + '">' +
+                    '<label class="col-sm-2 control-label">Folio (lembar)</label>' +
+                    '<div class="col-sm-1">' +
+                    '<input type="text" onkeyup="hitungpajakreklame(' + idl + ')" onkeypress="return hanyaAngka(event)" name="t_folio[]" id="t_folio' + idl + '" class="form-control text-right" required="true" value="0">' +
+                    '</div>' +
+                    '</div>' +
+
+
+                    '<div class="col-sm-12">' +
+                    '<label class="col-sm-2 control-label">Tarif Pajak</label>' +
+                    '<div class="col-sm-6">' +
+                    '<input type="text" name="t_nsr[]" id="t_nsr' + idl + '" class="form-control text-right" readonly="true" required="true">' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-sm-12">' +
+                    '<label class="col-sm-2 control-label">Parameter</label>' +
+                    '<div class="col-sm-6">' +
+                    '<input type="text" name="t_param[]" id="t_param' + idl + '" class="form-control text-right" readonly="true" required="true">' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div class="col-sm-12">' +
+                    '<label class="col-sm-2 control-label">Jumlah</label>' +
+                    '<div class="col-sm-6">' +
+                    '<input type="text" name="t_jmlhpajaksub[]" id="t_jmlhpajaksub' + idl + '" class="form-control text-right" readonly="true" required="true">' +
+                    '</div>' +
+
+
+
+                    '<div class="col-sm-3">' +
+                    '<span class="btn btn-xs btn-warning" onclick="hitungpajakreklame(' + idl + ')"><span class="glyphicon glyphicon-refresh"></span>' +
+                    '</div>' +
+                    '</div>' +
+
+                    '<div align="right" style="margin-bottom:5px;">' +
+                    '<span class="btn btn-xs btn-danger" onclick="removetr(' + idl + ')"><span class="glyph-icon icon-trash"></span> HAPUS</span>' +
+                    '</div>' +
+                    '</div>'
+                );
+                idl = (idl - 1) + 2;
+                document.getElementById("idl").value = idl;
+
+
+
+
+            }
+
+        });
+    });
+
+    function ceksize(input) {
+        const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+        if (fileSize > 2) {
+            alert('Ukuran File tidak boleh lebih dari 2 Mb');
+            $("#t_rekomendasi").val(''); //for clearing with Jquery
+        }
+    }
+
+    $('#btnInfoKawasan').click(function() {
+        $('#modalKawasan').modal('show');
+    })
+    CariPendataanReklameByObjek()
+
+    function ukuranmedia(idl) {
+        if ($("#t_jenisreklame" + idl).val() == "1" ||
+            $("#t_jenisreklame" + idl).val() == "2") {
+            $("#divtinggi" + idl).show();
+            $("#divluas" + idl).hide();
+            $("#divfolio" + idl).hide();
+        } else if ($("#t_jenisreklame" + idl).val() == "11" ||
+            $("#t_jenisreklame" + idl).val() == "10" ||
+            $("#t_jenisreklame" + idl).val() == "13") {
+            $("#divfolio" + idl).show();
+            $("#divluas" + idl).hide();
+            $("#divtinggi" + idl).hide();
+        } else {
+            $("#divluas" + idl).show();
+            $("#divtinggi" + idl).hide();
+            $("#divfolio" + idl).hide();
+
+        }
+
+        // if ($("#t_jenisreklame" + idl).val() == 8 || $("#t_jenisreklame" + idl).val() == 9 || $("#t_jenisreklame" + idl).val() == 10 || $("#t_jenisreklame" + idl).val() == 11 || $("#t_jenisreklame" + idl).val() == 12 || $("#t_jenisreklame" + idl).val() == 13 || $("#t_jenisreklame" + idl).val() == 14) {
+
+        // } else {
+        //     $("#divrekomendasi" + idl).hide();
+        // }
+
+    }
+
+    function getformrekomendasi() {
+        $.post('<?= $this->url() ?>/getformrekomendasi', {
+            t_kelasjalan: $("#t_kelasjalan").val(),
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#divrekomendasi").html(aa.form);
+        });
+    }
+
+
+
+    function hitungjangkawaktu() {
+        $.post('<?= $this->url() ?>/hitungjangkawaktu', {
+            t_masaawal: $("#t_masaawal").val(),
+            t_masaakhir: $("#t_masaakhir").val(),
+            t_tipewaktu: $("#t_tipewaktu").val()
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#t_jangkawaktu").val(aa.t_jangkawaktu);
+        });
+
+    }
+
+    function caritarifreklame(a) {
+        $.post('<?= $this->url() ?>/caritarifreklame', {
+                t_jenisreklame: $('#t_jenisreklame' + a).val(),
+                t_jenisreklameusaha: $('#t_jenisreklameusaha').val(),
+                t_jangkawaktu: $('#t_jangkawaktu').val(),
+                t_kelasjalan: $('#t_kelasjalan').val()
+            },
+            function(data) {
+                var aa = JSON.parse(data);
+                $('#t_nsr' + a).val(aa.s_nsr);
+
+
+
+            });
+    }
+
+    function hitungpajakreklame(a) {
+        $.post('<?= $this->url() ?>/hitungpajakreklame', {
+
+            t_jenisreklame: $("#t_jenisreklame" + a).val(),
+            t_panjang: $("#t_panjang" + a).val(),
+            t_lebar: $("#t_lebar" + a).val(),
+            t_tinggi: $("#t_tinggi" + a).val(),
+            t_sisi: $("#t_sisi" + a).val(),
+            t_folio: $("#t_folio" + a).val(),
+            t_jumlah: $("#t_jumlah").val(),
+            t_nsr: $("#t_nsr" + a).val(),
+            t_jangkawaktu: $("#t_jangkawaktu").val(),
+            t_tipewaktu: $("#t_tipewaktu").val(),
+        }, function(data) {
+            var aa = JSON.parse(data);
+            console.log(aa);
+            $('#t_jmlhpajaksub' + a).val(aa.t_jmlhpajaksub);
+            $('#t_param' + a).val(aa.t_param);
+
+            hitungTotalJumlahPajakReklame();
+        });
+
+    }
+
+
+    function hitungTotalJumlahPajakReklame() {
+        let total = 0;
+        let maxidl = $('#idl').val();
+        for (let index = 1; index < maxidl; index++) {
+            var strnum = $('#t_jmlhpajaksub' + index).val();
+            var Re = new RegExp("\\.", "g");
+            totalpernode = strnum.replace(Re, "");
+
+            total += Number(totalpernode);
+        }
+        console.log(total);
+        $('#t_jmlhpajak').val(format(String(total)));
+    }
+
+    function format(str) {
+        var length = 3,
+            separator = ".",
+            count = 0,
+            result = str.split('').reduceRight((a, c) => {
+                if (count === length) {
+                    a.push(separator);
+                    count = 1;
+                } else
+                    count++;
+                a.push(c);
+                return a;
+            }, []).reverse().join('');
+        return result;
+    }
+
+    function removetr(a) {
+        $("#detailnode" + a).remove();
+    }
+
+    function clearform() {
+        location.reload();
+        //    $("#t_idkorek").val('');
+        //    $("#t_korek").val('');
+        //    $("#t_namakorek").val('');
+
+    }
+
+    $('#t_tglpendataan').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+    $('#t_masaawal').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+    $('#t_masaakhir').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+    $('#t_tglpenetapan').datepicker({
+        format: 'dd-mm-yyyy'
+    });
+    $('#t_periodepajak').datepicker({
+        format: 'yyyy',
+        viewMode: "years",
+        minViewMode: "years"
+    });
+
+    // start fungsi cari rekening reklame
+    function bukamodalRekening() {
+        calldataGridRekening();
+        $('#modalRekening').modal('show');
+    }
+
+    function calldataGridRekening(direction) {
+        dataGridRekening($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function dataGridRekening(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + null + '/' + page + '/' + row + '/' + direction +
+            '?korek=' + $("#korek").val() +
+            "&s_namakorek=" + $("#s_namakorek").val() +
+            "&t_jenisobjek=" + $("#t_jenisobjek").val() +
+            "&s_idkorek=" + $("#t_idkorek").val(),
+            function(data) {
+                var aa = JSON.parse(data);
+                $("#listrekening").html(aa.grid);
+                $("#rows").val(aa.rows);
+                $("#page").val(aa.page);
+                $("#total_data").html(": " + aa.count);
+                $("#total_halaman").html(": " + aa.total_halaman);
+            });
+    }
+
+    function pilihRekening(a) {
+        $.post('<?= $this->url() ?>/pilihRekeningReklame', {
+            s_idkorek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            // $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#modalRekening').modal('hide');
+        });
+    }
+    // end fungsi cari rekening reklame
+
+
+
+
+
+    function comboJenisReklame(a) {
+        $.post('<?= $this->url() ?>/comboJenisReklame', {
+            t_idkorek: $("#t_idkorek").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jenisreklame' + a).html(aa.res);
+        });
+    }
+
+    $(function() {
+        // document.getElementById("t_jenisreklame").focus();
+        CariPendataanReklameByObjek();
+
+        $('#t_panjang').change(function() {
+            $.post('<?= $this->url() ?>/hitungluasreklame', {
+                t_panjang: $('#t_panjang').val(),
+                t_lebar: $('#t_lebar').val()
+            }).then(function(data) {
+                var aa = JSON.parse(data);
+                $("#t_luas").val(aa.t_luas);
+                hitungpajakreklame();
+            });
+        });
+
+        $('#t_panjang').blur(function() {
+            $.post('<?= $this->url() ?>/hitungluasreklame', {
+                t_panjang: $('#t_panjang').val(),
+                t_lebar: $('#t_lebar').val()
+            }).then(function(data) {
+                var aa = JSON.parse(data);
+                $("#t_luas").val(aa.t_luas);
+            });
+        });
+
+        $('#t_lebar').change(function() {
+            $.post('<?= $this->url() ?>/hitungluasreklame', {
+                t_panjang: $('#t_panjang').val(),
+                t_lebar: $('#t_lebar').val()
+            }).then(function(data) {
+                var aa = JSON.parse(data);
+                $("#t_luas").val(aa.t_luas);
+            });
+        });
+
+        $('#t_lebar').blur(function() {
+            $.post('<?= $this->url() ?>/hitungluasreklame', {
+                t_panjang: $('#t_panjang').val(),
+                t_lebar: $('#t_lebar').val()
+            }).then(function(data) {
+                var aa = JSON.parse(data);
+                $("#t_luas").val(aa.t_luas);
+            });
+        });
+
+        $('#t_jenisreklame').change(function() {
+            $.post('<?= $this->url() ?>/hitungluasreklame', {
+                t_panjang: $('#t_panjang').val(),
+                t_lebar: $('#t_lebar').val()
+            }).then(function(data) {
+                var aa = JSON.parse(data);
+                $("#t_luas").val(aa.t_luas);
+            });
+        });
+
+
+        $('#t_permanen').change(function() {
+
+            $('#t_jenisreklame').find('option').remove();
+            $.post('<?= $this->url() ?>/getjenisreklame', {
+                t_permanen: $(this).val()
+            }).then(function(data) {
+                var jenisReklame = JSON.parse(data);
+                $('#t_jenisreklame').append('<option value="">Silahkan Pilih</option>');
+                $.each(jenisReklame, function(i, item) {
+                    $('#t_jenisreklame').append('<option value="' + item.idJenis + '">' + item.namaJenis + '</option>');
+                });
+            });
+
+            toggleTipeReklame();
+            resetJangkaWaktuDropdown();
+            populateJangkaWaktuDropdown();
+            resetKodeRekening();
+            cariukuranmedia();
+        });
+
+
+
+    });
+
+
+    function carirekeningreklame() {
+        $.post('<?= $this->url() ?>/carirekeningreklame', {
+            t_jenisreklame: $('#t_jenisreklame').val()
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#t_idkorek").val(aa.t_idkorek);
+            $("#t_korek").val(aa.t_korek);
+            $("#t_namakorek").val(aa.t_namakorek);
+
+            populateJangkaWaktuDropdown();
+            cariukuranmedia();
+
+        });
+    }
+
+    function CariPendataanReklameByObjek() {
+        $.post('<?= $this->url() ?>/CariPendataanReklameByObjek', {
+            idobjek: $("#t_idobjek").val(),
+            periodepajak: $("#t_periodepajak").val()
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+    }
+
+    function toggleTipeReklame() {
+        $('#t_idlokasi').val('');
+
+        toggleLokasiReklame();
+        toggleSudutPandangReklame();
+        toggleLuasReklame();
+    }
+
+    function toggleLokasiReklame() {
+        showDiv('#divLokasiReklame', isReklamePermanen());
+        setInputRequiered('#t_idlokasi', isReklamePermanen());
+    }
+
+    function toggleSudutPandangReklame() {
+        showDiv('#divSudutPandang', isReklamePermanen());
+        setInputRequiered('#t_sisi', isReklamePermanen());
+    }
+
+    function toggleLuasReklame() {
+
+        showDiv('#divLuas', isReklameNeedLuas());
+        setInputRequiered('#t_panjang', isReklameNeedLuas());
+        setInputRequiered('#t_lebar', isReklameNeedLuas());
+        setInputRequiered('#t_luas', isReklameNeedLuas());
+
+    }
+
+    function isReklameNeedLuas() {
+        var jenisReklame = $('#t_jenisreklame').val();
+        var reklameNeedLuas = ['6', '8', '9', '10', '11'];
+        return $.inArray(jenisReklame, reklameNeedLuas) == -1;
+    }
+
+    function isReklamePermanen() {
+        return $('#t_permanen').val() == '1';
+    }
+
+    function showDiv(div, show) {
+        // if(show){
+        //     $(div).show();
+        // }else{
+        //     $(div).hide();
+        // }
+    }
+
+    function setInputRequiered(element, required) {
+        if (required) {
+            $(element).attr('required', 'required');
+        } else {
+            $(element).removeAttr('required');
+        }
+    }
+
+    function populateJangkaWaktuDropdown() {
+        if ($('#t_jenisreklame').val() == '1' ||
+            $('#t_jenisreklame').val() == '2' ||
+            $('#t_jenisreklame').val() == '3' ||
+            $('#t_jenisreklame').val() == '4' ||
+            $('#t_jenisreklame').val() == '5' ||
+            $('#t_jenisreklame').val() == '6' ||
+            $('#t_jenisreklame').val() == '7' ||
+            $('#t_jenisreklame').val() == '10' ||
+            $('#t_jenisreklame').val() == '13' ||
+            $('#t_jenisreklame').val() == '11') {
+            $('#divwaktu').show();
+            $('#t_tipewaktu').html('<option value="2">Bulan</option>');
+        } else if ($('#t_jenisreklame').val() == '12') {
+            $('#divwaktu').hide();
+            $("#t_jangkawaktu").val(1);
+        } else {
+            $('#t_tipewaktu').html('<option value="2">Bulan</option><option value="3">Hari</option>');
+            $('#divwaktu').show();
+        }
+
+        if ($('#t_jenisreklame').val() == '11') {
+            $('#t_satuanukuranmedia').html('<option value="folio">Folio</option>');
+        } else {
+            $('#t_satuanukuranmedia').html('<option value="m2">Meter</option>');
+        }
+
+
+    }
+
+    function resetJangkaWaktuDropdown() {
+        // $('#t_tipewaktu').find('option').remove();
+    }
+
+    function resetKodeRekening() {
+        $('#t_korek').val('');
+        $('#t_namakorek').val('');
+    }
+
+    function getlokasi() {
+        $.post('<?= $this->url() ?>/carilokasikelas', {
+            t_kelasjalan: $("#t_kelasjalan").val(),
+            t_jenisreklame: $("#t_jenisreklame").val(),
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#t_idlokasi").html(aa.datalokasi);
+        });
+    }
+
+    function carikelasjalan() {
+        $.post('<?= $this->url() ?>/carikelasjalan', {
+            t_jenisreklame: $("#t_kelasjalan").val()
+        }).then(function(data) {
+            var aa = JSON.parse(data);
+            $("#t_idlokasi").html(aa.opsi);
+            hitungpajakreklame();
+        });
+    }
+
+    function hanyaAngka(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+
+
+            return false;
+
+        return true;
+    }
+</script>

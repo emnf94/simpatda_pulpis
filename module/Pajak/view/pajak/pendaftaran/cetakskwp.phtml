@@ -1,0 +1,572 @@
+<?php
+
+if($data_get['jeniscetak'] == 1){
+
+    include($_SERVER['DOCUMENT_ROOT'] . "/" . $this->basePath() . '/public/cetakan/MPDF57/mpdf.php');
+    $mpdf = new mPDF('utf-8', 'Folio', 0, '', 10, 20, 10, 1, 1, 1, '');
+    
+    $lokasifile = $_SERVER['DOCUMENT_ROOT'] . "" . $this->basePath();
+    
+}else{
+    header("Content-Type: application/vnd.ms-word"); 
+    header("Expires: 0"); 
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+    header("content-disposition: attachment;filename=cetakskwp-".$datawp['t_npwpd'] . ".doc");
+    $lokasifile = "//".$_SERVER['HTTP_HOST']."" . $this->basePath();
+}    
+    
+$html = '';    
+$html .= '
+<html>
+    <head>
+        
+    </head>
+    <body>';
+
+                    
+
+if($data['t_bidangusaha'] == 2){
+    $namawp = $data['t_nama_badan'];
+    $alamatwp = '';
+    if(!empty($data['t_jalan_badan'])){
+        $alamatwp .= $data['t_jalan_badan'];
+    }
+    if(!empty($data['t_rt_badan'])){
+        $alamatwp .= ' RT '.$data['t_rt_badan'];
+    }
+    if(!empty($data['t_rw_badan'])){
+        $alamatwp .= ' RW '.$data['t_rw_badan'];
+    }
+    $alamatwp .= $kel.$kec;
+    if(!empty($data['t_kabupaten_badan'])){
+        $alamatwp .= ' Kab. '.$data['t_kabupaten_badan'];
+    }
+    
+}else{
+    $namawp = $data['t_nama'];
+    $alamatwp = '';
+    if(!empty($data['t_alamat'])){
+        $alamatwp .= $data['t_alamat'];
+    }
+    if(!empty($data['t_rt'])){
+        $alamatwp .= ' RT '.$data['t_rt'];
+    }
+    if(!empty($data['t_rw'])){
+        $alamatwp .= ' RW '.$data['t_rw'];
+    }
+    $alamatwp .= $kel.$kec;
+    if(!empty($data['t_kabupaten'])){
+        $alamatwp .= ' Kab. '.$data['t_kabupaten'];
+    }
+}
+
+                                                
+$alamatobjek = '';
+if(!empty($data['t_alamatobjek'])){
+    $alamatobjek .= $data['t_alamatobjek'];
+}
+if((!empty($data['t_rtobjek'])) || (($data['t_rtobjek'] == '   '))){
+    $alamatobjek .= ' RT '.$data['t_rtobjek'];
+}
+if(!empty($data['t_rwobjek'])){
+    $alamatobjek .= ' RW '.$data['t_rwobjek'];
+}
+if(!empty($data['s_namakelobjek'])){
+    $alamatobjek .= ' Kel. '.$data['s_namakelobjek'];
+}
+if(!empty($data['s_namakecobjek'])){
+    $alamatobjek .= ' Kec. '.$data['s_namakecobjek'];
+}
+if(!empty($data['t_kabupatenobjek'])){
+    $alamatobjek .= ' Kab. '.$data['t_kabupatenobjek'];
+}
+
+$abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+$t_tgldaftarobjek = date('d', strtotime($data['t_tgldaftarobjek'])) . " " . $abulan[date('m', strtotime($data['t_tgldaftarobjek']))] . " " . date('Y', strtotime($data['t_tgldaftarobjek']));
+
+$fontsizedefault = 'font-size: 19px;';
+
+$tdsetting = 'font-size: 17px; text-align: justify; text-justify: inter-word; height: 30px; ';
+
+//$tdsetting = 'FONT-SIZE:17px; COLOR:#000000; LINE-HEIGHT:200px; FONT-FAMILY:Arial,Helvetica,sans-serif';
+
+        $html .= '
+            <div style="page-break-after: always;width: 100%;">
+                    <table style="border-spacing: 0px; font-family: Arial;"  >
+                        <tr>
+                            
+                            <td colspan="5" style="border-style: double; border-bottom: 6px; ">
+                                <table style="width: 100%; " align="center">
+                                    <tr>
+                                        <td style="width: 100px;"> 
+                                            <center>
+                                                    <img src="'.$lokasifile.'/' . $ar_pemda->s_logo.'" style="width:65px;"  />
+                                            </center>            
+                                        </td>
+                                        <td style="width: 500px;">
+                                            <center>
+                                                <b style="font-size: 18px; letter-spacing: 2px;">        PEMERINTAH '.strtoupper($ar_pemda->s_namakabkota).'</b>
+                                                        <br>
+                                                        <b style="font-size: 20px; letter-spacing: 2px;">'.strtoupper($ar_pemda->s_namainstansi).'</b>
+                                                        <br>
+                                                        '.$ar_pemda->s_alamatinstansi.'<br> '
+                . '                                     Telepon. '.$ar_pemda->s_notelinstansi.' '.$ar_pemda->s_kodepos.'
+                                                </b>            
+                                            </center>           
+                                       </td>
+                                    </tr>
+                                </table>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <br>
+                                 <center>
+                                    KEPUTUSAN<br>
+                                    KEPALA '.strtoupper($ar_pemda->s_namainstansi).'<br>
+                                    NOMOR :  970/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /'.date('Y', strtotime($data['t_tgldaftarobjek'])).'<br><br><br>
+                                    
+                                    TENTANG<br>
+                                    PENETAPAN  SEBAGAI WAJIB '.  strtoupper($data['s_namajenis']).'<br><br><br><br>
+
+                                    KEPALA '.strtoupper($ar_pemda->s_namainstansi).'
+                                    <br>&nbsp;
+
+                                </center>
+                            </td>
+                        </tr>    
+                        <tr>
+                            <td style="width: 120px; vertical-align: top; '.$tdsetting.' ">Menimbang</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">:</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">a.</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                              
+                               bahwa berdasarkan surat Permohonan Pendaftaran NPWPD Wajib Pajak 
+                                  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 120px; vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                               <p style="text-align: justify;">tanggal '.$t_tgldaftarobjek.' &nbsp; perlu &nbsp; menetapkan &nbsp; yang &nbsp; bersangkutan</p>
+                                 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 120px; vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                               sebagai Wajib Pajak Daerah.
+                                 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'"></td>
+                            <td style="vertical-align: top; '.$tdsetting.'">b.</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">
+                               bahwa berdasarkan pertimbangan sebagaimana &nbsp; dimaksud &nbsp; dalam 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 120px; vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                               huruf a, perlu menerbitkan Keputusan Kepala '.ucwords(strtolower($ar_pemda->s_namainstansi)).'
+                                 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 120px; vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="width: 10px; vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                               tentang Penetapan menjadi Wajib '.ucwords(strtolower($data['s_namajenis'])).'.
+                                 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">Mengingat</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">1.</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">';
+                                if($data['t_jenisobjek'] == 2){
+                                    $html .= 'Peraturan Daerah Kabupaten Banyumas Nomor 1 Tahun 2011 tentang ';
+                                }elseif($data['t_jenisobjek'] == 4){
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 66 Tahun 2013 tentang Tata Cara Pemungutan Pajak Reklame  di Kabupaten Banyumas.';
+                                }elseif($data['t_jenisobjek'] == 7){
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 60 Tahun 2014 tentang Tata Cara Pemungutan Pajak Parkir di Kabupaten Banyumas.';
+                                }else{
+                                    $html .= 'Peraturan Daerah Kabupaten Banyumas Nomor 1 Tahun 2011 tentang 
+                                ';
+                                }
+                                     
+                           $html .= '   
+                            </td>
+                        </tr>';
+                    
+                                if($data['t_jenisobjek'] == 2){
+                                    $html .= '<tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Pajak Daerah (Lembaran Daerah Kabupaten Banyumas Tahun 2011
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Nomor 1 Seri E) sebagaimana telah diubah dengan Peraturan Daerah
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Kabupaten Banyumas Nomor 22 Tahun 2016 tentang Perubahan Kedua 
+                                                </td>
+                                              </tr> 
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Atas Peraturan Daerah Kabupaten Banyumas Nomor 1 Tahun 2011 
+                                                </td>
+                                              </tr>  
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   tentang Pajak Daerah (Lembaran Daerah Kabupaten Banyumas 
+                                                </td>
+                                              </tr> 
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Tahun 2016 Nomor 1 Seri B).
+                                                </td>
+                                              </tr>';
+                                    
+                                }elseif($data['t_jenisobjek'] == 4){
+                                    $html .= '';
+                                }elseif($data['t_jenisobjek'] == 7){
+                                    $html .= '';
+                                }else{
+                                    $html .= '<tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Pajak Daerah (Lembaran Daerah Kabupaten Banyumas Tahun 2011
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Nomor 1 Seri E) sebagaimana telah diubah dengan Peraturan Daerah.
+                                                </td>
+                                              </tr> 
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Kabupaten Banyumas Nomor 22 Tahun 2016 tentang Perubahan Kedua 
+                                                </td>
+                                              </tr> 
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                   Atas Peraturan Daerah Kabupaten Banyumas Nomor 1 Tahun 2011 
+                                                </td>
+                                              </tr> 
+                                              <tr>
+                                                <td style="vertical-align: top; '.$tdsetting.' ">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                                                <td colspan="2" style="vertical-align: top; '.$tdsetting.'  ">
+                                                    tentang Pajak Daerah (Lembaran Daerah Kabupaten Banyumas Tahun 2016 Nomor 1 Seri B).
+                                                </td>
+                                              </tr> ';    
+                                    
+                                }
+                                     
+                           $html .= ' 
+                            
+                        
+                       
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'"></td>
+                            <td style="vertical-align: top; '.$tdsetting.'">2.</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">';
+                                if($data['t_jenisobjek'] == 4){ //reklame
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 59 Tahun 2014 tentang Tata Cara';
+                                }elseif($data['t_jenisobjek'] == 3){ //hiburan
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 61 Tahun 2013 tentang Tata Cara';
+                                }elseif($data['t_jenisobjek'] == 6){ //minerba
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 62 Tahun 2014 tentang Tata Cara';
+                                }elseif($data['t_jenisobjek'] == 7){ //parkir
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 59 Tahun 2014 tentang Tata Cara';
+                                }elseif($data['t_jenisobjek'] == 8){ //air tanah
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 65 Tahun 2013 tentang Tata Cara';
+                                }else{
+                                    $html .= 'Peraturan Bupati Banyumas Nomor 64 Tahun 2013 tentang Tata Cara';
+                                }
+                                     
+                           $html .= '             
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">';
+                                if($data['t_jenisobjek'] == 4){ //reklame
+                                    $html .= 'Pemberian Nomor Pokok Wajib Pajak Daerah, Pendaftaran Wajib Pajak dan Pendataan Obyek Pajak dan Wajib Pajak di Kabupaten Banyumas.';
+                                }elseif($data['t_jenisobjek'] == 3){ //hiburan
+                                    $html .= 'Pemungutan Pajak Hiburan di Kabupaten Banyumas.';
+                                }elseif($data['t_jenisobjek'] == 6){ //minerba
+                                    $html .= 'Pemungutan Pajak Mineral Bukan Logam dan Batuan di Kabupaten Banyumas.';
+                                }elseif($data['t_jenisobjek'] == 7){ //parkir
+                                    $html .= 'Pemberian Nomor Pokok Wajib Pajak Daerah, Pendaftaran Wajib Pajak dan Pendataan Obyek Pajak dan Wajib Pajak di Kabupaten Banyumas.';
+                                }elseif($data['t_jenisobjek'] == 8){ //air tanah
+                                    $html .= 'Pemungutan Pajak Air Tanah di Kabupaten Banyumas.';
+                                }else{
+                                    $html .= 'Pemungutan '.ucwords(strtolower($data['s_namajenis'])).' di Kabupaten Banyumas.
+                                   ';
+                                }
+                                     
+                           $html .= '             
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'"></td>
+                            <td style="vertical-align: top; '.$tdsetting.'">3.</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">
+                                Peraturan Bupati Banyumas Nomor 59 Tahun 2014 tentang Tata Cara 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">
+                                Pemberian Nomor Pokok Wajib Pajak Daerah, Pendaftaran Wajib Pajak
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">&nbsp;</td>
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">
+                                dan Pendataan Obyek Pajak dan Wajib Pajak di Kabupaten Banyumas.
+                            </td>
+                        </tr>
+                </table>
+            </div>
+            <div style="page-break-after: avoid;width: 100%;">
+                <table>
+                        <tr>
+                            <td colspan="5" >
+                                 <center>
+                                    MEMUTUSKAN :
+                                    <br>&nbsp;
+                                 </center>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">Menetapkan</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">
+                                KEPUTUSAN KEPALA '. strtoupper(strtolower($ar_pemda->s_namainstansi)).' TENTANG PENETAPAN MENJADI WAJIB '.strtoupper($data['s_namajenis']).'.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>        
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KESATU</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align: top; width: 100px; '.$tdsetting.'">Nama</td>
+                                        <td style="width: 10px; vertical-align: top; '.$tdsetting.'">:</td>
+                                        <td style="vertical-align: top; '.$tdsetting.'">'.$namawp.'</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; '.$tdsetting.'">NPWPD</td>
+                                        <td style="width: 10px; vertical-align: top; '.$tdsetting.'">:</td>
+                                        <td style="vertical-align: top; '.$tdsetting.'">'.$data['t_npwpd'].'</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; '.$tdsetting.'">Alamat</td>
+                                        <td style="width: 10px; vertical-align: top; '.$tdsetting.'">:</td>
+                                        <td style="vertical-align: top; '.$tdsetting.'">'.$alamatwp.'</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; '.$tdsetting.'" colspan="3">sebagai Wajib '.ucwords(strtolower($data['s_namajenis'])).', dengan Objek Pajak '.ucwords(strtolower($data['t_namaobjek'])).', '.  ucwords(strtolower($alamatobjek)).'</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KEDUA</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">
+                                <p style="line-height: 200%;">Mencatat Wajib Pajak dan NPWPD tersebut ke dalam data administrasi perpajakan pada '.ucwords(strtolower($ar_pemda->s_namainstansi)).' Kabupaten Banyumas, terhitung sejak tanggal ditetapkan. </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KETIGA</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">
+                            ';
+                                if($data['t_jenisobjek'] == 4){
+                                    $html .= 'Melaporkan kewajiban perpajakannya setiap bulan dengan menggunakan Surat Pemberitahuan Pajak Daerah (SPTPD) paling lambat tanggal 10 (sepuluh)';
+                                }elseif($data['t_jenisobjek'] == 3){ //hiburan
+                                    $html .= 'Melaporkan kewajiban perpajakannya setiap bulan dengan menggunakan Surat Pemberitahuan Pajak Daerah (SPTPD) paling lambat tanggal 10 (sepuluh).';
+                                }elseif($data['t_jenisobjek'] == 7){
+                                    $html .= 'Melaporkan kewajiban perpajakannya setiap bulan dengan menggunakan Surat Pemberitahuan Pajak Daerah (SPTPD) paling lambat tanggal 10 (sepuluh).';
+                                }else{
+                                    $html .= 'Wajib Pajak sebagaimana tersebut dalam Diktum KESATU setiap bulan berkewajiban membayar '.ucwords(strtolower($data['s_namajenis'])).' paling lambat tanggal 10 (sepuluh) dengan menggunakan Surat Setoran Pajak Daerah (SSPD).
+                                        ';
+                                }
+                             $html .= '  
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KEEMPAT</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">';
+                                if($data['t_jenisobjek'] == 4){ //reklame
+                                    $html .= 'Pembayaran pajak yang terhutang sebagaimana dimaksud dalam Diktum KEDUA mulai bulan berikutnya setelah penetapan. ';
+                                }elseif($data['t_jenisobjek'] == 3){ //hiburan
+                                    $html .= 'Pembayaran pajak yang terhutang sebagaimana dimaksud dalam Diktum KEDUA mulai bulan berikutnya setelah penetapan.';
+                                }elseif($data['t_jenisobjek'] == 7){ //parkir
+                                    $html .= 'Pembayaran pajak yang terhutang sebagaimana dimaksud dalam Diktum KETIGA mulai bulan berikutnya setelah penetapan.';
+                                }else{
+                                    $html .= 'Pembayaran pajak yang terhutang sebagaimana dimaksud dalam Diktum KETIGA mulai bulan berikutnya setelah penetapan.
+                                        ';
+                                }
+                             $html .= '   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KELIMA</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">
+                                Keterlambatan atas pembayaran pajak yang terhutang sebagaimana dimaksud pada Diktum KETIGA dikenakan denda sebesar 2% setiap bulan dari besarnya pokok pajak terhutang.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'">KEENAM</td>
+                            <td style="vertical-align: top; '.$tdsetting.'">:</td>
+                            
+                            <td colspan="3" style="vertical-align: top; '.$tdsetting.'">';
+                                if($data['t_jenisobjek'] == 4){
+                                    $html .= 'Keputusan ini mulai pada tanggal ditetapkan. ';
+                                }elseif($data['t_jenisobjek'] == 7){
+                                    $html .= 'Keputusan ini berlaku terhitung sejak tanggal ditetapkan, dengan ketentuan apabila dikemudian hari ternyata terdapat kekeliruan dalam keputusan ini, akan dilakukan pembetulan sebagaimana mestinya.';
+                                }else{
+                                    $html .= 'Keputusan ini mulai pada tanggal ditetapkan.
+                                        ';
+                                }
+                             $html .= '   
+                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: -15px;">&nbsp;</td></td>
+                        </tr>    
+                        <tr>
+                            <td style="vertical-align: top; '.$tdsetting.'" colspan="3">&nbsp;</td>
+                            
+                            <td colspan="2" style="vertical-align: top; '.$tdsetting.'">
+                            <br><br>
+                               <center>
+                                Ditetapkan di '.ucfirst(strtolower($ar_pemda->s_ttdkabkot)).'
+                                   <br> pada tanggal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <br>
+                                   ';
+                                   if(!empty($data_get['ttd0'])){
+                                        $ar_mengetahui = $this->MenuHelper()->getnamapejabat($data_get['ttd0']);
+                                        $html .= '<b>'.strtoupper($ar_mengetahui['s_jabatanpej']).'<br> '.$ar_pemda->s_namakabkota.',
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                '.$ar_mengetahui['s_namapej'].'</b><br>
+                                                    
+                                                ';
+                                    }
+                                   $html .= '
+                                       
+                               </center>
+                            </td>
+                        </tr>
+                    </table>
+            </div>   
+            
+            ';
+
+        
+        $html .= '
+       
+        
+    </body>
+</html>';
+  
+if($data_get['jeniscetak'] == 1){  
+    //echo $html;
+    $mpdf->WriteHTML($html);
+    $mpdf->Output("cetakskwp-".$datawp['t_npwpd'] . ".pdf", "I");
+}else{
+    echo $html;
+}
+       
+?>       
+               
+

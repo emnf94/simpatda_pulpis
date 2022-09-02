@@ -1,0 +1,306 @@
+
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 24px;"><b>FORM EDIT SKPDKB</b></span>';
+$link = '<div class="pull-right">         
+                            <a href="' . $this->url('skpdkb') . '" class="btn bg-orange btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Kembali
+                    </a>  
+                        </div>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="box box-primary" style="border: 1px solid #f39c12;">
+            <div class="box-header" style="background-color: #f39c12;">
+                <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA PEMILIK</h3></center>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+
+            <div class="box-body">
+
+
+                <div class="col-sm-12">
+                    <label class="col-sm-4">Tgl. Pendaftaran</label>
+                    <div class="col-md-4">
+                        : <?= date('d-m-Y', strtotime($data['t_tgldaftar'])) ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-4">Nama</label>
+                    <div class="col-md-4">
+                        : <?= $data['t_nama'] ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-4">Alamat</label>
+                    <div class="col-md-8">
+                        : <?= $data['t_alamat'] ?>
+                        ,Desa/Kel. <?= $data['s_namakel'] ?>
+                        ,Kec. <?= $data['s_namakec'] ?>
+                        ,Kab. <?= $data['t_kabupaten'] ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="box box-primary" style="border: 1px solid #f39c12;">
+            <div class="box-header" style="background-color: #f39c12;">
+                <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA OBJEK PAJAK</h3></center>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+
+            <div class="box-body">
+
+
+                <div class="col-sm-12">
+                    <label class="col-sm-2">Nama</label>
+                    <div class="col-sm-4">
+                        : <?= $data['t_namaobjek'] ?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2">Alamat</label>
+                    <div class="col-sm-10">
+                        : <?= $data['t_alamatobjek'] ?>
+                        ,Desa/Kel. <?= $data['s_namakelobjek'] ?>
+                        ,Kec. <?= $data['s_namakecobjek'] ?>
+                        ,Kab. <?= $data['t_kabupatenobjek'] ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <form method="post" action="<?= $this->url('skpdkb'); ?>/formpemeriksaanskpdkb" id="demo-form" class="form-horizontal pad15L pad15R pad15T" data-parsley-validate="data-parsley-validate" enctype="multipart/form-data">    
+
+        <div class="box box-primary" style="border: 1px solid #337ab7;">
+            <div class="box-header" style="background-color: #337ab7;">
+                <center><h3 class="box-title" style="color: white; font-size: 18px;">DATA TRANSAKSI</h3></center>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+
+            <div class="box-body">
+
+
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">No. Pemeriksaan</label>
+                    <div class="col-md-4">
+                        <input name="t_idpemeriksaan" id="t_idpemeriksaan" value="<?= $data['t_idskpdkb'];?>" type="hidden">                            
+                        <input name="t_idtransaksi" id="t_idtransaksi" value="<?= $data['t_idtransaksi'];?>" type="hidden">
+                        <input name="t_idkorek" id="t_idkorek" value="<?= $data['t_idkorek'];?>" type="hidden">     
+                        <input name="t_nopemeriksaan" id="t_nopemeriksaan" class="form-control" readonly="true" required="required" value="<?= $data['t_noskpdkb'];?>" type="text">                        
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Periode</label>
+                    <div class="col-md-1">
+                        <input name="t_periodepemeriksaan" id="t_periodepemeriksaan" class="form-control" required="required" value="<?= $data['t_periodepajak'];?>" type="text">                        
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Kode Rekening</label>
+                    <div class="col-md-2">
+                        <input class="form-control" readonly="true" value="<?= $data['koderek']; ?>" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Nama Rekening</label>
+                    <div class="col-md-4">
+                        <input class="form-control" readonly="true" value="<?= $data['s_namakorek']; ?>" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label"></label>
+                    <label class="col-sm-3 control-label"></label>
+                    <label class="col-sm-3 control-label">Masa Pajak</label>
+                    <div class="col-md-2">
+                        <input id="t_masaawal" value="<?= date('d-m-Y', strtotime($data['t_masaawal'])); ?>" class="form-control" readonly="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" type="text">
+                    </div>
+                    <div class="col-md-2">
+                        <input id="t_masaakhir" value="<?= date('d-m-Y', strtotime($data['t_masaakhir'])); ?>" class="form-control" readonly="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Tanggal</label>
+                    <div class="col-md-2">
+                        <div class="input-prepend input-group">
+                            <span class="add-on input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input name="t_tglpemeriksaan" id="t_tglpemeriksaan" class="form-control" required="required" onchange="hitungpemeriksaan();" onblur="hitungpemeriksaan();" onkeyup="hitungpemeriksaan();" value="<?= date('d-m-Y', strtotime($data['t_tglskpdkb'])); ?>" type="text">                            </div>
+                    </div>
+                    <label class="col-sm-2 control-label"></label>
+                    <label class="col-sm-4 control-label">Tgl. Pendataan/Ketetapan (Sebelumnya)</label>
+                    <div class="col-md-2">
+                        <input id="t_tglpendataan" value="<?= date('d-m-Y', strtotime($data['t_tglpendataan'])); ?>" class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" type="text">
+                    </div>
+                </div>
+                <?php
+                    if($data['t_jenispajak'] == 5){
+                        
+                ?>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Kwh (Pemeriksaan)</label>
+                    <div class="col-sm-3">
+                        <input name="t_kwhlistrik_pemeriksaan" id="t_kwhlistrik_pemeriksaan" class="form-control" required="required" style="text-align:right" onchange="hitungpemeriksaan();" onblur="hitungpemeriksaan();" onkeyup="hitungpemeriksaan();" value="<?= $data['t_kwhlistrikskpdkb']; ?>" type="text">
+                    </div>
+                    <label class="col-sm-1 control-label" id="tarifperkwh"></label>
+                    <label class="col-sm-2 control-label">Kwh</label>
+                    <div class="col-sm-3">
+                        <input name="t_kwhlistrik" id="t_kwhlistrik" class="form-control" required="required" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder"  value="<?= $data['t_kwhlistrik'];?>" type="text" readonly="true">
+                    </div>
+                </div>
+                <?php
+                    }
+                
+                    if($data['t_jenispajak'] == 5){
+                        $readonlydasarpengenaan = 'readonly="true"';
+                    }else{
+                        $readonlydasarpengenaan = '';
+                    }
+                ?>
+                
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Dasar Pengenaan (Pemeriksaan)</label>
+                    <div class="col-md-4">
+                        <input name="t_dasarrevisi" id="t_dasarrevisi" class="form-control" required="required" style="text-align:right" onchange="hitungpemeriksaan();this.value = formatCurrency(this.value);" onblur="hitungpemeriksaan();this.value = formatCurrency(this.value);" onkeyup="hitungpemeriksaan();this.value = formatCurrency(this.value);" value="<?= number_format($data['t_dasarrevisi'], 0, ',', '.');?>" onkeypress="return numbersonly(this, event);" type="text" <?= $readonlydasarpengenaan; ?>>                        </div>
+                    <label class="col-sm-2 control-label">Dasar Pengenaan (Sebelumnya)</label>
+                    <div class="col-md-4">
+                        <input id="t_dasarpengenaan" value="<?= number_format($data['t_dasarpengenaan'], 0, ',', '.');?>"  name="t_dasarpengenaan" class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Selisih Dasar</label>
+                    <div class="col-md-4">
+                        <input name="t_selisihdasar" id="t_selisihdasar" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= number_format($data['t_selisihdasar'], 0, ',', '.');?>" type="text">                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Jml. Bulan</label>
+                    <div class="col-md-1">
+                        <input name="t_jmlhbln" id="t_jmlhbln" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= $data['t_jmlhbln']?>" type="text">                        </div>
+                    <label class="col-sm-2 control-label">Denda (%)</label>
+                    <div class="col-md-1">
+                        <input name="t_tarifpersen" id="t_tarifpersen" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= $data['t_tarifpersen']?>" type="text">                        </div>
+                    <label class="col-sm-3 control-label"></label>
+                    <label class="col-sm-2 control-label">Tarif (%)</label>
+                    <div class="col-md-1">
+                        <input name="t_tarifpajak" id="t_tarifpajak" class="form-control" required="required" readonly="readonly" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" value="<?= $data['t_tarifpajak'];?>" type="text">                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">(Pajak Seharusnya)</label>
+                    <div class="col-md-4">
+                        <input name="t_jmlhpajakseharusnya" id="t_jmlhpajakseharusnya" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= number_format($data['t_jmlhpajakseharusnya'], 0, ',', '.');?>" type="text">                        </div>
+                    <label class="col-sm-2 control-label">- (Pajak Sebelumnya)</label>
+                    <div class="col-md-4">
+                        <input id="t_jmlhpajak" value="<?= number_format($data['t_jmlhpajak'], 0, ',', '.');?>"  class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Pajak (Rp.)</label>
+                    <div class="col-md-4">
+                        <input name="t_jmlhpajakpemeriksaan" id="t_jmlhpajakpemeriksaan" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= number_format($data['t_jmlhpajakskpdkb'], 0, ',', '.');?>" type="text">                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Denda</label>
+                    <div class="col-md-4">
+                        <select name="t_jenisketetapandenda" id="t_jenisketetapandenda" class="form-control" required="required" onchange="hitungpemeriksaan()"><option value="1">Tetapkan Denda</option>
+                            <option value="2">Tidak Tetapkan Denda</option></select>                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Denda (Rp.)</label>
+                    <div class="col-md-4">
+                        <input name="t_jmlhdendapemeriksaan" id="t_jmlhdendapemeriksaan" class="form-control" required="required" readonly="readonly" style="text-align:right" value="<?= number_format($data['t_jmlhdendaskpdkb'], 0, ',', '.');?>" type="text">                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="col-sm-2 control-label">Total (Rp.)</label>
+                    <div class="col-md-4">
+                        <input name="t_totalpemeriksaan" id="t_totalpemeriksaan" class="form-control" required="required" readonly="readonly" style="text-align:right; background:#000099; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder" value="<?= number_format($data['t_totalskpdkb'], 0, ',', '.');?>" type="text">                        </div>
+                    <!--                                <div class="col-md-1">
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="hitungpemeriksaan()"> <span class="glyphicon fa fa-calculator"></span> Hitung</a>
+                                                    </div>-->
+                </div>
+
+
+            </div>
+
+
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <input type="submit" id="pendaftaranbutton" value="SIMPAN" onclick="this.disabled = true;forms[0].submit();" class="btn nextBtn btn-info pull-right">
+                </div>              
+            </div>
+
+        </div>
+
+
+    </form>
+
+<?= $this->MenuHelper()->headeratas_end(); ?>
+<script type="text/javascript">
+
+    fr_tanggal("#t_tglpendataan");
+    fr_tanggal("#t_tglpemeriksaan");
+    fr_tahun("#t_periodepemeriksaan");
+
+    function hitungpajaklistrik() {
+        $.post('<?= $this->url('pendataan') ?>/hitungpajakppj', {t_kwhlistrik: $("#t_kwhlistrik").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $("#t_dasarpengenaan").val(aa.t_dasarpengenaan);
+
+            document.getElementById("t_dasarpengenaan").readOnly = true;
+            document.getElementById("t_dasarpengenaan").removeAttribute("onchange");
+            document.getElementById("t_dasarpengenaan").removeAttribute("onblur");
+            document.getElementById("t_dasarpengenaan").removeAttribute("onkeyup");
+        });
+    }
+
+    function hitungpajak() {
+        $.post('<?= $this->url('pendataan') ?>/hitungpajak', {t_dasarpengenaan: $("#t_dasarpengenaan").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_jmlhkenaikan').val(aa.t_jmlhkenaikan);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+        });
+    }
+    
+    
+    function hitungpemeriksaan() {
+        $.post('<?= $this->url() ?>/hitungpemeriksaan', {t_dasarrevisi: $("#t_dasarrevisi").val(), t_dasarpengenaan: $("#t_dasarpengenaan").val(), t_masaawal: $("#t_masaawal").val(), t_masaakhir: $("#t_masaakhir").val(),  t_tglpemeriksaan: $("#t_tglpemeriksaan").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifpersen: $("#t_tarifpersen").val(), t_jenisketetapandenda: $("#t_jenisketetapandenda").val(), t_kwhlistrik_pemeriksaan: $("#t_kwhlistrik_pemeriksaan").val(), t_jenispajak: <?= $data['t_jenispajak'] ?>, t_idkorek: <?= $data['t_idkorek'] ?>}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_selisihdasar').val(aa.t_selisihdasar);
+            $('#t_jmlhbln').val(aa.t_jmlhbln);
+            $('#t_jmlhdendapemeriksaan').val(aa.t_jmlhdendapemeriksaan);
+            $('#t_jmlhpajakseharusnya').val(aa.t_jmlhpajakseharusnya);
+            $('#t_jmlhpajakpemeriksaan').val(aa.t_jmlhpajakpemeriksaan);
+            $('#t_totalpemeriksaan').val(aa.t_totalpemeriksaan);
+            
+            if(aa.t_jenispajak == 5){
+                $('#t_dasarrevisi').val(aa.t_dasarrevisi);
+            }    
+        });
+    }
+
+</script>    
+
+
+

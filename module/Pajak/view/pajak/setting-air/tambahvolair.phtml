@@ -1,0 +1,92 @@
+
+
+<?php
+$judul = 'FORM NILAI VOLUME AIR TANAH [TAMBAH]';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+<form method="post" action="<?= $this->url('setting_air')?>/tambahvolair" id="formtambah" class="form-horizontal">
+
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama Jenis Air</label>
+    <div class="col-md-4">
+        
+        <div class="form-group ">
+            <select name="id_jenisair" id="id_jenisair" class="form-control" required="required" >
+                <option value="">Silahkan Pilih</option>
+                <?php 
+                foreach ($this->MenuHelper()->semuadata_jenisairtanah() as $key => $datajenisair) {
+                    echo ' <option value="'.$datajenisair['id_jenisair'].'">'.$datajenisair['nama_jenisair'].'</option>';
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Kode Vol Air</label>
+    <div class="col-md-4">
+        <input name="id_nilaivolair" id="id_nilaivolair" value="" type="hidden">  
+        <div class="form-group "><input name="kd_nilaivolair" id="kd_nilaivolair" class="form-control" placeholder="1" required="required" value="" type="text"></div>
+ 
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama Vol Air</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="nama_nilaivolair" id="nama_nilaivolair" placeholder="100 - 200" class="form-control" required="required" value="" type="text"></div>
+ 
+    </div>
+</div>    
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Minimum Vol Air</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="min_volair" id="min_volair" class="form-control" placeholder="123456" required="required" value="" type="text"></div>
+ 
+    </div>
+</div> 
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Maximum Vol Air</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="max_volair" id="max_volair" class="form-control" placeholder="123456" required="required" value="" type="text"></div>
+ 
+    </div>
+</div> 
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nilai Vol Air</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="nilai_volair" id="nilai_volair" class="form-control" placeholder="123456" required="required" value="" type="text"></div>
+ 
+    </div>
+</div> 
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Tgl berlaku awal</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="tglawal_nilaivolair" id="tglawal_nilaivolair" class="form-control" placeholder="dd-mm-yyyy" required="required" value="" type="text"></div>
+ 
+    </div>
+</div>     
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Tgl berlaku akhir</label>
+    <div class="col-md-4">
+        <div class="form-group "><input name="tglakhir_nilaivolair" id="tglakhir_nilaivolair" class="form-control" placeholder="dd-mm-yyyy" required="required" value="" type="text"></div>
+ 
+    </div>
+</div>       
+ 
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-md-4">
+        <input name="simpan" class="btn btn-primary btn-sm" required="required" value="Simpan" type="submit">
+        <a href="<?= $this->url('setting_air') ?>/nilaivolair" class="btn btn-warning btn-sm">Kembali</a>
+    </div>
+</div>
+</form>
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+<script type="text/javascript">
+    fr_tanggal("#tglawal_nilaivolair");           
+    fr_tanggal("#tglakhir_nilaivolair");  
+
+</script>

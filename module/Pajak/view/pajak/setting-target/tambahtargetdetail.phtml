@@ -1,0 +1,264 @@
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="col-sm-12"><div class="float-right"><a href="<?= $this->url('setting_target') ?>" class="btn btn-danger"> Kembali</a></div></div>
+        <h3 style="color: blue">
+            Input Target
+        </h3>
+        <div class="panel" style="font-size: 11px;">
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Target</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Tahun</label>
+                            <div class="col-sm-4">
+                                : <?= $data->s_tahuntarget ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 ">Keterangan</label>
+                            <div class="col-sm-10">
+                                : <?= $data->s_keterangantarget ?>
+                            </div>
+                        </div>
+                        <?php
+                        $form = $this->form;
+                        $form->setAttribute('action', $this->url() . '/tambahtargetdetail');
+                        $form->setAttribute("id", "demo-form");
+                        $form->setAttribute("data-parsley-validate", "data-parsley-validate");
+                        $form->setAttribute('enctype', 'multipart/form-data');
+                        $form->prepare();
+                        ?>
+                        <?= $this->form()->openTag($form) ?>
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Input Target Detail</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">
+                                Tahun Target
+                            </label>
+                            <div class="col-sm-1">
+                                <?= $this->formHidden($form->get("s_idtargetdetail")) ?>
+                                <?= $this->formHidden($form->get("s_idtargetheader")) ?>
+                                <input type="text" value="<?= $data->s_tahuntarget ?>" name="tahuntarget" id="tahuntarget" class="form-control" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("s_targetrekening")) ?>
+                                <input type="text" name="t_korek" id="t_korek" class="form-control" readonly="true">
+                            </div>
+                            <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalRekening()"><span class="glyph-icon icon-search"></span></button></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">Nama Rekening</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="t_namakorek" id="t_namakorek" class="form-control" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2">
+                                Jumlah Target
+                            </label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("s_targetjumlah")) ?>
+                            </div>
+                            <div class="col-sm-1">
+                                <?= $this->formInput($form->get('submit')) ?>
+                            </div>
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 style="color: blue">
+            Target Detail
+        </h3>
+        <div class="panel" style="font-size: 11px;">
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="scroll-columns">
+                                <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                    <thead class="cf">
+                                        <tr>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>No.</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Kode Rekening</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Nama Rekening</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>Target</th>
+                                            <th style='background-color: #00BCA4; color: white; text-align:center'>#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $counter = 1;
+                                        $total_target = 0;
+                                        foreach ($this->datatargetdetail as $row) {
+                                            ?>
+                                            <tr>
+                                                <td style="text-align:center"><?= $counter++ ?></td>
+                                                <td style="text-align:center"><?= $row['korek'] ?></td>
+                                                <td><?= $row['s_namakorek']; ?></td>
+                                                <td style="text-align:right"><?= number_format($row['s_targetjumlah'], 0, ",", "."); ?></td>
+                                                <td style="text-align: center"><button class="btn btn-warning btn-xs" type="button" onclick="edittargetdetail(<?= $row['s_idtargetdetail'] ?>)"><span class="glyph-icon icon-pencil"></span></button> <button class="btn btn-danger btn-xs" type="button" onclick="hapustargetdetail(<?= $row['s_idtargetdetail'] ?>)"><span class="glyph-icon icon-trash"></span></button></td>
+                                            </tr>
+                                            <?php
+                                            $total_target += $row['s_targetjumlah'];
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td colspan="3" style="text-align: right">
+                                                Jumlah
+                                            </td>
+                                            <td style="text-align: right">
+                                                <?= number_format($total_target, 0, ",", ".") ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>Data Rekening</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div>
+                    <table class="table table-condensed table-bordered cf" style="font-size: 11px; color: black">
+                        <thead class="cf">
+                            <tr class="bg-blue">
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Kode Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Nama Rekening
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tarif
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Tanggal Berlaku
+                                </th>
+                                <th style="background-color: #00BCA4; color: white; text-align: center">
+                                    Pilihan
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="korek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_namakorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td>
+                                    <input type="text" id="s_persentarifkorek" class="form-control input-sm" onkeyup="calldataGridRekening()">
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listrekening">
+                        </tbody>
+                        <tfoot>              
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">Jumlah Baris Ditampilkan: <input type="text" id="rows" style="width: 20%" class="text-center" value="10"></div>
+                                        <div class="col-sm-3">
+                                            <a href="#" onclick="calldataGridRekening(1);
+                                                    return false;"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
+
+                                            <input type="text" id="page" value="1" style="width: 20%" class="text-center">
+
+                                            <a href="#" onclick="calldataGridRekening(2);
+                                                    return false;"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <p>Jumlah Data <span id="total_data"></span>&nbsp;Jumlah Halaman <span id="total_halaman"></span></p>                                    
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function calldataGridRekening(direction) {
+        dataGridRekening($("#page").val(), $("#rows").val(), direction);
+    }
+
+    function hapustargetdetail(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapustargetdetail/' + a);
+        }
+        // reload page
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
+    }
+
+    function dataGridRekening(page, row, direction) {
+        $.post('<?= $this->url() ?>/dataGridRekening/' + page + '/' + row + '/' + direction + '?korek=' + $("#korek").val() + "&s_namakorek=" + $("#s_namakorek").val() + "&s_persentarifkorek=" + $("#s_persentarifkorek").val() + "&tahuntarget=" + $("#tahuntarget").val() + "&s_idtargetheader=" + $("#s_idtargetheader").val(), function (data) {
+            var aa = JSON.parse(data);
+            $("#listrekening").html(aa.grid);
+            $("#rows").val(aa.rows);
+            $("#page").val(aa.page);
+            $("#total_data").html(": " + aa.count);
+            $("#total_halaman").html(": " + aa.total_halaman);
+        });
+    }
+
+    function bukamodalRekening() {
+        calldataGridRekening();
+        $('#modalRekening').modal('show');
+    }
+
+    function pilihRekening(a) {
+        $.post('<?= $this->url() ?>/pilihRekening', {s_idkorek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#s_targetrekening').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $('#modalRekening').modal('hide');
+        });
+    }
+
+    function edittargetdetail(a) {
+        $.post('<?= $this->url() ?>/edittargetdetail', {s_idtargetdetail: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#s_idtargetdetail").val(aa.s_idtargetdetail);
+            $("#s_targetrekening").val(aa.s_targetrekening);
+            $("#t_korek").val(aa.t_korek);
+            $("#t_namakorek").val(aa.t_namakorek);
+            $("#s_targetjumlah").val(aa.s_targetjumlah);
+        });
+    }
+</script>

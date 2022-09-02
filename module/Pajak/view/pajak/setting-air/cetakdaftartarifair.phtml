@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <style type="text/css">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .font_besar {
+                font-size: 12pt;
+            }
+
+            .font_kecil {
+                font-size: 10pt;
+            }
+
+            .font_lima {
+                font-size: 7pt;
+            }
+
+            .font_tujuh {
+                font-size: 7pt;
+            }  
+
+            .font_delapan {
+                font-size: 8pt;
+            }    
+
+            .font_sembilan {
+                font-size: 9pt;
+            }    
+        </style>
+    </head>
+    <body>
+        <div class="printarea">            
+            <h2 style="text-align: center">DAFTAR KECAMATAN</h2>
+            <table width="100%" class="font_sembilan">
+                <tr style="text-align: center">
+                    <td style="width: 5%;">
+                        No.
+                    </td>
+                    <td>
+                        Kode Kecamatan
+                    </td>
+                    <td>
+                        Nama Kecamatan
+                    </td>
+                </tr>
+                <?php
+                $counter = 1;
+                foreach ($this->datakecamatan as $k => $v) {
+                    ?>
+                    <tr>
+                        <td style="text-align: center">
+                            <?= $counter ?>
+                        </td>
+                        <td>
+                            <?= $v['s_kodekec']; ?>
+                        </td>
+                        <td>
+                            <?= $v['s_namakec']; ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </table>
+        </div>
+    </body>
+</html>
+

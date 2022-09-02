@@ -1,0 +1,516 @@
+<style>
+    .dataTables_scrollBody{
+        min-height: 250px;  
+    }
+</style>
+<?php
+$judul = '<span style="font-size: 28px;"><b>DATA PENDATAAN DARI SKPD</b></span>';
+$link = '<a href="' . $this->url() . '/tambahdariskpd" class="btn bg-purple btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Tambah (HOTEL / RESTORAN)
+                    </a>
+                    <a href="' . $this->url() . '/form_pageminerba_skpd" class="btn bg-purple btn-sm btn-flat">
+                        <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Tambah (MINERBA)
+                    </a>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+    <table id="datapendataanobjek" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>No. SPTPD</th>            
+            <th>NPWPD</th> 
+            <th>Nama Badan</th>         
+            <th>Nama Pemilik</th>       
+            <th>Nama Objek</th>         
+            <th>Tgl. Pendataan</th>       
+            <th>Jumlah Pajak/Ret. (Rp.)</th>    
+            <th>Perintah</th>
+            <th>Jenis Pajak</th>
+            <th>Status Pembayaran</th>
+            <th>Tgl Bayar</th>
+            <th>Jumlah Pembayaran</th>
+            <th>Nama SKPD</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+<style type="text/css">
+        .dataTables_filter {
+            display: none;
+        }
+    </style> 
+<?php
+    $idtabel = '#datapendataanobjek';
+    $url = $this->url() . '/dataGridDariskpd';
+    $jmlkolom = 12;
+    $seleksi_kolom = "'0','8'"; //iki data sort di disabel
+    $pencarian_bawah = 1; //custom form pencarian ada dibawah
+    ?>
+    <?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null); ?>
+
+
+<div class="modal fade" id="modalCetakSPTPD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b style="color: #fff;">CETAK SPTPD</b></h4></center>
+            </div>
+            <div class="panel-body">
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksi" id="idtransaksi">
+                                <input type="text" class="form-control" name="tglketetapan" id="tglketetapan" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idjenispajak" id="idjenispajak">
+                                <input type="text" class="form-control" name="jenispajak" id="jenispajak" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawp" id="namawp" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwp" id="alamatwp" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttd" id="ttd" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="modal-footer">
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-success" title="" onclick="cetaksptpd()"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-danger' onclick='tutupCetakSPTPD()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSKPD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b>CETAK SKPD</b></h4></center>
+            </div>
+            <div class='panel-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksiskpd" id="idtransaksiskpd">
+                                <input type="text" class="form-control" name="tglketetapanskpd" id="tglketetapanskpd" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawpskpd" id="namawpskpd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpskpd" id="alamatwpskpd" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idjenispajakskpd" id="idjenispajakskpd">
+                                <input type="text" class="form-control" name="jenispajakskpd" id="jenispajakskpd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttdskpd" id="ttdskpd" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakskpd()"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSKPD()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSKRD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b>CETAK SKRD</b></h4></center>
+            </div>
+            <div class='panel-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksiskrd" id="idtransaksiskrd">
+                                <input type="text" class="form-control" name="tglketetapanskrd" id="tglketetapanskrd" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawpskrd" id="namawpskrd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpskrd" id="alamatwpskrd" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idjenispajakskrd" id="idjenispajakskrd">
+                                <input type="text" class="form-control" name="jenispajakskrd" id="jenispajakskrd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttdskrd" id="ttdskrd" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakskrd()"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSKRD()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakNPPD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <center><h4 class="modal-title" id="myModalLabel"><b>CETAK NPPD</b></h4></center>
+            </div>
+            <div class='panel-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pendataan
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idwpobjeknppd" id="idwpobjeknppd">
+                                <input type="text" class="form-control" name="tglketetapannppd" id="tglketetapannppd" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Jenis Pajak
+                            </label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="idjenispajaknppd" id="idjenispajaknppd">
+                                <input type="text" class="form-control" name="jenispajaknppd" id="jenispajaknppd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="namawpnppd" id="namawpnppd" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="alamatwpnppd" id="alamatwpnppd" readonly=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Penandatangan
+                            </label>
+                            <div class="col-md-9">
+                                <select name="ttdnppd" id="ttdnppd" class="form-control">
+                                    <?php foreach ($ar_ttd0 as $row) { ?>
+                                        <option value="<?= $row['s_idpej'] ?>"><?= $row['s_namapej'] . " || " . $row['s_jabatanpej'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetaknppd()"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakNPPD()'><i class='fa fa-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'statuspembayaran') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><option value="1">-- SUDAH --</option><option value="2">-- BELUM --</option></select></center>');
+            }
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'jenispajak') {
+                $(this).html('<center><select class="pencariantable" style="width:80px;text-size:8pt;"><option value="">-- Pilih --</option><?php
+                                    foreach ($this->MenuHelper()->getDatajenispajak() as $key => $row) {
+                                        echo '<option value="' . $row['s_idjenis'] . '">' . $row['s_namajenissingkat'] . '</option>';
+                                    }
+                                    ?></select></center>');
+            }
+
+
+        });
+    }
+    
+    
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function () {
+            //calldatagrid1();
+            dTable.ajax.reload();
+        }, 1000);
+    }
+
+    function bukaCetakSPTPD(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi").val(aa.idtransaksi);
+            $("#namawp").val(aa.namawp);
+            $("#alamatwp").val(aa.alamatwp);
+            $("#tglketetapan").val(aa.tglketetapan);
+            $("#jenispajak").val(aa.jenispajak);
+            $("#idjenispajak").val(aa.idjenispajak);
+        });
+        $('#modalCetakSPTPD').modal('show');
+    }
+
+    function tutupCetakSPTPD() {
+        $('#modalCetakSPTPD').modal('hide');
+    }
+
+    function cetaksptpd() {
+        var a = document.getElementById('idjenispajak').value;
+        if (a === '1') { // Pajak Hotel
+            window.open('<?= $this->url() ?>/cetaksptpdhotel?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '2') { // Pajak Restoran
+            window.open('<?= $this->url() ?>/cetaksptpdrestoran?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '3') { // Pajak Hiburan
+            window.open('<?= $this->url() ?>/cetaksptpdhiburan?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '4') { // Pajak Reklame
+            window.open('<?= $this->url() ?>/cetaksptpdreklame?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '5') { // Pajak PPJ
+            window.open('<?= $this->url() ?>/cetaksptpdppj?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '6') { // Pajak Minerba
+            window.open('<?= $this->url() ?>/cetaksptpdminerba?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '7') { // Pajak Parkir
+            window.open('<?= $this->url() ?>/cetaksptpdparkir?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '8') { // Pajak ABT
+            window.open('<?= $this->url() ?>/cetaksptpdabt?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        } else if (a === '9') { // Pajak Walet
+            window.open('<?= $this->url() ?>/cetaksptpdwalet?idtransaksi=' + $("#idtransaksi").val() + "&ttd0=" + $("#ttd").val());
+        }
+    }
+
+    function bukaCetakSKPD(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksiskpd").val(aa.idtransaksi);
+            $("#namawpskpd").val(aa.namawp);
+            $("#alamatwpskpd").val(aa.alamatwp);
+            $("#tglketetapanskpd").val(aa.tglketetapan);
+            $("#jenispajakskpd").val(aa.jenispajak);
+            $("#idjenispajakskpd").val(aa.idjenispajak);
+        });
+        $('#modalCetakSKPD').modal('show');
+    }
+
+    function tutupCetakSKPD() {
+        $('#modalCetakSKPD').modal('hide');
+    }
+
+    function cetakskpd() {
+        var a = document.getElementById('idjenispajakskpd').value;
+        if (a === '8') { // Pajak Air Tanah
+            window.open('<?= $this->url() ?>/cetakskpdairtanah?idtransaksi=' + $("#idtransaksiskpd").val() + "&ttd0=" + $("#ttdskpd").val());
+        }else{ 
+            window.open('<?= $this->url() ?>/cetakskpdreklame?idtransaksi=' + $("#idtransaksiskpd").val() + "&jenisobjek=" + a + "&ttd0=" + $("#ttdskpd").val());
+        }
+    }
+
+    function bukaCetakSKRD(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksiskrd").val(aa.idtransaksi);
+            $("#namawpskrd").val(aa.namawp);
+            $("#alamatwpskrd").val(aa.alamatwp);
+            $("#tglketetapanskrd").val(aa.tglketetapan);
+            $("#jenispajakskrd").val(aa.jenispajak);
+            $("#idjenispajakskrd").val(aa.idjenispajak);
+        });
+        $('#modalCetakSKRD').modal('show');
+    }
+
+    function tutupCetakSKRD() {
+        $('#modalCetakSKRD').modal('hide');
+    }
+
+    function cetakskrd() {
+        var a = document.getElementById('idjenispajakskrd').value;
+        window.open('<?= $this->url() ?>/cetakskrd?idtransaksi=' + $("#idtransaksiskrd").val() + "&jenisobjek=" + a + "&ttd0=" + $("#ttdskrd").val());
+    }
+
+    function bukaCetakNPPD(a) {
+        $.post('<?= $this->url() ?>/dataPendataan', {idtransaksi: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#namawpnppd").val(aa.namawp);
+            $("#alamatwpnppd").val(aa.alamatwp);
+            $("#tglketetapannppd").val(aa.tglketetapan);
+            $("#jenispajaknppd").val(aa.jenispajak);
+            $("#idwpobjeknppd").val(aa.t_idobjek);
+            $("#idjenispajaknppd").val(aa.idjenispajak);
+        });
+        $('#modalCetakNPPD').modal('show');
+    }
+
+    function tutupCetakNPPD() {
+        $('#modalCetakNPPD').modal('hide');
+    }
+
+    function cetaknppd() {
+        var a = document.getElementById('idjenispajaknppd').value;
+        console.log(a);
+        if (a === '1' || a === '2' || a === '3' || a === '5' || a === '6' || a === '7' || a === '9') { // Self Assesment
+            window.open('<?= $this->url() ?>/cetaknppdself?idwpobjeknppd=' + $("#idwpobjeknppd").val() + "&ttd0=" + $("#ttdnppd").val());
+        } else if (a === '4' || a === '8') { // Pajak ABT
+            window.open('<?= $this->url() ?>/cetaknppdofficial?idwpobjeknppd=' + $("#idwpobjeknppd").val() + "&ttd0=" + $("#ttdnppd").val());
+        }
+    }
+
+</script>
+
+
+
+<?= $this->MenuHelper()->headeratas_end(); ?>             

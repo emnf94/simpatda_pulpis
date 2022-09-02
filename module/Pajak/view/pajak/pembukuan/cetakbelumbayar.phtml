@@ -1,0 +1,268 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $abulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+        $t_tglcetak = date('d', strtotime($tglcetak)) . " " . $abulan[date('m', strtotime($tglcetak))] . " " . date('Y', strtotime($tglcetak));        
+        if(!empty($ar_pemda->s_notelinstansi)){
+                $notelp = "Telp/Fax  ".$ar_pemda->s_notelinstansi.", ";
+        }else{
+                $notelp = "";
+        }
+		
+        ?>
+        <div>
+            <table width="100%" style="font-family:sans-serif">
+                <tr>
+                    <td width="7%" style="border: 1px solid #fff;"><img src="<?= $ar_pemda->s_logo ?>" width="60"></td>
+                    <td style="text-align:center; padding-right: 7%;border: 1px solid #fff;">
+                        <span style="font-size:11pt;font-weight: BOLD;">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></span><br>
+                        <span style="font-size:12pt;font-weight: BOLD;"><?= strtoupper($ar_pemda->s_namainstansi); ?></span><br>
+                        <span style="font-size:9pt;"><?= $ar_pemda->s_alamatinstansi; ?> <?= $notelp ?> <?= $ar_pemda->s_namaibukotakabkota ?> Kode Pos <?= $ar_pemda->s_kodepos ?></span>
+                        
+                    </td>
+                </tr>
+            </table>
+            <hr style="line-height: 1px; color: black">
+            <table width="100%" style="font-family:sans-serif">
+                <tr>
+                    <td width="7%" style="border: 1px solid #fff;"></td>
+                    <td style="text-align:center; padding-right: 7%;border: 1px solid #fff;">
+                        <h3 style="text-align: center;font-family:sans-serif;">DATA PAJAK BELUM DIBAYAR</h3>            
+                        <span style="font-size:10pt;">Tahun Pajak : <?=$periodepajak?></span>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" style="text-align: left;border: 0px;font-weight:bold;font-family:sans-serif;" class="font_sembilan">
+                <tr><td width="20%">Jenis Pajak</td><td width="2%">:</td><td><?=$ar_wpobjek['s_namajenis']?></td></tr>
+                <tr><td>NPWPD</td><td>:</td><td><?=$ar_wpobjek['t_npwpd']?></td></tr>
+                <tr><td>Nama Wajib Pajak</td><td>:</td><td><?=$ar_wpobjek['t_nama']?></td></tr>
+                <tr><td style="vertical-align:top;">Alamat</td><td style="vertical-align:top;">:</td><td><?=$ar_wpobjek['t_alamat_lengkap']?></td></tr>
+                <tr><td>Nama Objek Pajak</td><td>:</td><td><?=$ar_wpobjek['t_namaobjek']?></td></tr>
+            </table>
+            <table width="100%" class="border_atas border_kiri border_kanan border_bawah" style="text-align: center; padding: 5px;font-family:sans-serif;font-size:8pt;">
+                <tr style="background:#ccc;">
+                    <th class="border_kanan border_bawah">
+                       NO.
+                    </th>
+                    <th class="border_kanan border_bawah">
+                       KODE BAYAR
+                    </th>
+                    <th class="border_kanan border_bawah">
+                       NOMOR KETETAPAN 
+                    </th>
+                    <th class="border_kanan border_bawah">
+                        TANGGAL
+                    </th>
+                    <th class="border_kanan border_bawah">
+                        MASA PAJAK
+                    </th>
+                    <th class="border_kanan border_bawah">
+                        JATUH TEMPO
+                    </th>
+                    <th class="border_kanan border_bawah">
+                        POKOK
+                    </th>
+                    <th class="border_kanan border_bawah">
+                        DENDA *
+                    </th>
+                    <th class="border_bawah">
+                        KET
+                    </th>
+                    
+                </tr>
+                <?php
+                $totalpendataan = 0;
+                $counter = 1;
+
+                $clast_rek = '';
+                $total_subpajak = 0;
+                $total_subdenda = 0;
+                foreach ($data as $k => $v) {
+
+                    $jatuhtempo = $v['t_tgljatuhtempo'];
+                    $tglsekarang = date('Y-m-d');
+
+                    $ts1 = strtotime($jatuhtempo);
+                    $ts2 = strtotime($tglsekarang);
+
+                    $year1 = date('Y', $ts1);
+                    $year2 = date('Y', $ts2);
+
+                    $month1 = date('m', $ts1);
+                    $month2 = date('m', $ts2);
+
+                    $day1 = date('d', $ts1);
+                    $day2 = date('d', $ts2);
+                    if ($day1 < $day2) {
+                        $tambahanbulan = 1;
+                    } else {
+                        $tambahanbulan = 0;
+                    }
+
+                    $jmlbulan = (($year2 - $year1) * 12) + ($month2 - $month1 + $tambahanbulan);
+                    if ($jmlbulan > 24) {
+                        $jmlbulan = 24;
+                        $jmldenda = $jmlbulan * 2 / 100 * $v['t_jmlhpajak'];
+                    } elseif ($jmlbulan <= 0) {
+                        $jmlbulan = 0;
+                        $jmldenda = $jmlbulan * 2 / 100 * $v['t_jmlhpajak'];
+                    } else {
+                        $jmldenda = $jmlbulan * 2 / 100 * $v['t_jmlhpajak'];
+                    }
+                    
+                    if($v['t_jenispajak'] == 4 || $v['t_jenispajak'] == 8){
+                        $no_urut = str_pad($v['t_nopenetapan'], 5, "0", STR_PAD_LEFT).'/SKPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = $v['t_tglpendataan'];
+                    }elseif($v['t_jenispajak'] == 1 || $v['t_jenispajak'] == 2 || $v['t_jenispajak'] == 3 || $v['t_jenispajak'] == 5 || $v['t_jenispajak'] == 6 || $v['t_jenispajak'] == 7 || $v['t_jenispajak'] == 9){
+                        $no_urut = str_pad($v['t_nourut'], 5, "0", STR_PAD_LEFT).'/SPTPD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = $v['t_tglpendataan'];
+                    }else{
+                        $no_urut = str_pad($v['t_nopenetapan'], 5, "0", STR_PAD_LEFT).'/SKRD/'.str_pad($v['t_jenispajak'], 2, "0", STR_PAD_LEFT).'/'.$v['t_periodepajak'];
+                        $tgl_pajak = $v['t_tglpendataan'];
+                    }
+
+                    if ($clast_rek <> $v['t_periodepajak']) {
+                        if ($clast_rek <> '') {
+                            echo '<tr>
+                                <td colspan="6" class="border_bawah border_kanan"><b>Jumlah Masa Pajak Tahun '.$clast_rek_name.'</b></td>
+                                <td class="border_bawah border_kanan" style="text-align:right;"><b>'.number_format($total_subpajak, 0, ',', '.').'</b></td>
+                                <td class="border_bawah border_kanan" style="text-align:right;"><b>'.number_format($total_subdenda, 0, ',', '.').'</b></td>
+                                <td class="border_bawah"></td>
+                            </tr>';
+                            
+                            $total_subpajak = 0;
+                            $total_subdenda = 0;
+                        }
+                        $clast_rek = $v['t_periodepajak'];
+                        $clast_rek_name = $v['t_periodepajak'];
+                    }
+                    
+                    ?>
+                    <tr>
+                        <td class="border_kanan border_bawah">
+                            <?= $counter ?>
+                        </td>
+                        <td class="border_kanan border_bawah">
+                            <b><?= $v['t_kodebayar'] ?></b>
+                        </td>
+                        <td class="border_kanan border_bawah">
+                            <?= $no_urut?>
+                        </td>
+                        <td style="text-align: center;" class="border_kanan border_bawah">
+                            <?= date('d-m-Y', strtotime($tgl_pajak)) ?>
+                        </td>
+                        <td class="border_kanan border_bawah">
+                            <?= date('d-m-Y', strtotime($v['t_masaawal'])) . " s/d " . date('d-m-Y', strtotime($v['t_masaakhir'])) ?>
+                        </td>
+                        <td style="text-align: center;" class="border_kanan border_bawah">
+                            <?= date('d-m-Y', strtotime($v['t_tgljatuhtempo'])) ?>
+                        </td>
+                        <td style="text-align: right" class="border_kanan border_bawah">
+                            <?= number_format($v['t_jmlhpajak'], 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: right" class="border_kanan border_bawah">
+                            <?= number_format($jmldenda, 0, ',', '.') ?>
+                        </td>
+                        <td style="text-align: left" class="border_kanan border_bawah">
+                            
+                        </td>
+                    </tr>
+                    <?php
+                    $total_subpajak += $v['t_jmlhpajak'];
+                    $total_subdenda += $jmldenda;
+                    $totalpendataan += $v['t_jmlhpajak'];
+                    $totaldenda += $jmldenda;
+                    $counter++;
+                }
+
+                if ($clast_rek <> '') {
+                    echo '<tr>
+                        <td colspan="6" class="border_bawah border_kanan"><b>Jumlah Masa Pajak Tahun '.$clast_rek_name.'</b></td>
+                        <td class="border_bawah border_kanan" style="text-align:right;"><b>'.number_format($total_subpajak, 0, ',', '.').'</b></td>
+                        <td class="border_bawah border_kanan" style="text-align:right;"><b>'.number_format($total_subdenda, 0, ',', '.').'</b></td>
+                        <td class="border_bawah"></td>
+                    </tr>';
+                    
+                    $total_subpajak = 0;
+                    $total_subdenda = 0;
+                }
+                ?>
+                <tr>
+                    <td colspan="6" style="text-align: center; font-weight: bold; padding-right: 6px;" class="border_kanan">
+                        Jumlah Total Masa Pajak s/d <?=$periodepajak?>
+                    </td>
+                    <td style="text-align: right; font-weight: bold;" class="border_kanan">
+                        <?= number_format($totalpendataan, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right; font-weight: bold;" class="border_kanan">
+                        <?= number_format($totaldenda, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <small style="font-size:8pt;margin-top:10px;">*) Perhitungan Denda sampai dengan tanggal sekarang (<?=date('d-m-Y')?>).</small>
+            <table width="100%" style="font-family:sans-serif;" class="font_sembilan">
+                <tr>
+                    <td></td>
+                    <td style="width:40%;text-align:center;">
+                        <?= $ar_pemda->s_namaibukotakabkota. ', ' .$t_tglcetak ?>
+                        <br>
+                        <?=$ar_mengetahui->s_jabatanpej?>
+                        <br><br><br><br>
+                        <u><?=$ar_mengetahui->s_namapej?></u>
+                        <br>
+                        NIP. <?=$ar_mengetahui->s_nippej?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+		<htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family: serif;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;font-size: 10px;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;font-size: 12px;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+		</htmlpagefooter>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+	@page {
+        margin:40px 30px 50px 30px;
+        /* ensure you append the header/footer name with 'html_' */
+        header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+        footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+    }
+    /* table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    } */
+    th {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+/*    td {
+        padding-left: 4px;
+        padding-right: 4px;
+    }*/
+    .border_atas{border-top: 1px solid black;
+        border-collapse: collapse;}
+    .border_kanan{border-right: 1px solid black;
+        border-collapse: collapse;}
+    .border_bawah{border-bottom: 1px solid black;
+        border-collapse: collapse;}
+    .border_kiri{border-left: 1px solid black;
+        border-collapse: collapse;}
+    .font_empatbelas {
+        font-size: 14pt;
+    }
+    .font_sembilan {
+        font-size: 9pt;
+    }    
+</style>

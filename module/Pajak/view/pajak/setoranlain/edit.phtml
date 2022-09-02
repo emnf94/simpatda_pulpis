@@ -1,0 +1,224 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+
+
+<?php
+$judul = 'FORM SETORAN LAIN [EDIT]';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<?= $this->form()->openTag($frm) ?>    
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Tgl Setor</label>
+    <div class="col-md-4">
+        <?= $this->formHidden($frm->get('s_idsetoranlain')) ?>  
+        <?= $this->formRow($frm->get('tgl_setoranlain')) ?> 
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">No STS</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('no_sts')) ?> 
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama Dinas</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('s_iddinas')) ?>
+        <?= $this->formRow($frm->get('s_namadinas')) ?>
+    </div>
+    <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalDinas()" title="cari"><span class="fa fa-search"></span></button></div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Via Pembayaran</label>
+    <div class="col-md-4">
+        <?= $this->formRow($frm->get('t_viapembayaran')) ?>
+    </div>
+</div>
+
+<div class="col-sm-12">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <?php //$this->formInput($frm->get('simpan')) ?> 
+                <input type="submit" id="pendaftaranbutton" value="SIMPAN" onclick="this.disabled = true;forms[0].submit();" class="btn nextBtn btn-info pull-right">
+                &nbsp;&nbsp; <a href="<?= $this->url('setoranlain') ?>" class="btn btn-warning pull-left"><i class="fa fa-arrow-circle-left"></i> Kembali</a>
+            </div>
+    </div>
+</div>
+<?= $this->form()->closeTag($frm) ?>  
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+
+<div class="modal fade" id="ModalCariDinas" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA DINAS</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuawp" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>KODE</th>
+            <th>NAMA</th>            
+            <th>JALAN</th>      
+            <th>KECAMATAN</th>       
+            <th>KELURAHAN</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+
+
+<?php
+    $idtabel = '#datasemuawp';
+    $url = $this->url('setoranlain').'/dataGridPilihdinas';
+    $jmlkolom = 5;
+    $seleksi_kolom = "'5'"; //iki data sort di disabel
+    $pencarian_bawah = 1;
+    
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+
+<div class="modal fade" id="loadingsimpanvalidasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="background:transparent;"> <!--data-backdrop="static" data-keyboard="false" -->
+    <center><img style="background:transparent;" src='<?= $this->basePath(); ?>/public/img/gif/loading77.gif'></center>
+</div>
+
+
+<script type="text/javascript">
+    
+    $('#pendaftaranbutton').click(function () {
+            var myForm = document.getElementById('formtambah');
+
+            myForm.onsubmit = function () {
+                var allInputs = myForm.getElementsByTagName('input');
+                var input, i;
+
+                for (i = 0; input = allInputs[i]; i++) {
+                    if (input.getAttribute('name') && !input.value) {
+                        //input.setAttribute('name', '');
+
+                    } else {
+                        jQuery('#loadingsimpanvalidasi').modal('show');
+                    }
+                }
+            };
+
+        });
+
+    $('#tgl_setoranlain, #no_sts, #s_namadinas, #t_viapembayaran').keyup(function () {
+        if (($(this).val().length != 0) || ($(this).val().length != null)) {
+            
+            
+                $('#pendaftaranbutton').attr('disabled', false);
+            
+        } else
+        {
+            $('#pendaftaranbutton').attr('disabled', true);
+        }
+    })
+    
+    $("#tgl_setoranlain").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+            
+    function tutupmodalDinas() {
+        $('#ModalCariDinas').modal('hide');
+    }
+    
+    function bukamodalDinas() {
+        $('#ModalCariDinas').modal('show');
+    }
+    
+    
+    function pilihDinas(a) {
+        $.post('<?= $this->url() ?>/pilihDinas', {s_iddinas: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#s_iddinas').val(aa.s_iddinas);
+            $('#s_namadinas').val(aa.s_namadinas);
+            
+           
+            jQuery('#ModalCariDinas').modal('hide');
+
+        });
+    }            
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'namaobjek') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            $('#ModalCariDinas').on('shown.bs.modal', function (e) {
+                
+                dTable.columns.adjust();
+            });
+
+            
+           
+
+        });
+    }
+            
+</script>            

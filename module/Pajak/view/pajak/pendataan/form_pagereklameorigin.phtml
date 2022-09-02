@@ -1,0 +1,463 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pagereklame');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+
+<style type="text/css">
+    blink,
+    .blink {
+        -webkit-animation: blink 1s step-end infinite;
+        -moz-animation: blink 1s step-end infinite;
+        -o-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-moz-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @-o-keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+
+    @keyframes blink {
+        67% {
+            opacity: 0
+        }
+    }
+</style>
+<div id="page-content-wrapper" style="font-size:12px">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class="glyph-icon icon-pencil"></i>
+                    Pendataan <?= $datapendaftaran['s_namajenis'] ?><b class="blink" style="font-size: 12px; color: red"><?= $message ?></b>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="example-box-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 center-div">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:center; background:black; border-radius: 25px; color: orange; padding: 5px 15px 5px 15px; font-size: 16px; font-weight:bolder">NPWPD : <?= $datapendaftaran['t_npwpd'] ?> / NIOP : <?= $datapendaftaran['t_nop'] ?></span>
+                        </div>
+                    </div>
+                    <?= $this->form()->openTag($form) ?>
+                    <div class="col-md-6">
+
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data WP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIK</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nik'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nama'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamat_lengkap'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content-box">
+                            <h3 class="content-box-header content-box-header-alt bg-success">
+                                <span class="icon-separator">
+                                    <i class="glyph-icon icon-database"></i>
+                                </span>
+                                <span class="header-wrapper">
+                                    Data OP
+                                </span>
+                            </h3>
+                            <div class="content-box-wrapper">
+                                <div class='row'>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">NIOP</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_nop'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Nama</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_namaobjek'] ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-2">Alamat</label>
+                                        <div class="col-sm-10">
+                                            : <?= $datapendaftaran['t_alamatobjek'] ?>
+                                            ,RT. <?= $datapendaftaran['t_rtobjek'] ?>
+                                            ,RW. <?= $datapendaftaran['t_rwobjek'] ?>
+                                            ,Desa/Kel. <?= $datapendaftaran['s_namakelobjek'] ?>
+                                            ,Kec. <?= $datapendaftaran['s_namakecobjek'] ?>
+                                            ,Kab. <?= $datapendaftaran['t_kabupatenobjek'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-info">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Histori Pajak</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="datatransaksi"></div>
+                        </div>
+                    </div>
+                    <div class="row pad10B">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <div class="alert-content">
+                                    <h4 class="alert-title"><b style="color: #000099">Data Pendataan</b></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nomor Urut</label>
+                            <div class="col-sm-2">
+                                <input type="hidden" name="t_jenisobjekpajak" value="<?= $datapendaftaran['t_jenisobjek'] ?>">
+                                <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                <?= $this->formHidden($form->get("t_iddetailreklame")) ?>
+                                <?= $this->formHidden($form->get("t_idobjek")) ?>
+                                <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                <?= $this->formText($form->get("t_nourut")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Periode Pajak</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_periodepajak")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpendataan")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Tgl. Penetapan</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_tglpenetapan")) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Masa Pajak</label>
+                            <div class="col-sm-5">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <?= $this->formText($form->get("t_masaawal")) ?>
+                                    <!--                                </div>
+                            </div>
+                            <label class="col-sm-1 control-label">S/D</label>
+                            <div class="col-sm-2">
+                                <div class="input-prepend input-group">-->
+                                    <span class="input-group-addon" style="background-color: #EEEEEE"><b>s/d</b></span>
+                                    <?= $this->formText($form->get("t_masaakhir")) ?>
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kawasan</label>
+                            <div class="col-sm-5">
+                                <div class="input-prepend input-group">
+                                    <?= $this->formSelect($form->get("t_kodekawasan")) ?>
+                                    <span class="input-group-addon" style="background-color: #EEEEEE"><b>Lokasi</b></span>
+                                    <?= $this->formSelect($form->get("t_lokasi_kawasan")) ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jenis Reklame</label>
+                            <div class="col-sm-5">
+                                <?= $this->formSelect($form->get("t_jenisreklame")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Kode Rekening</label>
+                            <div class="col-sm-2">
+                                <?= $this->formHidden($form->get("t_idkorek")) ?>
+                                <?= $this->formText($form->get("t_korek")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Nama Rekening</label>
+                            <div class="col-sm-5">
+                                <?= $this->formText($form->get("t_namakorek")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Judul</label>
+                            <div class="col-sm-5">
+                                <?= $this->formText($form->get("t_naskah")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Lokasi</label>
+                            <div class="col-sm-5">
+                                <?= $this->formTextarea($form->get("t_lokasi")) ?>
+                            </div>
+                        </div>
+                        <!--  <div class="col-sm-12" id="divsudutpandang">
+                            <label class="col-sm-2 control-label">Sudut Pandang</label>
+                            <div class="col-sm-4">
+                                <?= $this->formSelect($form->get("t_sudutpandang")) ?>
+                            </div>
+                        </div> -->
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Panjang (m)</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_panjang")) ?>
+                            </div>
+                            <label class="col-sm-1 control-label">Lebar (m)</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_lebar")) ?>
+                            </div>
+                            <label class="col-sm-1 control-label">Luas (m<sup>2</sup>)</label>
+                            <div class="col-sm-1">
+                                <?= $this->formText($form->get("t_luas")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Jumlah Reklame</label>
+                            <div class="col-sm-1">
+                                <?= $this->formNumber($form->get("t_jumlah")) ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="divjangkawaktu">
+                            <label class="col-sm-2 control-label">Jangka Waktu</label>
+                            <div class="col-sm-1" id="divinnerjangkawaktu">
+                                <?= $this->formText($form->get("t_jangkawaktu")) ?>
+                            </div>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("s_masa")) ?>
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">NSR</label>
+                            <div class="col-sm-3">
+                                <?= $this->formText($form->get('t_nsr')) ?>
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div> -->
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Harga Satuan Pajak Reklame</label>
+                            <div class="col-sm-2">
+                                <?= $this->formText($form->get("t_tarifreklame")) ?>
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Total Pajak</label>
+                            <div class="col-sm-4">
+                                <?= $this->formText($form->get("t_jmlhpajak")) ?>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="hitungpajakreklame()">
+                                    Hitung
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="bg-default" id="tombolsimpan">
+                    <?= $this->formInput($form->get('Pendataansubmit')) ?>
+                </div>
+                <?= $this->form()->closeTag($form) ?>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+    function pilihRekening(a) {
+        $.post('<?= $this->url() ?>/pilihRekening', {
+            s_idkorek: a
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_tarifreklame').val(aa.t_tarifreklame);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#modalRekening').modal('hide');
+            // var rinci = aa.t_korek.substring(9, 11);
+            var idkorek = aa.t_idkorek;
+            if (idkorek == '61' || idkorek == '64' || idkorek == '66' || idkorek == '68' || idkorek == '69' || idkorek == '70' || idkorek == '75') {
+                // $('#divjangkawaktu').show();
+                // $('#divinnerjangkawaktu').show();
+                // $('#t_tipewaktu')
+                //         .empty()
+                //         .append('<option value="1">Bulan</option>');
+            } else if (idkorek == '79' || idkorek == '81' || idkorek == '83') {
+                // $('#divjangkawaktu').show();
+                // $('#divinnerjangkawaktu').show();
+                // $('#t_tipewaktu')
+                //         .empty()
+                //         .append('<option value="0">Hari</option>');
+                if (idkorek == '81' || idkorek == '83') {
+                    // $('#t_nspr').removeAttr('readonly');
+                    // $('#t_njopr').removeAttr('readonly');
+                } else {
+                    // $('#t_nspr').attr('readonly', 'true');
+                    // $('#t_njopr').attr('readonly', 'true');
+                }
+            } else {
+                if (idkorek != '81' || idkorek != '83' || idkorek != '62' || idkorek != '170' || idkorek != '85' || idkorek != '86' || idkorek != '53' || idkorek != '54' || idkorek != '55') {
+                    // $('#t_nspr').val('2');
+                }
+                // $('#divjangkawaktu').show();
+                // $('#divinnerjangkawaktu').show();
+                // $('#t_tipewaktu')
+                //         .empty()
+                //         .append('<option value="2">Tahun</option>');
+            }
+        });
+        hitungpajakreklame();
+    }
+
+
+    function hitungpajakreklame() {
+        $.post('<?= $this->url() ?>/hitungpajakreklame', {
+            t_idkorek: $('#t_idkorek').val(),
+            t_jenisreklame: $("#t_jenisreklame").val(),
+            t_panjang: $("#t_panjang").val(),
+            t_lebar: $("#t_lebar").val(),
+            t_masaawal: $("#t_masaawal").val(),
+            t_masaakhir: $("#t_masaakhir").val(),
+            // t_tinggi: $("#tt_tinggi").val(),
+            // t_sudutpandang: $("#t_sudutpandang").val(),
+            // t_bentukreklame: $("#t_bentukreklame").val(),
+            t_jumlah: $("#t_jumlah").val(),
+            // t_tipewaktu: $("#t_tipewaktu").val(),
+            t_jangkawaktu: $("#t_jangkawaktu").val(),
+            // t_korek: $('#t_korek').val(),
+            t_tarifreklame: $('#t_tarifreklame').val(),
+            //t_nsr: $('#t_nsr').val(),
+            t_njopr: $('#t_njopr').val(),
+
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_luas').val(aa.t_luas);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_tarifreklame').val(aa.t_tarifreklame);
+            //$('#t_njopr').val(aa.t_njopr);
+            $('#kethitung').val(aa.kethitung);
+            $('#t_jangkawaktu').val(aa.t_jangkawaktu);
+            //$('#t_nspr').val(aa.t_nspr);
+            $('#s_masa').val(aa.s_masa)
+            //$('#t_nsr').val(aa.t_nsr);
+            // var tipewaktu = aa.t_tipewaktu;
+            // if(tipewaktu == 2){
+            //     $('#t_tipewaktu')
+            //             .empty()
+            //             .append('<option value="2">Tahun</option>');
+            // }else{
+            //     $('#t_tipewaktu')
+            //             .empty()
+            //             .append('<option value="0">Hari</option>');
+            // }
+        });
+    }
+
+    $(function() {
+        CariPendataanReklameByObjek();
+    });
+
+    function CariPendataanReklameByObjek() {
+        $.post('<?= $this->url() ?>/CariPendataanReklameByObjek', {
+            idobjek: $("#t_idobjek").val(),
+            periodepajak: $("#t_periodepajak").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#datatransaksi").html(aa.datatransaksi);
+        });
+    }
+
+    function getCombokawasan() {
+        $.post('<?= $this->url() ?>/getComboKawasan', {
+            t_kodekawasan: $("#t_kodekawasan").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_lokasi_kawasan").html(aa.res);
+        });
+    }
+
+    function getComboJenisReklame() {
+        $.post('<?= $this->url() ?>/getComboJenisReklame', {
+            t_kodekawasan: $("#t_kodekawasan").val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $("#t_jenisreklame").html(aa.res);
+        });
+    }
+</script>

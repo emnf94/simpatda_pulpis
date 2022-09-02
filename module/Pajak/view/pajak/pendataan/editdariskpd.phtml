@@ -1,0 +1,446 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambahdariskpd');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+
+
+<?php
+$judul = 'FORM SKPD [EDIT]';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+<?= $this->form()->openTag($frm) ?>    
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama SKPD</label>
+    <div class="col-sm-4">
+        <?= $this->formHidden($frm->get("s_idskpd")) ?>
+        <?= $this->formText($frm->get("s_namaskpd")) ?>
+    </div>
+    <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalSkpd()" title="cari"><span class="fa fa-search"></span></button></div>
+</div>
+
+
+
+
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama WP</label>
+    <div class="col-md-4">
+    <?= $this->formText($frm->get('namawp')) ?>
+    </div>    
+    <div class="col-sm-1"><button type="button" class="btn btn-sm btn-primary" onclick="bukamodalWP()" title="cari"><span class="fa fa-search"></span></button></div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">NPWPD</label>
+    <div class="col-md-2">
+        <?= $this->formText($frm->get('npwpd')) ?>
+    </div>
+     
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">NAMA OBJEK</label>
+    <div class="col-md-2">
+        <input type="text" value="<?= $datawpobjek['t_namaobjek'];?>" readonly="readonly" class="form-control" id="namaobjekwp" name="namaobjekwp">
+    </div>
+     
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nomor SPTPD</label>
+    <div class="col-sm-2">
+       
+        <?= $this->formHidden($frm->get("t_idtransaksi")) ?>
+        <?= $this->formHidden($frm->get("t_idobjek")) ?>
+       
+        <?= $this->formText($frm->get("t_nourut")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Periode Pajak</label>
+    <div class="col-sm-2">
+        <div class="input-prepend input-group">
+            <span class="add-on input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+            <?= $this->formText($frm->get("t_periodepajak")) ?>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Tanggal Pendataan</label>
+    <div class="col-sm-2">
+        <div class="input-prepend input-group">
+            <span class="add-on input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+            <?= $this->formText($frm->get("t_tglpendataan")) ?>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Masa Pajak</label>
+    <div class="col-sm-2">
+        <div class="input-prepend input-group">
+            <span class="add-on input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+            <?= $this->formText($frm->get("t_masaawal")) ?>
+        </div>
+    </div>
+    <label class="col-sm-1 control-label">S/D</label>
+    <div class="col-sm-2">
+        <div class="input-prepend input-group">
+            <span class="add-on input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+            <?= $this->formText($frm->get("t_masaakhir")) ?>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">NAMA KEGIATAN</label>
+    <div class="col-md-5">
+        <textarea name="t_namakegiatan" id="t_namakegiatan" class="form-control"><?= $data['t_namakegiatan'];?></textarea>
+    </div>
+     
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Kode Rekening</label>
+    <div class="col-sm-2">
+        <?= $this->formHidden($frm->get("t_idkorek")) ?>
+        <?= $this->formText($frm->get("t_korek")) ?>
+    </div>
+    
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Nama Rekening</label>
+    <div class="col-sm-4">
+        <?= $this->formText($frm->get("t_namakorek")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Dasar Pengenaan dari SKPD</label>
+    <div class="col-sm-4">
+        <?= $this->formText($frm->get("t_dasarpengenaan_skpd")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Dasar Pengenaan (Rp.)</label>
+    <div class="col-sm-2">
+        <?= $this->formText($frm->get("t_dasarpengenaan")) ?>
+    </div>
+    <label class="col-sm-1 control-label">Tarif (%)</label>
+    <div class="col-sm-1">
+        <?= $this->formText($frm->get("t_tarifpajak")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Total Pajak (Rp.)</label>
+    <div class="col-sm-4">
+        <?= $this->formText($frm->get("t_jmlhpajak")) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <?php //$this->formInput($frm->get('simpan')) ?> 
+                <input type="submit" id="pendaftaranbutton" value="SIMPAN" onclick="this.disabled = true;forms[0].submit();" class="btn nextBtn btn-info pull-right">
+                &nbsp;&nbsp; <a href="<?= $this->url('pendataan') ?>/pendataandariskpd" class="btn btn-warning pull-left"><i class="fa fa-arrow-circle-left"></i> Kembali</a>
+            </div>
+    </div>
+</div>
+<?= $this->form()->closeTag($frm) ?>  
+<?= $this->MenuHelper()->headeratas_end(); ?> 
+
+<!-- Modal Cari -->
+<div class="modal fade" id="ModalCariSKPD" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA SKPD</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuaskpd" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>NAMA</th>            
+            <th>JALAN</th>      
+            <th>KECAMATAN</th>       
+            <th>KELURAHAN</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalCariWP" tabindex="-1" role="dialog"  
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="border: 1px solid #0073b7;">
+        <div class="modal-content modal-lg">
+            <div class="modal-header with-border bg-blue-gradient">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close" style="font-size: 20px; color:white;">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+                <center><h4 class="modal-title" id="myModalLabel">DATA WAJIB PAJAK</h4></center>
+            </div>
+
+            <div class="box-body" >
+
+   <table id="datasemuawp" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">NO</th>
+            <th>NPWPD</th>            
+            <th>NAMA OBJEK</th>      
+            <th>KODE REKENING</th>       
+            <th>NAMA REKENING</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    
+    <th></th>
+    <th></th>
+    <th style="width: 200px;"></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+<?php
+    $idtabel = '#datasemuaskpd';
+    $url = $this->url('pendataan').'/datagridpilihskpd';
+    $jmlkolom = 5;
+    $seleksi_kolom = "'5'"; //iki data sort di disabel
+    $pencarian_bawah = 1;
+    $dtablenama = 'dTableskpd';
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null, $dtablenama);?>
+
+
+<?php
+    $idtabel = '#datasemuawp';
+    $url = $this->url('pendataan').'/dataGridPilihwp';
+    $jmlkolom = 5;
+    $seleksi_kolom = "'5'"; //iki data sort di disabel
+    $pencarian_bawah = 1;
+    
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+
+<div class="modal fade" id="loadingsimpanvalidasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="background:transparent;"> <!--data-backdrop="static" data-keyboard="false" -->
+    <center><img style="background:transparent;" src='<?= $this->basePath(); ?>/public/img/gif/loading77.gif'></center>
+</div>
+
+
+<script>
+    
+    
+    
+    $('#pendaftaranbutton').click(function () {
+            var myForm = document.getElementById('formtambah');
+
+            myForm.onsubmit = function () {
+                var allInputs = myForm.getElementsByTagName('input');
+                var input, i;
+
+                for (i = 0; input = allInputs[i]; i++) {
+                    if (input.getAttribute('name') && !input.value) {
+                        //input.setAttribute('name', '');
+
+                    } else {
+                        jQuery('#loadingsimpanvalidasi').modal('show');
+                    }
+                }
+            };
+
+        });
+
+    $('#t_tglpendataan, #t_masaawal, #t_masaakhir, #t_dasarpengenaan, #s_idskpd, #t_idobjek, #s_namaskpd, #namawp').keyup(function () {
+        if (($(this).val().length != 0) || ($(this).val().length != null)) {
+            
+            
+                $('#pendaftaranbutton').attr('disabled', false);
+            
+        } else
+        {
+            $('#pendaftaranbutton').attr('disabled', true);
+        }
+    })
+    
+    
+    function tutupmodalSkpd() {
+        $('#ModalCariSKPD').modal('hide');
+    }
+    
+    function bukamodalSkpd() {
+        $('#ModalCariSKPD').modal('show');
+    }
+    
+    
+    
+    
+    
+    function pilihSkpd(a) {
+        $.post('<?= $this->url() ?>/pilihSkpd', {s_idskpd: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#s_idskpd').val(aa.s_idskpd);
+            $('#s_namaskpd').val(aa.s_namaskpd);
+           
+            jQuery('#ModalCariSKPD').modal('hide');
+
+        });
+    }
+    
+    function tutupmodalWP() {
+        $('#ModalCariWP').modal('hide');
+    }
+    
+    function bukamodalWP() {
+        $('#ModalCariWP').modal('show');
+    }
+    
+    
+    function pilihWajibPajak(a) {
+        $.post('<?= $this->url() ?>/pilihWajibPajak', {t_idobjek: a}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_idwp').val(aa.t_idwp);
+            $('#npwpd').val(aa.npwpd);
+            $('#namawp').val(aa.namawp);
+            $('#namaobjekwp').val(aa.namaobjekwp);
+            $('#t_idobjek').val(aa.t_idobjek);
+            $('#t_korek').val(aa.t_korek);
+            $('#t_namakorek').val(aa.t_namakorek);
+            $('#t_idkorek').val(aa.t_idkorek);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+           
+            jQuery('#ModalCariWP').modal('hide');
+
+        });
+    }
+    
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url() ?>/comboKelurahanCamat', {t_kecamatan: $('#s_idkec').val(), s_idkec: 1}, function (data) {
+            var aa = JSON.parse(data);
+            $("#s_idkel").html(aa.res);
+            $("#keckelluar").html(aa.keckelluar);
+        });
+    }
+    
+    
+    function formpencarianbawah() {
+        $('th', dTable.table().footer()).each(function () {
+
+            $("#tgl_daftar_cari").datepicker({
+                format: 'dd-mm-yyyy',
+                language: 'id'
+            });
+
+            var title = $('th').eq($(this).index()).text();
+
+
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'no') {
+                $(this).html('<center>cari:</center>');
+            } else {
+                $(this).html('<input type="text" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'perintah') {
+                $(this).html('');
+            }
+            
+            if (title.trim().replace(/\s+/, "").toLowerCase() == 'namaobjek') {
+                $(this).html('<input type="text" style="width:180px;" placeholder="' + title.trim().replace(/\s+/, "").toLowerCase() + '" class="pencariantable" />');
+            }
+
+            $('#ModalCariWP').on('shown.bs.modal', function (e) {
+                
+                dTable.columns.adjust();
+            });
+
+            
+           
+
+        });
+    }
+    
+     $('#ModalCariSKPD').on('shown.bs.modal', function (e) {
+        //dTableskpd.columns.adjust();
+        var dTableskpd = $('#datasemuaskpd').DataTable();
+        dTableskpd.columns.adjust(); //.draw();
+    });
+    
+    
+    function hitungpajak() {
+        $.post('<?= $this->url() ?>/hitungpajakskpd', {t_dasarpengenaan_skpd: $("#t_dasarpengenaan_skpd").val(), t_tarifpajak: $("#t_tarifpajak").val(), t_tarifkenaikan: $("#t_tarifkenaikan").val(), t_jmlhkenaikan: $("#t_jmlhkenaikan").val(), t_jenispajak: $("#t_jenispajak").val(), t_idkorek: $("#t_idkorek").val()}, function (data) {
+            var aa = JSON.parse(data);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_tarifpajak').val(aa.t_tarifpajak);
+            $('#t_dasarpengenaan').val(aa.t_dasarpengenaan);
+        });
+    }
+    
+    $("#t_tglpendataan").datepicker({
+        format: 'dd-mm-yyyy',
+        language: 'id'
+    });
+    
+    $("#t_masaawal").datepicker({
+        format: 'dd-mm-yyyy',
+        language: 'id'
+    });
+    
+    $("#t_masaakhir").datepicker({
+        format: 'dd-mm-yyyy',
+        language: 'id'
+    });
+    
+</script>

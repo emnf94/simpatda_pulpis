@@ -1,0 +1,260 @@
+<html>
+    <body>
+        <?php
+        if ($formatcetak == 'excel') {
+            header("Content-type: application/vnd-ms-excel");
+            header("Content-Disposition: attachment; filename=cetaktunggakan.xls");
+        }
+
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $namabulan_text = [
+            "01" => "Januari",
+            "02" => "Februari",
+            "03" => "Maret",
+            "04" => "April",
+            "05" => "Mei",
+            "06" => "Juni",
+            "07" => "Juli",
+            "08" => "Agustus",
+            "09" => "September",
+            "10" => "Oktober",
+            "11" => "November",
+            "12" => "Desember"
+        ];
+        ?>
+        <div style="position:absolute;top:30px;left:30px"><img src="<?= $ar_pemda->s_logo ?>" width="60"></div>
+        <div>
+            <div style='width: 100%;font-family:sans-serif;text-align: center;'>
+                <strong style=" font-size: 13pt; ">PEMERINTAH KABUPATEN <?= strtoupper($ar_pemda->s_namakabkota); ?></strong><br>
+                <strong style=" font-size: 15pt; "><?= strtoupper($ar_pemda->s_namainstansi); ?></strong><br>
+                <span style="font-size:10pt"><?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?></span>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h2 style="text-align: center;font-size:13pt;font-family:sans-serif;">DAFTAR TUNGGAKAN PAJAK/RETRIBUSI<br>
+                <?php
+                if (!empty($data_get->jenisobjpiutang)) {
+                    echo strtoupper($jenispajak['s_namajenis']);
+                }
+
+                if (!empty($data_get->korekobjek)) {
+                    echo ' (' . $rekening['korek'] . ' - ' . $rekening['s_namakorek'] . ')';
+                }
+                ?>
+            </h2>
+            Masa Pajak/Retribusi : <?= $data_get->masaawal . ' s/d ' . $data_get->masaakhir ?><br>
+            <?php if (!empty($kecamatan)) { ?>
+                Kecamatan : <?= $kecamatan->s_namakec ?><br>
+            <?php } ?>
+            <?php if (!empty($kelurahan)) { ?>
+                Kelurahan : <?= $kelurahan->s_namakel ?><br>
+            <?php } ?>
+            <table width="100%" cellpadding="3" class="font_sembilan" style="text-align: center;border-collapse: collapse;font-family: arial;">
+                <thead>
+                    <tr style="background:#ccc;">
+                        <th rowspan="2" style="border: 1px solid black;">
+                            NO
+                        </th>
+                        <th colspan="4" style="border: 1px solid black;">
+                            IDENTITAS
+                        </th>
+                        <th colspan="5" style="border: 1px solid black;">
+                            PENDATAAN/PENETAPAN
+                        </th>
+                        <th colspan="3" style="border: 1px solid black;">
+                            PENYETORAN
+                        </th>
+                        <th rowspan="2" style="border: 1px solid black;">
+                            SISA
+                        </th>
+                        <th rowspan="2" style="border: 1px solid black;">
+                            KET.
+                        </th>
+                    </tr>
+                    <tr style="background:#ccc;">
+                        <th style="border: 1px solid black;">
+                            NPWPD
+                        </th>
+                        <th style="border: 1px solid black;">
+                            NAMA OBJEK
+                        </th>
+                        <th style="border: 1px solid black;">
+                            ALAMAT OBJEK
+                        </th>
+                        <th style="border: 1px solid black;">
+                            MASA PAJAK
+                        </th>
+                        <th style="border: 1px solid black;">
+                            TANGGAL
+                        </th>
+                        <th style="border: 1px solid black;">
+                            NO.SPT<br>/SKPD
+                        </th>
+                        <th style="border: 1px solid black;">
+                            JMLH PAJAK
+                        </th>
+                        <th style="border: 1px solid black;">
+                            JENIS KETETAPAN
+                        </th>
+                        <th style="border: 1px solid black;">
+                            INPUTAN DARI
+                        </th>
+                        <th style="border: 1px solid black;">
+                            NO
+                        </th>
+                        <th style="border: 1px solid black;">
+                            TANGGAL
+                        </th>
+                        <th style="border: 1px solid black;">
+                            JMLH SETOR
+                        </th>
+                    </tr>
+                </thead>
+                <?php
+                $totalpendataan = 0;
+                $totalpembayaran = 0;
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    if (empty($v['t_tglpenetapan'])) {
+                        if (empty($v['t_noskpdjab'])) {
+                            $nomor = $v['t_nourut'];
+                            $jns_surat = 'SPTPD';
+                        } else {
+                            $nomor = $v['t_noskpdjab'];
+                            $jns_surat = 'SKPD-JAB';
+                        }
+                    } else {
+                        $nomor = $v['t_nopenetapan'];
+                        $jns_surat = 'SKPD';
+                    }
+
+                    if ($v['is_esptpd'] == 1) {
+                        $inputan = 'e-SPTPD';
+                    } else {
+                        $inputan = 'SIMPATDA';
+                    }
+                    ?>
+                    <tr>
+                        <td style="border: 1px solid black;">
+                            <?= $counter ?>
+                        </td>
+                        <td style="border: 1px solid black;">
+                            <?= $v['t_npwpd'] ?>
+                        </td>
+                        <td style="text-align: left;border: 1px solid black;">
+                            <?= $v['t_namaobjek'] ?>
+                        </td>
+                        <td style="text-align: left;border: 1px solid black;">
+                            <?= $v['t_alamatobjek'] ?>
+                        </td>
+                        <td style="border: 1px solid black;">
+                            <?= date('d-m-Y', strtotime($v['t_masaawal'])) . " s/d " . date('d-m-Y', strtotime($v['t_masaakhir'])) ?>
+                        </td>
+                        <td style="border: 1px solid black;">
+                            <?= date('d-m-Y', strtotime($v['t_tglpendataan'])) ?>
+                        </td>
+                        <td style="border: 1px solid black;"><?= $nomor ?></td>
+                        <td style="text-align: right;border: 1px solid black;">
+                            <?= number_format($v['t_jmlhpajak'], 0, ',', '.') ?>
+                        </td>
+                        <td style="border: 1px solid black;"><?= $jns_surat ?></td>
+                        <td style="border: 1px solid black;"><?= $inputan ?></td>
+                        <td style="border: 1px solid black;"><?= $v['t_nopembayaran'] ?></td>
+                        <td style="border: 1px solid black;">
+                            <?= (!empty($v['t_tglpembayaran'])) ? date('d-m-Y', strtotime($v['t_tglpembayaran'])) : '-' ?>
+                        </td>
+                        <td style="text-align: right;border: 1px solid black;">
+                            <?= (!empty($v['t_tglpembayaran'])) ? number_format($v['t_jmlhpembayaran'], 0, ',', '.') : '-' ?>
+                        </td>
+                        <td style="text-align: right;border: 1px solid black;">
+                            <?= number_format($v['t_jmlhpajak'] - $v['t_jmlhpembayaran'], 0, ',', '.') ?>
+                        </td>
+                        <td style="border: 1px solid black;"></td>
+                    </tr>
+                    <?php
+                    $totalpendataan += $v['t_jmlhpajak'];
+                    $totalpembayaran += $v['t_jmlhpembayaran'];
+                    $counter++;
+                }
+                ?>
+                <tr>
+                    <th colspan="7" style="text-align: center;border: 1px solid black;">
+                        TOTAL PIUTANG
+                    </th>
+                    <th style="text-align: right;border: 1px solid black;">
+                        <?= number_format($totalpendataan, 0, ',', '.') ?>
+                    </th>
+                    <th style="text-align: right;border: 1px solid black;"></th>
+                    <th style="text-align: right;border: 1px solid black;"></th>
+                    <th style="text-align: right;border: 1px solid black;"></th>
+                    <th style="text-align: right;border: 1px solid black;"></th>
+                    <th style="text-align: right;border: 1px solid black;">
+                        <?= number_format($totalpembayaran, 0, ',', '.') ?>
+                    </th>
+                    <th style="text-align: right;border: 1px solid black;">
+                        <?= number_format($totalpendataan - $totalpembayaran, 0, ',', '.') ?>
+                    </th>
+                    <th style="text-align: right;border: 1px solid black;"></th>
+                </tr>
+            </table>
+            <br>
+            <table width="100%" class="mengetahui">
+                <tr class="mengetahui">
+                    <td colspan="4" style=" width: 35%; text-align: center;vertical-align: bottom;" class="mengetahui">
+                        <br>Mengetahui<br>
+                        <?= $ar_mengetahui->s_jabatanpej ?>
+                        <br><br><br><br><br><br><br>
+                        <u><b><?= $ar_mengetahui->s_namapej ?></b></u><br>
+                        NIP <?= $ar_mengetahui->s_nippej ?>
+                    </td>
+                    <td colspan="4" style=" width: 30%" class="mengetahui"></td>
+                    <td colspan="7" style=" width: 35%;text-align: center;vertical-align: bottom;" class="mengetahui">
+                        <?= $ar_pemda->s_namaibukotakabkota . ', ' . date('d', strtotime($tglcetak)) . " " . $namabulan_text[date('m', strtotime($tglcetak))] . " " . date('Y', strtotime($tglcetak)) ?>
+                        <br>
+                        Diperiksa Oleh<br>
+                        <?= $ar_diperiksa->s_jabatanpej ?>
+                        <br><br><br><br><br><br><br>
+                        <u><b><?= $ar_diperiksa->s_namapej ?></b></u><br>
+                        NIP <?= $ar_diperiksa->s_nippej ?>  
+                    </td>
+                </tr>
+            </table>
+        </div>
+    <?php if ($formatcetak == 'pdf') { ?>
+    <htmlpagefooter name="MyCustomFooter">
+        <table style="vertical-align: bottom; font-family:sans-serif;font-size: 7pt;" width="100%">
+            <tbody>
+                <tr>
+                        <!--<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>-->
+                    <td style="font-style: italic;text-align: left;border: 1px solid #fff;" width="50%">Printed by SIMPATDA</td>
+                    <td style="font-style: italic;text-align: right;border: 1px solid #fff;" width="50%">Halaman {PAGENO} dari {nbpg}</td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpagefooter>
+    <?php } ?>
+</body>
+</html>
+
+<style type="text/css" media="print">
+    /*    table, th, td {
+            font-family: sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }*/
+    .mengetahui {
+        border: 1px solid #fff;
+        border-collapse: collapse;
+        margin-top:10px;
+        font-family:sans-serif;
+    }
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+    @page{
+        margin: 30px 40px 50px 30px;
+        /* ensure you append the header/footer name with 'html_' */
+        header: html_MyCustomHeader; /* sets <htmlpageheader name="MyCustomHeader"> as the header */
+        footer: html_MyCustomFooter; /* sets <htmlpagefooter name="MyCustomFooter"> as the footer */
+    }
+</style>

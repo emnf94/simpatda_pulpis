@@ -1,0 +1,60 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div id="page-title">
+                <h2>
+                    Setting Pejabat
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">         
+                        <div>
+                            <?= $this->form()->openTag($frm) ?>
+                            <div class="col-sm-12">
+                                <label class="col-sm-1 control-label">Nama</label>
+                                <div class="col-md-4">
+                                    <?= $this->formHidden($frm->get('s_idpej')) ?>  
+                                    <?= $this->formRow($frm->get('s_namapej')) ?> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-1 control-label">Jabatan</label>
+                                <div class="col-md-4">
+                                    <?= $this->formRow($frm->get('s_jabatanpej')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-1 control-label">Pangkat</label>
+                                <div class="col-md-4">
+                                    <?= $this->formRow($frm->get('s_pangkatpej')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-1 control-label">NIP</label>
+                                <div class="col-md-4">
+                                    <?= $this->formRow($frm->get('s_nippej')) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-1 control-label"></label>
+                                <div class="col-md-4">
+                                    <?= $this->formInput($frm->get('simpan')) ?> 
+                                    <a href="<?= $this->url('setting_pejabat') ?>" class="btn btn-warning btn-sm">Kembali</a>
+                                </div>
+                            </div>
+                            <?= $this->form()->closeTag($frm) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

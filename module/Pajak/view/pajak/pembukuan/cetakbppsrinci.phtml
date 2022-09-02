@@ -1,0 +1,125 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        $via = [0 => 'BKP & BANK', 1 => 'BKP', 2 => 'BANK'];
+        $abulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
+        ?>
+        <div>
+            <h3 style="text-align: center; line-height: 2px;">BUKU PEMBANTU</h3>
+            <h3 style="text-align: center; line-height: 2px;">PERINCIAN OBJEK PENERIMAAN</h3>
+            <table style="border:none; font-size: 10pt; line-height: 5px;">
+                <tr style="border:none;">
+                    <td style="border:none;">Nama Rekening</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= strtoupper($anggaran['s_namakorek']) ?></td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">Kode Rekening</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= str_replace('00', '', str_replace('.', '', $anggaran['korek'])) ?></td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">Jumlah Anggaran</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= number_format($anggaran['jumlahanggaran'], 0, ',', '.') ?></td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">Tahun Anggaran</td>
+                    <td style="border:none; width: 2px;">:</td>
+                    <td style="border:none;"><?= $abulan[$bulan - 1] ?> <?= $anggaranheader->s_tahuntarget ?></td>
+                </tr>
+            </table>
+            <table style="width: 100%; font-size: 9pt;" class="table_bpps">
+                <tr>
+                    <th style="text-align: center;width: 8%;">No.</th>
+                    <th style="text-align: center;width: 25%;">No. BKU Penerimaan</th>
+                    <th style="text-align: center;width: 15%;">Tanggal Setor</th>
+                    <th style="text-align: center; width: 25%;">No. STS&Buku Penerimaan Lainnya</th>
+                    <th style="text-align: center;">Jumlah</th>
+                </tr>
+                <?php $i=1; $totalbayar = 0; foreach ($data as $col => $row): ?>
+                <tr>
+                    <td style="text-align: center;"><?=$i++;?></td> 
+                    <td></td> 
+                    <td style="text-align: center;"><?=date('d-m-Y', strtotime($row['t_tglpembayaran']))?></td> 
+                    <td style="text-align: center;"><?=$row['t_nopembayaran']?></td> 
+                    <td style="text-align: right;"><?=number_format($row['t_jmlhpembayaran'],0,',','.')?></td> 
+                </tr>
+                <?php $totalbayar += $row['t_jmlhpembayaran']; endforeach; ?>
+                <tr>
+                    <td colspan="4" style="padding-left: 200px;"><b>Jumlah bulan ini</b></td>
+                    <td style="text-align: right"><b><?= number_format($totalbayar, 0, ',', '.') ?></b></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="padding-left: 200px;"><b>Jumlah s/d bulan lalu</b></td>
+                    <td style="text-align: right"><b><?= number_format($databulanlalu['jumlah'], 0, ',', '.') ?></b></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="padding-left: 200px;"><b>Jumlah s/d bulan ini</b></td>
+                    <td style="text-align: right"><b><?= number_format($databulanini['jumlah'], 0, ',', '.') ?></b></td>
+                </tr>
+            </table>
+            <br/>
+            <table style="border:none; font-size: 10pt; width: 100%;">
+                <tr style="border:none;">
+                    <td style="border:none; text-align: center;">Mengetahui <br/>Pengguna Anggaran</td>
+                    <td style="border:none; width: 20%;">&nbsp;</td>
+                    <td style="border:none; text-align: center;">&nbsp; <br/>Bendahara Penerimaan</td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">&nbsp;</td>
+                    <td style="border:none;">&nbsp;</td>
+                    <td style="border:none;">&nbsp;</td>
+                </tr>
+                <tr style="border:none;">
+                    <td style="border:none;">&nbsp;</td>
+                    <td style="border:none;">&nbsp;</td>
+                    <td style="border:none;">&nbsp;</td>
+                </tr>
+              
+                <tr style="border:none;">
+                    <td style="border:none; text-align: center;"><u><?=$ar_mengetahui->s_namapej ?></u><br/>NIP. <?=$ar_mengetahui->s_nippej?></td>
+                    <td style="border:none;">&nbsp;</td>
+                    <td style="border:none; text-align: center;"><u><?=$ar_diperiksa->s_namapej?></u><br/>NIP. <?=$ar_diperiksa->s_nippej?></td>
+                </tr>
+                
+            </table>
+        </div>
+    </body>
+</html>
+
+<style type="text/css">
+    .font_empatbelas {
+        font-size: 14pt;
+    }
+    table, tr, td, th {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th {
+        padding: 10px 10px 10px 10px;
+    }
+    td {
+        padding: 5px 5px 5px 5px;
+    }
+
+
+
+</style>
+
+

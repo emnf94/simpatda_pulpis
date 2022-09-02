@@ -1,0 +1,263 @@
+<div class="tab-pane" id="tab3">
+    <div class="row">
+        <div class="col-sm-2">
+            <select class="form-control input-sm" id="combocarisudah1" onchange="calldatagridsudahdibayar()">
+                <option value="">Pilih Pencarian</option>
+                <option value="t_tgldaftar">Tanggal Daftar</option>
+                <option value="t_nama">Nama</option>
+                <option value="t_alamat">Alamat</option>
+                <option value="s_namakel">Kelurahan</option>
+                <option value="s_namakec">Kecamatan</option>
+                <option value="t_alamatpasar">Alamat Pasar</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group input-group-sm">
+                <input type="text" placeholder="Cari" class="form-control pull-right" name="kolomcarisudah1" id="kolomcarisudah1" onkeyup="calldatagridsudahdibayar()">
+                <div class="input-group-btn combooperatorsudah1c">
+                    <select data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="combooperatorsudah1" onchange="calldatagridsudahdibayar()" style="text-align: left;">
+                        <option value="">Pilih</option>
+                        <option value="carisama">=</option>
+                        <option value="carilike">%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <select class="form-control input-sm" id="combosortingsudah1" onchange="calldatagridsudahdibayar()">
+                    <option value="">Pilih Urutan</option>
+                    <option value="t_tgldaftar">Tanggal Daftar</option>
+                    <option value="t_nama">Nama</option>
+                    <option value="t_alamat">Alamat</option>
+                    <option value="s_namakel">Kelurahan</option>
+                    <option value="s_namakec">Kecamatan</option>
+                    <option value="t_alamatpasar">Alamat Pasar</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-sm-2">
+            <span class="hiddene">
+                <div class="form-inline">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="ASC" id="sortascsudah1" name="sortere" onclick="calldatagridsudahdibayar()">
+                            Terkecil
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" checked="" value="DESC" id="sortdescsudah1" name="sortere" onclick="calldatagridsudahdibayar()">
+                            Terbesar
+                        </label>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="example-box-wrapper">
+        <div class="remove-columns">
+            <table class="table table-condensed table-bordered cf" style="font-size: 11px;">
+                <thead class="cf" style="background-color: blue">
+                    <tr class="bg-blue">
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No.
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            No. Urut
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Nama
+                        </th> 
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Alamat Pasar
+                        </th>         
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jenis Tempat Usaha
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Tgl. Pembayaran Denda
+                        </th>            
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            Jumlah Pembayaran Denda
+                        </th>       
+                        <th style="background-color: #00BCA4; color: white; text-align: center">
+                            #
+                        </th>       
+                    </tr>
+                </thead>
+                <tbody id="body_gridsudah1">
+                </tbody>
+                <tfoot>              
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div class="row">
+                                <div class="col-sm-3 text-left">
+                                    <span class="hiddene">
+                                        <select id="rowssudah1" class="form-control" style="width: 30%" onchange="calldatagridsudahdibayar(1)">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <center>
+                                        <div id="paginatoresudah1"></div>
+                                        <input type="hidden" id="pagesudah1" value="1">
+                                    </center>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span class="hiddene">
+                                        <p>
+                                            <b><span id="awaldatasudah1"></span>-<span id="awaldatasudah1"></span>/<span id="total_datasudah1"></span> Data</b>
+                                        </p>  
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetakSSRD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK SSRD DENDA</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tgl. Pembayaran
+                            </label>
+                            <div class="col-md-4">
+                                <input type="hidden" name="idtransaksi1" id="idtransaksi1">
+                                <input type="text" class="form-control" name="t_tglbayardenda" id="t_tglbayardenda" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Nama WP
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="namawp1" id="namawp1" readonly="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Alamat WP
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="alamatwp1" id="alamatwp1" readonly="">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <a href="#" class="btn btn-sm btn-danger" title="" onclick="cetakssrd()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                    <button class='btn btn-primary btn-sm' onclick='tutupCetakSSRD()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        calldatagridsudahdibayar();
+    });
+
+    function calldatagridsudahdibayar(direction) {
+        if ($("#combocarisudah1").val().length == 0)
+            par1 = undefined;
+        else
+            par1 = $("#combocarisudah1").val()
+        if ($("#kolomcarisudah1").val().length == 0)
+            par2 = undefined;
+        else
+            par2 = $("#kolomcarisudah1").val()
+        if ($("#combosortingsudah1").val().length == 0)
+            par3 = undefined;
+        else
+            par3 = $("#combosortingsudah1").val()
+        if (document.getElementById("sortascsudah1").checked)
+            par4 = $("#sortascsudah1").val()
+        else
+            par4 = undefined;
+        if (document.getElementById("sortdescsudah1").checked)
+            par5 = $("#sortdescsudah1").val()
+        else
+            par5 = undefined;
+        if ($("#combooperatorsudah1").val().length == 0)
+            par6 = undefined;
+        else
+            par6 = $("#combooperatorsudah1").val()
+        datagridsudah1dibayarkan($("#pagesudah1").val(), $("#rowssudah1").val(), direction, par1, par2, par3, par4, par5, par6);
+    }
+
+    function datagridsudah1dibayarkan(pagesudah1, row, direction, par1, par2, par3, par4, par5, par6) {
+        $.get('<?= $this->url() ?>/dataGridSudahDibayarkan/' + pagesudah1 + '/' + row + '/' + direction + '/' + par1 + '/' + par2 + '/' + par3 + '/' + par4 + '/' + par5 + '/' + par6, function (data) {
+            var aa = JSON.parse(data)
+            $("#body_gridsudah1").html(aa.gridsudah1);
+            $("#rowssudah1").val(aa.rowssudah1);
+            $("#pagesudah1").val(aa.pagesudah1);
+            $("#total_datasudah1").html(": " + aa.countsudah1);
+            $("#total_halamansudah1").html(": " + aa.total_halamansudah1);
+            $("#paginatoresudah1").html(aa.paginatoresudah1);
+            $("#awaldatasudah1").html(aa.awaldatasudah1);
+            $("#awaldatasudah1").html(aa.awaldatasudah1);
+        });
+    }
+
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function () {
+            calldatagridsudahdibayar();
+        }, 1000);
+    }
+
+    function bukaCetakSSRD(a) {
+        $.post('<?= $this->url() ?>/dataStpdpembayaran', {idtransaksi1: a}, function (data) {
+            var aa = JSON.parse(data);
+            $("#idtransaksi1").val(aa.idtransaksi);
+            $("#namawp1").val(aa.namawp);
+            $("#alamatwp1").val(aa.alamatwp);
+            $("#t_tglbayardenda").val(aa.t_tglbayardenda);
+        });
+        $('#modalCetakSSRD').modal('show');
+    }
+
+    function tutupCetakSSRD() {
+        $('#modalCetakSSRD').modal('hide');
+    }
+
+    function cetakssrd() {
+        window.open('<?= $this->url() ?>/cetakssrd?idtransaksi1=' + $("#idtransaksi1").val());
+    }
+
+</script>
+<style type="text/css">
+    .combooperatorsudah1c select {
+        border: 0 !important;  /*Removes border*/
+        -webkit-appearance: none;  /*Removes default chrome and safari style*/
+        -moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        /*background: #E08E0B url(img/select-arrow.png) no-repeat 90% center;*/
+        background: #E08E0B no-repeat 90% center;
+        text-indent: 0.01px; /* Removes default arrow from firefox*/
+        color: #FFF;
+    }	
+</style>

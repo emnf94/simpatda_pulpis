@@ -1,0 +1,41 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <div class="panel panel-default">
+            <div class="panel-heading center-div" style="font-size:14pt;">
+                MENU PENDATAAN OBJEK PAJAK
+            </div>
+            <div class="panel-body">
+                <div class="row mrg20B">
+                    <?php
+                    $i = 0;
+                    $bg_color = array("btn-success", "btn-info", "btn-primary", "btn-danger", "btn-warning", "btn-blue-alt", "btn-azure", "btn-yellow", "btn-purple");
+                    $icon_nya = array("icon-building", "icon-cutlery", "icon-music", "icon-camera-retro", "icon-plug", "icon-anchor", "icon-cab", "icon-tint", "icon-bullseye");
+                    $jmlpendataan_nya = array($jmlpendataan_hotel, $jmlpendataan_restoran, $jmlpendataan_hiburan, $jmlpendataan_reklame, $jmlpendataan_ppj, $jmlpendataan_minerba, $jmlpendataan_parkir, $jmlpendataan_air, $jmlpendataan_walet);
+                    $nomorurut = 1;
+                    foreach ($dataobjek as $row) {
+                        if ($row['s_jenispungutan'] == 'Pajak') {
+                            $color_bg = $bg_color[$i];
+                            $iconss = $icon_nya[$i];
+                            $jmlPendataan_pajak = $jmlpendataan_nya[$i];
+                    ?>
+                            <div class="col-md-4" style=" margin-bottom: 15px;">
+                                <a href="<?= $this->url('pendataan') ?>/<?= $row['s_idjenis'] ?>" title="<?= $row['s_namajenis'] ?>" class="tile-box tile-box-shortcut <?= $color_bg ?>">
+                                    <span class="bs-badge badge-absolute" style="font-size:10pt;"><?= $jmlPendataan_pajak ?></span>
+                                    <div class="tile-header" style="font-size:12pt;">
+                                        <?= $nomorurut++ . '. ' . $row['s_namajenissingkat'] ?>
+                                    </div>
+                                    <div class="tile-content-wrapper">
+                                        <i class="glyph-icon <?= $iconss ?>"></i>
+                                    </div>
+                                </a>
+                            </div>
+                    <?php
+                            $i++;
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

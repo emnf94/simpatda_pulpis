@@ -1,0 +1,47 @@
+<div id="page-content-wrapper">
+    <div id="page-content" style="background-color: #DFF0D8">
+        <?php
+        if ($this->flashMessenger()->hasMessages()) {
+            //            echo '<div class="alert alert-success">';
+            $messages = $this->flashMessenger()->getMessages();
+            foreach ($messages as $message) {
+                echo $message;
+            }
+            //            echo '</div>';
+        }
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-family: monospace;font-weight: bold;font-size:12pt;">
+                    PENDATAAN <?= strtoupper($jenisobjek['s_namajenis']) ?>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav-responsive nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Daftar Objek <?= $jenisobjek['s_namajenissingkat'] ?></a></li>
+                    <li><a href="#tab2" data-toggle="tab">Daftar Pendataan <?= $jenisobjek['s_namajenissingkat'] ?></a></li>
+                    <!-- <?php if ($jenisobjek['s_idjenis'] == 4) { ?>
+                        <li><a href="#tab3" data-toggle="tab">Masa Pajak Akan Habis</a></li>
+                    <?php } ?> -->
+                    <?php if (($jenisobjek['s_idjenis'] == 1) || ($jenisobjek['s_idjenis'] == 2) || ($jenisobjek['s_idjenis'] == 3) || ($jenisobjek['s_idjenis'] == 5) || ($jenisobjek['s_idjenis'] == 6) || ($jenisobjek['s_idjenis'] == 7) || ($jenisobjek['s_idjenis'] == 9)) { ?>
+                        <li><a href="#tab5" data-toggle="tab">Belum Melaporkan SPTPD <?= $jenisobjek['s_namajenissingkat'] ?> </a></li>
+                    <?php } ?>
+                    <li><a href="#tab4" data-toggle="tab">Cetak Register <?= $jenisobjek['s_namajenissingkat'] ?></a></li>
+                </ul>
+                <div class="tab-content">
+                    <?= $this->partial('grid_daftarwp.phtml'); ?>
+                    <?= $this->partial('grid_sudah.phtml'); ?>
+                    <?php
+                    // if ($jenisobjek['s_idjenis'] == 4) {
+                    //     echo $this->partial('grid_masahabis.phtml');
+                    // }
+                    if (($jenisobjek['s_idjenis'] == 1) || ($jenisobjek['s_idjenis'] == 2) || ($jenisobjek['s_idjenis'] == 3) || ($jenisobjek['s_idjenis'] == 5) || ($jenisobjek['s_idjenis'] == 6) || ($jenisobjek['s_idjenis'] == 7) || ($jenisobjek['s_idjenis'] == 9)) {
+                        echo $this->partial('grid_belumlapor.phtml');
+                    }
+                    echo $this->partial('pencetakan.phtml');
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

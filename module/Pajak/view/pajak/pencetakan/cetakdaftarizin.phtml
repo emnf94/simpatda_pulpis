@@ -1,0 +1,198 @@
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="javascript:window.print()" class="btn btn-flat btn-primary"><span class="glyph-icon icon-print"></span> Print</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div id="section-to-print"> 
+                                    <div id="content">
+                                        <h2 style="text-align: center" class="font-bold">DAFTAR <?= strtoupper($jenisizin['deskripsi']) ?></h2>
+                                        <div style='width: 15%; float: left;'>
+                                            Tanggal Cetak
+                                        </div>
+                                        <div style='width: 85%; float: right;'>
+                                            : <?= $tgl_cetak ?>
+                                        </div>
+                                        <div style='width: 15%; float: left;'>
+                                            Tanggal Pengesahan
+                                        </div>
+                                        <div style='width: 85%; float: right;'>
+                                            : <?= $tglIzin0 ?> s/d <?= $tglIzin1 ?>
+                                        </div>
+                                        <table width="100%" style="border-spacing: 0">
+                                            <thead>
+                                                <tr style="text-align: center">
+                                                    <td rowspan="2" style="width: 4%">
+                                                        No.
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        No. Daftar
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        Tgl. Daftar
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        Tipe Permohonan
+                                                    </td>
+                                                    <td rowspan="1" colspan="2">
+                                                        Badan Usaha
+                                                    </td>
+                                                    <td rowspan="1" colspan="5">
+                                                        Penanggung Jawab
+                                                    </td>
+                                                </tr>
+                                                <tr style="text-align: center">
+                                                    <td>
+                                                        Nama
+                                                    </td>
+                                                    <td>
+                                                        Alamat
+                                                    </td>
+                                                    <td>
+                                                        Nama
+                                                    </td>
+                                                    <td>
+                                                        Jabatan
+                                                    </td>
+                                                    <td>
+                                                        Alamat
+                                                    </td>
+                                                    <td>
+                                                        Email
+                                                    </td>
+                                                    <td>
+                                                        No. Telp
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <?php
+                                            $counter = 1;
+                                            foreach ($this->ar_DataIzin as $v) {
+                                                ?>
+                                                <tr>
+                                                    <td align="center">
+                                                        <?= $counter ?>
+                                                    </td>
+                                                    <td align="center">
+                                                        <?= $v['id_register'] ?>
+                                                    </td>
+                                                    <td align="center">
+                                                        <?= date('d-m-Y', strtotime($v['tgl_create'])) ?> 
+                                                    </td>
+                                                    <td align="center">
+                                                        <?= $v['tipe_permohonan'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['nama_pemohon'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['alamat'] ?><br>- <?= $v['deskripsikecamatan'] ?><br>- <?= $v['deskripsikelurahan'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['penanggung_jawab'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['jbt_penanggung_jawab'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['alamat_penanggung_jawab'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['email'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $v['telpon'] ?>
+                                                    </td>
+                                                    <?php
+                                                    $counter++;
+                                                }
+                                                ?>
+                                            <div id="pageFooter"> </div>
+                                            <tfoot></tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+    </div>
+</div>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .font_sembilan {
+        font-size: 9pt;
+    }
+
+    table {
+        table-layout:fixed;
+        width:100%;
+        overflow:hidden;
+        border:1px solid #f00;
+        word-wrap:break-word;
+    }
+
+    #section-to-print, #section-to-print * {
+        font-size: 12px;
+    }
+
+    @media print {
+        @page { 
+            size: 210mm 297mm; /* landscape */
+            margin-top: 5mm;
+            max-width: 297mm;
+        }
+        body * {
+            visibility: hidden;
+        }
+        #section-to-print, #section-to-print * {
+            visibility: visible;
+            font-size: 12px;
+        }
+        #section-to-print {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        table { page-break-inside:auto }
+        tr    { page-break-inside:avoid; page-break-after:auto }
+        thead { display:table-header-group }
+        tfoot { display:table-footer-group }
+        #content {
+            display: table;
+        }
+
+        #pageFooter {
+            display: table-footer-group;
+        }
+
+        #pageFooter:after {    
+            counter-increment: page;
+            content:"Halaman : " counter(page);
+            left: 0; 
+            top: 100%;
+            white-space: nowrap; 
+            z-index: 20px;
+            -moz-border-radius: 5px; 
+            -moz-box-shadow: 0px 0px 4px #222;  
+            background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);  
+            background-image: -moz-linear-gradient(top, #eeeeee, #cccccc); 
+        }
+    }
+</style>

@@ -1,0 +1,357 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url() . '/form_pemeriksaan');
+$form->setAttribute("id", "demo-form");
+$form->setAttribute("class", "form-horizontal pad15L pad15R pad15T");
+$form->setAttribute("data-parsley-validate", "data-parsley-validate");
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <!-- Parsley -->
+            <div>
+                <h3 style="color: blue">
+                    Pemeriksaan &nbsp; -- <b style="color: red"> NO SPTPD : <?= $datatransaksi['t_nourut'] . " / " . $datatransaksi['t_periodepajak']; ?></b> --
+                </h3>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($form) ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pemilik</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tanggal Pendaftaran</label>
+                                <div class="col-md-2">
+                                    : <?= $datatransaksi['t_tgldaftar'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-md-4">
+                                    : <?= $datatransaksi['t_nama'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-md-10">
+                                    : <?= $datatransaksi['t_alamat'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakel'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakec'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupaten'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Objek Pajak</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">NIOP</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nop'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Nama</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_namaobjek'] ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Alamat</label>
+                                <div class="col-sm-10">
+                                    : <?= $datatransaksi['t_alamatobjek'] ?>
+                                    ,Desa/Kel. <?= $datatransaksi['s_namakelobjek'] ?>
+                                    ,Kec. <?= $datatransaksi['s_namakecobjek'] ?>
+                                    ,Kab. <?= $datatransaksi['t_kabupatenobjek'] ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Transaksi</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Tgl. Pendataaan</label>
+                                <div class="col-sm-4">
+                                    : <?= date('d-m-Y', strtotime($datatransaksi['t_tglpendataan'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">No. SPTPD</label>
+                                <div class="col-sm-4">
+                                    : <?= $datatransaksi['t_nourut']; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2">Masa Pajak</label>
+                                <div class="col-sm-4">
+                                    : <?= date('d-m-Y', strtotime($datatransaksi['t_masaawal'])) ?> s/d <?= date('d-m-Y', strtotime($datatransaksi['t_masaakhir'])) ?>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="scroll-columns">
+                                    <table class="table table-bordered table-striped table-condensed cf" style='font-size:11px; color: black'>
+                                        <thead class="cf">
+                                            <tr>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>No.</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Jenis Ketetapan</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Tgl.</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Dasar Pengenaan</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Tarif (%)</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>Pajak</th>
+                                                <th style='background-color: #00BCA4; color: white; text-align:center'>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // var_dump($dataketetapan);
+                                            // exit;
+                                            $counter = 1;
+                                            foreach ($this->dataketetapan as $row) {
+                                                if ($row['t_jenispajak'] == 6) {
+                                                    $tarifpersen = $row['tarif_persenminerba'];
+                                                } else {
+                                                    $tarifpersen = $row['t_tarifpersen'];
+                                                }
+                                            ?>
+                                                <tr>
+                                                    <td><?= $counter++ ?></td>
+                                                    <td><?= $row['t_jenisketetapan'] ?></td>
+                                                    <td style="text-align: center">
+                                                        <?php
+                                                        $t_tglpendataan = ($row['t_tglpendataan'] != null ? date('d-m-Y', strtotime($row['t_tglpendataan'])) : '-');
+                                                        ?>
+                                                        <?= $t_tglpendataan ?>
+                                                    </td>
+                                                    <td style="text-align: right"><?= number_format($row['t_dasarpengenaan'], 0, ',', '.'); ?></td>
+                                                    <td style="text-align: center"><?= $tarifpersen; ?></td>
+                                                    <td style="text-align: right"><?= number_format($row['t_jmlhpajak'], 0, ',', '.'); ?></td>
+                                                    <td style="text-align: center">
+                                                        <?php if (empty($row['t_idtransaksi'])) { ?>
+                                                            -
+                                                        <?php } else { ?>
+                                                            <button class="btn btn-warning btn-xs" type="button" onclick="pilihketetapan(<?= $row['t_idketetapan'] ?>, <?= $row['t_idtransaksi'] ?>)"><span class="glyph-icon icon-hand-o-up"></span> Pilih</button>
+                                                        <?php } ?>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pad10B">
+                            <div class="col-sm-12">
+                                <div class="alert alert-warning">
+                                    <div class="alert-content">
+                                        <h4 class="alert-title"><b style="color: #000099">Data Pemeriksaan</b></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Jenis Pemeriksaan</label>
+                                <div class="col-md-4">
+                                    <?= $this->formSelect($form->get("t_jenispemeriksaan")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" id="div_nomorlhp">
+                                <label class="col-sm-2 control-label">No. LHP</label>
+                                <div class="col-md-4">
+                                    <?= $this->formHidden($form->get("t_idpemeriksaan")) ?>
+                                    <?= $this->formHidden($form->get("t_idtransaksi")) ?>
+                                    <?= $this->formHidden($form->get("t_jenispajak")) ?>
+                                    <input type="hidden" id="t_tgljatuhtempo" />
+                                    <?= $this->formText($form->get("t_nopemeriksaan")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Periode</label>
+                                <div class="col-md-1">
+                                    <?= $this->formText($form->get("t_periodepemeriksaan")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Kode Rekening</label>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" readonly="true" value="<?= $datatransaksi['korek'] ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Nama Rekening</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" readonly="true" value="<?= $datatransaksi['s_namakorek'] ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label"></label>
+                                <label class="col-sm-3 control-label"></label>
+                                <label class="col-sm-3 control-label">Masa Pajak</label>
+                                <div class="col-md-2">
+                                    <input type="text" id="t_masaawal" value="<?= date('d-m-Y', strtotime($datatransaksi["t_masaawal"])) ?>" class="form-control" readonly="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" id="t_masaaakhir" value="<?= date('d-m-Y', strtotime($datatransaksi["t_masaakhir"])) ?>" class="form-control" readonly="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Tanggal</label>
+                                <div class="col-md-2">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon">
+                                            <i class="glyph-icon icon-calendar"></i>
+                                        </span>
+                                        <?= $this->formText($form->get("t_tglpemeriksaan")) ?>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label"></label>
+                                <label class="col-sm-4 control-label">Tgl. Pendataan/Ketetapan (Sebelumnya)</label>
+                                <div class="col-md-2">
+                                    <input type="text" id="t_tglpendataan" class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Dasar Pengenaan (Pemeriksaan)</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_dasarrevisi")) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">Dasar Pengenaan (Sebelumnya)</label>
+                                <div class="col-md-4">
+                                    <input type="text" id="t_dasarpengenaan" name="t_dasarpengenaan" class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Selisih Dasar</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_selisihdasar")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Jml. Bulan</label>
+                                <div class="col-md-1">
+                                    <?= $this->formText($form->get("t_jmlhbln")) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">Denda (%)</label>
+                                <div class="col-md-1">
+                                    <?= $this->formText($form->get("t_tarifpersen")) ?>
+                                </div>
+                                <label class="col-sm-3 control-label"></label>
+                                <label class="col-sm-2 control-label">Tarif (%)</label>
+                                <div class="col-md-1">
+                                    <?= $this->formText($form->get("t_tarifpajak")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">(Pajak Seharusnya)</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_jmlhpajakseharusnya")) ?>
+                                </div>
+                                <label class="col-sm-2 control-label">- (Pajak Sebelumnya)</label>
+                                <div class="col-md-4">
+                                    <input type="text" id="t_jmlhpajak" class="form-control" readonly="true" required="true" style="text-align:right; background:green; color: white; padding: 7px 10px; height:40px; font-size: 16px; font-weight:bolder">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Pajak (Rp.)</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_jmlhpajakpemeriksaan")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Denda</label>
+                                <div class="col-md-4">
+                                    <?= $this->formSelect($form->get("t_jenisketetapandenda")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Denda (Rp.)</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_jmlhdendapemeriksaan")) ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-2 control-label">Total (Rp.)</label>
+                                <div class="col-md-4">
+                                    <?= $this->formText($form->get("t_totalpemeriksaan")) ?>
+                                </div>
+                                <!--                                <div class="col-md-1">
+                                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="hitungpemeriksaan()"> <span class="glyphicon glyph-icon icon-calculator"></span> Hitung</a>
+                                                                </div>-->
+                            </div>
+                        </div>
+                        <div class="bg-default" id="tombolsimpan">
+                            <?= $this->formInput($form->get('Pembayaransubmit')) ?>
+                        </div>
+                        <?= $this->form()->closeTag($form) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#t_jenispemeriksaan').change(function() {
+        var val = $(this).val();
+        if (val == 1) {
+            $('#div_nomorlhp').hide();
+            $('#t_nopemeriksaan').removeAttr('required');
+        } else if (val == 2) {
+            $('#div_nomorlhp').show();
+            $('#t_nopemeriksaan').attr('required', 'true');
+        }
+    });
+
+    function pilihketetapan(a, b) {
+        $.post('<?= $this->url() ?>/pilihketetapan', {
+            t_jenisketetapan: a,
+            t_idtransaksi: b
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_tglpendataan').val(aa.t_tglpendataan);
+            $('#t_dasarpengenaan').val(aa.t_dasarpengenaan);
+            $('#t_jmlhpajak').val(aa.t_jmlhpajak);
+            $('#t_tgljatuhtempo').val(aa.t_tgljatuhtempo);
+            //            $('#t_jenispajak').val(aa.t_jenispajak);
+        });
+    }
+
+    function hitungpemeriksaan() {
+        $.post('<?= $this->url() ?>/hitungpemeriksaan', {
+            t_dasarrevisi: $("#t_dasarrevisi").val(),
+            t_dasarpengenaan: $("#t_dasarpengenaan").val(),
+            t_masaawal: $("#t_masaawal").val(),
+            t_tglpemeriksaan: $("#t_tglpemeriksaan").val(),
+            t_tarifpajak: $("#t_tarifpajak").val(),
+            t_tarifpersen: $("#t_tarifpersen").val(),
+            t_jenisketetapandenda: $("#t_jenisketetapandenda").val(),
+            t_idtransaksi: $('#t_idtransaksi').val(),
+            t_tgljatuhtempo: $('#t_tgljatuhtempo').val()
+        }, function(data) {
+            var aa = JSON.parse(data);
+            $('#t_selisihdasar').val(aa.t_selisihdasar);
+            $('#t_jmlhbln').val(aa.t_jmlhbln);
+            $('#t_jmlhdendapemeriksaan').val(aa.t_jmlhdendapemeriksaan);
+            $('#t_jmlhpajakseharusnya').val(aa.t_jmlhpajakseharusnya);
+            $('#t_jmlhpajakpemeriksaan').val(aa.t_jmlhpajakpemeriksaan);
+            $('#t_totalpemeriksaan').val(aa.t_totalpemeriksaan);
+
+        });
+    }
+</script>

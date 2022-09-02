@@ -1,0 +1,62 @@
+<?php
+$frm = $this->frm;
+$frm->setAttribute('action', $this->url() . '/tambah');
+$frm->setAttribute('id', "formtambah");
+$frm->setAttribute("data-parsley-validate", "data-parsley-validate");
+$frm->prepare();
+?>
+
+<?php
+$judul = 'FORM TARIF AIR BAWAH TANAH [TAMBAH]';
+$link = '';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+
+
+<?= $this->form()->openTag($frm) ?>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">Peruntukan</label>
+    <div class="col-md-7">
+        <?= $this->formHidden($frm->get('s_idair')) ?>  
+        <?= $this->formRow($frm->get('s_peruntukan')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">0-100</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai1')) ?>
+    </div>
+    <label class="col-sm-2 control-label">101-500</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai2')) ?>
+    </div>
+    <label class="col-sm-2 control-label">501-1.000</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai3')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label">1.001-2.500</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai4')) ?>
+    </div>
+    <label class="col-sm-2 control-label">2.501-5.000</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai5')) ?>
+    </div>
+    <label class="col-sm-2 control-label"> > 5.000</label>
+    <div class="col-md-1">
+        <?= $this->formRow($frm->get('s_nilai6')) ?>
+    </div>
+</div>
+<div class="col-sm-12">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-md-4">
+        <?= $this->formInput($frm->get('simpan')) ?> 
+        <a href="<?= $this->url('setting_air') ?>" class="btn btn-warning btn-sm">Kembali</a>
+    </div>
+</div>
+<?= $this->form()->closeTag($frm) ?>
+
+<?= $this->MenuHelper()->headeratas_end(); ?> 

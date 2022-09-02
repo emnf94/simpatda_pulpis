@@ -1,0 +1,53 @@
+<?php
+$frm->setAttribute("action", $this->url() . "/tambah");
+$frm->setAttribute("id", "frm-horizontal");
+$frm->prepare();
+?>
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <div id="page-title">
+                <h2>
+                    ACL MANAGER
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <?= $this->form()->openTag($frm) ?>
+                        <?= $this->formrow($frm->get('cmbResources')) ?>
+                        <label class="control-label">Daftar Permision:</label>
+                        <div id="permissions">
+                            <span><br/></span>
+                        </div>
+                        <?= $this->formrow($frm->get('btnSimpan')) ?>
+                        <?= $this->form()->closeTag($frm) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #permissions{
+        margin-left: 15px;
+    }
+</style>
+<script type="text/javascript">
+    $(function() {
+        $("#bodynya").addClass("sidebar-mini");
+        $("#bodynya").removeClass("layout-top-nav");
+    });
+
+    $('#cmbResources').on('change', function() {
+        loadPermissions();
+    });
+
+    function loadPermissions() {
+        var selectedResource = $('#cmbResources option:selected').val();
+        var resName = $('#cmbResources option:selected').text();
+        $.post('<?= $this->url() ?>/loadPermissions', {res: selectedResource, resName: resName}, function(data) {
+            $('#permissions').html(data);
+        });
+    }
+</script>

@@ -1,0 +1,132 @@
+<div id="page-content-wrapper">
+    <div id="page-content">
+        <div class="">
+            <div id="page-title">
+                <h2>
+                    STPD PEMBAYARAN
+                    <small><a href="#" title="" onclick="bukaCetakPembayaran()" style="font-size: 10px; color: red"><i class="glyph-icon icon-print"></i> Cetak</a></small>
+                </h2>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="example-box-wrapper">
+                        <ul class="nav-responsive nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">Belum Ditetapkan Denda</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Sudah Ditetapkan/Belum Dibayar</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Sudah Dibayar</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <?= $this->partial('belumditetapkan.phtml'); ?>
+                            <?= $this->partial('sudahditetapkan.phtml'); ?>
+                            <?= $this->partial('sudahdibayar.phtml'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCetak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><b>CETAK LUNAS PEMBAYARAN</b></h4>
+            </div>
+            <div class='modal-body'>
+                <div class='example-box-wrapper'>
+                    <div class='example-box-wrapper'>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Cetak
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglcetak" id="tglcetak"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Tanggal Pembayaran
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglbayar0" id="tglbayar0"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4">
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon">
+                                        <i class="glyph-icon icon-calendar"></i>
+                                    </span>
+                                    <input type="text" class="bootstrap-datepicker form-control" name="tglbayar1" id="tglbayar1"  value="<?= date('d-m-Y') ?>" data-date-format="dd-mm-yy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        $form = $this->form;
+                        ?>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Kecamatan
+                            </label>
+                            <div class="col-md-9">
+                                <?= $this->formSelect($form->get("t_kecamatan")) ?>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <label class="col-md-3 control-label">
+                                Kelurahan/Desa
+                            </label>
+                            <div class="col-md-9">
+                                <?= $this->formSelect($form->get("t_kelurahan")) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class='modal-footer'>
+                <div class='col-sm-12'> 
+                    <div class="col-sm-6">
+                        <a href="#" class="btn btn-sm btn-danger pull-left" title="" onclick="cetakpembayaran()"><i class="glyph-icon icon-file-pdf-o"></i> PDF</a>
+                        <a href="#" class="btn btn-sm btn-primary pull-left" title="" onclick="cetakbayarizinexcel()"><i class="glyph-icon icon-file-excel-o"></i> EXCEL</a>
+                    </div>
+                    <div>
+                        <button class='btn btn-danger btn-sm' onclick='tutupCetakPembayaran()'><i class='glyph-icon icon-close'></i> Tutup</button>
+                    </div>
+                </div>              
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function comboKelurahanCamat() {
+        $.post('<?= $this->url('pendaftaran') ?>/comboKelurahanCamat', {t_kecamatan: $('#t_kecamatan').val()}, function (data) {
+            $("#t_kelurahan").html(data);
+        });
+    }
+    
+    function bukaCetakPembayaran() {
+        $('#modalCetak').modal('show');
+    }
+
+    function tutupCetakPembayaran() {
+        $('#modalCetak').modal('hide');
+    }
+
+    function cetakpembayaran() {
+        window.open('<?= $this->url() ?>/cetakpembayaran?tglcetak=' + $("#tglcetak").val() + "&tglbayar0=" + $("#tglbayar0").val() + "&tglbayar1=" + $("#tglbayar1").val() + "&t_kecamatan=" + $("#t_kecamatan").val() + "&t_kelurahan=" + $("#t_kelurahan").val() + "&t_idkorek=" + $("#t_idkorek").val());
+    }
+
+    function cetakpembayaranexcel() {
+        window.open('<?= $this->url() ?>/cetakpembayaranexcel?tglcetak=' + $("#tglcetak").val() + "&tglbayar0=" + $("#tglbayar0").val() + "&tglbayar1=" + $("#tglbayar1").val() + "&id_kecamatan=" + $("#id_kecamatan").val() + "&id_kelurahan=" + $("#id_kelurahan").val() + "&t_idkorek=" + $("#t_idkorek").val());
+    }
+</script>

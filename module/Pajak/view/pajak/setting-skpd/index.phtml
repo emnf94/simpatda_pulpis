@@ -1,0 +1,73 @@
+<?php
+$judul = '<span style="font-size: 24px;"><b>SETTING SKPD</b></span>';
+$link = '<a href="'.$this->url().'/tambah" class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;TAMBAH
+                            </a>                                                             
+                            <button class="btn btn-warning" onclick="cetakdaftarskpd();">
+                                <span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;Cetak Daftar SKPD
+                            </button>';
+
+echo $this->MenuHelper()->headeratas($judul, $link);
+?>
+<table id="datapejabat" cellpadding="0" cellspacing="0" border="0" class="display" width="100%" style="width:100%;">
+    <thead>
+        <tr class="bg-blue tableheader">
+
+            <th width="15">No</th>
+            <th>NAMA</th>            
+            <th>JALAN</th>      
+            <th>KECAMATAN</th>       
+            <th>KELURAHAN</th>         
+            <th>Perintah</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+
+    
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tfoot>
+</table>
+<style type="text/css">
+.dataTables_filter {
+     display: none;
+}
+</style> 
+<?php
+    $idtabel = '#datapejabat';
+    $url = $this->url().'/dataGrid';
+    $jmlkolom = 5;
+    $seleksi_kolom = "'5'"; //iki data sort di disabel
+    $pencarian_bawah = 5;
+    
+?>
+<?= $this->MenuHelper()->fr_datatables($this->basePath(), $idtabel, $url, $jmlkolom, $pencarian_bawah, $seleksi_kolom, null);?>
+
+<?= $this->MenuHelper()->headeratas_end(); ?>  
+
+
+
+<script type="text/javascript">
+    
+    function hapus(a) {
+        var tanya = confirm("Hapus data ini?")
+        if (tanya) {
+            $.post('<?= $this->url() ?>/hapus/' + a);
+        }
+        setTimeout(function () {
+            //calldatagrid();
+            dTable.ajax.reload();
+            
+        }, 500);
+    }
+
+    function cetakdaftarskpd() {
+        window.open('<?= $this->url() ?>/cetakdaftarskpd');
+    }
+</script>

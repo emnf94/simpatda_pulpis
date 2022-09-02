@@ -1,0 +1,133 @@
+<html>
+    <body>
+        <?php
+        ini_set("max_execution_time", 5000);
+        ini_set('memory_limit', '1024M');
+        ?>
+        <div>
+            <div>
+                <div style='width: 100%; float: right;'>
+                    <p style="text-align: center; font-size: 10pt; font-weight: BOLD;">
+                        PEMERINTAH <?= strtoupper($ar_pemda->s_namakabkota); ?>, <?= strtoupper($ar_pemda->s_namaprov); ?>
+                    </p>
+                    <p style="text-align: center; font-size: 12pt; font-weight: BOLD; line-height: 1px;">
+                        <?= strtoupper($ar_pemda->s_namainstansi); ?> (<?= strtoupper($ar_pemda->s_namasingkatinstansi); ?>)
+                    </p>
+                    <p style="text-align: center; font-size: 8pt; line-height: 5px">
+                        <?= strtoupper($ar_pemda->s_alamatinstansi); ?> Telp/Fax <?= $ar_pemda->s_notelinstansi ?>, <?= $ar_pemda->s_namaibukotakabkota ?> <?= $ar_pemda->s_kodepos ?>
+                    </p>
+                </div>
+                <div style='clear:both;'></div>
+            </div>
+            <hr style="line-height: 1px; color: black">
+            <h4 style="text-align: center">DAFTAR REKLAME</h4>
+            <table width="100%" class="font_sembilan" style="text-align: center; padding: 10px 10px 10px 10px;">
+                <tr>
+                    <th class="border_atas border_bawah border_kanan border_kiri">
+                        No.
+                    </th>
+                    <th>
+                        No. SKPD
+                    </th>
+                    <th>
+                        NPWPD
+                    </th>
+                    <th>
+                        Nama WP
+                    </th>
+                    <th>
+                        NIOP
+                    </th>
+                    <th>
+                        Nama Objek
+                    </th>
+                    
+                    <th>
+                        Masa Pajak
+                    </th>
+                    <th>
+                        Lokasi Reklame
+                    </th>
+                    <th>
+                        Jumlah Pajak
+                    </th>
+                    
+                    <th>
+                        Tgl. Jatuh Tempo
+                    </th>
+                    
+                </tr>
+                <?php
+                $totalpendataan = 0;
+                $totalpembayaran = 0;
+                $counter = 1;
+                foreach ($this->data as $k => $v) {
+                    ?>
+                    <tr>
+                        <td>
+                            <?= $counter ?>
+                        </td>
+                        <td>
+                            <?= $v['t_nopenetapan'] ?>
+                        </td>
+                        <td>
+                            <?= $v['t_npwpd'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_nama'] ?>
+                        </td>
+                        <td>
+                            <?= $v['t_nop'] ?>
+                        </td>
+                        <td style="text-align: left">
+                            <?= $v['t_namaobjek'] ?>
+                        </td>
+                        
+                        <td>
+                            <?= date('d-m-Y', strtotime($v['t_masaawal'])) . " s/d " . date('d-m-Y', strtotime($v['t_masaakhir'])) ?>
+                        </td>
+                        <td><?= $v['t_lokasi'] ?></td>
+                        <td style="text-align: right">
+                            <?= number_format($v['t_jmlhpajak'], 0, ',', '.') ?>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            <?= date('d-m-Y', strtotime($v['t_tgljatuhtempo'])) ?>
+                        </td>
+                    </tr>
+                    <?php
+                    $totalpendataan += $v['t_jmlhpajak'];
+                    $counter++;
+                }
+                ?>
+                <tr>
+                    <td colspan="8" style="text-align: right; font-weight: bold; padding-right: 6px;">
+                        Jumlah Total Pajak
+                    </td>
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($totalpendataan, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+<style type="text/css" media="print">
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+/*    td {
+        padding-left: 4px;
+        padding-right: 4px;
+    }*/
+    .font_empatbelas {
+        font-size: 14pt;
+    }    
+</style>

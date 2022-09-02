@@ -1,0 +1,92 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Error Page ' . $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/public/upload/favicon.ico'))
+                ->prependStylesheet($this->basePath() . '/public/assets-minified/admin-all-demo.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/public/assets-minified/admin-all-demo.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/accordion-ui/accordion.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/chosen/chosen-demo.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/chosen/chosen.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/datepicker/datepicker.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/input-mask/inputmask.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/parsley/parsley.js')
+//                ->prependFile($this->basePath() . '/public/assets/widgets/autocomplete/menu.js')
+                ->prependFile($this->basePath() . '/public/assets/widgets/wow/wow.js')
+                ->prependFile($this->basePath() . '/public/assets-minified/js-core.js')
+        ;
+        ?>
+        <style>
+            /* Loading Spinner */
+            .spinner{margin:0;width:70px;height:18px;margin:-35px 0 0 -9px;position:absolute;top:50%;left:50%;text-align:center}.spinner > div{width:18px;height:18px;background-color:#333;border-radius:100%;display:inline-block;-webkit-animation:bouncedelay 1.4s infinite ease-in-out;animation:bouncedelay 1.4s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both}.spinner .bounce1{-webkit-animation-delay:-.32s;animation-delay:-.32s}.spinner .bounce2{-webkit-animation-delay:-.16s;animation-delay:-.16s}@-webkit-keyframes bouncedelay{0%,80%,100%{-webkit-transform:scale(0.0)}40%{-webkit-transform:scale(1.0)}}@keyframes bouncedelay{0%,80%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}40%{transform:scale(1.0);-webkit-transform:scale(1.0)}}
+        </style>
+        <script type="text/javascript">
+            $(window).load(function() {
+                setTimeout(function() {
+                    $('#loading').fadeOut(400, "linear");
+                }, 300);
+            });
+        </script>
+
+    </head>
+    <body>
+        <div id="loading">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+
+        <style type="text/css">
+            html,body {
+                height: 100%;
+            }
+            body {
+                background: #fff;
+                overflow: hidden;
+            }
+
+        </style>
+        <script type="text/javascript">
+            /* WOW animations */
+
+            wow = new WOW({
+                animateClass: 'animated',
+                offset: 100
+            });
+            wow.init();
+        </script>
+        <img src="<?= $this->basePath() ?>/public/assets/image-resources/blurred-bg/blurred-bg-7.jpg" class="login-img wow fadeIn" alt="">
+        <div class="center-vertical">
+            <div class="center-content row">
+                <div class="col-md-6 center-margin">
+                    <div class="server-message wow bounceInDown inverse">
+                        <?php echo $this->content; ?>
+                        <form>
+                            <div class="input-group mrg25B mrg10T input-group-lg">
+                            </div>
+                            <a href="<?= $this->url('main') ?>" class="btn btn-lg btn-success">Kembali ke halaman awal</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
